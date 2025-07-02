@@ -65,18 +65,18 @@
       dockerfile: src/backend/Ojala.Api/Dockerfile
     container_name: ojala-api
     ports:
-      - "5000:80"
+      - "8080:80"
     depends_on:
-      vault-agent-ojala-api:
-        condition: service_healthy
       ojala-db:
         condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENABLE_HTTPS_REDIRECTION=false
       - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=root
     volumes:
-      - ojala-secrets:/vault/secrets:ro
+      - ./dataprotection-keys:/root/.aspnet/DataProtection-Keys
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
@@ -87,14 +87,7 @@
     networks:
       - ojala-network
     command: >
-      sh -c "
-        echo 'Waiting for Vault secrets file...' &&
-        while [ ! -f /vault/secrets/appsettings.json ]; do
-          sleep 2;
-        done &&
-        echo 'Vault secrets file found, starting application...' &&
-        dotnet Ojala.Api.dll
-      "
+      sh -c "dotnet Ojala.Api.dll"
 
   ojala-identity:
     build:

@@ -113,6 +113,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
     p.AllowAnyOrigin()
@@ -142,14 +143,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+#if !DEBUG_DOCKER
 app.UseHttpsRedirection();
+#endif
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ChatHub>("/hubs/chat");
-app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "api" }));
+app.MapHealthChecks("/health");
+app.MapHealthChecks("/healthz");
 
 app.Run();
 

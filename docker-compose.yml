@@ -57,8 +57,13 @@ services:
     build:
       context: .
       dockerfile: src/backend/Ojala.Identity/Dockerfile
+    container_name: ojala_platform_clean_scaffold_redo-identity-1
     ports:
       - "5001:80"
+    depends_on:
+      - ojala-db
+    env_file:
+      - ./.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -66,8 +71,7 @@ services:
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=${JWT_ISSUER}
       - Jwt__Audience=${JWT_AUDIENCE}
-    depends_on:
-      - ojala-db
+    entrypoint: ["/bin/sh", "-c", "dotnet ef database update && dotnet Ojala.Identity.dll"]
     networks:
       - ojala-network
 
@@ -75,18 +79,29 @@ services:
     build:
       context: .
       dockerfile: src/backend/Ojala.Api/Dockerfile
+    container_name: ojala_platform_clean_scaffold_redo-api-1
     ports:
-      - "5000:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
-      - IdentityServer__Authority=http://ojala-identity
-      - Redis__ConnectionString=ojala-redis:6379
+      - "8080:80"
     depends_on:
       - ojala-identity
       - ojala-db
       - ojala-redis
+    env_file:
+      - ./.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DEBUG_DOCKER=true
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENABLE_HTTPS_REDIRECTION=false
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=root
+      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=postgres
+      - IdentityServer__Authority=http://ojala-identity:5001
+      - Redis__ConnectionString=ojala-redis:6379
+    command: >
+      sh -c "
+        dotnet Ojala.Api.dll
+      "
     networks:
       - ojala-network
 
@@ -94,33 +109,40 @@ services:
     build:
       context: .
       dockerfile: src/backend/Ojala.ApiGateway/Dockerfile
+    container_name: ojala_platform_clean_scaffold_redo-apigateway-1
     ports:
-      - "5002:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - "5002:5002"
+      - "5003:5003"
     depends_on:
       - ojala-api
       - ojala-identity
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5002;http://+:5003
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
     networks:
       - ojala-network
 
   ojala-web:
     build:
       context: ./src/frontend/ojala.web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    container_name: ojala_platform_clean_scaffold_redo-web-1
+    command: npm start
     ports:
-      - "3000:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:5000
+      - "3000:3000"
+    env_file:
+      - ./.env
     depends_on:
       - ojala-api
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
     networks:
       - ojala-network
 
   ojala-db:
     image: postgres:15
+    container_name: ojala_platform_clean_scaffold_redo-db-1
     ports:
       - "5432:5432"
     environment:
@@ -129,6 +151,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
     volumes:
       - ojala-db-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
     networks:
       - ojala-network
     healthcheck:
@@ -139,6 +162,7 @@ services:
 
   ojala-redis:
     image: redis:7-alpine
+    container_name: ojala_platform_clean_scaffold_redo-redis-1
     ports:
       - "6379:6379"
     networks:
@@ -153,16 +177,17 @@ services:
     build:
       context: .
       dockerfile: src/backend/Ojala.HealthScore/Dockerfile
-    image: ojala-healthscore:dev
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - HEALTHSCORE_DB_CONN=${HEALTHSCORE_DB_CONN}
-      - AI_MODEL_PATH=${AI_MODEL_PATH}
+    container_name: ojala_platform_clean_scaffold_redo-healthscore-1
+    ports:
+      - "8083:8083"
+      - "8084:8084"
     depends_on:
       - ojala-db
-    ports:
-      - "8083:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8083;http://+:8084
+      - HEALTHSCORE_DB_CONN=${HEALTHSCORE_DB_CONN}
+      - AI_MODEL_PATH=${AI_MODEL_PATH}
     networks:
       - ojala-network
 
