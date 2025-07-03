@@ -9,8 +9,8 @@ WORKDIR /src
 # Copy project files first for better layer caching
 COPY ["src/backend/Ojala.Identity/Ojala.Identity.csproj", "Ojala.Identity/"]
 COPY ["src/backend/Ojala.Data/Ojala.Data.csproj", "Ojala.Data/"]
-COPY ["src/shared/Ojala.Common/Ojala.Common.csproj", "shared/Ojala.Common/"]
-COPY ["src/shared/Ojala.Contracts/Ojala.Contracts.csproj", "shared/Ojala.Contracts/"]
+COPY ["src/shared/Ojala.Common/Ojala.Common.csproj", "/shared/Ojala.Common/"]
+COPY ["src/shared/Ojala.Contracts/Ojala.Contracts.csproj", "/shared/Ojala.Contracts/"]
 
 # Restore packages
 WORKDIR /src/Ojala.Identity
@@ -20,8 +20,8 @@ RUN dotnet restore
 WORKDIR /src
 COPY ["src/backend/Ojala.Identity/", "Ojala.Identity/"]
 COPY ["src/backend/Ojala.Data/", "Ojala.Data/"]
-COPY ["src/shared/Ojala.Common/", "shared/Ojala.Common/"]
-COPY ["src/shared/Ojala.Contracts/", "shared/Ojala.Contracts/"]
+COPY ["src/shared/Ojala.Common/", "/shared/Ojala.Common/"]
+COPY ["src/shared/Ojala.Contracts/", "/shared/Ojala.Contracts/"]
 
 # Build and publish
 WORKDIR /src/Ojala.Identity
