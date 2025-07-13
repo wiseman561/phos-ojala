@@ -5,7 +5,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 // Point Axios to your backend
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'https://localhost:59478';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const AuthContext = createContext();
 

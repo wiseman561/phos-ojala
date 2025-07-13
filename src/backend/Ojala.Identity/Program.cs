@@ -13,6 +13,7 @@ using Ojala.Identity.Services.Interfaces;
 using Ojala.Identity.Services;
 using Ojala.Data.Repositories.Interfaces;
 using Ojala.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,61 +49,71 @@ if (vaultEnabled)
 }
 
 // Add services to the container
-var startup = new Ojala.Identity.Startup(builder.Configuration);
-startup.ConfigureServices(builder.Services);
-builder.Services.AddTwoFactorAuthentication();
+builder.Services.AddDbContext<OjalaDbContext>(opts =>
+    opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+builder.Services.AddDbContext<Ojala.Data.ApplicationDbContext>(opts =>
+    opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+builder.Services.AddIdentity<Ojala.Data.Entities.ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+})
+.AddEntityFrameworkStores<OjalaDbContext>()
+.AddDefaultTokenProviders();
 
 // ----------------------------------------------------
 // Application services
-builder.Services.AddScoped<Ojala.Identity.Services.Interfaces.IAuthService,
-                            Ojala.Identity.Services.AuthService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<ILoginOtpRepository, LoginOtpRepository>();
-builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<Ojala.Identity.Services.Interfaces.IAuthService, Ojala.Identity.Services.AuthService>();
+builder.Services.AddScoped<Ojala.Identity.Services.Interfaces.ITokenService, Ojala.Identity.Services.TokenService>();
+builder.Services.AddScoped<Ojala.Data.Repositories.Interfaces.ILoginOtpRepository, Ojala.Data.Repositories.LoginOtpRepository>();
+builder.Services.AddScoped<Ojala.Data.Repositories.Interfaces.IUserProfileRepository, Ojala.Data.Repositories.UserProfileRepository>();
+builder.Services.AddScoped<Ojala.Identity.Services.Interfaces.IEmailService, Ojala.Identity.Services.EmailService>();
 // ----------------------------------------------------
+
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add health checks
+builder.Services.AddHealthChecks();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
-// Run migrations
-if (builder.Environment.IsDevelopment())
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        try
-        {
-            var context = services.GetRequiredService<OjalaDbContext>();
-            if (context.Database.GetPendingMigrations().Any())
-            {
-                Console.WriteLine("Applying pending migrations...");
-                context.Database.Migrate();
-                Console.WriteLine("Database migrations applied successfully");
-            }
-            else
-            {
-                Console.WriteLine("No pending migrations to apply");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred while applying migrations: {ex.Message}");
-            // Don't throw - let the app start even if migrations fail
-        }
-    }
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojala.Identity API V1")
+    );
 }
 
-// Configure the HTTP request pipeline
-startup.Configure(app, app.Environment);
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
 
-// Add health check endpoint
-app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "identity" }));
+app.MapControllers();
+app.MapHealthChecks("/health");
+app.MapHealthChecks("/healthz");
 
 app.Run();

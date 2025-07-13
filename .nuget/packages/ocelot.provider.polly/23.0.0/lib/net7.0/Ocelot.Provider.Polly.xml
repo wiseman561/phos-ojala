@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ocelot.Provider.Polly</name>
+    </assembly>
+    <members>
+        <member name="M:Ocelot.Provider.Polly.PollyPoliciesDelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Sends an HTTP request to the inner handler to send to the server as an asynchronous operation.
+            </summary>
+            <param name="request">Downstream request.</param>
+            <param name="cancellationToken">Token to cancel the task.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> object of a <see cref="T:System.Net.Http.HttpResponseMessage"/> result.</returns>
+            <exception cref="T:Polly.CircuitBreaker.BrokenCircuitException">Exception thrown when a circuit is broken.</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Exception thrown by <see cref="T:System.Net.Http.HttpClient"/> and <see cref="T:System.Net.Http.HttpMessageHandler"/> classes.</exception>
+        </member>
+        <member name="M:Ocelot.Provider.Polly.PollyPolicyWrapper`1.#ctor(Polly.IAsyncPolicy{`0}[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ocelot.Provider.Polly.PollyPolicyWrapper`1"/> class.
+            We expect at least one policy to be passed in, default can't be null.
+            </summary>
+            <param name="policies">The policies with at least a <see cref="M:Polly.Policy.Timeout(System.Int32)"/> policy.</param>
+        </member>
+    </members>
+</doc>

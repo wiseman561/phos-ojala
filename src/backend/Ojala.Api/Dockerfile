@@ -1,29 +1,48 @@
-# Build stage
+########################################
+# Multistage, self-contained build     #
+########################################
+
+# ---------- build ----------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy entire solution
-COPY . .
+# 1. copy solution and props files first
+COPY ["Directory.*.props", "./"]
+COPY ["Ojala.sln", "./"]
 
-# Remove problematic migration files that cause build errors
-RUN rm -f src/backend/Ojala.Data/Migrations/20250621220859_InitialPostgresSchema.cs
-RUN rm -f src/backend/Ojala.Data/Migrations/20250621220859_InitialPostgresSchema.Designer.cs
-RUN rm -f src/backend/Ojala.Data/Migrations/OjalaDbContextModelSnapshot.cs
+# 2. copy all project files
+COPY ["src/backend/Ojala.Api/*.csproj", "backend/Ojala.Api/"]
+COPY ["src/backend/Ojala.Data/*.csproj", "backend/Ojala.Data/"]
+COPY ["src/backend/Ojala.Identity/*.csproj", "backend/Ojala.Identity/"]
+COPY ["src/backend/Ojala.HealthScore/*.csproj", "backend/Ojala.HealthScore/"]
+COPY ["src/backend/Ojala.ApiGateway/*.csproj", "backend/Ojala.ApiGateway/"]
+COPY ["src/backend/Ojala.Services/*.csproj", "backend/Ojala.Services/"]
+COPY ["src/shared/Ojala.Common/*.csproj", "shared/Ojala.Common/"]
+COPY ["src/shared/Ojala.Contracts/*.csproj", "shared/Ojala.Contracts/"]
 
-# Remove conflicting appsettings files from other services
-RUN rm -f src/backend/Ojala.Identity/appsettings*.json
-RUN rm -f src/backend/Ojala.Services/appsettings*.json
-RUN rm -f src/backend/Ojala.Data/appsettings*.json
+# 3. restore solution
+RUN dotnet restore "Ojala.sln"
 
-# Restore and publish the application
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore src/backend/Ojala.Api/Ojala.Api.csproj
+# 4. copy the rest of the source code
+COPY ["src/backend/Ojala.Api/", "backend/Ojala.Api/"]
+COPY ["src/backend/Ojala.Data/", "backend/Ojala.Data/"]
+COPY ["src/backend/Ojala.Identity/", "backend/Ojala.Identity/"]
+COPY ["src/backend/Ojala.HealthScore/", "backend/Ojala.HealthScore/"]
+COPY ["src/backend/Ojala.ApiGateway/", "backend/Ojala.ApiGateway/"]
+COPY ["src/backend/Ojala.Services/", "backend/Ojala.Services/"]
+COPY ["src/shared/Ojala.Common/", "shared/Ojala.Common/"]
+COPY ["src/shared/Ojala.Contracts/", "shared/Ojala.Contracts/"]
 
-RUN dotnet publish src/backend/Ojala.Api/Ojala.Api.csproj \
-      -c Release -o /app/publish
+# 5. publish only the API project
+RUN dotnet publish backend/Ojala.Api/Ojala.Api.csproj \
+    -c Release -o /app/publish
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# ---------- runtime ----------
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080
 COPY --from=build /app/publish .
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:8080/healthz || exit 1
 ENTRYPOINT ["dotnet","Ojala.Api.dll"]

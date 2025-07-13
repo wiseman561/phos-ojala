@@ -1,4 +1,6 @@
-﻿services:
+﻿version: "3.9"
+
+services:
   vault:
     image: hashicorp/vault:1.15.2
     container_name: ojala-vault
@@ -37,11 +39,7 @@
       - ./vault/secret-id:/vault/config/secret-id:ro
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "test", "-f", "/vault/secrets/appsettings.json"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
+      disable: true    # disable dev-time Vault health probes
     networks:
       - ojala-network
 
@@ -64,52 +62,63 @@
       context: .
       dockerfile: src/backend/Ojala.Api/Dockerfile
     container_name: ojala-api
-    ports:
-      - "8080:80"
-    depends_on:
-      ojala-db:
-        condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_ENABLE_HTTPS_REDIRECTION=false
-      - VAULT_ADDR=http://vault:8200
-      - VAULT_TOKEN=root
-    volumes:
-      - ./dataprotection-keys:/root/.aspnet/DataProtection-Keys
-    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - ojala-db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost/healthz"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 10s
     networks:
       - ojala-network
-    command: >
-      sh -c "dotnet Ojala.Api.dll"
 
+  # ───────── EF-Core migrator (runs once) ─────────
+  ojala-identity-migrator:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /src
+    volumes:
+      - ./:/src
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Default=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=postgres
+    entrypoint: ["/bin/sh","-c"]
+    command: |
+      set -e
+      echo "Installing EF Core tools..."
+      dotnet tool install --global dotnet-ef --version 8.0.* || true
+      echo "Adding tools to PATH..."
+      export PATH="$PATH:/root/.dotnet/tools"
+      echo "Restoring project..."
+      dotnet restore src/backend/Ojala.Identity/Ojala.Identity.csproj -p:ManagePackageVersionsCentrally=false
+      echo "Running migrations..."
+      dotnet ef database update \
+        --project src/backend/Ojala.Identity/Ojala.Identity.csproj \
+        --startup-project src/backend/Ojala.Identity/Ojala.Identity.csproj \
+        --no-build \
+        --verbose
+    depends_on:
+      ojala-db:
+        condition: service_healthy
+    restart: "no"
+
+  # ───────── API (runtime image, slim) ─────────
   ojala-identity:
     build:
       context: .
       dockerfile: src/backend/Ojala.Identity/Dockerfile
-    container_name: ojala-identity
     ports:
-      - "5001:80"
+      - "5501:8080"          # host 5501 → container 8080
     depends_on:
+      ojala-identity-migrator:
+        condition: service_completed_successfully
       ojala-db:
-        condition: service_started
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - JwtSettings__SecretKey=YOUR_SUPER_SECRET_KEY_HERE_THAT_IS_AT_LEAST_32_CHARACTERS_LONG
-      - JwtSettings__Issuer=Ojala.Identity
-      - JwtSettings__Audience=Ojala.Client
-      - JwtSettings__ExpiryInMinutes=60
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=yourpassword
-    restart: unless-stopped
-    networks:
-      - ojala-network
+        condition: service_healthy
 
   ojala-healthscore:
     build:
@@ -139,7 +148,7 @@
       dockerfile: src/backend/Ojala.ApiGateway/Dockerfile
     container_name: ojala-apigateway
     ports:
-      - "5002:80"
+      - "5050:80"
     depends_on:
       - ojala-api
       - ojala-identity
@@ -159,15 +168,37 @@
   ojala-web:
     build:
       context: ./src/frontend/ojala.web
-      dockerfile: Dockerfile
-    container_name: ojala-web
+    environment:
+      - NODE_ENV=development
     ports:
-      - "3000:80"
+      - "${OJALA_WEB_PORT:-3000}:3000"
+    volumes:
+      - ./src/frontend/ojala.web:/app
+      - /app/node_modules
     depends_on:
       - ojala-apigateway
-    environment:
-      - REACT_APP_API_URL=http://localhost:5002
     restart: unless-stopped
+    networks:
+      - ojala-network
+
+  ojala-web-dev:
+    image: node:20
+    container_name: ojala-web-dev
+    working_dir: /app
+    command: >
+      sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    volumes:
+      - ./src/frontend/ojala.web:/app
+    ports:
+      - "3001:3000"
+    environment:
+      - VITE_API_BASE=http://localhost:5001
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - ojala-network
 

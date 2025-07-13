@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Ocelot</id>
+    <version>23.0.0</version>
+    <authors>Tom Pallister</authors>
+    <projectUrl>https://github.com/ThreeMammals/Ocelot</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/ThreeMammals/Ocelot/develop/images/ocelot_logo.png</iconUrl>
+    <description>Ocelot is an API Gateway. The project is aimed at people using .NET running a micro services / service orientated architecture that need a unified point of entry into their system. In particular I want easy integration with IdentityServer reference and bearer tokens.  reference tokens. Ocelot is a bunch of middlewares in a specific order. Ocelot manipulates the HttpRequest object into a state specified by its configuration until it reaches a request builder middleware where it creates a HttpRequestMessage object which is used to make a request to a downstream service. The middleware that makes the request is the last thing in the Ocelot pipeline. It does not call the next middleware. The response from the downstream service is stored in a per request scoped repository and retrived as the requests goes back up the Ocelot pipeline. There is a piece of middleware that maps the HttpResponseMessage onto the HttpResponse object and that is returned to the client. That is basically it with a bunch of other features.</description>
+    <tags>API Gateway .NET core</tags>
+    <repository type="git" url="https://github.com/ThreeMammals/Ocelot" commit="e25d473763282142cc2867ef54b073ba42f115b4" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="FluentValidation" version="11.8.0" exclude="Build,Analyzers" />
+        <dependency id="IPAddressRange" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.MiddlewareAnalysis" version="6.0.25" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Mvc.NewtonsoftJson" version="6.0.25" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DiagnosticAdapter" version="3.1.32" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net7.0">
+        <dependency id="FluentValidation" version="11.8.0" exclude="Build,Analyzers" />
+        <dependency id="IPAddressRange" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.MiddlewareAnalysis" version="7.0.14" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Mvc.NewtonsoftJson" version="7.0.14" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DiagnosticAdapter" version="3.1.32" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0">
+        <dependency id="FluentValidation" version="11.8.0" exclude="Build,Analyzers" />
+        <dependency id="IPAddressRange" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.MiddlewareAnalysis" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Mvc.NewtonsoftJson" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DiagnosticAdapter" version="3.1.32" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

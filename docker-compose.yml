@@ -59,7 +59,7 @@ services:
       dockerfile: src/backend/Ojala.Identity/Dockerfile
     container_name: ojala_platform_clean_scaffold_redo-identity-1
     ports:
-      - "5001:80"
+      - "5501:8080"
     depends_on:
       - ojala-db
     env_file:

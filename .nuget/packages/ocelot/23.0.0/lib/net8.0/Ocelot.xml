@@ -1,0 +1,669 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ocelot</name>
+    </assembly>
+    <members>
+        <member name="P:Ocelot.Configuration.AuthenticationOptions.AuthenticationProviderKey">
+            <summary>
+            Authentication scheme registered in DI services with appropriate authentication provider.
+            </summary>
+            <value>
+            A <see langword="string"/> value of the scheme name.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.AuthenticationOptions.AuthenticationProviderKeys">
+            <summary>
+            Multiple authentication schemes registered in DI services with appropriate authentication providers.
+            </summary>
+            <remarks>
+            The order in the collection matters: first successful authentication result wins.
+            </remarks>
+            <value>
+            An array of <see langword="string"/> values of the scheme names.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.CacheOptions.EnableContentHashing">
+            <summary>
+            Enables MD5 hash calculation of the <see cref="P:System.Net.Http.HttpRequestMessage.Content"/> of the <see cref="P:Ocelot.Request.Middleware.DownstreamRequest.Request"/> object.
+            </summary>
+            <remarks>
+            Default value is <see langword="false"/>. No hashing by default.
+            </remarks>
+            <value>
+            <see langword="true"/> if hashing is enabled, otherwise it is <see langword="false"/>.
+            </value>
+        </member>
+        <member name="T:Ocelot.Configuration.ChangeTracking.IOcelotConfigurationChangeTokenSource">
+            <summary>
+            <see cref="T:Microsoft.Extensions.Primitives.IChangeToken" /> source which is activated when Ocelot's configuration is changed.
+            </summary>
+        </member>
+        <member name="T:Ocelot.Configuration.Creator.IHttpHandlerOptionsCreator">
+            <summary>
+            Describes creation of HttpHandlerOptions.
+            </summary>
+        </member>
+        <member name="T:Ocelot.Configuration.File.FileQoSOptions">
+            <summary>
+            File model for the "Quality of Service" feature options of the route.
+            </summary>
+        </member>
+        <member name="M:Ocelot.Configuration.File.FileQoSOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ocelot.Configuration.File.FileQoSOptions"/> class.
+            <para>Default constructor. DON'T CHANGE!..</para>
+            </summary>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitOptions.ClientIdHeader">
+            <summary>
+            Gets or sets the HTTP header that holds the client identifier, by default is X-ClientId.
+            </summary>
+            <value>
+            A string with the HTTP header that holds the client identifier, by default is X-ClientId.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitOptions.QuotaExceededMessage">
+            <summary>
+            Gets or sets a value that will be used as a formatter for the QuotaExceeded response message.
+            If none specified the default will be:
+            API calls quota exceeded! maximum admitted {0} per {1}.
+            </summary>
+            <value>
+            A string value that will be used as a formatter.
+            <para>
+            If none specified the default will be: "API calls quota exceeded! maximum admitted {0} per {1}".
+            </para>
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitOptions.RateLimitCounterPrefix">
+            <summary>
+            Gets or sets the counter prefix, used to compose the rate limit counter cache key.
+            </summary>
+            <value>
+            A string with counter prefix, used to compose the rate limit counter cache key.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitOptions.DisableRateLimitHeaders">
+            <summary>
+            Disables X-Rate-Limit and Rety-After headers.
+            </summary>
+            <value>
+            A boolean value for disabling X-Rate-Limit and Rety-After headers.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitOptions.HttpStatusCode">
+            <summary>
+            Gets or sets the HTTP Status code returned when rate limiting occurs, by default value is set to 429 (Too Many Requests).
+            </summary>
+            <value>
+            An integer value with the HTTP Status code returned when rate limiting occurs.
+            <para>
+            Default value: 429 (Too Many Requests).
+            </para>
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitRule.ClientWhitelist">
+            <summary>
+            The list of allowed clients.
+            </summary>
+            <value>
+            A <see cref="T:System.Collections.Generic.List`1"/> collection of allowed clients.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitRule.EnableRateLimiting">
+            <summary>
+            Enables endpoint rate limiting based URL path and HTTP verb.
+            </summary>
+            <value>
+            A boolean value for enabling endpoint rate limiting based URL path and HTTP verb.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitRule.Period">
+            <summary>
+            Rate limit period as in 1s, 1m, 1h.
+            </summary>
+            <value>
+            A string of rate limit period.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitRule.PeriodTimespan">
+            <summary>
+            Rate limit period to wait before new request (in seconds).
+            </summary>
+            <value>
+            A double floating integer with rate limit period.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileRateLimitRule.Limit">
+            <summary>
+            Maximum number of requests that a client can make in a defined period.
+            </summary>
+            <value>
+            A long integer with maximum number of requests.
+            </value>
+        </member>
+        <member name="M:Ocelot.Configuration.File.FileRateLimitRule.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ocelot.Configuration.File.FileRoute.Clone">
+            <summary>
+            Clones this object by making a deep copy.
+            </summary>
+            <returns>A <see cref="T:Ocelot.Configuration.File.FileRoute"/> deeply copied object.</returns>
+        </member>
+        <member name="P:Ocelot.Configuration.File.FileSecurityOptions.ExcludeAllowedFromBlocked">
+            <summary>
+            Provides the ability to specify a wide range of blocked IP addresses and allow a subrange of IP addresses.
+            </summary>
+            <value>
+            Default value: false.
+            </value>        
+        </member>
+        <member name="T:Ocelot.Configuration.HttpHandlerOptions">
+            <summary>
+            Describes configuration parameters for http handler, that is created to handle a request to service.
+            </summary>
+        </member>
+        <member name="P:Ocelot.Configuration.HttpHandlerOptions.AllowAutoRedirect">
+            <summary>
+            Specify if auto redirect is enabled.
+            </summary>
+            <value>AllowAutoRedirect.</value>
+        </member>
+        <member name="P:Ocelot.Configuration.HttpHandlerOptions.UseCookieContainer">
+            <summary>
+            Specify is handler has to use a cookie container.
+            </summary>
+            <value>UseCookieContainer.</value>
+        </member>
+        <member name="P:Ocelot.Configuration.HttpHandlerOptions.UseTracing">
+            <summary>
+            Specify is handler has to use a opentracing.
+            </summary>
+            <value>UseTracing.</value>
+        </member>
+        <member name="P:Ocelot.Configuration.HttpHandlerOptions.UseProxy">
+            <summary>
+            Specify if handler has to use a proxy.
+            </summary>
+            <value>UseProxy.</value>
+        </member>
+        <member name="P:Ocelot.Configuration.HttpHandlerOptions.MaxConnectionsPerServer">
+            <summary>
+            Specify the maximum of concurrent connection to a network endpoint.
+            </summary>
+            <value>MaxConnectionsPerServer.</value>
+        </member>
+        <member name="P:Ocelot.Configuration.HttpHandlerOptions.PooledConnectionLifeTime">
+            <summary>
+            Specify the maximum of time a connection can be pooled.
+            </summary>
+            <value>PooledConnectionLifeTime.</value>
+        </member>
+        <member name="T:Ocelot.Configuration.RateLimitOptions">
+            <summary>
+            RateLimit Options.
+            </summary>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.RateLimitRule">
+            <summary>
+            Gets a Rate Limit rule.
+            </summary>
+            <value>
+            A <see cref="T:Ocelot.Configuration.RateLimitRule"/> object that represents the rule.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.ClientWhitelist">
+            <summary>
+            Gets the list of white listed clients.
+            </summary>
+            <value>
+            A <see cref="T:System.Collections.Generic.List`1"/> collection with white listed clients.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.ClientIdHeader">
+            <summary>
+            Gets or sets the HTTP header that holds the client identifier, by default is X-ClientId.
+            </summary>
+            <value>
+            A string value with the HTTP header.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.HttpStatusCode">
+            <summary>
+            Gets or sets the HTTP Status code returned when rate limiting occurs, by default value is set to 429 (Too Many Requests).
+            </summary>
+            <value>
+            An integer value with the HTTP Status code.
+            <para>Default value: 429 (Too Many Requests).</para>
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.QuotaExceededMessage">
+            <summary>
+            Gets or sets a value that will be used as a formatter for the QuotaExceeded response message.
+            <para>If none specified the default will be: "API calls quota exceeded! maximum admitted {0} per {1}".</para>
+            </summary>
+            <value>
+            A string value with a formatter for the QuotaExceeded response message.
+            <para>Default will be: "API calls quota exceeded! maximum admitted {0} per {1}".</para>
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.RateLimitCounterPrefix">
+            <summary>
+            Gets or sets the counter prefix, used to compose the rate limit counter cache key.
+            </summary>
+            <value>
+            A string value with the counter prefix.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.EnableRateLimiting">
+            <summary>
+            Enables endpoint rate limiting based URL path and HTTP verb.
+            </summary>
+            <value>
+            A boolean value for enabling endpoint rate limiting based URL path and HTTP verb.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitOptions.DisableRateLimitHeaders">
+            <summary>
+            Disables X-Rate-Limit and Rety-After headers.
+            </summary>
+            <value>
+            A boolean value for disabling X-Rate-Limit and Rety-After headers.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitRule.Period">
+            <summary>
+            Rate limit period as in 1s, 1m, 1h, 1d.
+            </summary>
+            <value>
+            A string value with rate limit period.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitRule.PeriodTimespan">
+            <summary>
+            Timespan to wait after reaching the rate limit, in seconds.
+            </summary>
+            <value>
+            A double floating-point integer with timespan, in seconds.
+            </value>
+        </member>
+        <member name="P:Ocelot.Configuration.RateLimitRule.Limit">
+            <summary>
+            Maximum number of requests that a client can make in a defined period.
+            </summary>
+            <value>
+            A long integer with maximum number of requests.
+            </value>
+        </member>
+        <member name="M:Ocelot.Configuration.Repository.FileConfigurationPoller.ToJson(Ocelot.Configuration.File.FileConfiguration)">
+            <summary>
+            We could do object comparison here but performance isnt really a problem. This might be an issue one day!.
+            </summary>
+            <returns>hash of the config.</returns>
+        </member>
+        <member name="T:Ocelot.Configuration.Repository.InMemoryInternalConfigurationRepository">
+            <summary>
+            Register as singleton.
+            </summary>
+        </member>
+        <member name="T:Ocelot.DependencyInjection.ConfigurationBuilderExtensions">
+            <summary>
+            Defines extension-methods for the <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/> interface.
+            </summary>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ConfigurationBuilderExtensions.SubConfigRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>^ocelot\\.(.*?)\\.json$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase | RegexOptions.Singleline</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match if at the beginning of the string.<br/>
+            ○ Match a character in the set [Oo].<br/>
+            ○ Match a character in the set [Cc].<br/>
+            ○ Match a character in the set [Ee].<br/>
+            ○ Match a character in the set [Ll].<br/>
+            ○ Match a character in the set [Oo].<br/>
+            ○ Match a character in the set [Tt].<br/>
+            ○ Match '.'.<br/>
+            ○ 1st capture group.<br/>
+                ○ Match any character lazily any number of times.<br/>
+            ○ Match '.'.<br/>
+            ○ Match a character in the set [Jj].<br/>
+            ○ Match a character in the set [Ss].<br/>
+            ○ Match a character in the set [Oo].<br/>
+            ○ Match a character in the set [Nn].<br/>
+            ○ Match if at the end of the string or if before an ending newline.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ConfigurationBuilderExtensions.AddOcelot(Microsoft.Extensions.Configuration.IConfigurationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Adds Ocelot configuration by environment, reading the required files from the default path.
+            </summary>
+            <param name="builder">Configuration builder to extend.</param>
+            <param name="env">Web hosting environment object.</param>
+            <returns>An <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ConfigurationBuilderExtensions.AddOcelot(Microsoft.Extensions.Configuration.IConfigurationBuilder,System.String,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Adds Ocelot configuration by environment, reading the required files from the specified folder.
+            </summary>
+            <param name="builder">Configuration builder to extend.</param>
+            <param name="folder">Folder to read files from.</param>
+            <param name="env">Web hosting environment object.</param>
+            <returns>An <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ConfigurationBuilderExtensions.AddOcelot(Microsoft.Extensions.Configuration.IConfigurationBuilder,Ocelot.Configuration.File.FileConfiguration)">
+            <summary>
+            Adds Ocelot configuration by ready configuration object and writes JSON to the primary configuration file.<br/>
+            Finally, adds JSON file as configuration provider.
+            </summary>
+            <param name="builder">Configuration builder to extend.</param>
+            <param name="fileConfiguration">File configuration to add as JSON provider.</param>
+            <returns>An <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.OcelotBuilder.AddDefaultAspNetServices(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly)">
+            <summary>
+            Adds default ASP.NET services which are the minimal part of the gateway core.
+            <para>
+            Finally the builder adds Newtonsoft.Json services via the <see cref="M:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcCoreBuilderExtensions.AddNewtonsoftJson(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder)"/> extension-method.<br/>
+            To remove these services, use custom builder in the <see cref="M:Ocelot.DependencyInjection.ServiceCollectionExtensions.AddOcelotUsingBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Func{Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly,Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder})"/> extension-method.
+            </para>
+            </summary>
+            <remarks>
+            Note that the following <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> extensions being called:<br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.MvcCoreServiceCollectionExtensions.AddMvcCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/>, impossible to remove.<br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.LoggingServiceCollectionExtensions.AddLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/><br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.AnalysisServiceCollectionExtensions.AddMiddlewareAnalysis(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/><br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.EncoderServiceCollectionExtensions.AddWebEncoders(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/>.
+            <para>
+            Warning! The following <see cref="T:Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder"/> extensions being called:<br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.MvcCoreMvcCoreBuilderExtensions.AddApplicationPart(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly)"/><br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.MvcCoreMvcCoreBuilderExtensions.AddControllersAsServices(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder)"/><br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.MvcCoreMvcCoreBuilderExtensions.AddAuthorization(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder)"/><br/>
+            - <see cref="M:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcCoreBuilderExtensions.AddNewtonsoftJson(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder)"/>, removable.
+            </para>
+            </remarks>
+            <param name="builder">The default builder being returned by <see cref="M:Microsoft.Extensions.DependencyInjection.MvcCoreServiceCollectionExtensions.AddMvcCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/> extension-method.</param>
+            <param name="assembly">The web app assembly.</param>
+            <returns>An <see cref="T:Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ServiceCollectionExtensions.AddOcelot(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds default ASP.NET services and Ocelot application services.<br/>
+            Creates default <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> object via the <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/> extension-method.
+            </summary>
+            <remarks>
+            Remarks for default ASP.NET services being injected see in docs of the <see cref="M:Ocelot.DependencyInjection.OcelotBuilder.AddDefaultAspNetServices(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly)"/> method.
+            </remarks>
+            <param name="services">Current services collection.</param>
+            <returns>An <see cref="T:Ocelot.DependencyInjection.IOcelotBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ServiceCollectionExtensions.AddOcelot(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds default ASP.NET services and Ocelot application services with configuration.
+            </summary>
+            <remarks>
+            Remarks for default ASP.NET services being injected see in docs of the <see cref="M:Ocelot.DependencyInjection.OcelotBuilder.AddDefaultAspNetServices(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly)"/> method.
+            </remarks>
+            <param name="services">Current services collection.</param>
+            <param name="configuration">Current web app configuration.</param>
+            <returns>An <see cref="T:Ocelot.DependencyInjection.IOcelotBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ServiceCollectionExtensions.AddOcelotUsingBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Func{Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly,Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder})">
+            <summary>
+            Adds Ocelot application services and custom ASP.NET services with custom builder.<br/>
+            Creates default <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> object via the <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/> extension-method.
+            </summary>
+            <remarks>
+            Warning! To understand which ASP.NET services should be injected/removed by custom builder, see docs of the <see cref="M:Ocelot.DependencyInjection.OcelotBuilder.AddDefaultAspNetServices(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly)"/> method.
+            </remarks>
+            <param name="services">Current services collection.</param>
+            <param name="customBuilder">Current custom builder for ASP.NET MVC pipeline.</param>
+            <returns>An <see cref="T:Ocelot.DependencyInjection.IOcelotBuilder"/> object.</returns>
+        </member>
+        <member name="M:Ocelot.DependencyInjection.ServiceCollectionExtensions.AddOcelotUsingBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Func{Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly,Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder})">
+            <summary>
+            Adds Ocelot application services and custom ASP.NET services with configuration and custom builder.
+            </summary>
+            <remarks>
+            Warning! To understand which ASP.NET services should be injected/removed by custom builder, see docs of the <see cref="M:Ocelot.DependencyInjection.OcelotBuilder.AddDefaultAspNetServices(Microsoft.Extensions.DependencyInjection.IMvcCoreBuilder,System.Reflection.Assembly)"/> method.
+            </remarks>
+            <param name="services">Current services collection.</param>
+            <param name="configuration">Current web app configuration.</param>
+            <param name="customBuilder">Current custom builder for ASP.NET MVC pipeline.</param>
+            <returns>An <see cref="T:Ocelot.DependencyInjection.IOcelotBuilder"/> object.</returns>
+        </member>
+        <member name="T:Ocelot.Errors.Middleware.ExceptionHandlerMiddleware">
+            <summary>
+            Catches all unhandled exceptions thrown by middleware, logs and returns a 500.
+            </summary>
+        </member>
+        <member name="F:Ocelot.Headers.RemoveOutputHeaders._unsupportedRequestHeaders">
+            <summary>
+            Some webservers return headers that cannot be forwarded to the client
+            in a given context such as transfer encoding chunked when ASP.NET is not
+            returning the response in this manner.
+            </summary>
+        </member>
+        <member name="T:Ocelot.Infrastructure.Extensions.NetCoreSupportExtensions">
+            <summary>
+            Trivial implementations of methods present in .NET Core 2 but not supported on .NET Standard 2.0.
+            </summary>
+        </member>
+        <member name="T:Ocelot.Logging.IOcelotLogger">
+            <summary>
+            Thin wrapper around the .NET Core logging framework, used to allow the <see cref="T:Ocelot.Infrastructure.RequestData.IRequestScopedDataRepository"/> object to be injected giving access to the Ocelot <see cref="P:Ocelot.Configuration.IInternalConfiguration.RequestId"/>.
+            </summary>
+        </member>
+        <member name="T:Ocelot.Logging.OcelotLogger">
+            <summary>
+            Default implementation of the <see cref="T:Ocelot.Logging.IOcelotLogger"/> interface.
+            </summary>
+        </member>
+        <member name="M:Ocelot.Logging.OcelotLogger.#ctor(Microsoft.Extensions.Logging.ILogger,Ocelot.Infrastructure.RequestData.IRequestScopedDataRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ocelot.Logging.OcelotLogger"/> class.
+            <para>
+            Please note:
+            the log event message is designed to use placeholders ({RequestId}, {PreviousRequestId}, and {Message}).
+            If you're using a logger like Serilog, it will automatically capture these as structured data properties, making it easier to query and analyze the logs later.
+            </para>
+            </summary>
+            <param name="logger">The main logger type, per default the Microsoft implementation.</param>
+            <param name="scopedDataRepository">Repository, saving and getting data to/from HttpContext.Items.</param>
+            <exception cref="T:System.ArgumentNullException">The ILogger object is injected in OcelotLoggerFactory, it can't be verified before.</exception>
+        </member>
+        <member name="M:Ocelot.Middleware.DownstreamResponse.Dispose(System.Boolean)">
+            <summary>
+            We should make sure we dispose the content and response message to close the connection to the downstream service.
+            </summary>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.PreErrorResponderMiddleware">
+            <summary>
+            This is called after the global error handling middleware so any code before calling next.invoke
+            is the next thing called in the Ocelot pipeline. Anything after next.invoke is the last thing called
+            in the Ocelot pipeline before we go to the global error handler.
+            </summary>
+            <value>
+            A <see cref="T:System.Func`3"/> delegate object.
+            </value>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.PreAuthenticationMiddleware">
+            <summary>
+            This is to allow the user to run any extra authentication before the Ocelot authentication kicks in.
+            </summary>
+            <value>
+            A <see cref="T:System.Func`3"/> delegate object.
+            </value>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.AuthenticationMiddleware">
+            <summary>
+            This allows the user to completely override the ocelot authentication middleware.
+            </summary>
+            <value>
+            A <see cref="T:System.Func`3"/> delegate object.
+            </value>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.PreAuthorizationMiddleware">
+            <summary>
+            This is to allow the user to run any extra authorization before the Ocelot authentication kicks in.
+            </summary>
+            <value>
+            A <see cref="T:System.Func`3"/> delegate object.
+            </value>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.AuthorizationMiddleware">
+            <summary>
+            This allows the user to completely override the ocelot authorization middleware.
+            </summary>
+            <value>
+            A <see cref="T:System.Func`3"/> delegate object.
+            </value>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.PreQueryStringBuilderMiddleware">
+            <summary>
+            This allows the user to implement there own query string manipulation logic.
+            </summary>
+            <value>
+            A <see cref="T:System.Func`3"/> delegate object.
+            </value>
+        </member>
+        <member name="P:Ocelot.Middleware.OcelotPipelineConfiguration.MapWhenOcelotPipeline">
+            <summary>
+            This is an extension that will branch to different pipes.
+            </summary>
+            <value>
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> collection.
+            </value>
+        </member>
+        <member name="T:Ocelot.RateLimit.RateLimitCounter">
+            <summary>
+            Stores the initial access time and the numbers of calls made from that point.
+            </summary>
+        </member>
+        <member name="M:Ocelot.Request.Creator.DownstreamRequestCreator.Create(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            According to https://tools.ietf.org/html/rfc7231
+            GET,HEAD,DELETE,CONNECT,TRACE
+            Can have body but server can reject the request.
+            And MS HttpClient in Full Framework actually rejects it.
+            See #366 issue.
+            </summary>
+            <param name="request">The HTTP request.</param>
+            <returns>A <see cref="T:Ocelot.Request.Middleware.DownstreamRequest"/> object.</returns>
+        </member>
+        <member name="F:Ocelot.Requester.HttpExceptionToErrorMapper._mappers">
+            <summary>This is a dictionary of custom mappers for exceptions.</summary>
+        </member>
+        <member name="T:Ocelot.Requester.IMessageInvokerPool">
+            <summary>
+            A pool implementation for <see cref="T:System.Net.Http.HttpMessageInvoker"/> pooling.
+            <para>
+            Largely inspired by StackExchange implementation.
+            Link: <see href="https://github.com/StackExchange/StackExchange.Utils/blob/main/src/StackExchange.Utils.Http/DefaultHttpClientPool.cs">StackExchange.Utils.DefaultHttpClientPool</see>.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Ocelot.Requester.IMessageInvokerPool.Get(Ocelot.Configuration.DownstreamRoute)">
+            <summary>
+            Gets a client for the specified <see cref="T:Ocelot.Configuration.DownstreamRoute"/>.
+            </summary>
+            <param name="downstreamRoute">The route to get a Message Invoker for.</param>
+            <returns>A <see cref="T:System.Net.Http.HttpMessageInvoker"/> from the pool.</returns>
+        </member>
+        <member name="M:Ocelot.Requester.IMessageInvokerPool.Clear">
+            <summary>
+            Clears the pool, in case you need to.
+            </summary>
+        </member>
+        <member name="F:Ocelot.Requester.MessageInvokerPool.DefaultRequestTimeoutSeconds">
+            <summary>
+            TODO This should be configurable and available as global config parameter in ocelot.json.
+            </summary>
+        </member>
+        <member name="M:Ocelot.Requester.RequestCanceledError.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ocelot.Requester.RequestCanceledError"/> class.
+            Creates <see cref="T:Ocelot.Requester.RequestCanceledError"/> object by the message.
+            <para>Status code refer to:</para>
+            <para>https://stackoverflow.com/questions/46234679/what-is-the-correct-http-status-code-for-a-cancelled-request?answertab=votes#tab-top .</para>
+            <para>https://httpstatuses.com/499 .</para>
+            </summary>
+            <param name="message">The message text.</param>
+        </member>
+        <member name="M:Ocelot.Requester.TimeoutDelegatingHandler.#ctor(System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ocelot.Requester.TimeoutDelegatingHandler"/> class.
+            </summary>
+            <param name="timeout">The time span after which the request is cancelled.</param>
+        </member>
+        <member name="T:Ocelot.Responder.HttpContextResponder">
+            <summary>
+            Cannot unit test things in this class due to methods not being implemented on .NET concretes used for testing.
+            </summary>
+        </member>
+        <member name="T:Ocelot.Responder.IErrorsToHttpStatusCodeMapper">
+            <summary>
+            Defines mapping a list of Ocelot errors to a single appropriate HTTP status code.
+            </summary>
+        </member>
+        <member name="M:Ocelot.Responder.IErrorsToHttpStatusCodeMapper.Map(System.Collections.Generic.List{Ocelot.Errors.Error})">
+            <summary>
+            Maps a list of Ocelot <see cref="T:Ocelot.Errors.Error"/> to a single appropriate HTTP status code.
+            </summary>
+            <param name="errors">The collection of errors.</param>
+            <returns>An integer value with HTTP status code.</returns>
+        </member>
+        <member name="T:Ocelot.Responder.Middleware.ResponderMiddleware">
+            <summary>
+            Completes and returns the request and request body, if any pipeline errors occured then sets the appropriate HTTP status code instead.
+            </summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SubConfigRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the SubConfigRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.SubConfigRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SubConfigRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SubConfigRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SubConfigRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.SubConfigRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SubConfigRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SubConfigRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.SubConfigRegex_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+    </members>
+</doc>

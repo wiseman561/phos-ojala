@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Ocelot.Provider.Polly</id>
+    <version>23.0.0</version>
+    <authors>Tom Pallister</authors>
+    <projectUrl>https://github.com/ThreeMammals/Ocelot.Provider.Polly</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/ThreeMammals/Ocelot/develop/images/ocelot_logo.png</iconUrl>
+    <description>Provides Ocelot extensions to use Polly.NET</description>
+    <tags>API Gateway .NET core</tags>
+    <repository type="git" url="https://github.com/ThreeMammals/Ocelot" commit="e25d473763282142cc2867ef54b073ba42f115b4" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Ocelot" version="23.0.0" exclude="Build,Analyzers" />
+        <dependency id="Polly" version="8.2.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net7.0">
+        <dependency id="Ocelot" version="23.0.0" exclude="Build,Analyzers" />
+        <dependency id="Polly" version="8.2.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0">
+        <dependency id="Ocelot" version="23.0.0" exclude="Build,Analyzers" />
+        <dependency id="Polly" version="8.2.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
