@@ -1,386 +1,250 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Paper, 
-  Tabs, 
-  Tab, 
-  Divider,
-  Card,
-  CardContent,
-  CardHeader,
-  CardActions,
-  Avatar,
-  Chip,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  IconButton,
-  Grid
-} from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import EventIcon from '@mui/icons-material/Event';
-import PersonIcon from '@mui/icons-material/Person';
-import EditIcon from '@mui/icons-material/Edit';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import axios from 'axios';
-import { format, isToday, isTomorrow, addDays, isAfter, isBefore, subMinutes } from 'date-fns';
+import { useAuth } from '../hooks/useAuth';
+import { nurseApi } from '../services/apiClient';
 
-const TelehealthScheduleList = ({ onStartSession }) => {
+const TelehealthScheduleList = () => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [tabValue, setTabValue] = useState(0);
-  const [openRescheduleModal, setOpenRescheduleModal] = useState(false);
-  const [selectedSession, setSelectedSession] = useState(null);
-  const [newDateTime, setNewDateTime] = useState(new Date());
-  const [rescheduleLoading, setRescheduleLoading] = useState(false);
-  const [rescheduleError, setRescheduleError] = useState('');
+  const [error, setError] = useState(null);
+  const [newSession, setNewSession] = useState({
+    patientId: '',
+    scheduledTime: '',
+    duration: 30,
+    notes: ''
+  });
+  const { isAuthenticated, user } = useAuth();
 
-  useEffect(() => {
-    fetchSessions();
-    
-    // Set up polling to refresh sessions every minute
-    const intervalId = setInterval(fetchSessions, 60000);
-    
-    return () => clearInterval(intervalId);
-  }, []);
-
+  // Fetch telehealth sessions
   const fetchSessions = async () => {
-    setLoading(true);
-    setError('');
-    
+    if (!isAuthenticated) return;
+
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/telehealth/sessions?role=provider`,
-        {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        }
-      );
-      
+      setLoading(true);
+      const response = await nurseApi.getTelehealthSessions();
       setSessions(response.data);
     } catch (error) {
       console.error('Error fetching telehealth sessions:', error);
-      setError('Failed to load telehealth sessions. Please try again later.');
+      setError('Failed to load telehealth sessions');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+  useEffect(() => {
+    fetchSessions();
+  }, [isAuthenticated]);
 
-  const handleOpenReschedule = (session) => {
-    setSelectedSession(session);
-    setNewDateTime(new Date(session.scheduledAt));
-    setOpenRescheduleModal(true);
-    setRescheduleError('');
-  };
-
-  const handleCloseRescheduleModal = () => {
-    setOpenRescheduleModal(false);
-    setSelectedSession(null);
-    setRescheduleError('');
-  };
-
-  const handleReschedule = async () => {
-    if (!selectedSession || !newDateTime) {
-      setRescheduleError('Please select a valid date and time.');
-      return;
-    }
-
-    setRescheduleLoading(true);
-    setRescheduleError('');
+  // Schedule new session
+  const handleScheduleSession = async (e) => {
+    e.preventDefault();
     
+    if (!isAuthenticated) return;
+
     try {
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/telehealth/schedule`,
-        {
-          appointmentId: selectedSession.id,
-          scheduledAt: newDateTime.toISOString()
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        }
-      );
+      const sessionData = {
+        ...newSession,
+        providerId: user.id,
+        status: 'scheduled'
+      };
+
+      await nurseApi.createTelehealthSession(sessionData);
       
-      // Close modal and refresh sessions
-      handleCloseRescheduleModal();
+      // Reset form
+      setNewSession({
+        patientId: '',
+        scheduledTime: '',
+        duration: 30,
+        notes: ''
+      });
+      
+      // Refresh sessions list
       fetchSessions();
     } catch (error) {
-      console.error('Error rescheduling appointment:', error);
-      setRescheduleError(error.response?.data?.message || 'Failed to reschedule appointment. Please try again later.');
-    } finally {
-      setRescheduleLoading(false);
+      console.error('Error scheduling session:', error);
+      setError('Failed to schedule session');
     }
   };
 
-  const canStartSession = (session) => {
-    if (session.status !== 'Scheduled') return false;
-    
-    const now = new Date();
-    const scheduledAt = new Date(session.scheduledAt);
-    const fiveMinutesBefore = subMinutes(scheduledAt, 5);
-    
-    return isAfter(now, fiveMinutesBefore);
-  };
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
-  // Group sessions by date category
-  const groupSessions = () => {
-    const today = new Date();
-    const tomorrow = addDays(today, 1);
-    
-    const groups = {
-      today: [],
-      tomorrow: [],
-      upcoming: [],
-      past: []
-    };
-    
-    sessions.forEach(session => {
-      const sessionDate = new Date(session.scheduledAt);
-      
-      if (isToday(sessionDate)) {
-        groups.today.push(session);
-      } else if (isTomorrow(sessionDate)) {
-        groups.tomorrow.push(session);
-      } else if (isAfter(sessionDate, tomorrow)) {
-        groups.upcoming.push(session);
-      } else {
-        groups.past.push(session);
-      }
-    });
-    
-    // Sort sessions by time
-    Object.keys(groups).forEach(key => {
-      groups[key].sort((a, b) => new Date(a.scheduledAt) - new Date(b.scheduledAt));
-    });
-    
-    return groups;
-  };
-
-  const sessionGroups = groupSessions();
-  
-  // Determine which group to show based on tab value
-  const getSessionsToShow = () => {
-    switch (tabValue) {
-      case 0:
-        return sessionGroups.today;
-      case 1:
-        return sessionGroups.tomorrow;
-      case 2:
-        return sessionGroups.upcoming;
-      case 3:
-        return sessionGroups.past;
-      default:
-        return [];
-    }
-  };
-
-  const formatSessionTime = (dateString) => {
-    const date = new Date(dateString);
-    return format(date, 'h:mm a');
-  };
-
-  const formatSessionDate = (dateString) => {
-    const date = new Date(dateString);
-    return format(date, 'EEEE, MMMM d, yyyy');
-  };
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-4">Telehealth Schedule</h2>
+        <div className="flex justify-center items-center h-32">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-2 text-gray-600">Loading sessions...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <Box>
-      <Paper sx={{ mb: 3 }}>
-        <Tabs
-          value={tabValue}
-          onChange={handleTabChange}
-          variant="fullWidth"
-          indicatorColor="primary"
-          textColor="primary"
-        >
-          <Tab 
-            label={`Today (${sessionGroups.today.length})`} 
-            icon={<CalendarTodayIcon />} 
-            iconPosition="start"
-          />
-          <Tab 
-            label={`Tomorrow (${sessionGroups.tomorrow.length})`} 
-            icon={<CalendarTodayIcon />} 
-            iconPosition="start"
-          />
-          <Tab 
-            label={`Upcoming (${sessionGroups.upcoming.length})`} 
-            icon={<EventIcon />} 
-            iconPosition="start"
-          />
-          <Tab 
-            label={`Past (${sessionGroups.past.length})`} 
-            icon={<EventIcon />} 
-            iconPosition="start"
-          />
-        </Tabs>
-      </Paper>
-
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <h2 className="text-xl font-semibold mb-4">Telehealth Schedule</h2>
+      
       {error && (
-        <Box sx={{ mb: 3 }}>
-          <Typography color="error">{error}</Typography>
-        </Box>
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+          <div className="flex">
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-red-800">Error</h3>
+              <div className="mt-2 text-sm text-red-700">
+                <p>{error}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
-      {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-          <CircularProgress />
-        </Box>
-      ) : getSessionsToShow().length === 0 ? (
-        <Box sx={{ textAlign: 'center', p: 4 }}>
-          <Typography variant="body1">
-            No sessions found for this time period.
-          </Typography>
-        </Box>
-      ) : (
-        <Grid container spacing={2}>
-          {getSessionsToShow().map((session) => (
-            <Grid item xs={12} md={6} key={session.id}>
-              <Card>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: 'primary.main' }}>
-                      <PersonIcon />
-                    </Avatar>
-                  }
-                  title={session.patientName}
-                  subheader={formatSessionTime(session.scheduledAt)}
-                  action={
-                    <Chip 
-                      label={session.status} 
-                      color={
-                        session.status === 'Completed' ? 'default' :
-                        session.status === 'Scheduled' ? 'primary' :
-                        session.status === 'Cancelled' ? 'error' : 'warning'
-                      }
-                    />
-                  }
-                />
-                <CardContent>
-                  <List dense>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: 'background.paper' }}>
-                          <EventIcon color="primary" fontSize="small" />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText 
-                        primary="Scheduled For" 
-                        secondary={formatSessionDate(session.scheduledAt)} 
-                      />
-                    </ListItem>
-                    {session.reason && (
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar sx={{ bgcolor: 'background.paper' }}>
-                            <EventIcon color="primary" fontSize="small" />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText 
-                          primary="Reason" 
-                          secondary={session.reason} 
-                        />
-                      </ListItem>
-                    )}
-                  </List>
-                </CardContent>
-                <CardActions sx={{ justifyContent: 'flex-end' }}>
-                  {session.status === 'Scheduled' && (
-                    <>
-                      <Button
-                        variant="outlined"
-                        startIcon={<EditIcon />}
-                        onClick={() => handleOpenReschedule(session)}
-                        size="small"
-                      >
-                        Reschedule
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<VideocamIcon />}
-                        onClick={() => onStartSession(session.id)}
-                        disabled={!canStartSession(session)}
-                        size="small"
-                        sx={{ ml: 1 }}
+      {/* Schedule New Session Form */}
+      <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+        <h3 className="text-lg font-medium mb-3">Schedule New Session</h3>
+        <form onSubmit={handleScheduleSession} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Patient ID
+            </label>
+            <input
+              type="text"
+              value={newSession.patientId}
+              onChange={(e) => setNewSession({ ...newSession, patientId: e.target.value })}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Scheduled Time
+            </label>
+            <input
+              type="datetime-local"
+              value={newSession.scheduledTime}
+              onChange={(e) => setNewSession({ ...newSession, scheduledTime: e.target.value })}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Duration (minutes)
+            </label>
+            <select
+              value={newSession.duration}
+              onChange={(e) => setNewSession({ ...newSession, duration: parseInt(e.target.value) })}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value={15}>15 minutes</option>
+              <option value={30}>30 minutes</option>
+              <option value={45}>45 minutes</option>
+              <option value={60}>60 minutes</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Notes
+            </label>
+            <input
+              type="text"
+              value={newSession.notes}
+              onChange={(e) => setNewSession({ ...newSession, notes: e.target.value })}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Optional notes..."
+            />
+          </div>
+          
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Schedule Session
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Sessions List */}
+      <div>
+        <h3 className="text-lg font-medium mb-3">Upcoming Sessions</h3>
+        
+        {sessions.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <p>No telehealth sessions scheduled</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {sessions.map((session) => (
+              <div key={session.id} className="border border-gray-200 rounded-lg p-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="font-medium">Patient: {session.patientName || session.patientId}</span>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        session.status === 'scheduled' 
+                          ? 'bg-blue-100 text-blue-800'
+                          : session.status === 'in-progress'
+                          ? 'bg-green-100 text-green-800'
+                          : session.status === 'completed'
+                          ? 'bg-gray-100 text-gray-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {session.status}
+                      </span>
+                    </div>
+                    
+                    <div className="text-sm text-gray-600 space-y-1">
+                      <p>
+                        <strong>Time:</strong> {new Date(session.scheduledTime).toLocaleString()}
+                      </p>
+                      <p>
+                        <strong>Duration:</strong> {session.duration} minutes
+                      </p>
+                      {session.notes && (
+                        <p>
+                          <strong>Notes:</strong> {session.notes}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="ml-4 space-x-2">
+                    {session.status === 'scheduled' && (
+                      <button
+                        onClick={() => {
+                          // Navigate to telehealth room
+                          window.open(`/telehealth/${session.id}`, '_blank');
+                        }}
+                        className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors"
                       >
                         Start Session
-                      </Button>
-                    </>
-                  )}
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
-
-      {/* Reschedule Modal */}
-      <Dialog open={openRescheduleModal} onClose={handleCloseRescheduleModal} maxWidth="sm" fullWidth>
-        <DialogTitle>Reschedule Appointment</DialogTitle>
-        <DialogContent>
-          <Box sx={{ mt: 2 }}>
-            {rescheduleError && (
-              <Typography color="error" sx={{ mb: 2 }}>
-                {rescheduleError}
-              </Typography>
-            )}
-
-            {selectedSession && (
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1">
-                  Patient: {selectedSession.patientName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Currently scheduled for: {formatSessionDate(selectedSession.scheduledAt)} at {formatSessionTime(selectedSession.scheduledAt)}
-                </Typography>
-              </Box>
-            )}
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="New Appointment Date & Time"
-                value={newDateTime}
-                onChange={(newValue) => setNewDateTime(newValue)}
-                renderInput={(params) => <TextField {...params} fullWidth sx={{ mb: 3 }} />}
-                minDateTime={new Date()}
-              />
-            </LocalizationProvider>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseRescheduleModal}>Cancel</Button>
-          <Button 
-            onClick={handleReschedule} 
-            variant="contained" 
-            disabled={rescheduleLoading}
-          >
-            {rescheduleLoading ? 'Submitting...' : 'Reschedule'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+                      </button>
+                    )}
+                    
+                    {session.status === 'in-progress' && (
+                      <button
+                        onClick={() => {
+                          // Join ongoing session
+                          window.open(`/telehealth/${session.id}`, '_blank');
+                        }}
+                        className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
+                      >
+                        Join Session
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -1,25 +1,58 @@
-# Exclude everything by default
-**
+# Build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
 
-# Allow solution and project files
-!OjalaHealthcarePlatform.sln
-!Directory.Build.props
-!Directory.Packages.props
+# Dependencies
+node_modules/
+**/node_modules/
 
-# Allow shared projects
-!src/shared/Ojala.Common/Ojala.Common.csproj
-!src/shared/Ojala.Contracts/Ojala.Contracts.csproj
+# Version control
+.git/
+.gitignore
 
-# Allow backend projects
-!src/backend/Ojala.Data/Ojala.Data.csproj
-!src/backend/Ojala.Services/Ojala.Services.csproj
-!src/backend/Ojala.Identity/Ojala.Identity.csproj
-!src/backend/Ojala.Api/Ojala.Api.csproj
+# IDE and editor files
+.vs/
+.vscode/
+*.suo
+*.user
+*.sln.docstates
 
-# Allow source files for all projects
-!src/**/*.cs
-!src/**/*.config
-!src/**/appsettings*.json
+# Log files
+*.log
+logs/
 
-# Allow Dockerfile
-!src/backend/Ojala.Api/Dockerfile
+# Test results
+test-results/
+TestResults/
+**/test-results/
+**/TestResults/
+
+# Temporary files
+*.tmp
+*.temp
+**/tmp/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Docker files (except current)
+**/Dockerfile
+!Dockerfile
+
+# Documentation
+README.md
+docs/
+**/docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Other build outputs
+*.exe
+*.dll
+*.pdb

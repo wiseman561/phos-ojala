@@ -1,423 +1,202 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardHeader, CardBody, CardTitle, Table, Badge, Button, Spinner } from 'reactstrap';
-import axios from 'axios';
-import { format } from 'date-fns';
+import { useAuth } from '../hooks/useAuth';
+import { nurseApi } from '../services/apiClient';
 
-const CohortTelemetryGrid = ({ nurseId }) => {
-  const [patientsData, setPatientsData] = useState([]);
-  const [loading, setLoading] = useState(false);
+const CohortTelemetryGrid = () => {
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [pollingInterval, setPollingInterval] = useState(null);
+  const { isAuthenticated, user } = useAuth();
 
-  // Define threshold ranges for different metrics
-  const thresholds = {
-    heartRate: { low: 60, high: 100, unit: 'bpm' },
-    bloodPressureSystolic: { low: 90, high: 140, unit: 'mmHg' },
-    bloodPressureDiastolic: { low: 60, high: 90, unit: 'mmHg' },
-    oxygenSaturation: { low: 94, high: 100, unit: '%' },
-    temperature: { low: 36.1, high: 37.8, unit: '°C' },
-    respiratoryRate: { low: 12, high: 20, unit: 'breaths/min' },
-    bloodGlucose: { low: 70, high: 180, unit: 'mg/dL' },
-    weight: { unit: 'kg' } // Weight doesn't have standard thresholds
-  };
+  // Fetch patients assigned to this nurse
+  useEffect(() => {
+    const fetchCohortData = async () => {
+      if (!isAuthenticated || !user) return;
 
-  // Fetch patients and their latest telemetry data
-  const fetchPatientsData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // First, get assigned patients for the nurse
-      const patientsResponse = await axios.get(
-        `${process.env.REACT_APP_API_URL}/nurses/${nurseId}/patients`,
-        {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-      
-      const patients = patientsResponse.data;
-      
-      // For each patient, get their latest telemetry data
-      const patientsWithTelemetry = await Promise.all(
-        patients.map(async (patient) => {
-          try {
-            // Get the patient's device(s)
-            const devicesResponse = await axios.get(
-              `${process.env.REACT_APP_API_URL}/patients/${patient.id}/devices`,
-              {
-                headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-              }
-            );
-            
-            const devices = devicesResponse.data;
-            
-            // If patient has no devices, return patient with empty telemetry
-            if (!devices || devices.length === 0) {
+      try {
+        setLoading(true);
+        
+        // Get patients assigned to this nurse
+        const patientsResponse = await nurseApi.getPatientsByNurse(user.nurseId || user.id);
+        const patientsData = patientsResponse.data;
+        
+        // For each patient, get their devices and latest telemetry
+        const patientsWithTelemetry = await Promise.all(
+          patientsData.map(async (patient) => {
+            try {
+              // Get patient devices
+              const devicesResponse = await nurseApi.getPatientDevices(patient.id);
+              const devices = devicesResponse.data;
+              
+              // Get latest telemetry for each device
+              const devicesWithTelemetry = await Promise.all(
+                devices.map(async (device) => {
+                  try {
+                    const telemetryResponse = await nurseApi.getPatientTelemetry(patient.id, '1h');
+                    const telemetryData = telemetryResponse.data;
+                    
+                    return {
+                      ...device,
+                      latestTelemetry: telemetryData.length > 0 ? telemetryData[0] : null
+                    };
+                  } catch (telemetryError) {
+                    console.error(`Error fetching telemetry for device ${device.id}:`, telemetryError);
+                    return {
+                      ...device,
+                      latestTelemetry: null
+                    };
+                  }
+                })
+              );
+              
               return {
                 ...patient,
-                devices: [],
-                latestTelemetry: {}
+                devices: devicesWithTelemetry
+              };
+            } catch (deviceError) {
+              console.error(`Error fetching devices for patient ${patient.id}:`, deviceError);
+              return {
+                ...patient,
+                devices: []
               };
             }
-            
-            // Get latest telemetry for each device
-            const devicesWithTelemetry = await Promise.all(
-              devices.map(async (device) => {
-                try {
-                  const telemetryResponse = await axios.get(
-                    `${process.env.REACT_APP_API_URL}/devices/${device.id}/telemetry?range=1h&limit=1`,
-                    {
-                      headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                      },
-                    }
-                  );
-                  
-                  return {
-                    ...device,
-                    telemetry: telemetryResponse.data.data || []
-                  };
-                } catch (err) {
-                  console.error(`Error fetching telemetry for device ${device.id}:`, err);
-                  return {
-                    ...device,
-                    telemetry: []
-                  };
-                }
-              })
-            );
-            
-            // Combine all telemetry data from all devices
-            const allTelemetry = devicesWithTelemetry.flatMap(device => device.telemetry);
-            
-            // Group by metric and get the latest reading for each
-            const latestTelemetry = {};
-            allTelemetry.forEach(reading => {
-              const metric = reading.metric;
-              
-              // For blood pressure, handle systolic and diastolic separately
-              if (metric === 'bloodPressure') {
-                const [systolic, diastolic] = reading.value.split('/').map(v => parseInt(v, 10));
-                
-                // Update systolic if it's newer
-                if (!latestTelemetry.bloodPressureSystolic || 
-                    new Date(reading.timestamp) > new Date(latestTelemetry.bloodPressureSystolic.timestamp)) {
-                  latestTelemetry.bloodPressureSystolic = {
-                    value: systolic,
-                    timestamp: reading.timestamp,
-                    unit: 'mmHg'
-                  };
-                }
-                
-                // Update diastolic if it's newer
-                if (!latestTelemetry.bloodPressureDiastolic || 
-                    new Date(reading.timestamp) > new Date(latestTelemetry.bloodPressureDiastolic.timestamp)) {
-                  latestTelemetry.bloodPressureDiastolic = {
-                    value: diastolic,
-                    timestamp: reading.timestamp,
-                    unit: 'mmHg'
-                  };
-                }
-              } else {
-                // For other metrics, update if it's newer
-                if (!latestTelemetry[metric] || 
-                    new Date(reading.timestamp) > new Date(latestTelemetry[metric].timestamp)) {
-                  latestTelemetry[metric] = {
-                    value: typeof reading.value === 'number' ? reading.value : parseFloat(reading.value),
-                    timestamp: reading.timestamp,
-                    unit: reading.unit || ''
-                  };
-                }
-              }
-            });
-            
-            return {
-              ...patient,
-              devices: devicesWithTelemetry,
-              latestTelemetry
-            };
-          } catch (err) {
-            console.error(`Error processing patient ${patient.id}:`, err);
-            return {
-              ...patient,
-              devices: [],
-              latestTelemetry: {}
-            };
-          }
-        })
-      );
-      
-      setPatientsData(patientsWithTelemetry);
-      setLoading(false);
-    } catch (err) {
-      setError('Failed to fetch patients data. Please try again.');
-      setLoading(false);
-      console.error('Error fetching patients data:', err);
-    }
-  };
-
-  // Determine status badge color based on value and thresholds
-  const getStatusBadge = (metric, value) => {
-    if (metric === 'bloodPressureSystolic' || metric === 'bloodPressureDiastolic') {
-      const thresholdConfig = thresholds[metric];
-      
-      if (value < thresholdConfig.low) {
-        return <Badge color="warning">Low</Badge>;
-      } else if (value > thresholdConfig.high) {
-        return <Badge color="danger">High</Badge>;
-      } else {
-        return <Badge color="success">Normal</Badge>;
-      }
-    } else if (metric in thresholds) {
-      const thresholdConfig = thresholds[metric];
-      
-      if ('low' in thresholdConfig && 'high' in thresholdConfig) {
-        if (value < thresholdConfig.low) {
-          return <Badge color="warning">Low</Badge>;
-        } else if (value > thresholdConfig.high) {
-          return <Badge color="danger">High</Badge>;
-        } else {
-          return <Badge color="success">Normal</Badge>;
-        }
-      }
-    }
-    
-    return <Badge color="secondary">--</Badge>;
-  };
-
-  // Format value with unit
-  const formatValueWithUnit = (value, unit) => {
-    if (value === undefined || value === null) {
-      return '--';
-    }
-    return `${value} ${unit || ''}`;
-  };
-
-  // Toggle real-time updates
-  const toggleRealTimeUpdates = () => {
-    if (pollingInterval) {
-      clearInterval(pollingInterval);
-      setPollingInterval(null);
-    } else {
-      const interval = setInterval(fetchPatientsData, 60000); // Poll every minute
-      setPollingInterval(interval);
-    }
-  };
-
-  // Initial data fetch
-  useEffect(() => {
-    fetchPatientsData();
-    
-    // Cleanup polling interval on unmount
-    return () => {
-      if (pollingInterval) {
-        clearInterval(pollingInterval);
+          })
+        );
+        
+        setPatients(patientsWithTelemetry);
+      } catch (error) {
+        console.error('Error fetching cohort data:', error);
+        setError('Failed to load patient data');
+      } finally {
+        setLoading(false);
       }
     };
-  }, [nurseId]);
+
+    fetchCohortData();
+  }, [isAuthenticated, user]);
+
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-4">Cohort Telemetry Overview</h2>
+        <div className="flex justify-center items-center h-32">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-2 text-gray-600">Loading patient data...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-4">Cohort Telemetry Overview</h2>
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <div className="flex">
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-red-800">Error</h3>
+              <div className="mt-2 text-sm text-red-700">
+                <p>{error}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <Card className="shadow-sm mb-4">
-      <CardHeader className="bg-primary text-white d-flex justify-content-between align-items-center">
-        <CardTitle tag="h5" className="mb-0">Patient Telemetry Dashboard</CardTitle>
-        <div>
-          <Button 
-            color={pollingInterval ? 'light' : 'outline-light'} 
-            size="sm"
-            onClick={toggleRealTimeUpdates}
-          >
-            {pollingInterval ? 'Real-time: ON' : 'Real-time: OFF'}
-          </Button>
-          <Button 
-            color="outline-light" 
-            size="sm"
-            className="ms-2" 
-            onClick={fetchPatientsData}
-            disabled={loading}
-          >
-            {loading ? <Spinner size="sm" /> : 'Refresh'}
-          </Button>
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Cohort Telemetry Overview</h2>
+        <span className="text-sm text-gray-500">
+          {patients.length} patient{patients.length !== 1 ? 's' : ''} assigned
+        </span>
+      </div>
+      
+      {patients.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          <p>No patients assigned to your cohort</p>
         </div>
-      </CardHeader>
-      <CardBody>
-        {error && (
-          <div className="alert alert-danger">{error}</div>
-        )}
-        
-        {loading && patientsData.length === 0 ? (
-          <div className="text-center py-5">
-            <Spinner color="primary" />
-            <p className="mt-2">Loading patient data...</p>
-          </div>
-        ) : (
-          <>
-            {patientsData.length === 0 ? (
-              <div className="alert alert-info">
-                No patients assigned to this nurse.
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {patients.map((patient) => (
+            <div key={patient.id} className="border border-gray-200 rounded-lg p-4">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h3 className="font-medium text-gray-900">
+                    {patient.firstName} {patient.lastName}
+                  </h3>
+                  <p className="text-sm text-gray-500">ID: {patient.id}</p>
+                  {patient.room && (
+                    <p className="text-sm text-gray-500">Room: {patient.room}</p>
+                  )}
+                </div>
+                <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  patient.status === 'stable' 
+                    ? 'bg-green-100 text-green-800'
+                    : patient.status === 'warning'
+                    ? 'bg-yellow-100 text-yellow-800'
+                    : 'bg-red-100 text-red-800'
+                }`}>
+                  {patient.status || 'Unknown'}
+                </div>
               </div>
-            ) : (
-              <div className="table-responsive">
-                <Table hover bordered className="align-middle">
-                  <thead>
-                    <tr>
-                      <th>Patient</th>
-                      <th>Heart Rate</th>
-                      <th>Blood Pressure</th>
-                      <th>Oxygen</th>
-                      <th>Temperature</th>
-                      <th>Respiratory Rate</th>
-                      <th>Blood Glucose</th>
-                      <th>Last Updated</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {patientsData.map(patient => {
-                      const telemetry = patient.latestTelemetry;
-                      const hasDevices = patient.devices && patient.devices.length > 0;
-                      const hasTelemetry = Object.keys(telemetry).length > 0;
+              
+              <div className="space-y-2">
+                {patient.devices && patient.devices.length > 0 ? (
+                  patient.devices.map((device) => (
+                    <div key={device.id} className="bg-gray-50 rounded p-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium">{device.name || device.type}</span>
+                        <div className={`w-2 h-2 rounded-full ${
+                          device.status === 'online' 
+                            ? 'bg-green-500' 
+                            : device.status === 'warning'
+                            ? 'bg-yellow-500'
+                            : 'bg-red-500'
+                        }`}></div>
+                      </div>
                       
-                      // Find the most recent timestamp across all metrics
-                      let latestTimestamp = null;
-                      if (hasTelemetry) {
-                        Object.values(telemetry).forEach(reading => {
-                          const timestamp = new Date(reading.timestamp);
-                          if (!latestTimestamp || timestamp > latestTimestamp) {
-                            latestTimestamp = timestamp;
-                          }
-                        });
-                      }
+                      {device.latestTelemetry && (
+                        <div className="mt-1 text-xs text-gray-600">
+                          <div className="flex justify-between">
+                            <span>HR: {device.latestTelemetry.heartRate || 'N/A'}</span>
+                            <span>BP: {device.latestTelemetry.bloodPressure || 'N/A'}</span>
+                          </div>
+                          <div className="flex justify-between mt-1">
+                            <span>SpO2: {device.latestTelemetry.oxygenSaturation || 'N/A'}%</span>
+                            <span>Temp: {device.latestTelemetry.temperature || 'N/A'}°F</span>
+                          </div>
+                          <div className="text-xs text-gray-400 mt-1">
+                            Last: {new Date(device.latestTelemetry.timestamp).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      )}
                       
-                      return (
-                        <tr key={patient.id}>
-                          <td>
-                            <div className="d-flex align-items-center">
-                              <div className="ms-2">
-                                <div className="fw-bold">{patient.lastName}, {patient.firstName}</div>
-                                <div className="text-muted small">ID: {patient.id}</div>
-                                {!hasDevices && (
-                                  <Badge color="warning" className="mt-1">No Devices</Badge>
-                                )}
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            {telemetry.heartRate ? (
-                              <div>
-                                {formatValueWithUnit(telemetry.heartRate.value, telemetry.heartRate.unit)}
-                                <div>{getStatusBadge('heartRate', telemetry.heartRate.value)}</div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">--</span>
-                            )}
-                          </td>
-                          <td>
-                            {telemetry.bloodPressureSystolic && telemetry.bloodPressureDiastolic ? (
-                              <div>
-                                {telemetry.bloodPressureSystolic.value}/{telemetry.bloodPressureDiastolic.value} mmHg
-                                <div className="d-flex gap-1 mt-1">
-                                  {getStatusBadge('bloodPressureSystolic', telemetry.bloodPressureSystolic.value)}
-                                  {getStatusBadge('bloodPressureDiastolic', telemetry.bloodPressureDiastolic.value)}
-                                </div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">--</span>
-                            )}
-                          </td>
-                          <td>
-                            {telemetry.oxygenSaturation ? (
-                              <div>
-                                {formatValueWithUnit(telemetry.oxygenSaturation.value, telemetry.oxygenSaturation.unit)}
-                                <div>{getStatusBadge('oxygenSaturation', telemetry.oxygenSaturation.value)}</div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">--</span>
-                            )}
-                          </td>
-                          <td>
-                            {telemetry.temperature ? (
-                              <div>
-                                {formatValueWithUnit(telemetry.temperature.value, telemetry.temperature.unit)}
-                                <div>{getStatusBadge('temperature', telemetry.temperature.value)}</div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">--</span>
-                            )}
-                          </td>
-                          <td>
-                            {telemetry.respiratoryRate ? (
-                              <div>
-                                {formatValueWithUnit(telemetry.respiratoryRate.value, telemetry.respiratoryRate.unit)}
-                                <div>{getStatusBadge('respiratoryRate', telemetry.respiratoryRate.value)}</div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">--</span>
-                            )}
-                          </td>
-                          <td>
-                            {telemetry.bloodGlucose ? (
-                              <div>
-                                {formatValueWithUnit(telemetry.bloodGlucose.value, telemetry.bloodGlucose.unit)}
-                                <div>{getStatusBadge('bloodGlucose', telemetry.bloodGlucose.value)}</div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">--</span>
-                            )}
-                          </td>
-                          <td>
-                            {latestTimestamp ? (
-                              <div>
-                                <div>{format(latestTimestamp, 'MMM d, yyyy')}</div>
-                                <div className="text-muted small">{format(latestTimestamp, 'h:mm a')}</div>
-                              </div>
-                            ) : (
-                              <span className="text-muted">No data</span>
-                            )}
-                          </td>
-                          <td>
-                            <div className="d-flex gap-2">
-                              <Button 
-                                color="primary" 
-                                size="sm" 
-                                tag="a" 
-                                href={`/patients/${patient.id}/telemetry`}
-                              >
-                                View Details
-                              </Button>
-                              <Button 
-                                color="outline-secondary" 
-                                size="sm" 
-                                tag="a" 
-                                href={`/telehealth/schedule?patientId=${patient.id}`}
-                              >
-                                Schedule Call
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                      {!device.latestTelemetry && (
+                        <div className="mt-1 text-xs text-gray-400">
+                          No recent data
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-sm text-gray-500 text-center py-2">
+                    No devices connected
+                  </div>
+                )}
               </div>
-            )}
-          </>
-        )}
-        
-        {patientsData.length > 0 && (
-          <div className="mt-3 text-muted small">
-            <p>
-              Showing telemetry for {patientsData.length} patients.
-              {pollingInterval && ' Real-time updates are enabled.'}
-            </p>
-          </div>
-        )}
-      </CardBody>
-    </Card>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

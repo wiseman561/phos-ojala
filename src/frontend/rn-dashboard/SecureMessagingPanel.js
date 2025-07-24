@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Card, 
-  CardContent, 
-  Grid, 
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Grid,
   Avatar,
   TextField,
   IconButton,
@@ -14,21 +14,21 @@ import {
   Badge
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { 
+import {
   Send as SendIcon,
   AttachFile as AttachFileIcon,
   InsertPhoto as InsertPhotoIcon,
   InsertDriveFile as InsertDriveFileIcon,
   Lock as LockIcon
 } from '@mui/icons-material';
-import { theme } from '../../theme';
+import theme from '../../theme';
 
 /**
  * SecureMessagingPanel Component
- * 
+ *
  * Provides a secure messaging interface for RNs to communicate
  * with patients and other care team members.
- * 
+ *
  * @param {Object} props
  * @param {Object} props.conversation - Current conversation data
  * @param {Array} props.messages - Array of message objects
@@ -37,16 +37,16 @@ import { theme } from '../../theme';
  * @param {Function} props.onAttachFile - Function to call when attaching a file
  * @param {Function} props.onViewPatient - Function to call when viewing patient profile
  */
-const SecureMessagingPanel = ({ 
-  conversation, 
-  messages = [], 
+const SecureMessagingPanel = ({
+  conversation,
+  messages = [],
   patient,
   onSendMessage,
   onAttachFile,
   onViewPatient
 }) => {
   const [newMessage, setNewMessage] = useState('');
-  
+
   // Handle sending a new message
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -54,7 +54,7 @@ const SecureMessagingPanel = ({
       setNewMessage('');
     }
   };
-  
+
   // Handle key press in message input
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -62,20 +62,20 @@ const SecureMessagingPanel = ({
       handleSend();
     }
   };
-  
+
   // Format date for message timestamp
   const formatMessageTime = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
-  
+
   // Format date for message grouping
   const formatMessageDate = (timestamp) => {
     const date = new Date(timestamp);
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    
+
     if (date.toDateString() === today.toDateString()) {
       return 'Today';
     } else if (date.toDateString() === yesterday.toDateString()) {
@@ -88,11 +88,11 @@ const SecureMessagingPanel = ({
       });
     }
   };
-  
+
   // Group messages by date
   const groupMessagesByDate = () => {
     const groups = {};
-    
+
     messages.forEach(message => {
       const date = formatMessageDate(message.timestamp);
       if (!groups[date]) {
@@ -100,50 +100,50 @@ const SecureMessagingPanel = ({
       }
       groups[date].push(message);
     });
-    
+
     return Object.entries(groups).map(([date, messages]) => ({
       date,
       messages
     }));
   };
-  
+
   // Get message groups
   const messageGroups = groupMessagesByDate();
 
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Conversation Header */}
-      <Box 
-        sx={{ 
-          p: 2, 
+      <Box
+        sx={{
+          p: 2,
           borderBottom: `1px solid ${theme.palette.divider}`,
           backgroundColor: theme.palette.background.paper
         }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box display="flex" alignItems="center">
-            <Avatar 
-              src={patient?.profileImage} 
+            <Avatar
+              src={patient?.profileImage}
               alt={patient ? `${patient.firstName} ${patient.lastName}` : 'Patient'}
               sx={{ width: 48, height: 48 }}
             >
               {patient && patient.firstName[0] + patient.lastName[0]}
             </Avatar>
-            
+
             <Box ml={2}>
               <Typography variant="h6">
                 {patient ? `${patient.firstName} ${patient.lastName}` : 'Select a patient'}
               </Typography>
-              
+
               <Typography variant="body2" color="textSecondary">
                 {patient ? `ID: ${patient.patientId} • ${patient.gender}, ${patient.age} years` : ''}
               </Typography>
             </Box>
           </Box>
-          
+
           {patient && (
-            <Button 
-              variant="outlined" 
+            <Button
+              variant="outlined"
               size="small"
               onClick={onViewPatient}
             >
@@ -152,11 +152,11 @@ const SecureMessagingPanel = ({
           )}
         </Box>
       </Box>
-      
+
       {/* Messages Area */}
-      <Box 
-        sx={{ 
-          flex: 1, 
+      <Box
+        sx={{
+          flex: 1,
           overflowY: 'auto',
           p: 2,
           backgroundColor: theme.palette.grey[50]
@@ -166,9 +166,9 @@ const SecureMessagingPanel = ({
           messageGroups.map((group, groupIndex) => (
             <Box key={groupIndex} mb={3}>
               <DateDivider date={group.date} />
-              
+
               {group.messages.map((message, messageIndex) => (
-                <MessageBubble 
+                <MessageBubble
                   key={messageIndex}
                   message={message}
                   isFromClinician={message.senderType === 'clinician'}
@@ -177,10 +177,10 @@ const SecureMessagingPanel = ({
             </Box>
           ))
         ) : (
-          <Box 
-            display="flex" 
-            flexDirection="column" 
-            alignItems="center" 
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
             justifyContent="center"
             height="100%"
           >
@@ -189,18 +189,18 @@ const SecureMessagingPanel = ({
               Secure Messaging
             </Typography>
             <Typography variant="body2" color="textSecondary" align="center">
-              {patient 
+              {patient
                 ? 'Start a conversation with this patient. All messages are encrypted and HIPAA-compliant.'
                 : 'Select a patient to start a secure conversation.'}
             </Typography>
           </Box>
         )}
       </Box>
-      
+
       {/* Message Input Area */}
-      <Box 
-        sx={{ 
-          p: 2, 
+      <Box
+        sx={{
+          p: 2,
           borderTop: `1px solid ${theme.palette.divider}`,
           backgroundColor: theme.palette.background.paper
         }}
@@ -219,26 +219,26 @@ const SecureMessagingPanel = ({
             size="small"
             sx={{ mr: 2 }}
           />
-          
+
           <Box>
-            <IconButton 
-              color="primary" 
+            <IconButton
+              color="primary"
               onClick={() => onAttachFile('file')}
               disabled={!patient}
               sx={{ mr: 1 }}
             >
               <AttachFileIcon />
             </IconButton>
-            
-            <IconButton 
-              color="primary" 
+
+            <IconButton
+              color="primary"
               onClick={() => onAttachFile('image')}
               disabled={!patient}
               sx={{ mr: 1 }}
             >
               <InsertPhotoIcon />
             </IconButton>
-            
+
             <Button
               variant="contained"
               color="primary"
@@ -250,7 +250,7 @@ const SecureMessagingPanel = ({
             </Button>
           </Box>
         </Box>
-        
+
         <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
           <LockIcon fontSize="small" sx={{ color: theme.palette.grey[500], mr: 0.5 }} />
           <Typography variant="caption" color="textSecondary">
@@ -276,37 +276,37 @@ const DateDivider = ({ date }) => (
 const MessageBubble = ({ message, isFromClinician }) => {
   // Determine if message has attachments
   const hasAttachments = message.attachments && message.attachments.length > 0;
-  
+
   return (
-    <Box 
-      display="flex" 
+    <Box
+      display="flex"
       justifyContent={isFromClinician ? 'flex-end' : 'flex-start'}
       mb={1.5}
     >
       {!isFromClinician && (
-        <Avatar 
-          src={message.sender?.profileImage} 
+        <Avatar
+          src={message.sender?.profileImage}
           alt={message.sender?.name || 'Patient'}
           sx={{ width: 36, height: 36, mr: 1 }}
         >
           {message.sender?.name ? message.sender.name[0] : 'P'}
         </Avatar>
       )}
-      
+
       <Box maxWidth="70%">
         <Paper
           elevation={0}
           sx={{
             p: 1.5,
-            backgroundColor: isFromClinician 
-              ? theme.palette.primary.main 
+            backgroundColor: isFromClinician
+              ? theme.palette.primary.main
               : theme.palette.background.paper,
-            color: isFromClinician 
-              ? theme.palette.primary.contrastText 
+            color: isFromClinician
+              ? theme.palette.primary.contrastText
               : theme.palette.text.primary,
             borderRadius: 2,
-            ...(isFromClinician 
-              ? { borderBottomRightRadius: 0 } 
+            ...(isFromClinician
+              ? { borderBottomRightRadius: 0 }
               : { borderBottomLeftRadius: 0 }),
             ...(isFromClinician ? {} : { boxShadow: theme.shadows[1] })
           }}
@@ -316,22 +316,22 @@ const MessageBubble = ({ message, isFromClinician }) => {
               {message.sender?.name || 'Patient'}
             </Typography>
           )}
-          
+
           <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
             {message.content}
           </Typography>
-          
+
           {hasAttachments && (
             <Box mt={1}>
               {message.attachments.map((attachment, index) => (
-                <Box 
+                <Box
                   key={index}
                   display="flex"
                   alignItems="center"
                   p={1}
                   mt={0.5}
-                  bgcolor={isFromClinician 
-                    ? 'rgba(255, 255, 255, 0.1)' 
+                  bgcolor={isFromClinician
+                    ? 'rgba(255, 255, 255, 0.1)'
                     : theme.palette.grey[100]
                   }
                   borderRadius={1}
@@ -349,12 +349,12 @@ const MessageBubble = ({ message, isFromClinician }) => {
             </Box>
           )}
         </Paper>
-        
-        <Typography 
-          variant="caption" 
+
+        <Typography
+          variant="caption"
           color="textSecondary"
-          sx={{ 
-            display: 'block', 
+          sx={{
+            display: 'block',
             textAlign: isFromClinician ? 'right' : 'left',
             mt: 0.5
           }}
@@ -367,12 +367,12 @@ const MessageBubble = ({ message, isFromClinician }) => {
           )}
         </Typography>
       </Box>
-      
+
       {isFromClinician && (
-        <Avatar 
-          sx={{ 
-            width: 36, 
-            height: 36, 
+        <Avatar
+          sx={{
+            width: 36,
+            height: 36,
             ml: 1,
             backgroundColor: theme.palette.primary.dark
           }}

@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   vault:
     image: hashicorp/vault:1.13.3
@@ -137,6 +139,51 @@ services:
       - ojala-api
     environment:
       - REACT_APP_API_URL=http://localhost:5000
+    networks:
+      - ojala-network
+
+  patient-app:
+    build:
+      context: ./src/frontend/patient-app
+    container_name: ojala_platform_clean_scaffold_redo-patient-app-1
+    ports:
+      - "3001:80"
+    networks:
+      - ojala-network
+
+  rn-dashboard:
+    build:
+      context: ./src/frontend/rn-dashboard
+    container_name: ojala_platform_clean_scaffold_redo-rn-dashboard-1
+    ports:
+      - "3002:80"
+    networks:
+      - ojala-network
+
+  ojala.admin:
+    build:
+      context: ./src/frontend/ojala.admin
+    container_name: ojala_platform_clean_scaffold_redo-admin-1
+    ports:
+      - "3003:80"
+    networks:
+      - ojala-network
+
+  md-dashboard:
+    build:
+      context: ./src/frontend/md-dashboard
+    container_name: ojala_platform_clean_scaffold_redo-md-dashboard-1
+    ports:
+      - "3004:80"
+    networks:
+      - ojala-network
+
+  ojala.patientportal:
+    build:
+      context: ./src/frontend/Ojala.PatientPortal
+    container_name: ojala_platform_clean_scaffold_redo-patientportal-1
+    ports:
+      - "3005:80"
     networks:
       - ojala-network
 

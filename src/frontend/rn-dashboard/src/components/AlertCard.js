@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Card, 
-  CardContent, 
-  Grid, 
-  Chip, 
-  IconButton, 
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Grid,
+  Chip,
+  IconButton,
   Tooltip,
   Badge,
   LinearProgress
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { 
+import {
   Warning as WarningIcon,
   CheckCircle as CheckCircleIcon,
   ArrowUpward as ArrowUpwardIcon,
   ArrowDownward as ArrowDownwardIcon,
   MoreVert as MoreVertIcon
 } from '@mui/icons-material';
-import { theme } from '../../theme';
+import theme from '../../theme';
 
 /**
  * AlertCard Component
- * 
+ *
  * Displays an alert card for the RN dashboard with severity,
  * patient information, and action buttons.
- * 
+ *
  * @param {Object} props
  * @param {Object} props.alert - Alert data object
  * @param {Function} props.onAlertClick - Function to call when card is clicked
@@ -34,49 +34,49 @@ import { theme } from '../../theme';
  * @param {Function} props.onAssignClick - Function to call when assign button is clicked
  * @param {Function} props.onMoreClick - Function to call when more options button is clicked
  */
-const AlertCard = ({ 
-  alert, 
-  onAlertClick, 
-  onResolveClick, 
-  onAssignClick, 
-  onMoreClick 
+const AlertCard = ({
+  alert,
+  onAlertClick,
+  onResolveClick,
+  onAssignClick,
+  onMoreClick
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // Helper function to get severity color and icon
   const getSeverityInfo = (severity) => {
     switch(severity) {
       case 'critical':
-        return { 
-          color: theme.palette.error.main, 
+        return {
+          color: theme.palette.error.main,
           icon: <WarningIcon />,
           label: 'Critical'
         };
       case 'urgent':
-        return { 
-          color: theme.palette.error.light, 
+        return {
+          color: theme.palette.error.light,
           icon: <WarningIcon />,
           label: 'Urgent'
         };
       case 'warning':
-        return { 
-          color: theme.palette.warning.main, 
+        return {
+          color: theme.palette.warning.main,
           icon: <WarningIcon />,
           label: 'Warning'
         };
       case 'info':
       default:
-        return { 
-          color: theme.palette.info.main, 
+        return {
+          color: theme.palette.info.main,
           icon: <InfoIcon />,
           label: 'Info'
         };
     }
   };
-  
+
   // Get severity information
   const severityInfo = getSeverityInfo(alert.severity);
-  
+
   // Format time since alert was generated
   const formatTimeSince = (timestamp) => {
     const now = new Date();
@@ -85,7 +85,7 @@ const AlertCard = ({
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
-    
+
     if (diffMins < 60) {
       return `${diffMins}m ago`;
     } else if (diffHours < 24) {
@@ -94,39 +94,39 @@ const AlertCard = ({
       return `${diffDays}d ago`;
     }
   };
-  
+
   // Calculate escalation time remaining if applicable
   const getEscalationTimeRemaining = () => {
     if (!alert.escalation || !alert.escalation.autoEscalateAfter) return null;
-    
+
     const now = new Date();
     const alertTime = new Date(alert.timestamp);
     const escalateAfterMs = alert.escalation.autoEscalateAfter * 60000; // Convert minutes to ms
     const escalationTime = new Date(alertTime.getTime() + escalateAfterMs);
     const remainingMs = escalationTime - now;
-    
+
     if (remainingMs <= 0) return 'Escalated';
-    
+
     const remainingMins = Math.ceil(remainingMs / 60000);
     return `${remainingMins}m`;
   };
-  
+
   // Calculate escalation progress percentage
   const getEscalationProgress = () => {
     if (!alert.escalation || !alert.escalation.autoEscalateAfter) return 0;
-    
+
     const now = new Date();
     const alertTime = new Date(alert.timestamp);
     const escalateAfterMs = alert.escalation.autoEscalateAfter * 60000; // Convert minutes to ms
     const elapsedMs = now - alertTime;
-    
+
     if (elapsedMs >= escalateAfterMs) return 100;
-    
+
     return (elapsedMs / escalateAfterMs) * 100;
   };
 
   return (
-    <StyledCard 
+    <StyledCard
       onClick={onAlertClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -141,27 +141,27 @@ const AlertCard = ({
                 <SeverityIcon severity={alert.severity}>
                   {severityInfo.icon}
                 </SeverityIcon>
-                
+
                 <Box ml={1}>
-                  <Chip 
+                  <Chip
                     label={severityInfo.label}
                     size="small"
-                    sx={{ 
+                    sx={{
                       backgroundColor: severityInfo.color,
                       color: '#fff',
                       fontWeight: 'bold'
                     }}
                   />
-                  
+
                   <Typography variant="caption" sx={{ ml: 1, color: 'text.secondary' }}>
                     {formatTimeSince(alert.timestamp)}
                   </Typography>
                 </Box>
               </Box>
-              
+
               <Box>
                 {alert.actionRequired && (
-                  <Chip 
+                  <Chip
                     label="Action Required"
                     size="small"
                     color="error"
@@ -169,23 +169,23 @@ const AlertCard = ({
                     sx={{ mr: 1 }}
                   />
                 )}
-                
+
                 {alert.status === 'new' && (
-                  <Badge 
-                    color="error" 
+                  <Badge
+                    color="error"
                     variant="dot"
                     sx={{ mr: 1 }}
                   >
-                    <Chip 
+                    <Chip
                       label="New"
                       size="small"
                       color="primary"
                     />
                   </Badge>
                 )}
-                
+
                 {alert.status === 'in_progress' && (
-                  <Chip 
+                  <Chip
                     label="In Progress"
                     size="small"
                     color="warning"
@@ -195,46 +195,46 @@ const AlertCard = ({
               </Box>
             </Box>
           </Grid>
-          
+
           {/* Alert Title and Description */}
           <Grid item xs={12}>
             <Typography variant="h6" component="div">
               {alert.title}
             </Typography>
-            
+
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
               {alert.description}
             </Typography>
           </Grid>
-          
+
           {/* Patient Information */}
           <Grid item xs={12} sm={6}>
             <Box>
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 Patient
               </Typography>
-              
+
               <Typography variant="body1">
                 {alert.patient.firstName} {alert.patient.lastName}
               </Typography>
-              
+
               <Typography variant="body2" color="text.secondary">
                 ID: {alert.patient.patientId} • {alert.patient.age} years, {alert.patient.gender}
               </Typography>
-              
+
               <Box display="flex" alignItems="center" mt={1}>
-                <Chip 
+                <Chip
                   label={alert.patient.riskLevel}
                   size="small"
                   color={
-                    alert.patient.riskLevel === 'High' ? 'error' : 
+                    alert.patient.riskLevel === 'High' ? 'error' :
                     alert.patient.riskLevel === 'Moderate' ? 'warning' : 'success'
                   }
                   sx={{ mr: 1 }}
                 />
-                
+
                 {alert.patient.conditions.slice(0, 2).map((condition, index) => (
-                  <Chip 
+                  <Chip
                     key={index}
                     label={condition}
                     size="small"
@@ -245,25 +245,25 @@ const AlertCard = ({
               </Box>
             </Box>
           </Grid>
-          
+
           {/* Alert Details */}
           <Grid item xs={12} sm={6}>
             <Box>
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 Details
               </Typography>
-              
+
               <Box display="flex" alignItems="center" mb={1}>
                 <Typography variant="body2" sx={{ mr: 1 }}>
                   Vital Type:
                 </Typography>
-                <Chip 
+                <Chip
                   label={alert.vitalType || 'N/A'}
                   size="small"
                   variant="outlined"
                 />
               </Box>
-              
+
               {alert.value && (
                 <Box display="flex" alignItems="center" mb={1}>
                   <Typography variant="body2" sx={{ mr: 1 }}>
@@ -272,7 +272,7 @@ const AlertCard = ({
                   <Typography variant="body1" fontWeight="bold">
                     {alert.value} {alert.unit}
                   </Typography>
-                  
+
                   {alert.percentChange && (
                     <Box display="flex" alignItems="center" ml={1}>
                       {alert.percentChange > 0 ? (
@@ -280,7 +280,7 @@ const AlertCard = ({
                       ) : (
                         <ArrowDownwardIcon fontSize="small" color="success" />
                       )}
-                      <Typography 
+                      <Typography
                         variant="body2"
                         color={alert.percentChange > 0 ? 'error' : 'success'}
                       >
@@ -290,7 +290,7 @@ const AlertCard = ({
                   )}
                 </Box>
               )}
-              
+
               {alert.normalRange && (
                 <Box display="flex" alignItems="center">
                   <Typography variant="body2" sx={{ mr: 1 }}>
@@ -303,7 +303,7 @@ const AlertCard = ({
               )}
             </Box>
           </Grid>
-          
+
           {/* Escalation Timer (if applicable) */}
           {alert.escalation && alert.escalation.autoEscalateAfter && (
             <Grid item xs={12}>
@@ -316,9 +316,9 @@ const AlertCard = ({
                     {getEscalationTimeRemaining()}
                   </Typography>
                 </Box>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={getEscalationProgress()} 
+                <LinearProgress
+                  variant="determinate"
+                  value={getEscalationProgress()}
                   sx={{
                     height: 4,
                     borderRadius: 2,
@@ -332,12 +332,12 @@ const AlertCard = ({
               </Box>
             </Grid>
           )}
-          
+
           {/* Action Buttons */}
           <Grid item xs={12}>
             <Box display="flex" justifyContent="flex-end" mt={1}>
               {alert.assignedTo ? (
-                <Chip 
+                <Chip
                   label={`Assigned to: ${alert.assignedTo.name}`}
                   size="small"
                   color="primary"
@@ -359,7 +359,7 @@ const AlertCard = ({
                   </Button>
                 </Tooltip>
               )}
-              
+
               <Tooltip title="Resolve Alert">
                 <Button
                   variant="contained"
@@ -375,7 +375,7 @@ const AlertCard = ({
                   Resolve
                 </Button>
               </Tooltip>
-              
+
               <Tooltip title="More Options">
                 <IconButton
                   size="small"

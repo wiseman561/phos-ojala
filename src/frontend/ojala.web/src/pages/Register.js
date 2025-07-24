@@ -41,7 +41,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     const {
       firstName,
@@ -65,10 +65,10 @@ const Register = () => {
       setError('Password must be at least 8 characters long');
       return;
     }
-    
+
     setError('');
     setIsLoading(true);
-    
+
     try {
       const result = await register({
         firstName,
@@ -79,15 +79,16 @@ const Register = () => {
         phoneNumber,
         role
       });
-      
+
       if (result.success) {
-        navigate('/login');
+        // Registration successful - user should be auto-logged in by AuthContext
+        navigate('/');
       } else {
-        setError(result.message);
+        setError(result.message || 'Registration failed. Please try again.');
       }
     } catch (err) {
+      console.error('Unexpected registration error:', err);
       setError('An unexpected error occurred. Please try again.');
-      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -98,13 +99,13 @@ const Register = () => {
       <Typography variant="h5" component="h2" sx={{ mb: 3, fontWeight: 'bold', textAlign: 'center' }}>
         Create an Account
       </Typography>
-      
+
       {error && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {error}
         </Alert>
       )}
-      
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -171,7 +172,7 @@ const Register = () => {
           {/* add more roles if needed */}
         </Select>
       </FormControl>
-      
+
       <TextField
         name="password"
         label="Password"
@@ -184,7 +185,7 @@ const Register = () => {
         required
         helperText="Password must be at least 8 characters long"
       />
-      
+
       <TextField
         name="confirmPassword"
         label="Confirm Password"
@@ -196,7 +197,7 @@ const Register = () => {
         onChange={handleChange}
         required
       />
-      
+
       <Button
         type="submit"
         fullWidth
@@ -208,7 +209,7 @@ const Register = () => {
       >
         {isLoading ? <CircularProgress size={24} /> : 'Sign Up'}
       </Button>
-      
+
       <Box sx={{ textAlign: 'center' }}>
         <Typography variant="body2">
           Already have an account?{' '}

@@ -20,7 +20,7 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import AIInsights from './pages/AIInsights';
 
-// Protected route
+// Protected route component
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 export default function App() {

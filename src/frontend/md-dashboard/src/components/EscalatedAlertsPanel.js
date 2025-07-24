@@ -3,6 +3,8 @@ import { io } from 'socket.io-client';
 import { useAuth } from '../hooks/useAuth';
 import { formatDistanceToNow } from 'date-fns';
 import { AlertCircle, CheckCircle, ChevronDown, ChevronUp, Bell } from 'react-feather';
+import { Snackbar, Alert as MuiAlert } from '@mui/material';
+import signalRClient, { ChatMessage, PrivateMessage } from '../realtime/signalrClient';
 
 const EscalatedAlertsPanel = () => {
   const [activeAlerts, setActiveAlerts] = useState([]);
@@ -10,8 +12,12 @@ const EscalatedAlertsPanel = () => {
   const [showActiveOnly, setShowActiveOnly] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const [socket, setSocket] = useState(null);
+  const [signalRConnected, setSignalRConnected] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
   const { token } = useAuth();
-  
+
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
   const ALERTS_STREAMER_URL = process.env.REACT_APP_ALERTS_STREAMER_URL || 'http://localhost:5004';
 
@@ -24,19 +30,19 @@ const EscalatedAlertsPanel = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (activeResponse.ok) {
         const activeData = await activeResponse.json();
         setActiveAlerts(activeData);
       }
-      
+
       // Fetch all alerts to get acknowledged ones
       const allResponse = await fetch(`${API_URL}/alerts`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (allResponse.ok) {
         const allData = await allResponse.json();
         setAcknowledgedAlerts(allData.filter(alert => alert.isAcknowledged));
@@ -56,7 +62,7 @@ const EscalatedAlertsPanel = () => {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (response.ok) {
         // Update will come through WebSocket, but we can also update locally
         const alert = activeAlerts.find(a => a.id === alertId);
@@ -72,19 +78,67 @@ const EscalatedAlertsPanel = () => {
     }
   };
 
-  // Connect to WebSocket
+      // Snackbar helper function
+  const showSnackbar = useCallback((message, severity = 'info') => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  }, []);
+
+  const handleSnackbarClose = useCallback((event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  }, []);
+
+  // SignalR message handlers
+  const handleChatMessage = useCallback((message) => {
+    console.log('[EscalatedAlertsPanel] Received chat message:', message);
+    showSnackbar(`New message from ${message.user}: ${message.message}`, 'info');
+  }, [showSnackbar]);
+
+  const handlePrivateMessage = useCallback((message) => {
+    console.log('[EscalatedAlertsPanel] Received private message:', message);
+    showSnackbar(`Private message from ${message.sender}: ${message.message}`, 'warning');
+  }, [showSnackbar]);
+
+  const handleConnectionChange = useCallback((connected) => {
+    console.log('[EscalatedAlertsPanel] SignalR connection changed:', connected);
+    setSignalRConnected(connected);
+
+    if (connected) {
+      showSnackbar('Real-time connection established', 'success');
+    } else {
+      showSnackbar('Real-time connection lost', 'error');
+    }
+  }, [showSnackbar]);
+
+  // Connect to both WebSocket and SignalR
   useEffect(() => {
     if (!token) return;
-    
+
+    // SignalR connection setup
+    console.log('[EscalatedAlertsPanel] Setting up SignalR connection');
+
+    // Connect to SignalR
+    signalRClient.connect();
+
+    // Subscribe to SignalR events
+    const unsubscribeMessage = signalRClient.onMessage(handleChatMessage);
+    const unsubscribePrivateMessage = signalRClient.onPrivateMessage(handlePrivateMessage);
+    const unsubscribeConnection = signalRClient.onConnectionChange(handleConnectionChange);
+
+    // WebSocket connection setup (keeping existing functionality)
     const newSocket = io(`${ALERTS_STREAMER_URL}/ws/alerts`, {
       query: { token },
       transports: ['websocket']
     });
-    
+
     newSocket.on('connect', () => {
       console.log('Connected to alerts WebSocket');
     });
-    
+
     newSocket.on('emergency-alert', (alert) => {
       console.log('Received emergency alert:', alert);
       setActiveAlerts(prev => {
@@ -94,47 +148,56 @@ const EscalatedAlertsPanel = () => {
         }
         return [alert, ...prev];
       });
-      
+
       // Auto-expand panel when new alert arrives
       setIsExpanded(true);
+      showSnackbar(`Emergency Alert: ${alert.message}`, 'error');
     });
-    
+
     newSocket.on('alert-acknowledged', (ack) => {
       console.log('Alert acknowledged:', ack);
-      
+
       setActiveAlerts(prev => {
         const alertToMove = prev.find(a => a.id === ack.id);
         const filteredAlerts = prev.filter(a => a.id !== ack.id);
-        
+
         if (alertToMove) {
           alertToMove.isAcknowledged = true;
           alertToMove.acknowledgedAt = ack.acknowledgedAt;
           alertToMove.acknowledgedBy = ack.acknowledgedBy;
-          
+
           setAcknowledgedAlerts(prevAck => [alertToMove, ...prevAck]);
         }
-        
+
         return filteredAlerts;
       });
+
+      showSnackbar('Alert acknowledged successfully', 'success');
     });
-    
+
     newSocket.on('disconnect', () => {
       console.log('Disconnected from alerts WebSocket');
     });
-    
+
     newSocket.on('error', (error) => {
       console.error('WebSocket error:', error);
     });
-    
+
     setSocket(newSocket);
-    
+
     // Fetch initial alerts
     fetchAlerts();
-    
+
     return () => {
+      // Cleanup WebSocket
       newSocket.disconnect();
+
+      // Cleanup SignalR subscriptions
+      unsubscribeMessage();
+      unsubscribePrivateMessage();
+      unsubscribeConnection();
     };
-  }, [token, ALERTS_STREAMER_URL, fetchAlerts]);
+      }, [token, ALERTS_STREAMER_URL, fetchAlerts, handleChatMessage, handlePrivateMessage, handleConnectionChange]);
 
   // Format timestamp
   const formatTime = (timestamp) => {
@@ -176,7 +239,7 @@ const EscalatedAlertsPanel = () => {
   return (
     <div className="w-full">
       {/* Banner */}
-      <div 
+      <div
         className={`flex items-center justify-between p-3 ${
           activeAlerts.length > 0 ? 'bg-red-100 border-l-4 border-red-600' : 'bg-gray-100 border-l-4 border-gray-400'
         } cursor-pointer`}
@@ -185,7 +248,7 @@ const EscalatedAlertsPanel = () => {
         <div className="flex items-center">
           <Bell className={activeAlerts.length > 0 ? 'text-red-600 mr-2' : 'text-gray-600 mr-2'} size={20} />
           <span className="font-semibold">
-            {activeAlerts.length > 0 
+            {activeAlerts.length > 0
               ? `${activeAlerts.length} Emergency Alert${activeAlerts.length > 1 ? 's' : ''}`
               : 'No Emergency Alerts'}
           </span>
@@ -194,7 +257,7 @@ const EscalatedAlertsPanel = () => {
           {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </div>
       </div>
-      
+
       {/* Expanded Panel */}
       {isExpanded && (
         <div className="border border-gray-300 p-4 bg-white shadow-md">
@@ -213,7 +276,7 @@ const EscalatedAlertsPanel = () => {
               </label>
             </div>
           </div>
-          
+
           {/* Active Alerts */}
           {activeAlerts.length > 0 ? (
             <div className="mb-4">
@@ -255,7 +318,7 @@ const EscalatedAlertsPanel = () => {
               No active emergency alerts
             </div>
           )}
-          
+
           {/* Acknowledged Alerts */}
           {!showActiveOnly && acknowledgedAlerts.length > 0 && (
             <div>
@@ -282,7 +345,7 @@ const EscalatedAlertsPanel = () => {
                         </div>
                         {alert.acknowledgedAt && (
                           <div className="mt-1 text-xs text-gray-500">
-                            Acknowledged {formatTime(alert.acknowledgedAt)} 
+                            Acknowledged {formatTime(alert.acknowledgedAt)}
                             {alert.acknowledgedBy && ` by ${alert.acknowledgedBy}`}
                           </div>
                         )}
@@ -295,6 +358,23 @@ const EscalatedAlertsPanel = () => {
           )}
         </div>
       )}
+
+      {/* SignalR Notifications */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <MuiAlert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };

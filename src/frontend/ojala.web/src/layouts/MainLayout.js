@@ -9,7 +9,7 @@ const drawerWidth = 240;
 
 const MainLayout = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { currentUser, logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
@@ -72,9 +72,9 @@ const MainLayout = () => {
         </Typography>
       }>
         {dashboardItems.map((item) => (
-          <ListItem 
-            button 
-            key={item.text} 
+          <ListItem
+            button
+            key={item.text}
             onClick={() => item.external ? handleExternalNavigation(item.url) : handleNavigation(item.path)}
           >
             <ListItemIcon>
@@ -123,15 +123,15 @@ const MainLayout = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            {menuItems.find(item => item.path === window.location.pathname)?.text || 
+            {menuItems.find(item => item.path === window.location.pathname)?.text ||
              dashboardItems.find(item => item.path === window.location.pathname)?.text || 'Dashboard'}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="body2" sx={{ mr: 2 }}>
-              {currentUser?.firstName} {currentUser?.lastName}
+              {user?.firstName} {user?.lastName}
             </Typography>
             <Avatar sx={{ bgcolor: 'secondary.main' }}>
-              {currentUser?.firstName?.[0]}{currentUser?.lastName?.[0]}
+              {user?.firstName?.[0]}{user?.lastName?.[0]}
             </Avatar>
           </Box>
         </Toolbar>

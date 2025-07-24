@@ -10,31 +10,31 @@ WORKDIR /src
 COPY ["Directory.*.props", "./"]
 COPY ["Ojala.sln", "./"]
 
-# 2. copy all project files
-COPY ["src/backend/Ojala.Api/*.csproj", "backend/Ojala.Api/"]
-COPY ["src/backend/Ojala.Data/*.csproj", "backend/Ojala.Data/"]
-COPY ["src/backend/Ojala.Identity/*.csproj", "backend/Ojala.Identity/"]
-COPY ["src/backend/Ojala.HealthScore/*.csproj", "backend/Ojala.HealthScore/"]
-COPY ["src/backend/Ojala.ApiGateway/*.csproj", "backend/Ojala.ApiGateway/"]
-COPY ["src/backend/Ojala.Services/*.csproj", "backend/Ojala.Services/"]
-COPY ["src/shared/Ojala.Common/*.csproj", "shared/Ojala.Common/"]
-COPY ["src/shared/Ojala.Contracts/*.csproj", "shared/Ojala.Contracts/"]
+# 2. copy all project files (matching solution file paths)
+COPY ["src/backend/Ojala.Api/*.csproj", "src/backend/Ojala.Api/"]
+COPY ["src/backend/Ojala.Data/*.csproj", "src/backend/Ojala.Data/"]
+COPY ["src/backend/Ojala.Identity/*.csproj", "src/backend/Ojala.Identity/"]
+COPY ["src/backend/Ojala.HealthScore/*.csproj", "src/backend/Ojala.HealthScore/"]
+COPY ["src/backend/Ojala.ApiGateway/*.csproj", "src/backend/Ojala.ApiGateway/"]
+COPY ["src/backend/Ojala.Services/*.csproj", "src/backend/Ojala.Services/"]
+COPY ["src/shared/Ojala.Common/*.csproj", "src/shared/Ojala.Common/"]
+COPY ["src/shared/Ojala.Contracts/*.csproj", "src/shared/Ojala.Contracts/"]
 
 # 3. restore solution
 RUN dotnet restore "Ojala.sln"
 
 # 4. copy the rest of the source code
-COPY ["src/backend/Ojala.Api/", "backend/Ojala.Api/"]
-COPY ["src/backend/Ojala.Data/", "backend/Ojala.Data/"]
-COPY ["src/backend/Ojala.Identity/", "backend/Ojala.Identity/"]
-COPY ["src/backend/Ojala.HealthScore/", "backend/Ojala.HealthScore/"]
-COPY ["src/backend/Ojala.ApiGateway/", "backend/Ojala.ApiGateway/"]
-COPY ["src/backend/Ojala.Services/", "backend/Ojala.Services/"]
-COPY ["src/shared/Ojala.Common/", "shared/Ojala.Common/"]
-COPY ["src/shared/Ojala.Contracts/", "shared/Ojala.Contracts/"]
+COPY ["src/backend/Ojala.Api/", "src/backend/Ojala.Api/"]
+COPY ["src/backend/Ojala.Data/", "src/backend/Ojala.Data/"]
+COPY ["src/backend/Ojala.Identity/", "src/backend/Ojala.Identity/"]
+COPY ["src/backend/Ojala.HealthScore/", "src/backend/Ojala.HealthScore/"]
+COPY ["src/backend/Ojala.ApiGateway/", "src/backend/Ojala.ApiGateway/"]
+COPY ["src/backend/Ojala.Services/", "src/backend/Ojala.Services/"]
+COPY ["src/shared/Ojala.Common/", "src/shared/Ojala.Common/"]
+COPY ["src/shared/Ojala.Contracts/", "src/shared/Ojala.Contracts/"]
 
 # 5. publish only the API project
-RUN dotnet publish backend/Ojala.Api/Ojala.Api.csproj \
+RUN dotnet publish src/backend/Ojala.Api/Ojala.Api.csproj \
     -c Release -o /app/publish
 
 # ---------- runtime ----------

@@ -15,7 +15,8 @@ import {
   Chip,
   Alert
 } from '@mui/material';
-import { useEscalatedAlerts } from '../../../shared/hooks/useEscalatedAlerts';
+import { Warning as WarningIcon } from '@mui/icons-material';
+import { useEscalatedAlerts } from '../../hooks/useEscalatedAlerts';
 
 /**
  * RNAlertManager Component

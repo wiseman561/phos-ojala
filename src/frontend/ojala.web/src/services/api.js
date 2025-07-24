@@ -8,89 +8,9 @@ const api = axios.create({
   }
 });
 
-// Add a request interceptor to add auth token to requests
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Add a response interceptor to handle token refresh
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    const originalRequest = error.config;
-
-    // If the error is 401 and we haven't already tried to refresh the token
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        // Try to refresh the token
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) {
-          // No refresh token, redirect to login
-          window.location.href = '/login';
-          return Promise.reject(error);
-        }
-
-        const response = await axios.post('/api/auth/refresh', {
-          refreshToken
-        });
-
-        if (response.data.success) {
-          // Save the new token
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('refreshToken', response.data.refreshToken);
-
-          // Update the authorization header
-          api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-
-          // Retry the original request
-          return api(originalRequest);
-        } else {
-          // Refresh failed, redirect to login
-          window.location.href = '/login';
-          return Promise.reject(error);
-        }
-      } catch (refreshError) {
-        // Refresh failed, redirect to login
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
-
-// Auth API methods
-export const authApi = {
-  login: (email, password) => {
-    return api.post('/api/auth/login', { email, password });
-  },
-
-  register: (userData) => {
-    return api.post('/api/auth/register', userData);
-  },
-
-  logout: (userId) => {
-    return api.post('/api/auth/logout', { userId });
-  },
-
-  getProfile: () => {
-    return api.get('/api/auth/profile');
-  }
-};
+// Note: Authentication is now handled by AuthContext.tsx
+// The AuthContext sets up its own axios instance with token management
+// This api instance is for general use and will inherit auth headers when needed
 
 // Patients API methods
 export const patientsApi = {
@@ -192,6 +112,16 @@ export const healthcarePlansApi = {
 export const dashboardApi = {
   getData: () => {
     return api.get('/api/dashboard');
+  }
+};
+
+// Function to set auth token for this api instance
+// This can be called by AuthContext to sync tokens
+export const setAuthToken = (token) => {
+  if (token) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common['Authorization'];
   }
 };
 

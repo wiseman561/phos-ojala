@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import { useAuth } from '../hooks/useAuth';
 import { formatDistanceToNow } from 'date-fns';
 import { AlertCircle, CheckCircle, ChevronDown, ChevronUp, Bell } from 'react-feather';
+import { nurseApi } from '../services/apiClient';
 
 const EscalatedAlertsPanel = () => {
   const [activeAlerts, setActiveAlerts] = useState([]);
@@ -10,62 +11,53 @@ const EscalatedAlertsPanel = () => {
   const [showActiveOnly, setShowActiveOnly] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const [socket, setSocket] = useState(null);
-  const { token } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
   const ALERTS_STREAMER_URL = process.env.REACT_APP_ALERTS_STREAMER_URL || 'http://localhost:5004';
 
-  // Fetch initial alerts
+  // Get access token for WebSocket authentication
+  const getAccessToken = () => {
+    const tokens = localStorage.getItem('rn-dashboard-tokens');
+    if (tokens) {
+      const parsedTokens = JSON.parse(tokens);
+      return parsedTokens.accessToken;
+    }
+    return null;
+  };
+
+  // Fetch initial alerts using the API client
   const fetchAlerts = useCallback(async () => {
+    if (!isAuthenticated) return;
+    
     try {
-      // Fetch active alerts
-      const activeResponse = await fetch(`${API_URL}/alerts/active`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (activeResponse.ok) {
-        const activeData = await activeResponse.json();
-        setActiveAlerts(activeData);
-      }
+      // Fetch active alerts using API client
+      const activeResponse = await nurseApi.getActiveAlerts();
+      setActiveAlerts(activeResponse.data);
       
       // Fetch all alerts to get acknowledged ones
-      const allResponse = await fetch(`${API_URL}/alerts`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (allResponse.ok) {
-        const allData = await allResponse.json();
-        setAcknowledgedAlerts(allData.filter(alert => alert.isAcknowledged));
-      }
+      const allResponse = await nurseApi.getAllAlerts();
+      setAcknowledgedAlerts(allResponse.data.filter(alert => alert.isAcknowledged));
     } catch (error) {
       console.error('Error fetching alerts:', error);
     }
-  }, [API_URL, token]);
+  }, [isAuthenticated]);
 
-  // Acknowledge an alert
+  // Acknowledge an alert using API client
   const acknowledgeAlert = async (alertId) => {
+    if (!isAuthenticated) return;
+    
     try {
-      const response = await fetch(`${API_URL}/alerts/${alertId}/acknowledge`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      await nurseApi.acknowledgeAlert(alertId);
       
-      if (response.ok) {
-        // Update will come through WebSocket, but we can also update locally
-        const alert = activeAlerts.find(a => a.id === alertId);
-        if (alert) {
-          setActiveAlerts(prev => prev.filter(a => a.id !== alertId));
-          alert.isAcknowledged = true;
-          alert.acknowledgedAt = new Date().toISOString();
-          setAcknowledgedAlerts(prev => [alert, ...prev]);
-        }
+      // Update local state
+      const alert = activeAlerts.find(a => a.id === alertId);
+      if (alert) {
+        setActiveAlerts(prev => prev.filter(a => a.id !== alertId));
+        alert.isAcknowledged = true;
+        alert.acknowledgedAt = new Date().toISOString();
+        alert.acknowledgedBy = user?.id;
+        setAcknowledgedAlerts(prev => [alert, ...prev]);
       }
     } catch (error) {
       console.error('Error acknowledging alert:', error);
@@ -74,6 +66,9 @@ const EscalatedAlertsPanel = () => {
 
   // Connect to WebSocket
   useEffect(() => {
+    if (!isAuthenticated) return;
+    
+    const token = getAccessToken();
     if (!token) return;
     
     const newSocket = io(`${ALERTS_STREAMER_URL}/ws/alerts`, {
@@ -134,7 +129,7 @@ const EscalatedAlertsPanel = () => {
     return () => {
       newSocket.disconnect();
     };
-  }, [token, ALERTS_STREAMER_URL, fetchAlerts]);
+  }, [isAuthenticated, ALERTS_STREAMER_URL, fetchAlerts]);
 
   // Format timestamp
   const formatTime = (timestamp) => {
@@ -173,6 +168,11 @@ const EscalatedAlertsPanel = () => {
     }
   };
 
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="w-full">
       {/* Banner */}
@@ -198,101 +198,103 @@ const EscalatedAlertsPanel = () => {
       {/* Expanded Panel */}
       {isExpanded && (
         <div className="border border-gray-300 p-4 bg-white shadow-md">
-          {/* Filter Toggle */}
-          <div className="mb-4 flex justify-between items-center">
-            <h3 className="text-lg font-semibold">Alert Details</h3>
-            <div className="flex items-center">
-              <label className="inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="form-checkbox h-5 w-5 text-blue-600"
-                  checked={showActiveOnly}
-                  onChange={() => setShowActiveOnly(!showActiveOnly)}
-                />
-                <span className="ml-2 text-gray-700">Show Active Only</span>
-              </label>
-            </div>
+          {/* Filter buttons */}
+          <div className="flex space-x-2 mb-4">
+            <button
+              className={`px-3 py-1 rounded text-sm ${
+                showActiveOnly 
+                  ? 'bg-red-600 text-white' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+              onClick={() => setShowActiveOnly(true)}
+            >
+              Active ({activeAlerts.length})
+            </button>
+            <button
+              className={`px-3 py-1 rounded text-sm ${
+                !showActiveOnly 
+                  ? 'bg-green-600 text-white' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+              onClick={() => setShowActiveOnly(false)}
+            >
+              Acknowledged ({acknowledgedAlerts.length})
+            </button>
           </div>
-          
-          {/* Active Alerts */}
-          {activeAlerts.length > 0 ? (
-            <div className="mb-4">
-              <h4 className="font-medium text-gray-700 mb-2">Active Alerts</h4>
-              <div className="space-y-3">
-                {activeAlerts.map(alert => (
-                  <div key={alert.id} className="border-l-4 border-red-500 bg-red-50 p-3 rounded-r">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="flex items-center">
+
+          {/* Alerts List */}
+          <div className="max-h-96 overflow-y-auto">
+            {showActiveOnly ? (
+              activeAlerts.length > 0 ? (
+                activeAlerts.map((alert) => (
+                  <div key={alert.id} className="border-b border-gray-200 py-3 last:border-b-0">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
                           {getSeverityIcon(alert.severity)}
-                          <span className={`ml-2 font-semibold ${getSeverityColor(alert.severity)}`}>
+                          <span className={`font-semibold text-sm ${getSeverityColor(alert.severity)}`}>
                             {alert.severity}
                           </span>
-                          <span className="ml-2 text-sm text-gray-500">
+                          <span className="text-xs text-gray-500">
                             {formatTime(alert.timestamp)}
                           </span>
                         </div>
-                        <p className="mt-1 text-gray-800">{alert.message}</p>
-                        <div className="mt-1 text-sm text-gray-600">
-                          <span>Patient ID: {alert.patientId}</span>
-                          <span className="ml-3">Metric: {alert.metric}</span>
-                          <span className="ml-3">Value: {alert.value}</span>
+                        <h4 className="font-medium text-gray-900 mb-1">{alert.title}</h4>
+                        <p className="text-sm text-gray-600 mb-2">{alert.description}</p>
+                        <div className="text-xs text-gray-500">
+                          <span>Patient: {alert.patientName || 'Unknown'}</span>
+                          {alert.location && <span> • Location: {alert.location}</span>}
                         </div>
                       </div>
-                      <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
-                        onClick={() => acknowledgeAlert(alert.id)}
-                      >
-                        Acknowledge
-                      </button>
+                      <div className="ml-4">
+                        <button
+                          onClick={() => acknowledgeAlert(alert.id)}
+                          className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors"
+                        >
+                          Acknowledge
+                        </button>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="text-center py-4 text-gray-500">
-              No active emergency alerts
-            </div>
-          )}
-          
-          {/* Acknowledged Alerts */}
-          {!showActiveOnly && acknowledgedAlerts.length > 0 && (
-            <div>
-              <h4 className="font-medium text-gray-700 mb-2">Acknowledged Alerts</h4>
-              <div className="space-y-3">
-                {acknowledgedAlerts.map(alert => (
-                  <div key={alert.id} className="border-l-4 border-gray-300 bg-gray-50 p-3 rounded-r opacity-75">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="flex items-center">
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <CheckCircle className="mx-auto mb-2 text-green-500" size={32} />
+                  <p>No active emergency alerts</p>
+                </div>
+              )
+            ) : (
+              acknowledgedAlerts.length > 0 ? (
+                acknowledgedAlerts.map((alert) => (
+                  <div key={alert.id} className="border-b border-gray-200 py-3 last:border-b-0 opacity-75">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
                           <CheckCircle className="text-green-600" size={18} />
-                          <span className="ml-2 font-semibold text-gray-600">
-                            {alert.severity} (Acknowledged)
+                          <span className="font-semibold text-sm text-green-600">
+                            Acknowledged
                           </span>
-                          <span className="ml-2 text-sm text-gray-500">
-                            {formatTime(alert.timestamp)}
+                          <span className="text-xs text-gray-500">
+                            {formatTime(alert.acknowledgedAt)}
                           </span>
                         </div>
-                        <p className="mt-1 text-gray-700">{alert.message}</p>
-                        <div className="mt-1 text-sm text-gray-600">
-                          <span>Patient ID: {alert.patientId}</span>
-                          <span className="ml-3">Metric: {alert.metric}</span>
-                          <span className="ml-3">Value: {alert.value}</span>
+                        <h4 className="font-medium text-gray-700 mb-1">{alert.title}</h4>
+                        <p className="text-sm text-gray-500 mb-2">{alert.description}</p>
+                        <div className="text-xs text-gray-400">
+                          <span>Patient: {alert.patientName || 'Unknown'}</span>
+                          {alert.acknowledgedBy && <span> • Acknowledged by: Nurse {alert.acknowledgedBy}</span>}
                         </div>
-                        {alert.acknowledgedAt && (
-                          <div className="mt-1 text-xs text-gray-500">
-                            Acknowledged {formatTime(alert.acknowledgedAt)} 
-                            {alert.acknowledgedBy && ` by ${alert.acknowledgedBy}`}
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No acknowledged alerts</p>
+                </div>
+              )
+            )}
+          </div>
         </div>
       )}
     </div>

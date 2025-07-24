@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -16,12 +16,23 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get the intended destination from state, or default to home
+  const from = (location.state as any)?.from?.pathname || '/';
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && !authLoading) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, authLoading, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
@@ -31,15 +42,37 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await login(email, password);
-      navigate('/');
+      const result = await login(email, password);
+
+      if (result.success) {
+        // Navigation will be handled by the useEffect above when isAuthenticated changes
+        console.log('Login successful');
+      } else {
+        setError(result.message || 'Login failed. Please try again.');
+      }
     } catch (err: any) {
-      console.error('Login error:', err);
-      setError(err.response?.data?.message || 'Invalid email or password');
+      console.error('Unexpected login error:', err);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '50vh'
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -71,6 +104,7 @@ const Login: React.FC = () => {
         onChange={(e) => setEmail(e.target.value)}
         required
         autoFocus
+        disabled={isLoading}
       />
 
       <TextField
@@ -82,6 +116,7 @@ const Login: React.FC = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
+        disabled={isLoading}
       />
 
       <Button
@@ -108,4 +143,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login; 
+export default Login;

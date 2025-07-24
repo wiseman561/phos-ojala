@@ -1,6 +1,58 @@
-**
+# Build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Version control
+.git/
+.gitignore
+
+# IDE and editor files
+.vs/
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+# Log files
+*.log
+logs/
+
+# Test results
+test-results/
+TestResults/
+**/test-results/
+**/TestResults/
+
+# Temporary files
+*.tmp
+*.temp
+**/tmp/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Docker files (except current)
+**/Dockerfile
 !Dockerfile
-!*.csproj
-!**/*.cs
-!**/*.config
-!appsettings*.json
+
+# Documentation
+README.md
+docs/
+**/docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Other build outputs
+*.exe
+*.dll
+*.pdb

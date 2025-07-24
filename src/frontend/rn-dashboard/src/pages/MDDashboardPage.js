@@ -14,19 +14,19 @@ import {
 import { Home as HomeIcon, NavigateNext as NavigateNextIcon } from '@mui/icons-material';
 
 // Import custom components
-import MDAlertQueue from '../../../components/MDAlertQueue';
-import CarePlanApprovalModal from '../../../components/CarePlanApprovalModal';
-import ConditionFilterBar from '../../../components/ConditionFilterBar';
-import QuickNotesBox from '../../../components/QuickNotesBox';
+import MDAlertQueue from '../components/MDAlertQueue';
+import CarePlanApprovalModal from '../components/CarePlanApprovalModal';
+import ConditionFilterBar from '../components/ConditionFilterBar';
+import QuickNotesBox from '../components/QuickNotesBox';
 
-// In a real application, these would be imported from shared components
-import PatientSummaryCard from '../../../../rn-dashboard/components/patient-list/PatientCard';
-import VitalsTrendChart from '../../../../rn-dashboard/components/health-score/HealthScoreCard';
-import AlertTimeline from '../../../../rn-dashboard/components/alerts/AlertCard';
+// Import shared components
+import PatientSummaryCard from '../components/patient-list/PatientCard';
+import VitalsTrendChart from '../components/health-score/HealthScoreCard';
+import AlertTimeline from '../components/alerts/AlertCard';
 
 /**
  * MD Dashboard Page
- * 
+ *
  * Main dashboard for physicians to review patients escalated by RNs or the AI engine,
  * approve care plans, and oversee long-term outcomes.
  */
@@ -93,8 +93,8 @@ const MDDashboardPage = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       {/* Breadcrumbs navigation */}
-      <Breadcrumbs 
-        separator={<NavigateNextIcon fontSize="small" />} 
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
         sx={{ mb: 3 }}
       >
@@ -145,9 +145,9 @@ const MDDashboardPage = () => {
                           Patient Summary
                         </Typography>
                         <Box>
-                          <Link 
-                            component="button" 
-                            variant="body2" 
+                          <Link
+                            component="button"
+                            variant="body2"
                             onClick={handleOpenCarePlan}
                             sx={{ ml: 2 }}
                           >
@@ -195,13 +195,13 @@ const MDDashboardPage = () => {
                 />
               </>
             ) : (
-              <Paper 
-                elevation={0} 
-                sx={{ 
-                  p: 4, 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   height: '70vh',
                   bgcolor: 'background.default',
@@ -222,9 +222,9 @@ const MDDashboardPage = () => {
       )}
 
       {/* Notification snackbar */}
-      <Snackbar 
-        open={notification.open} 
-        autoHideDuration={6000} 
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={6000}
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >

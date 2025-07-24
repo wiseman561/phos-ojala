@@ -23,7 +23,11 @@ namespace Ojala.Common.Extensions
             // Add Vault client configuration
             services.Configure<VaultOptions>(options =>
             {
-                configuration.GetSection("Vault").Bind(options);
+                var section = configuration.GetSection("Vault");
+                options.Address = section["Address"] ?? throw new InvalidOperationException("Vault:Address is required");
+                options.Token = section["Token"] ?? throw new InvalidOperationException("Vault:Token is required");
+                options.RoleId = section["RoleId"];
+                options.SecretId = section["SecretId"];
             });
 
             // Add Vault client service
@@ -78,12 +82,12 @@ namespace Ojala.Common.Extensions
         /// <summary>
         /// Gets or sets the Vault address
         /// </summary>
-        public required string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the Vault token
         /// </summary>
-        public required string Token { get; set; }
+        public string Token { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the Vault role ID for AppRole authentication
@@ -122,7 +126,16 @@ namespace Ojala.Common.Extensions
         /// <param name="options">The Vault options</param>
         public VaultClient(IOptions<VaultOptions> options)
         {
-            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            if (options?.Value == null)
+                throw new ArgumentNullException(nameof(options));
+
+            if (string.IsNullOrEmpty(options.Value.Address))
+                throw new ArgumentException("Vault address is required", nameof(options));
+
+            if (string.IsNullOrEmpty(options.Value.Token))
+                throw new ArgumentException("Vault token is required", nameof(options));
+
+            _options = options.Value;
         }
 
         /// <inheritdoc/>

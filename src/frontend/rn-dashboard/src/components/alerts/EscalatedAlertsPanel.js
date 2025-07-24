@@ -18,7 +18,7 @@ import {
   Info as InfoIcon
 } from '@mui/icons-material';
 import { formatDistanceToNow } from 'date-fns';
-import { useEscalatedAlerts } from '../../../shared/hooks/useEscalatedAlerts';
+import { useEscalatedAlerts } from '../../hooks/useEscalatedAlerts';
 
 /**
  * EscalatedAlertsPanel Component
