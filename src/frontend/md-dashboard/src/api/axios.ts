@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 // Create axios instance with base configuration
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://localhost:5000/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ apiClient.interceptors.request.use(
 
     // Try to get token from localStorage if not already set
     if (!config.headers.Authorization) {
-      const savedTokens = localStorage.getItem('md-dashboard-tokens');
+      const savedTokens = localStorage.getItem('md-tokens');
       if (savedTokens) {
         try {
           const tokens = JSON.parse(savedTokens);
@@ -64,7 +64,7 @@ apiClient.interceptors.response.use(
         case 401:
           console.error('Unauthorized - Invalid or expired token');
           // Clear invalid tokens
-          localStorage.removeItem('md-dashboard-tokens');
+          localStorage.removeItem('md-tokens');
           // Redirect to login will be handled by AuthContext
           break;
         case 403:

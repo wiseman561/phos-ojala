@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
@@ -124,7 +124,7 @@ const isPatientRole = (role: string): boolean => role === 'patient';
 const isAdminRole = (role: string): boolean => Object.values(ADMIN_ROLES).includes(role as AdminRole);
 
 export const createAuthProvider = (config: AuthConfig) => {
-  return ({ children }: { children: ReactNode }) => {
+  return ({ children }: { children: React.ReactNode }) => {
     const [tokens, setTokens] = useState<TokenPair | null>(() => {
       const savedTokens = localStorage.getItem(config.storageKey);
       return savedTokens ? JSON.parse(savedTokens) : null;

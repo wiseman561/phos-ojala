@@ -6,4 +6,4 @@ export {
   type AdminRole,
   type AuthContextType,
   type User
-} from '../../shared/contexts/AuthContext';
+} from './auth/AuthContext';

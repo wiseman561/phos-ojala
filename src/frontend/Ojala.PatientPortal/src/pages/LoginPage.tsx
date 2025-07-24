@@ -24,7 +24,7 @@ import {
   Lock,
 } from '@mui/icons-material';
 
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);

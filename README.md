@@ -65,3 +65,70 @@ The MD Dashboard provides physicians with a centralized interface to manage pati
 1. Copy the example environment file:
    ```bash
    cp .env.example .env
+   ```
+
+## 🛠 Local Backend Dev with Hot Reload
+
+For the best development experience with hot reload and minimal Docker overhead:
+
+### Quick Start
+```bash
+# Start backend services with hot reload
+./scripts/dev-start-backend.sh
+```
+
+This script:
+- ✅ Starts Redis and PostgreSQL in Docker containers
+- ✅ Runs Identity and API services locally with `dotnet watch run`
+- ✅ Enables hot reload for instant code changes
+- ✅ Sets up proper environment variables
+- ✅ Provides clean, organized logging
+
+### What's Running
+- **Redis**: `localhost:6379` (Docker container)
+- **PostgreSQL**: `localhost:5432` (Docker container)
+- **Identity API**: `http://localhost:5501` (local with hot reload)
+- **Main API**: `http://localhost:8080` (local with hot reload)
+
+### Testing the Event-Driven Architecture
+```bash
+# Test the complete patient registration flow
+./scripts/dev-test-patient-flow.sh
+```
+
+This tests:
+- ✅ User registration via Identity API
+- ✅ Event publishing to Redis
+- ✅ Automatic patient creation via API
+- ✅ Verification of the complete flow
+
+### Frontend Development
+Frontend applications should be run separately using their native dev servers:
+
+```bash
+# MD Dashboard
+cd src/frontend/md-dashboard
+npm run dev
+
+# Patient Portal
+cd src/frontend/Ojala.PatientPortal
+npm start
+
+# RN Dashboard
+cd src/frontend/rn-dashboard
+npm run dev
+```
+
+### Benefits of This Approach
+- 🚀 **Fast startup**: No Docker builds required
+- 🔄 **Hot reload**: Instant code changes
+- 🐛 **Better debugging**: Direct access to logs and debugging
+- 💾 **Resource efficient**: Minimal Docker overhead
+- 🔧 **Flexible**: Easy to modify and test individual services
+
+### Troubleshooting
+If you encounter issues:
+1. **Check services**: `docker ps` to verify Redis/PostgreSQL are running
+2. **Check ports**: Ensure ports 5501, 8080, 6379, 5432 are available
+3. **Restart services**: `./scripts/dev-start-backend.sh` to restart everything
+4. **View logs**: Check individual service logs for errors

@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Box, Container, Typography, Paper } from '@mui/material';
 import { LocalHospital, Dashboard, AccountCircle } from '@mui/icons-material';
 
-import { useAuth } from './contexts/AuthContext';
+import { useAuth } from './contexts/auth/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';

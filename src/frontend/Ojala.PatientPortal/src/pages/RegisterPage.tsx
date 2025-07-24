@@ -28,7 +28,7 @@ import {
   CalendarToday,
 } from '@mui/icons-material';
 
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 
 interface RegisterFormValues {
   firstName: string;

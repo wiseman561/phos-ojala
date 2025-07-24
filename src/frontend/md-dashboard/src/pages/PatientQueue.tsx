@@ -20,11 +20,10 @@ import {
   IconButton,
   Avatar,
 } from '@mui/material';
-import { AccountCircle, Logout } from '@mui/icons-material';
-import apiClient from '../api/axios';
-import { setupMockServer } from '../api/mockServer';
-import { Patient } from '../mocks/mockPatients';
+import { AccountCircle, Logout, PersonOff } from '@mui/icons-material';
+import { Patient } from '../services/patientService';
 import { useAuth } from '../hooks/useAuth';
+import patientService from '../services/patientService';
 
 const getHealthScoreColor = (score: number): 'error' | 'warning' | 'success' => {
   if (score < 60) return 'error';
@@ -40,9 +39,8 @@ const PatientQueue: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  // Initialize mock server and fetch patients
+  // Fetch patients on component mount
   useEffect(() => {
-    setupMockServer();
     fetchPatients();
   }, []);
 
@@ -50,37 +48,43 @@ const PatientQueue: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiClient.get<Patient[]>('/patients');
-      setPatients(response.data);
+      console.log('[PatientQueue] Fetching patients...');
+      const patientsData = await patientService.getPatients();
+      setPatients(patientsData);
+      console.log(`[PatientQueue] Loaded ${patientsData.length} patients`);
     } catch (err) {
-      setError('Error loading patients. Please try again.');
-      console.error('Error fetching patients:', err);
+      const errorMessage = 'Error loading patients. Please try again.';
+      setError(errorMessage);
+      console.error('[PatientQueue] Error fetching patients:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleView = (patientId: number) => {
+  const handleView = (patientId: string) => {
+    console.log(`[PatientQueue] Navigating to patient detail: ${patientId}`);
     navigate(`/patient/${patientId}`);
   };
 
-  const handleAssignRN = async (patientId: number, patientName: string) => {
+  const handleAssignRN = async (patientId: string, patientName: string) => {
     try {
-      const response = await apiClient.post(`/patients/${patientId}/assign-rn`);
-      console.log(`RN assigned to ${patientName}:`, response.data);
+      console.log(`[PatientQueue] Assigning RN to patient: ${patientName} (${patientId})`);
+      const result = await patientService.assignRN(patientId);
+      console.log(`[PatientQueue] RN assigned to ${patientName}:`, result);
       // You could show a success message here
     } catch (err) {
-      console.error(`Error assigning RN to ${patientName}:`, err);
+      console.error(`[PatientQueue] Error assigning RN to ${patientName}:`, err);
     }
   };
 
-  const handleEscalate = async (patientId: number, patientName: string) => {
+  const handleEscalate = async (patientId: string, patientName: string) => {
     try {
-      const response = await apiClient.post(`/patients/${patientId}/escalate`);
-      console.log(`${patientName} escalated to MD:`, response.data);
+      console.log(`[PatientQueue] Escalating patient: ${patientName} (${patientId})`);
+      const result = await patientService.escalatePatient(patientId);
+      console.log(`[PatientQueue] ${patientName} escalated to MD:`, result);
       // You could show a success message here
     } catch (err) {
-      console.error(`Error escalating ${patientName}:`, err);
+      console.error(`[PatientQueue] Error escalating ${patientName}:`, err);
     }
   };
 
@@ -129,7 +133,7 @@ const PatientQueue: React.FC = () => {
               color="inherit"
             >
               <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.dark' }}>
-                {user?.name?.charAt(0) || user?.firstName?.charAt(0) || 'D'}
+                {user?.firstName?.charAt(0) || 'D'}
               </Avatar>
             </IconButton>
             <Menu
@@ -149,7 +153,7 @@ const PatientQueue: React.FC = () => {
             >
               <MenuItem onClick={handleProfileMenuClose} disabled>
                 <AccountCircle sx={{ mr: 1 }} />
-                {user?.name || `${user?.firstName} ${user?.lastName}` || user?.email}
+                {`${user?.firstName} ${user?.lastName}` || user?.email}
               </MenuItem>
               <MenuItem onClick={handleLogout}>
                 <Logout sx={{ mr: 1 }} />
@@ -160,7 +164,7 @@ const PatientQueue: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-            <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         <Typography variant="h4" gutterBottom sx={{ mb: 4, fontWeight: 'bold' }}>
           Patient Queue
         </Typography>
@@ -187,111 +191,137 @@ const PatientQueue: React.FC = () => {
           </Alert>
         )}
 
+        {/* Empty State */}
+        {!loading && !error && patients.length === 0 && (
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            py: 8,
+            textAlign: 'center'
+          }}>
+            <PersonOff sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
+            <Typography variant="h5" color="text.secondary" gutterBottom>
+              No patients yet
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+              Patients will appear here once they are registered in the system.
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={fetchPatients}
+              sx={{ mr: 2 }}
+            >
+              Refresh
+            </Button>
+          </Box>
+        )}
+
         {/* Patients Grid */}
-        {!loading && !error && (
+        {!loading && !error && patients.length > 0 && (
           <Grid container spacing={3}>
             {patients.map((patient) => (
-          <Grid item xs={12} sm={6} md={4} key={patient.id}>
-            <Card
-              sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                  boxShadow: 6,
-                },
-              }}
-            >
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                  <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold' }}>
-                    {patient.name}
-                  </Typography>
-                  <Chip
-                    label={patient.healthScore}
-                    color={getHealthScoreColor(patient.healthScore)}
-                    size="small"
-                    sx={{ fontWeight: 'bold' }}
-                  />
-                </Box>
-
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  Age: {patient.age}
-                </Typography>
-
-                <Paper
-                  elevation={0}
+              <Grid item xs={12} sm={6} md={4} key={patient.id}>
+                <Card
                   sx={{
-                    p: 1,
-                    backgroundColor: 'grey.50',
-                    borderRadius: 1,
-                    mb: 2,
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: 6,
+                    },
                   }}
                 >
-                  <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                    {patient.condition}
-                  </Typography>
-                </Paper>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                      <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold' }}>
+                        {patient.name || `${patient.firstName || 'Unknown'} ${patient.lastName || 'Patient'}`}
+                      </Typography>
+                      <Chip
+                        label={patient.healthScore || 'N/A'}
+                        color={patient.healthScore ? getHealthScoreColor(patient.healthScore) : 'default'}
+                        size="small"
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography variant="caption" color="text.secondary">
-                    Health Score:
-                  </Typography>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: 6,
-                      backgroundColor: 'grey.200',
-                      borderRadius: 3,
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <Box
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      Age: {patient.age || 'Unknown'}
+                    </Typography>
+
+                    <Paper
+                      elevation={0}
                       sx={{
-                        width: `${patient.healthScore}%`,
-                        height: '100%',
-                        backgroundColor:
-                          patient.healthScore < 60 ? 'error.main' :
-                          patient.healthScore <= 80 ? 'warning.main' : 'success.main',
-                        transition: 'width 0.3s ease',
+                        p: 1,
+                        backgroundColor: 'grey.50',
+                        borderRadius: 1,
+                        mb: 2,
                       }}
-                    />
-                  </Box>
-                </Box>
-              </CardContent>
+                    >
+                      <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                        {patient.condition || 'General Care'}
+                      </Typography>
+                    </Paper>
 
-              <CardActions sx={{ p: 2, pt: 0 }}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() => handleView(patient.id)}
-                  sx={{ mr: 1 }}
-                >
-                  View
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleAssignRN(patient.id, patient.name)}
-                  sx={{ mr: 1 }}
-                >
-                  Assign RN
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleEscalate(patient.id, patient.name)}
-                >
-                  Escalate
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="caption" color="text.secondary">
+                        Health Score:
+                      </Typography>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: 6,
+                          backgroundColor: 'grey.200',
+                          borderRadius: 3,
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: `${patient.healthScore || 0}%`,
+                            height: '100%',
+                            backgroundColor:
+                              (patient.healthScore || 0) < 60 ? 'error.main' :
+                              (patient.healthScore || 0) <= 80 ? 'warning.main' : 'success.main',
+                            transition: 'width 0.3s ease',
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  </CardContent>
+
+                  <CardActions sx={{ p: 2, pt: 0 }}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => handleView(patient.id || '')}
+                      sx={{ mr: 1 }}
+                    >
+                      View
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleAssignRN(patient.id || '', patient.name || 'Patient')}
+                      sx={{ mr: 1 }}
+                    >
+                      Assign RN
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="error"
+                      onClick={() => handleEscalate(patient.id || '', patient.name || 'Patient')}
+                    >
+                      Escalate
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         )}
       </Container>

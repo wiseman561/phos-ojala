@@ -25,6 +25,10 @@ using Ojala.Common.Email;
 using Ojala.Services.Interfaces;
 using Ojala.Services.Implementations;
 using Ojala.Api.Hubs;
+using StackExchange.Redis;
+using Ojala.Common.Events;
+using Ojala.Contracts.Events;
+using Ojala.Api.Listeners;
 
 // Make the Program class accessible for tests
 [assembly: InternalsVisibleTo("Ojala.Tests.Integration")]
@@ -133,6 +137,19 @@ builder.Services.RegisterNurseAssistantServices(builder.Configuration);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Add Redis and Event Bus
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("Redis") ?? "localhost:6379";
+    return ConnectionMultiplexer.Connect(connectionString);
+});
+
+builder.Services.AddSingleton<IEventBus, RedisEventBus>();
+
+// Add Event Handlers
+builder.Services.AddHostedService<UserRegisteredHandler>();
 
 var app = builder.Build();
 

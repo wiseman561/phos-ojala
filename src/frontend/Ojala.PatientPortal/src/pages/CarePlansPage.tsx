@@ -59,7 +59,7 @@ import {
 } from '@mui/icons-material';
 import { format, isAfter, isBefore, addDays } from 'date-fns';
 
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 import { patientApi, handleApiError } from '../services/apiClient';
 
 // TypeScript interfaces

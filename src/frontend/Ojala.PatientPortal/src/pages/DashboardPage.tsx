@@ -40,7 +40,7 @@ import {
   NotificationsActive,
 } from '@mui/icons-material';
 
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 import { patientApi, handleApiError } from '../services/apiClient';
 
 // TypeScript interfaces

@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import App from './App';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/auth/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import theme from './theme';
 import './index.css';

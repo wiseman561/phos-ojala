@@ -10,19 +10,26 @@ import {
   Toolbar,
 } from '@mui/material';
 import EscalatedAlertsPanel from '../components/EscalatedAlertsPanel';
-import { setupMockServer } from '../api/mockServer';
 import signalRClient from '../realtime/signalrClient';
+import alertService from '../services/alertService';
+
+console.log('[EscalatedAlerts] EscalatedAlertsPanel import:', EscalatedAlertsPanel);
+
+// Force reload - debug messages should appear after this
+console.log('[EscalatedAlerts] Component file loaded successfully');
 
 const EscalatedAlerts: React.FC = () => {
   const navigate = useNavigate();
 
-  // Initialize mock server and SignalR connection
+  // Initialize alert service connection
   useEffect(() => {
-    setupMockServer();
+    // Initialize alert service connection
+    console.log('[EscalatedAlerts] Initializing alert service connection');
+    alertService.connect();
 
-    // Initialize SignalR connection if not already connected
+    // Initialize legacy SignalR connection if not already connected
     if (!signalRClient.isConnected()) {
-      console.log('[EscalatedAlerts] Initializing SignalR connection');
+      console.log('[EscalatedAlerts] Initializing legacy SignalR connection');
       signalRClient.connect();
     }
   }, []);
@@ -39,6 +46,24 @@ const EscalatedAlerts: React.FC = () => {
       console.warn('[EscalatedAlerts] SignalR not connected, cannot send test message');
     }
   };
+
+  const handleTestAlert = () => {
+    if (signalRClient.isConnected()) {
+      signalRClient.simulateAlert({
+        id: `test-alert-${Date.now()}`,
+        patientName: 'Test Patient',
+        alertType: 'critical',
+        message: 'Test alert from MD Dashboard - Blood pressure critical',
+        patientId: 999,
+        severity: 'high'
+      });
+      console.log('[EscalatedAlerts] Test alert sent via SignalR');
+    } else {
+      console.warn('[EscalatedAlerts] SignalR not connected, cannot send test alert');
+    }
+  };
+
+  console.log('[EscalatedAlerts] About to render EscalatedAlertsPanel component');
 
   return (
     <>
@@ -75,8 +100,8 @@ const EscalatedAlerts: React.FC = () => {
           Monitor and manage emergency alerts requiring immediate attention
         </Typography>
 
-        {/* SignalR Test Button (for development) */}
-        <Box sx={{ mb: 3 }}>
+        {/* SignalR Test Buttons (for development) */}
+        <Box sx={{ mb: 3, display: 'flex', gap: 2, alignItems: 'center' }}>
           <Button
             variant="outlined"
             color="primary"
@@ -85,8 +110,16 @@ const EscalatedAlerts: React.FC = () => {
           >
             Test SignalR Connection
           </Button>
-          <Typography variant="caption" sx={{ ml: 2, color: 'text.secondary' }}>
-            (Development only - sends test message)
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleTestAlert}
+            size="small"
+          >
+            Test SignalR Alert
+          </Button>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            (Development only - sends test messages/alerts)
           </Typography>
         </Box>
       </Box>

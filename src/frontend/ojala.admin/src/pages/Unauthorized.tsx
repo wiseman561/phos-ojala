@@ -1,16 +1,16 @@
 import React from 'react';
-import { 
-  Box, 
-  Container, 
-  Paper, 
-  Typography, 
-  Button, 
-  Alert 
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+  Button,
+  Alert
 } from '@mui/material';
-import { 
-  ShieldExclamation as ShieldExclamationIcon,
+import {
+  ReportProblem as ReportProblemIcon,
   Home as HomeIcon,
-  ArrowBack as ArrowBackIcon 
+  ArrowBack as ArrowBackIcon
 } from '@mui/icons-material';
 
 const Unauthorized: React.FC = () => {
@@ -48,12 +48,12 @@ const Unauthorized: React.FC = () => {
         >
           {/* Error Icon */}
           <Box sx={{ mb: 3 }}>
-            <ShieldExclamationIcon 
-              sx={{ 
-                fontSize: 80, 
+                        <ReportProblemIcon
+              sx={{
+                fontSize: 80,
                 color: 'error.main',
                 filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
-              }} 
+              }}
             />
           </Box>
 
@@ -80,10 +80,10 @@ const Unauthorized: React.FC = () => {
           </Typography>
 
           {/* Additional Info Alert */}
-          <Alert 
-            severity="warning" 
-            sx={{ 
-              mb: 4, 
+          <Alert
+            severity="warning"
+            sx={{
+              mb: 4,
               textAlign: 'left',
               '& .MuiAlert-message': {
                 width: '100%'
@@ -93,15 +93,15 @@ const Unauthorized: React.FC = () => {
             <Typography variant="body2">
               <strong>What happened?</strong>
               <br />
-              You attempted to access a page that requires specific administrative privileges. 
+              You attempted to access a page that requires specific administrative privileges.
               Your current role may not have sufficient permissions for this resource.
             </Typography>
           </Alert>
 
           {/* Action Buttons */}
-          <Box 
-            sx={{ 
-              display: 'flex', 
+          <Box
+            sx={{
+              display: 'flex',
               flexDirection: { xs: 'column', sm: 'row' },
               gap: 2,
               justifyContent: 'center',
@@ -154,12 +154,12 @@ const Unauthorized: React.FC = () => {
 
           {/* Help Text */}
           <Box sx={{ mt: 4, pt: 3, borderTop: 1, borderColor: 'grey.200' }}>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               color="text.secondary"
               sx={{ lineHeight: 1.6 }}
             >
-              If you believe you should have access to this page, please contact your system administrator 
+              If you believe you should have access to this page, please contact your system administrator
               or check your role permissions.
             </Typography>
           </Box>
@@ -169,4 +169,4 @@ const Unauthorized: React.FC = () => {
   );
 };
 
-export default Unauthorized; 
+export default Unauthorized;

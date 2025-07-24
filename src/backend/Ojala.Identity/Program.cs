@@ -14,6 +14,10 @@ using Ojala.Identity.Services;
 using Ojala.Data.Repositories.Interfaces;
 using Ojala.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
+using StackExchange.Redis;
+using Ojala.Common.Events;
+using Ojala.Contracts.Events;
+using Ojala.Identity.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -93,6 +97,17 @@ builder.Services.AddHealthChecks();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+// Add Redis and Event Bus
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("Redis") ?? "localhost:6379";
+    return ConnectionMultiplexer.Connect(connectionString);
+});
+
+builder.Services.AddSingleton<IEventBus, RedisEventBus>();
+builder.Services.AddScoped<IUserEventPublisher, UserEventPublisher>();
 
 var app = builder.Build();
 

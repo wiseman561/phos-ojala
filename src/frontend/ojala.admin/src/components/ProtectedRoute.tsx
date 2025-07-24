@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Box, CircularProgress, Alert, Button } from '@mui/material';
-import { ShieldExclamation } from '@mui/icons-material';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { useAuth, ROLES } from '../contexts/AuthContext';
 import { useMaintenanceMode } from '../hooks/useMaintenanceMode';
 
@@ -13,10 +13,10 @@ interface ProtectedRouteProps {
   fallbackPath?: string;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children, 
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
   allowedRoles,
-  fallbackPath = '/login' 
+  fallbackPath = '/login'
 }) => {
   const { isAuthenticated, user, isLoading: authLoading, hasRole } = useAuth();
   const { canAccess, isMaintenanceMode } = useMaintenanceMode();
@@ -69,9 +69,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           }}
         >
           <Box sx={{ maxWidth: 600, textAlign: 'center' }}>
-            <Alert 
-              severity="error" 
-              sx={{ 
+            <Alert
+              severity="error"
+              sx={{
                 p: 3,
                 borderRadius: 2,
                 '& .MuiAlert-message': {
@@ -80,20 +80,20 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <ShieldExclamation sx={{ mr: 1, fontSize: 24 }} />
+                <ReportProblemIcon sx={{ mr: 1, fontSize: 24 }} />
                 <strong>Access Denied</strong>
               </Box>
-              
+
               <Box sx={{ mb: 2 }}>
                 You don't have permission to view this page.
               </Box>
-              
+
               <Box sx={{ mb: 2, fontSize: '0.875rem', color: 'text.secondary' }}>
                 <strong>Required roles:</strong> {allowedRoles.join(', ')}
                 <br />
                 <strong>Your role:</strong> {user?.role || 'None'}
               </Box>
-              
+
               <Box sx={{ mt: 2 }}>
                 <Button
                   variant="contained"
@@ -127,4 +127,4 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   return <>{children}</>;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

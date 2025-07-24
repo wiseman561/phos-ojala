@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
+  Container,
   Box,
   Card,
   CardContent,
@@ -8,20 +9,18 @@ import {
   Button,
   Typography,
   Alert,
-  CircularProgress,
-  IconButton,
   InputAdornment,
-  Divider,
-  Container
+  IconButton,
+  CircularProgress
 } from '@mui/material';
 import {
+  Email as EmailIcon,
+  Lock as LockIcon,
   Visibility,
   VisibilityOff,
-  LocalHospital as HospitalIcon,
-  Email as EmailIcon,
-  Lock as LockIcon
+  LocalHospital as HospitalIcon
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 
 interface LocationState {
   from?: string;
@@ -36,26 +35,28 @@ const LoginPage: React.FC = () => {
     email: '',
     password: ''
   });
+
   const [errors, setErrors] = useState({
     email: '',
     password: '',
     general: ''
   });
-  const [showPassword, setShowPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && !authLoading) {
       const state = location.state as LocationState;
-      const redirectPath = state?.from || '/patient-queue';
+      const redirectPath = state?.from || '/escalated-alerts';
       navigate(redirectPath, { replace: true });
     }
-  }, [isAuthenticated, authLoading, navigate, location.state]);
+  }, [isAuthenticated, authLoading, navigate, location]);
 
   const validateEmail = (email: string): string => {
     if (!email) return 'Email is required';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email address';
+    if (!/\S+@\S+\.\S+/.test(email)) return 'Email is invalid';
     return '';
   };
 
@@ -68,12 +69,10 @@ const LoginPage: React.FC = () => {
   const handleInputChange = (field: 'email' | 'password') => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = event.target.value;
-    setFormData(prev => ({ ...prev, [field]: value }));
-
+    setFormData(prev => ({ ...prev, [field]: event.target.value }));
     // Clear field-specific error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '', general: '' }));
+      setErrors(prev => ({ ...prev, [field]: '' }));
     }
   };
 
@@ -97,28 +96,37 @@ const LoginPage: React.FC = () => {
     setErrors({ email: '', password: '', general: '' });
 
     try {
-      await login(formData.email, formData.password);
+      console.log('[LoginPage] Attempting login with:', formData.email);
+      const result = await login(formData.email, formData.password);
 
-      // Success - navigation will be handled by useEffect
-      const state = location.state as LocationState;
-      const redirectPath = state?.from || '/patient-queue';
-      navigate(redirectPath, { replace: true });
+      if (result.success) {
+        console.log('[LoginPage] Login successful, redirecting to escalated-alerts');
+        // Success - redirect to escalated alerts for MD dashboard
+        navigate('/escalated-alerts', { replace: true });
+      } else {
+        console.log('[LoginPage] Login failed:', result.message);
+        // Handle login failure
+        setErrors(prev => ({
+          ...prev,
+          general: result.message || 'Login failed. Please try again later.'
+        }));
+      }
 
     } catch (error: any) {
-      console.error('Login error:', error);
+      console.error('[LoginPage] Login error:', error);
 
       // Handle specific error types
-      if (error.message.includes('Invalid email or password')) {
+      if (error.message?.includes('Invalid email or password')) {
         setErrors(prev => ({
           ...prev,
           general: 'Invalid email or password. Please check your credentials and try again.'
         }));
-      } else if (error.message.includes('Access denied')) {
+      } else if (error.message?.includes('Access denied')) {
         setErrors(prev => ({
           ...prev,
           general: 'Access denied. This dashboard is only available to physicians and medical doctors.'
         }));
-      } else if (error.message.includes('Network Error')) {
+      } else if (error.message?.includes('Network Error')) {
         setErrors(prev => ({
           ...prev,
           general: 'Network error. Please check your internet connection and try again.'
@@ -269,44 +277,39 @@ const LoginPage: React.FC = () => {
                   'Sign In'
                 )}
               </Button>
-            </Box>
 
-            <Divider sx={{ my: 3 }} />
+              {/* Test Credentials Info */}
+              <Alert severity="info" sx={{ mt: 2 }}>
+                <Typography variant="body2">
+                  <strong>Test Credentials:</strong><br />
+                  Email: <code>doctor@ojala-healthcare.com</code><br />
+                  Password: <code>Password123!</code>
+                </Typography>
+                <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                  <strong>Note:</strong> Make sure to type the email exactly as shown (no extra characters)
+                </Typography>
+              </Alert>
 
-            {/* Footer Links */}
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2" color="text.secondary">
-                Having trouble accessing your account?
-              </Typography>
-              <Typography variant="body2" sx={{ mt: 1 }}>
-                <Link
-                  to="/forgot-password"
-                  style={{
-                    color: 'inherit',
-                    textDecoration: 'none'
-                  }}
-                >
-                  Reset Password
-                </Link>
-                {' | '}
-                <Link
-                  to="/support"
-                  style={{
-                    color: 'inherit',
-                    textDecoration: 'none'
-                  }}
-                >
-                  Contact Support
-                </Link>
-              </Typography>
+              {/* Test Mock Server Button */}
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => {
+                  console.log('[LoginPage] Testing mock server...');
+                  const axios = require('axios');
+                  axios.get('/api/test').then((response: any) => {
+                    console.log('[LoginPage] Mock server test response:', response.data);
+                  }).catch((error: any) => {
+                    console.log('[LoginPage] Mock server test error:', error);
+                  });
+                }}
+                sx={{ mt: 2 }}
+              >
+                Test Mock Server
+              </Button>
             </Box>
           </CardContent>
         </Card>
-
-        {/* Footer */}
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 4, textAlign: 'center' }}>
-          © 2024 Ojala Healthcare. All rights reserved.
-        </Typography>
       </Box>
     </Container>
   );

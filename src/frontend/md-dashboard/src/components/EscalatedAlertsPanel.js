@@ -1,12 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { io } from 'socket.io-client';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../contexts/auth/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { AlertCircle, CheckCircle, ChevronDown, ChevronUp, Bell } from 'react-feather';
 import { Snackbar, Alert as MuiAlert } from '@mui/material';
 import signalRClient, { ChatMessage, PrivateMessage } from '../realtime/signalrClient';
+import alertService from '../services/alertService';
+
+console.log('[EscalatedAlertsPanel] File loaded successfully');
 
 const EscalatedAlertsPanel = () => {
+  console.log('🔥🔥🔥 ESCALATED ALERTS PANEL - LATEST VERSION WITH TOKEN FIX 🔥🔥🔥');
+  console.log('[EscalatedAlertsPanel] Component mounting...');
+
+  // Quick localStorage check
+  const quickTokenCheck = localStorage.getItem('token') || localStorage.getItem('md-tokens');
+  console.log('[EscalatedAlertsPanel] Quick localStorage check:', quickTokenCheck ? 'TOKEN FOUND!' : 'NO TOKEN');
+
   const [activeAlerts, setActiveAlerts] = useState([]);
   const [acknowledgedAlerts, setAcknowledgedAlerts] = useState([]);
   const [showActiveOnly, setShowActiveOnly] = useState(true);
@@ -16,7 +26,21 @@ const EscalatedAlertsPanel = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
-  const { token } = useAuth();
+
+  console.log('[EscalatedAlertsPanel] About to call useAuth...');
+  const authContext = useAuth();
+  console.log('[EscalatedAlertsPanel] Full auth context:', authContext);
+  const { token } = authContext;
+  console.log('[EscalatedAlertsPanel] useAuth called, token:', !!token);
+  console.log('[EscalatedAlertsPanel] Token value:', token ? 'present' : 'null/undefined');
+
+  // Fallback: try to get token from localStorage
+  const localStorageToken = localStorage.getItem('token') || localStorage.getItem('md-tokens');
+  console.log('[EscalatedAlertsPanel] localStorage token:', localStorageToken ? 'present' : 'null/undefined');
+
+  // Use localStorage token as fallback if context token is missing
+  const finalToken = token || (localStorageToken ? JSON.parse(localStorageToken).accessToken : null);
+  console.log('[EscalatedAlertsPanel] Final token to use:', finalToken ? 'present' : 'null/undefined');
 
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
   const ALERTS_STREAMER_URL = process.env.REACT_APP_ALERTS_STREAMER_URL || 'http://localhost:5004';
@@ -25,51 +49,30 @@ const EscalatedAlertsPanel = () => {
   const fetchAlerts = useCallback(async () => {
     try {
       // Fetch active alerts
-      const activeResponse = await fetch(`${API_URL}/alerts/active`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const activeData = await alertService.getActiveAlerts();
+      setActiveAlerts(activeData);
 
-      if (activeResponse.ok) {
-        const activeData = await activeResponse.json();
-        setActiveAlerts(activeData);
-      }
-
-      // Fetch all alerts to get acknowledged ones
-      const allResponse = await fetch(`${API_URL}/alerts`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (allResponse.ok) {
-        const allData = await allResponse.json();
-        setAcknowledgedAlerts(allData.filter(alert => alert.isAcknowledged));
-      }
+      // Fetch acknowledged alerts
+      const acknowledgedData = await alertService.getAcknowledgedAlerts();
+      setAcknowledgedAlerts(acknowledgedData);
     } catch (error) {
       console.error('Error fetching alerts:', error);
     }
-  }, [API_URL, token]);
+  }, []);
 
   // Acknowledge an alert
   const acknowledgeAlert = async (alertId) => {
     try {
-      const response = await fetch(`${API_URL}/alerts/${alertId}/acknowledge`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      const result = await alertService.acknowledgeAlert(alertId);
 
-      if (response.ok) {
+      if (result.success) {
         // Update will come through WebSocket, but we can also update locally
         const alert = activeAlerts.find(a => a.id === alertId);
         if (alert) {
           setActiveAlerts(prev => prev.filter(a => a.id !== alertId));
           alert.isAcknowledged = true;
-          alert.acknowledgedAt = new Date().toISOString();
+          alert.acknowledgedAt = result.acknowledgedAt;
+          alert.acknowledgedBy = result.acknowledgedBy;
           setAcknowledgedAlerts(prev => [alert, ...prev]);
         }
       }
@@ -114,24 +117,81 @@ const EscalatedAlertsPanel = () => {
     }
   }, [showSnackbar]);
 
+    // Handle SignalR alerts
+  const handleSignalRAlert = useCallback((alert) => {
+    console.log('[EscalatedAlertsPanel] Received SignalR alert:', alert);
+    console.log('[EscalatedAlertsPanel] Alert details:', {
+      id: alert.id,
+      patientName: alert.patientName,
+      message: alert.message,
+      severity: alert.severity,
+      timestamp: alert.timestamp
+    });
+
+    // Convert SignalR alert to our alert format
+    const formattedAlert = {
+      id: alert.id,
+      patientName: alert.patientName,
+      message: alert.message,
+      severity: alert.severity || 'medium',
+      timestamp: alert.timestamp,
+      patientId: alert.patientId,
+      alertType: alert.alertType,
+      isAcknowledged: false
+    };
+
+    console.log('[EscalatedAlertsPanel] Formatted alert:', formattedAlert);
+
+    setActiveAlerts(prev => {
+      console.log('[EscalatedAlertsPanel] Previous alerts:', prev);
+      // Check if alert already exists
+      if (prev.some(a => a.id === alert.id)) {
+        console.log('[EscalatedAlertsPanel] Alert already exists, skipping');
+        return prev;
+      }
+      const newAlerts = [formattedAlert, ...prev];
+      console.log('[EscalatedAlertsPanel] New alerts array:', newAlerts);
+      return newAlerts;
+    });
+
+    // Auto-expand panel when new alert arrives
+    setIsExpanded(true);
+    showSnackbar(`New Alert: ${alert.message}`, 'warning');
+  }, [showSnackbar]);
+
+  console.log('[EscalatedAlertsPanel] About to define useEffect...');
+
   // Connect to both WebSocket and SignalR
   useEffect(() => {
-    if (!token) return;
+    console.log('[EscalatedAlertsPanel] useEffect triggered');
 
-    // SignalR connection setup
-    console.log('[EscalatedAlertsPanel] Setting up SignalR connection');
+    // Alert service connection setup
+    console.log('[EscalatedAlertsPanel] Setting up alert service connection');
 
-    // Connect to SignalR
-    signalRClient.connect();
+    // Connect to alert service
+    alertService.connect();
 
-    // Subscribe to SignalR events
-    const unsubscribeMessage = signalRClient.onMessage(handleChatMessage);
-    const unsubscribePrivateMessage = signalRClient.onPrivateMessage(handlePrivateMessage);
-    const unsubscribeConnection = signalRClient.onConnectionChange(handleConnectionChange);
+    // Subscribe to alert service events
+    console.log('[EscalatedAlertsPanel] Subscribing to alert service events...');
+    const unsubscribeAlert = alertService.subscribeToAlerts(handleSignalRAlert);
+    console.log('[EscalatedAlertsPanel] Alert service event subscriptions completed');
+
+    // Legacy SignalR connection setup (keeping for backward compatibility)
+    if (finalToken) {
+      console.log('[EscalatedAlertsPanel] Setting up legacy SignalR connection');
+      signalRClient.connect();
+
+      // Subscribe to SignalR events
+      console.log('[EscalatedAlertsPanel] Subscribing to legacy SignalR events...');
+      const unsubscribeMessage = signalRClient.onMessage(handleChatMessage);
+      const unsubscribePrivateMessage = signalRClient.onPrivateMessage(handlePrivateMessage);
+      const unsubscribeConnection = signalRClient.onConnectionChange(handleConnectionChange);
+      console.log('[EscalatedAlertsPanel] Legacy SignalR event subscriptions completed');
+    }
 
     // WebSocket connection setup (keeping existing functionality)
     const newSocket = io(`${ALERTS_STREAMER_URL}/ws/alerts`, {
-      query: { token },
+      query: { token: finalToken },
       transports: ['websocket']
     });
 
@@ -192,12 +252,17 @@ const EscalatedAlertsPanel = () => {
       // Cleanup WebSocket
       newSocket.disconnect();
 
-      // Cleanup SignalR subscriptions
-      unsubscribeMessage();
-      unsubscribePrivateMessage();
-      unsubscribeConnection();
+      // Cleanup alert service subscriptions
+      unsubscribeAlert();
+
+      // Cleanup legacy SignalR subscriptions (if they exist)
+      if (finalToken) {
+        unsubscribeMessage();
+        unsubscribePrivateMessage();
+        unsubscribeConnection();
+      }
     };
-      }, [token, ALERTS_STREAMER_URL, fetchAlerts, handleChatMessage, handlePrivateMessage, handleConnectionChange]);
+  }, [finalToken, ALERTS_STREAMER_URL]);
 
   // Format timestamp
   const formatTime = (timestamp) => {
@@ -264,7 +329,42 @@ const EscalatedAlertsPanel = () => {
           {/* Filter Toggle */}
           <div className="mb-4 flex justify-between items-center">
             <h3 className="text-lg font-semibold">Alert Details</h3>
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  console.log('[EscalatedAlertsPanel] Manual test alert triggered');
+                  signalRClient.simulateAlert({
+                    id: `manual-test-${Date.now()}`,
+                    patientName: 'Manual Test Patient',
+                    alertType: 'critical',
+                    message: 'Manual test alert from EscalatedAlertsPanel',
+                    patientId: 999,
+                    severity: 'high'
+                  });
+                }}
+                className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600"
+              >
+                Test Alert
+              </button>
+              <button
+                onClick={() => {
+                  console.log('[EscalatedAlertsPanel] Testing localStorage token...');
+                  const token = localStorage.getItem('token') || localStorage.getItem('md-tokens');
+                  console.log('[EscalatedAlertsPanel] localStorage token:', token);
+                  if (token) {
+                    try {
+                      const parsed = JSON.parse(token);
+                      console.log('[EscalatedAlertsPanel] Parsed token:', parsed);
+                      console.log('[EscalatedAlertsPanel] Access token:', parsed.accessToken);
+                    } catch (e) {
+                      console.log('[EscalatedAlertsPanel] Token is not JSON:', token);
+                    }
+                  }
+                }}
+                className="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 ml-2"
+              >
+                Test Token
+              </button>
               <label className="inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"

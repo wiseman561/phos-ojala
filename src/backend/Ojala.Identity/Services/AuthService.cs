@@ -12,6 +12,7 @@ using Ojala.Data.Entities;
 using Ojala.Data.Repositories.Interfaces;
 using Ojala.Identity.Models;
 using Ojala.Identity.Services.Interfaces;
+using Ojala.Identity.Events;
 
 namespace Ojala.Identity.Services
 {
@@ -24,6 +25,7 @@ namespace Ojala.Identity.Services
         private readonly IEmailService _emailService;
         private readonly ILoginOtpRepository _otpRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IUserEventPublisher _userEventPublisher;
         private const int OTP_EXPIRY_MINUTES = 5;
 
         public AuthService(
@@ -33,7 +35,8 @@ namespace Ojala.Identity.Services
             IMapper mapper,
             IEmailService emailService,
             ILoginOtpRepository otpRepository,
-            IUserProfileRepository userProfileRepository)
+            IUserProfileRepository userProfileRepository,
+            IUserEventPublisher userEventPublisher)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,6 +45,7 @@ namespace Ojala.Identity.Services
             _emailService = emailService;
             _otpRepository = otpRepository;
             _userProfileRepository = userProfileRepository;
+            _userEventPublisher = userEventPublisher;
         }
 
         public async Task<AuthResult> RegisterAsync(RegisterRequest request)
@@ -73,13 +77,16 @@ namespace Ojala.Identity.Services
                 };
             }
 
-            // Create a profile for the new user
-            await _userProfileRepository.CreateAsync(new UserProfile 
-            { 
+                        // Create a profile for the new user
+            await _userProfileRepository.CreateAsync(new UserProfile
+            {
                 Id = user.Id,
                 FirstName = request.FirstName,
                 LastName = request.LastName
             });
+
+            // Publish user registered event
+            await _userEventPublisher.PublishUserRegisteredAsync(request, user.Id);
 
             var jwt = await _tokenService.GenerateJwtToken(user);
             return new AuthResult

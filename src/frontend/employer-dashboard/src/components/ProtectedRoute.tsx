@@ -27,7 +27,7 @@ import {
   CheckCircle
 } from '@mui/icons-material';
 
-export type AllowedRole = 
+export type AllowedRole =
   | 'EMPLOYER'
   | 'HR_MANAGER'
   | 'BENEFITS_ADMIN'
@@ -71,11 +71,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <Typography variant="body1" color="text.secondary" paragraph>
                 Please wait while we verify your authentication credentials...
               </Typography>
-              
+
               <Box sx={{ mt: 4, mb: 2 }}>
                 <CircularProgress size={40} thickness={4} />
               </Box>
-              
+
               <Typography variant="body2" color="text.secondary">
                 Checking permissions and loading your dashboard
               </Typography>
@@ -89,10 +89,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Redirect to login if not authenticated
   if (!isAuthenticated) {
     return (
-      <Navigate 
-        to={fallbackPath} 
-        state={{ from: location }} 
-        replace 
+      <Navigate
+        to={fallbackPath}
+        state={{ from: location }}
+        replace
       />
     );
   }
@@ -128,14 +128,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <Typography variant="h4" fontWeight="bold">
                 Access Restricted
               </Typography>
-              <Typography variant="body1" sx={{ opacity: 0.9, mt: 1 }}>
-                You don't have permission to access this resource
+                              <Typography variant="body1" sx={{ opacity: 0.9, mt: 1 }}>
+                You don&apos;t have permission to access this resource
               </Typography>
             </Box>
 
             <CardContent sx={{ p: 4 }}>
-              <Alert 
-                severity="warning" 
+              <Alert
+                severity="warning"
                 sx={{ mb: 3, borderRadius: 2 }}
                 icon={<Warning />}
               >
@@ -148,8 +148,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               </Alert>
 
               {/* User Info */}
-              <Paper 
-                variant="outlined" 
+              <Paper
+                variant="outlined"
                 sx={{ p: 3, mb: 3, backgroundColor: '#f8f9fa', borderRadius: 2 }}
               >
                 <Typography variant="h6" gutterBottom color="text.primary">
@@ -160,8 +160,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                     <ListItemIcon>
                       <Business color="primary" />
                     </ListItemIcon>
-                    <ListItemText 
-                      primary="Organization" 
+                    <ListItemText
+                      primary="Organization"
                       secondary={user?.organizationName || 'Not specified'}
                     />
                   </ListItem>
@@ -169,8 +169,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                     <ListItemIcon>
                       <Security color="primary" />
                     </ListItemIcon>
-                    <ListItemText 
-                      primary="Current Role" 
+                    <ListItemText
+                      primary="Current Role"
                       secondary={user?.roles?.join(', ') || 'No roles assigned'}
                     />
                   </ListItem>
@@ -189,12 +189,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                   {allowedRoles.map((role, index) => (
                     <ListItem key={index} disablePadding>
                       <ListItemIcon>
-                        <CheckCircle 
-                          color={hasRole(role) ? "success" : "disabled"} 
+                        <CheckCircle
+                          color={hasRole(role) ? "success" : "disabled"}
                           sx={{ fontSize: 20 }}
                         />
                       </ListItemIcon>
-                      <ListItemText 
+                      <ListItemText
                         primary={role.replace(/_/g, ' ')}
                         secondary={hasRole(role) ? "You have this role" : "Not assigned"}
                         sx={{
@@ -226,7 +226,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 >
                   Go to Dashboard
                 </Button>
-                
+
                 <Button
                   variant="outlined"
                   startIcon={<ContactSupport />}
@@ -242,10 +242,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               {/* Help Text */}
               <Box sx={{ mt: 4, textAlign: 'center' }}>
                 <Typography variant="body2" color="text.secondary" paragraph>
-                  If you believe you should have access to this resource, please contact your organization administrator 
+                  If you believe you should have access to this resource, please contact your organization administrator
                   or IT department to request the appropriate permissions.
                 </Typography>
-                
+
                 <Typography variant="caption" color="text.secondary">
                   For immediate assistance, contact Ojala Healthcare support at{' '}
                   <a href="mailto:support@ojala-healthcare.com" style={{ color: '#1976d2' }}>
@@ -264,4 +264,4 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   return <>{children}</>;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

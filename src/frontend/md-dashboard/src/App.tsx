@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/auth/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import PatientQueue from './pages/PatientQueue';
 import PatientDetail from './pages/PatientDetail';
 import EscalatedAlerts from './pages/EscalatedAlerts';
+import ConnectionStatusBanner from './components/ConnectionStatusBanner';
 
 const theme = createTheme({
   palette: {
@@ -23,6 +24,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ConnectionStatusBanner />
       <AuthProvider>
         <Router>
           <Routes>

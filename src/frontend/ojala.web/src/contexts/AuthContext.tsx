@@ -4,7 +4,7 @@ import {
   type AuthConfig,
   type AuthContextType,
   type User
-} from '../../shared/contexts/AuthContext';
+} from './auth/AuthContext';
 
 // Create a generic config for web portal
 const webAuthConfig: AuthConfig = {

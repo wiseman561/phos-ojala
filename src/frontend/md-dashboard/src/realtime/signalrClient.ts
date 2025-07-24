@@ -37,16 +37,22 @@ class SignalRClient {
   private connectionHandlers: Array<(connected: boolean) => void> = [];
 
   constructor() {
-    this.initializeConnection();
+    // Only initialize connection in production mode
+    if (process.env.NODE_ENV === 'production') {
+      this.initializeConnection();
+    } else {
+      console.log('[SignalR] Mock mode - skipping real connection in development');
+      // Simulate connection in development
+      setTimeout(() => {
+        console.log('[SignalR] Mock mode - simulating successful connection');
+        this.notifyConnectionHandlers(true);
+        // Simulate initial alerts after connection
+        this.simulateInitialAlerts();
+      }, 1000);
+    }
   }
 
   private initializeConnection(): void {
-    // Only initialize SignalR in development or when explicitly enabled
-    if (process.env.NODE_ENV !== 'development' && !process.env.REACT_APP_ENABLE_SIGNALR) {
-      console.log('[SignalR] Skipping initialization - not in development mode');
-      return;
-    }
-
     // Get the base URL for the SignalR hub - specifically connect to localhost:5000
     const hubUrl = 'http://localhost:5000/hubs/chat';
 
@@ -162,7 +168,76 @@ class SignalRClient {
     });
   }
 
+  // Mock alert simulation methods
+  private simulateInitialAlerts(): void {
+    console.log('[SignalR] Simulating initial alerts...');
+
+    // Simulate a few initial alerts with longer delays to ensure components are mounted
+    setTimeout(() => {
+      this.simulateAlert({
+        id: 'mock-alert-1',
+        patientName: 'John Smith',
+        alertType: 'critical',
+        message: 'Blood pressure critically high - 180/110',
+        patientId: 1,
+        severity: 'high'
+      });
+    }, 5000); // Increased from 2000 to 5000
+
+    setTimeout(() => {
+      this.simulateAlert({
+        id: 'mock-alert-2',
+        patientName: 'Sarah Johnson',
+        alertType: 'warning',
+        message: 'Heart rate elevated - 120 bpm',
+        patientId: 2,
+        severity: 'medium'
+      });
+    }, 7000); // Increased from 4000 to 7000
+
+    setTimeout(() => {
+      this.simulateAlert({
+        id: 'mock-alert-3',
+        patientName: 'Michael Brown',
+        alertType: 'emergency',
+        message: 'Cardiac arrest - immediate attention required',
+        patientId: 3,
+        severity: 'high'
+      });
+    }, 9000); // Increased from 6000 to 9000
+  }
+
+  public simulateAlert(alertData: Partial<SignalRAlert>): void {
+    if (process.env.NODE_ENV !== 'production') {
+      const alert: SignalRAlert = {
+        id: alertData.id || `mock-alert-${Date.now()}`,
+        patientName: alertData.patientName || 'Test Patient',
+        alertType: alertData.alertType || 'info',
+        message: alertData.message || 'Test alert message',
+        timestamp: alertData.timestamp || new Date().toISOString(),
+        patientId: alertData.patientId,
+        severity: alertData.severity || 'medium'
+      };
+
+      console.log('[SignalR] Simulating alert:', alert);
+      console.log('[SignalR] Number of alert handlers:', this.alertHandlers.length);
+      this.notifyAlertHandlers(alert);
+    }
+  }
+
   public async connect(): Promise<void> {
+    // In development mode, just simulate connection
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SignalR] Mock mode - simulating connection');
+      setTimeout(() => {
+        console.log('[SignalR] Mock mode - connection simulation complete');
+        this.notifyConnectionHandlers(true);
+        // Simulate initial alerts after connection
+        this.simulateInitialAlerts();
+      }, 500);
+      return;
+    }
+
     if (!this.connection || this.isConnecting) {
       return;
     }
@@ -191,6 +266,12 @@ class SignalRClient {
   }
 
   public async disconnect(): Promise<void> {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SignalR] Mock mode - simulating disconnection');
+      this.notifyConnectionHandlers(false);
+      return;
+    }
+
     if (this.connection) {
       console.log('[SignalR] Disconnecting...');
       await this.connection.stop();
@@ -216,6 +297,11 @@ class SignalRClient {
 
   // Message sending methods
   public async sendMessage(user: string, message: string): Promise<void> {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SignalR] Mock mode - simulating message send:', { user, message });
+      return;
+    }
+
     if (this.connection?.state === signalR.HubConnectionState.Connected) {
       try {
         await this.connection.invoke('SendMessage', user, message);
@@ -229,6 +315,11 @@ class SignalRClient {
   }
 
   public async sendPrivateMessage(sender: string, recipient: string, message: string): Promise<void> {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[SignalR] Mock mode - simulating private message send:', { sender, recipient, message });
+      return;
+    }
+
     if (this.connection?.state === signalR.HubConnectionState.Connected) {
       try {
         await this.connection.invoke('SendPrivateMessage', sender, recipient, message);
@@ -262,13 +353,16 @@ class SignalRClient {
     };
   }
 
-  // Alert subscription
   public onAlert(handler: (alert: SignalRAlert) => void): () => void {
+    console.log('[SignalR] Registering alert handler, current count:', this.alertHandlers.length);
     this.alertHandlers.push(handler);
+    console.log('[SignalR] Alert handler registered, new count:', this.alertHandlers.length);
     return () => {
       const index = this.alertHandlers.indexOf(handler);
       if (index > -1) {
+        console.log('[SignalR] Unregistering alert handler at index:', index);
         this.alertHandlers.splice(index, 1);
+        console.log('[SignalR] Alert handler unregistered, new count:', this.alertHandlers.length);
       }
     };
   }
@@ -283,7 +377,7 @@ class SignalRClient {
     };
   }
 
-  // Notification methods
+  // Event notification methods
   private notifyMessageHandlers(message: ChatMessage): void {
     this.messageHandlers.forEach(handler => {
       try {
@@ -305,11 +399,14 @@ class SignalRClient {
   }
 
   private notifyAlertHandlers(alert: SignalRAlert): void {
-    this.alertHandlers.forEach(handler => {
+    console.log('[SignalR] Notifying alert handlers, count:', this.alertHandlers.length);
+    this.alertHandlers.forEach((handler, index) => {
       try {
+        console.log(`[SignalR] Calling alert handler ${index + 1}`);
         handler(alert);
+        console.log(`[SignalR] Alert handler ${index + 1} completed successfully`);
       } catch (error) {
-        console.error('[SignalR] Error in alert handler:', error);
+        console.error(`[SignalR] Error in alert handler ${index + 1}:`, error);
       }
     });
   }
@@ -326,10 +423,18 @@ class SignalRClient {
 
   // Utility methods
   public getConnectionState(): signalR.HubConnectionState {
+    // In development mode, return Connected state
+    if (process.env.NODE_ENV !== 'production') {
+      return signalR.HubConnectionState.Connected;
+    }
     return this.connection?.state || signalR.HubConnectionState.Disconnected;
   }
 
   public isConnected(): boolean {
+    // In development mode, consider it connected if we're in mock mode
+    if (process.env.NODE_ENV !== 'production') {
+      return true; // Mock mode is always "connected"
+    }
     return this.connection?.state === signalR.HubConnectionState.Connected;
   }
 
@@ -338,7 +443,6 @@ class SignalRClient {
   }
 }
 
-// Create a singleton instance
+// Export singleton instance
 const signalRClient = new SignalRClient();
-
 export default signalRClient;

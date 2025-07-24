@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 
 interface PrivateRouteProps {
   children: ReactNode;
@@ -61,8 +61,17 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 
   // Check role requirements if specified
   if (requiredRole && user) {
+    console.log('[PrivateRoute] Checking role requirements:', {
+      requiredRole,
+      userRole: user.role,
+      userRoles: user.roles,
+      user: user
+    });
+
     const hasRequiredRole = user.role === requiredRole ||
                            (requiredRole === 'physician' && ['physician', 'md', 'doctor'].includes(user.role));
+
+    console.log('[PrivateRoute] Role check result:', { hasRequiredRole, userRole: user.role, requiredRole });
 
     if (!hasRequiredRole) {
       return (

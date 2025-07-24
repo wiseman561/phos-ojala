@@ -20,8 +20,20 @@ import {
   CircularProgress,
   Alert,
 } from '@mui/material';
-import apiClient from '../api/axios';
-import { PatientDetail as PatientDetailType } from '../mocks/mockPatients';
+import {
+  MonitorHeart,
+  Medication,
+  Warning,
+  Phone,
+  Email,
+  LocationOn,
+  Person,
+  CalendarToday,
+  Assignment,
+  LocalHospital
+} from '@mui/icons-material';
+import { PatientDetail as PatientDetailType } from '../services/patientService';
+import patientService from '../services/patientService';
 
 const getHealthScoreColor = (score: number): 'error' | 'warning' | 'success' => {
   if (score < 60) return 'error';
@@ -45,22 +57,27 @@ const PatientDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const patientId = id ? parseInt(id, 10) : 1;
+  const patientId = id || '';
 
   // Fetch patient details
   useEffect(() => {
-    fetchPatientDetail();
+    if (patientId) {
+      fetchPatientDetail();
+    }
   }, [patientId]);
 
   const fetchPatientDetail = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiClient.get<PatientDetailType>(`/patients/${patientId}`);
-      setPatient(response.data);
+      console.log(`[PatientDetail] Fetching patient details for ID: ${patientId}`);
+      const patientData = await patientService.getPatientDetail(patientId);
+      setPatient(patientData);
+      console.log(`[PatientDetail] Successfully loaded patient: ${patientData.name || 'Unknown'}`);
     } catch (err) {
-      setError('Error loading patient details. Please try again.');
-      console.error('Error fetching patient details:', err);
+      const errorMessage = 'Error loading patient details. Please try again.';
+      setError(errorMessage);
+      console.error('[PatientDetail] Error fetching patient details:', err);
     } finally {
       setLoading(false);
     }
@@ -73,6 +90,17 @@ const PatientDetail: React.FC = () => {
   const handleNavigateToAlerts = () => {
     navigate('/escalated-alerts');
   };
+
+  if (!patientId) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Alert severity="error">Invalid patient ID</Alert>
+        <Button onClick={handleBack} sx={{ mt: 2 }}>
+          Back to Patient Queue
+        </Button>
+      </Container>
+    );
+  }
 
   return (
     <>
@@ -91,7 +119,7 @@ const PatientDetail: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-            <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Header */}
         <Box sx={{ mb: 4 }}>
           <Button
@@ -123,232 +151,293 @@ const PatientDetail: React.FC = () => {
             </Alert>
           )}
 
-          {/* Patient Header */}
+          {/* Patient Details */}
           {patient && !loading && !error && (
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', mb: 0 }}>
-                {patient.name}
+            <>
+              <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                {patient.name || `${patient.firstName || 'Unknown'} ${patient.lastName || 'Patient'}`}
               </Typography>
-              <Chip
-                label={`Health Score: ${patient.healthScore}`}
-                color={getHealthScoreColor(patient.healthScore)}
-                size="medium"
-                sx={{ fontWeight: 'bold' }}
-              />
-            </Box>
-          )}
-                </Box>
 
-        {/* Patient Details Content */}
-        {patient && !loading && !error && (
-          <Grid container spacing={3}>
-        {/* Patient Information */}
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Patient Information
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-
-              <List>
-                <ListItem>
-                  <ListItemText primary="Age" secondary={`${patient.age} years old`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Condition" secondary={patient.condition} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Phone" secondary={patient.phone} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Email" secondary={patient.email} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Address" secondary={patient.address} />
-                </ListItem>
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Care Team & Dates */}
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Care Team & Timeline
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" color="text.secondary">
-                  Admission Date
-                </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                  {new Date(patient.admissionDate).toLocaleDateString()}
-                </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                <Chip
+                  label={`Health Score: ${patient.healthScore || 'N/A'}`}
+                  color={patient.healthScore ? getHealthScoreColor(patient.healthScore) : 'default'}
+                  size="medium"
+                  sx={{ fontWeight: 'bold' }}
+                />
+                <Chip
+                  label={`Age: ${patient.age || 'Unknown'}`}
+                  variant="outlined"
+                  size="medium"
+                />
+                <Chip
+                  label={patient.condition || 'General Care'}
+                  variant="outlined"
+                  size="medium"
+                />
               </Box>
 
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" color="text.secondary">
-                  Primary Physician
-                </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                  {patient.primaryPhysician}
-                </Typography>
-              </Box>
+              <Grid container spacing={3}>
+                {/* Patient Information */}
+                <Grid item xs={12} md={6}>
+                  <Card sx={{ height: '100%' }}>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                        Patient Information
+                      </Typography>
+                      <List dense>
+                        <ListItem>
+                          <ListItemIcon>
+                            <Person />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Name"
+                            secondary={patient.name || `${patient.firstName || 'Unknown'} ${patient.lastName || 'Patient'}`}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <Email />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Email"
+                            secondary={patient.email || 'Not provided'}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <Phone />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Phone"
+                            secondary={patient.phoneNumber || 'Not provided'}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <LocationOn />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Address"
+                            secondary={patient.address || 'Not provided'}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <CalendarToday />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Date of Birth"
+                            secondary={patient.dateOfBirth ? new Date(patient.dateOfBirth).toLocaleDateString() : 'Not provided'}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <Assignment />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Gender"
+                            secondary={patient.gender || 'Not specified'}
+                          />
+                        </ListItem>
+                      </List>
+                    </CardContent>
+                  </Card>
+                </Grid>
 
-              <Box>
-                <Typography variant="subtitle2" color="text.secondary">
-                  Assigned Nurse
-                </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                  {patient.nurseAssigned}
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+                {/* Vitals */}
+                <Grid item xs={12} md={6}>
+                  <Card sx={{ height: '100%' }}>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                        Vital Signs
+                      </Typography>
+                      {patient.vitals ? (
+                        <List dense>
+                          <ListItem>
+                            <ListItemIcon>
+                              <MonitorHeart />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Heart Rate"
+                              secondary={`${patient.vitals.heartRate || 'N/A'} bpm`}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemIcon>
+                              <MonitorHeart />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Blood Pressure"
+                              secondary={patient.vitals.bloodPressure || 'N/A'}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemIcon>
+                              <MonitorHeart />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Temperature"
+                              secondary={`${patient.vitals.temperature || 'N/A'}°F`}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemIcon>
+                              <MonitorHeart />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Oxygen Saturation"
+                              secondary={`${patient.vitals.oxygenSaturation || 'N/A'}%`}
+                            />
+                          </ListItem>
+                        </List>
+                      ) : (
+                        <Typography color="text.secondary">
+                          No vital signs recorded
+                        </Typography>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Grid>
 
-        {/* Current Vitals */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Current Vitals
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
+                {/* Medications */}
+                <Grid item xs={12} md={6}>
+                  <Card sx={{ height: '100%' }}>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                        Medications
+                      </Typography>
+                      {patient.medications && patient.medications.length > 0 ? (
+                        <List dense>
+                          {patient.medications.map((medication, index) => (
+                            <ListItem key={index}>
+                              <ListItemIcon>
+                                <Medication />
+                              </ListItemIcon>
+                              <ListItemText primary={medication} />
+                            </ListItem>
+                          ))}
+                        </List>
+                      ) : (
+                        <Typography color="text.secondary">
+                          No medications recorded
+                        </Typography>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Grid>
 
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Paper elevation={0} sx={{ p: 2, backgroundColor: 'grey.50' }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Heart Rate
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      {patient.vitals.heartRate} bpm
-                    </Typography>
-                  </Paper>
+                {/* Allergies */}
+                <Grid item xs={12} md={6}>
+                  <Card sx={{ height: '100%' }}>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                        Allergies
+                      </Typography>
+                      {patient.allergies && patient.allergies.length > 0 ? (
+                        <List dense>
+                          {patient.allergies.map((allergy, index) => (
+                            <ListItem key={index}>
+                              <ListItemIcon>
+                                <Warning color="warning" />
+                              </ListItemIcon>
+                              <ListItemText primary={allergy} />
+                            </ListItem>
+                          ))}
+                        </List>
+                      ) : (
+                        <Typography color="text.secondary">
+                          No allergies recorded
+                        </Typography>
+                      )}
+                    </CardContent>
+                  </Card>
                 </Grid>
-                <Grid item xs={6}>
-                  <Paper elevation={0} sx={{ p: 2, backgroundColor: 'grey.50' }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Blood Pressure
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      {patient.vitals.bloodPressure}
-                    </Typography>
-                  </Paper>
+
+                {/* Recent Alerts */}
+                <Grid item xs={12}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                        Recent Alerts
+                      </Typography>
+                      {patient.recentAlerts && patient.recentAlerts.length > 0 ? (
+                        <List>
+                          {patient.recentAlerts.map((alert, index) => (
+                            <ListItem key={index}>
+                              <ListItemIcon>
+                                <Warning color={getAlertSeverityColor(alert.severity)} />
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={alert.message}
+                                secondary={alert.time}
+                              />
+                              <Chip
+                                label={alert.severity}
+                                color={getAlertSeverityColor(alert.severity)}
+                                size="small"
+                              />
+                            </ListItem>
+                          ))}
+                        </List>
+                      ) : (
+                        <Typography color="text.secondary">
+                          No recent alerts
+                        </Typography>
+                      )}
+                    </CardContent>
+                  </Card>
                 </Grid>
-                <Grid item xs={6}>
-                  <Paper elevation={0} sx={{ p: 2, backgroundColor: 'grey.50' }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Temperature
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      {patient.vitals.temperature}°F
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                  <Paper elevation={0} sx={{ p: 2, backgroundColor: 'grey.50' }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      O2 Saturation
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      {patient.vitals.oxygenSaturation}%
-                    </Typography>
-                  </Paper>
-                </Grid>
+
+                {/* Care Plan Information */}
+                {patient.activePlan && (
+                  <Grid item xs={12}>
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                          Active Care Plan
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                          <LocalHospital />
+                          <Typography variant="subtitle1">
+                            {patient.activePlan.planName || 'Care Plan'}
+                          </Typography>
+                          <Chip
+                            label={patient.activePlan.status || 'Active'}
+                            color="primary"
+                            size="small"
+                          />
+                        </Box>
+                        <Typography variant="body2" color="text.secondary">
+                          Start Date: {patient.activePlan.startDate ? new Date(patient.activePlan.startDate).toLocaleDateString() : 'Not specified'}
+                        </Typography>
+                        {patient.activePlan.endDate && (
+                          <Typography variant="body2" color="text.secondary">
+                            End Date: {new Date(patient.activePlan.endDate).toLocaleDateString()}
+                          </Typography>
+                        )}
+                        {patient.activePlan.goals && patient.activePlan.goals.length > 0 && (
+                          <Box sx={{ mt: 2 }}>
+                            <Typography variant="subtitle2" gutterBottom>
+                              Goals:
+                            </Typography>
+                            <List dense>
+                              {patient.activePlan.goals.map((goal, index) => (
+                                <ListItem key={index}>
+                                  <ListItemText primary={goal} />
+                                </ListItem>
+                              ))}
+                            </List>
+                          </Box>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                )}
               </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Medications & Allergies */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Medications & Allergies
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-                  Current Medications
-                </Typography>
-                {patient.medications.map((medication, index) => (
-                  <Chip
-                    key={index}
-                    label={medication}
-                    variant="outlined"
-                    sx={{ mr: 1, mb: 1 }}
-                  />
-                ))}
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-                  Allergies
-                </Typography>
-                {patient.allergies.map((allergy, index) => (
-                  <Chip
-                    key={index}
-                    label={allergy}
-                    color="error"
-                    variant="outlined"
-                    sx={{ mr: 1, mb: 1 }}
-                  />
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Recent Alerts */}
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Recent Alerts
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-
-              {patient.recentAlerts.map((alert, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    p: 2,
-                    mb: 1,
-                    backgroundColor: 'grey.50',
-                    borderRadius: 1,
-                  }}
-                >
-                  <Box>
-                    <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                      {alert.message}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {alert.time}
-                    </Typography>
-                  </Box>
-                  <Chip
-                    label={alert.severity.toUpperCase()}
-                    color={getAlertSeverityColor(alert.severity)}
-                    size="small"
-                  />
-                </Box>
-              ))}
-            </CardContent>
-          </Card>
-        </Grid>
-          </Grid>
-        )}
+            </>
+          )}
+        </Box>
       </Container>
     </>
   );
