@@ -27,7 +27,7 @@ import {
   Phone as PhoneIcon,
   CalendarToday as CalendarIcon
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 
 interface LocationState {
   from?: string;
@@ -117,10 +117,10 @@ const LoginPage: React.FC = () => {
 
   const handleLoginSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     const emailError = validateEmail(loginData.email);
     const passwordError = validatePassword(loginData.password);
-    
+
     if (emailError || passwordError) {
       setErrors({
         login: '',
@@ -147,24 +147,24 @@ const LoginPage: React.FC = () => {
 
   const handleRegisterSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     const fieldErrors: Record<string, string> = {};
-    
+
     if (!registerData.firstName) fieldErrors.firstName = 'First name is required';
     if (!registerData.lastName) fieldErrors.lastName = 'Last name is required';
-    
+
     const emailError = validateEmail(registerData.email);
     if (emailError) fieldErrors.email = emailError;
-    
+
     const passwordError = validatePassword(registerData.password);
     if (passwordError) fieldErrors.password = passwordError;
-    
+
     if (registerData.password !== registerData.confirmPassword) {
       fieldErrors.confirmPassword = 'Passwords do not match';
     }
-    
+
     if (!registerData.dateOfBirth) fieldErrors.dateOfBirth = 'Date of birth is required';
-    
+
     if (Object.keys(fieldErrors).length > 0) {
       setErrors({ login: '', register: '', field: fieldErrors });
       return;
@@ -539,4 +539,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage; 
+export default LoginPage;

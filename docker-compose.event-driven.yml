@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  # Redis for event bus
+  ojala-redis:
+    image: redis:7-alpine
+    container_name: ojala-redis-event-driven
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - ojala-event-network
+
+  # PostgreSQL database
+  ojala-db:
+    image: postgres:15-alpine
+    container_name: ojala-db-event-driven
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ojala
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - ojala-event-network
+
+  # Identity Service (simplified build)
+  ojala-identity:
+    build:
+      context: ./src/backend/Ojala.Identity
+      dockerfile: Dockerfile
+    container_name: ojala-identity-event-driven
+    ports:
+      - "5501:8080"
+    depends_on:
+      ojala-db:
+        condition: service_healthy
+      ojala-redis:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=ojala-redis:6379
+      - Jwt__Key=super-secret-jwt-key-for-development
+      - Jwt__Issuer=ojala-identity
+      - Jwt__Audience=ojala-api
+    networks:
+      - ojala-event-network
+
+  # API Service (simplified build)
+  ojala-api:
+    build:
+      context: ./src/backend/Ojala.Api
+      dockerfile: Dockerfile
+    container_name: ojala-api-event-driven
+    ports:
+      - "8080:8080"
+    depends_on:
+      ojala-db:
+        condition: service_healthy
+      ojala-redis:
+        condition: service_healthy
+      ojala-identity:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=ojala-redis:6379
+      - IdentityServer__Authority=http://ojala-identity:8080
+    networks:
+      - ojala-event-network
+
+volumes:
+  redis-data:
+  postgres-data:
+
+networks:
+  ojala-event-network:
+    driver: bridge

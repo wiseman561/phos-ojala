@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 import {
   Box,
-  Paper,
   TextField,
   Button,
   Typography,
@@ -39,11 +38,11 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Get the intended destination or default to RN dashboard
   const state = location.state as LocationState;
   const from = state?.from?.pathname || '/rn';
@@ -62,7 +61,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const result = await login(email, password);
-      
+
       if (result.success) {
         // Successful login - redirect will happen via useEffect
         navigate(from, { replace: true });
@@ -92,7 +91,7 @@ const LoginPage: React.FC = () => {
       }}
     >
       <Container maxWidth="sm">
-        <Card 
+        <Card
           elevation={8}
           sx={{
             borderRadius: 3,
@@ -110,12 +109,12 @@ const LoginPage: React.FC = () => {
               textAlign: 'center'
             }}
           >
-            <LocalHospital 
-              sx={{ 
-                fontSize: 48, 
+            <LocalHospital
+              sx={{
+                fontSize: 48,
                 mb: 1,
                 filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
-              }} 
+              }}
             />
             <Typography variant="h4" fontWeight="bold" gutterBottom>
               RN Dashboard
@@ -123,24 +122,24 @@ const LoginPage: React.FC = () => {
             <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 300 }}>
               Registered Nurse Portal
             </Typography>
-            
+
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 1 }}>
-              <Chip 
+              <Chip
                 icon={<HealthAndSafety />}
                 label="Secure Access"
                 size="small"
-                sx={{ 
-                  backgroundColor: 'rgba(255,255,255,0.2)', 
+                sx={{
+                  backgroundColor: 'rgba(255,255,255,0.2)',
                   color: 'white',
                   '& .MuiChip-icon': { color: 'white' }
                 }}
               />
-              <Chip 
+              <Chip
                 icon={<Security />}
                 label="HIPAA Compliant"
                 size="small"
-                sx={{ 
-                  backgroundColor: 'rgba(255,255,255,0.2)', 
+                sx={{
+                  backgroundColor: 'rgba(255,255,255,0.2)',
                   color: 'white',
                   '& .MuiChip-icon': { color: 'white' }
                 }}
@@ -154,19 +153,19 @@ const LoginPage: React.FC = () => {
               <Typography variant="h5" gutterBottom textAlign="center" fontWeight={500}>
                 Nurse Sign In
               </Typography>
-              
-              <Typography 
-                variant="body2" 
-                color="text.secondary" 
-                textAlign="center" 
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                textAlign="center"
                 sx={{ mb: 3 }}
               >
                 Access your patient dashboard and clinical tools
               </Typography>
 
               {error && (
-                <Alert 
-                  severity="error" 
+                <Alert
+                  severity="error"
                   sx={{ mb: 3, borderRadius: 2 }}
                   onClose={() => setError('')}
                 >
@@ -272,10 +271,10 @@ const LoginPage: React.FC = () => {
             {/* Information Section */}
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary" paragraph>
-                This portal is restricted to licensed nursing professionals including 
+                This portal is restricted to licensed nursing professionals including
                 Registered Nurses (RN), Licensed Practical Nurses (LPN), and healthcare providers.
               </Typography>
-              
+
               <Typography variant="body2" color="text.secondary">
                 Need help accessing your account? Contact IT Support or your Nurse Manager.
               </Typography>
@@ -283,11 +282,11 @@ const LoginPage: React.FC = () => {
 
             {/* Demo Credentials Info (for development) */}
             {process.env.NODE_ENV === 'development' && (
-              <Box 
-                sx={{ 
-                  mt: 3, 
-                  p: 2, 
-                  backgroundColor: '#f5f5f5', 
+              <Box
+                sx={{
+                  mt: 3,
+                  p: 2,
+                  backgroundColor: '#f5f5f5',
                   borderRadius: 2,
                   border: '1px dashed #ccc'
                 }}
@@ -311,4 +310,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage; 
+export default LoginPage;

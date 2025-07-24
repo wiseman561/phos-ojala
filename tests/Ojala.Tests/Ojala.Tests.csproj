@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>    <Nullable>enable</Nullable>    <IsPackable>false</IsPackable>  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
@@ -18,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\integration\Ojala.Api\Ojala.Api.csproj" />
-    <ProjectReference Include="..\..\integration\Ojala.ApiGateway\Ojala.ApiGateway.csproj" />
-    <ProjectReference Include="..\..\integration\Ojala.Services\Ojala.Services.csproj" />
+    <ProjectReference Include="..\..\src\backend\Ojala.Api\Ojala.Api.csproj" />
+    <ProjectReference Include="..\..\src\backend\Ojala.ApiGateway\Ojala.ApiGateway.csproj" />
+    <ProjectReference Include="..\..\src\backend\Ojala.Services\Ojala.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,7 @@ import {
   TrendingDown,
   Notifications,
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const DashboardPage: React.FC = () => {

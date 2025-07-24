@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/auth/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import LoginPage from './components/LoginPage';
 import RNDashboard from './RNDashboard';
-import { NURSE_ROLES } from './contexts/AuthContext';
+import { NURSE_ROLES } from './contexts/auth/AuthContext';
 
 // Create a theme for the RN Dashboard with healthcare-focused colors
 const theme = createTheme({
@@ -68,12 +68,12 @@ const App: React.FC = () => {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LoginPage />} />
-            
+
             {/* Protected Routes for Nurses */}
-            <Route 
-              path="/rn" 
+            <Route
+              path="/rn"
               element={
-                <PrivateRoute 
+                <PrivateRoute
                   allowedRoles={[
                     NURSE_ROLES.RN,
                     NURSE_ROLES.LPN,
@@ -85,21 +85,21 @@ const App: React.FC = () => {
                 >
                   <RNDashboard />
                 </PrivateRoute>
-              } 
+              }
             />
 
             {/* Legacy route redirects - redirect other roles to their proper dashboards */}
-            <Route 
-              path="/md" 
+            <Route
+              path="/md"
               element={
                 <Navigate to="/md-dashboard" replace />
-              } 
+              }
             />
-            <Route 
-              path="/employer" 
+            <Route
+              path="/employer"
               element={
                 <Navigate to="/employer-dashboard" replace />
-              } 
+              }
             />
 
             {/* Catch-all route - redirect to login */}
@@ -111,4 +111,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App; 
+export default App;
