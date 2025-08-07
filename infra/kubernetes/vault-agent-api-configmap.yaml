@@ -4,7 +4,7 @@ metadata:
   name: vault-agent-api-config
   namespace: demo
   labels:
-    app: ojala-api
+    app: phos-api
     component: vault-config
 data:
   agent.hcl: |
@@ -41,7 +41,7 @@ data:
     }
 
   appsettings.tpl: |
-    {{- with secret "ojala-secrets/api" -}}
+    {{- with secret "phos-secrets/api" -}}
     {
       "ConnectionStrings": {
         "DefaultConnection": "{{ .Data.data.ConnectionStrings_DefaultConnection }}"
@@ -80,7 +80,7 @@ data:
     {{- end -}}
 
   jwt-secret.tpl: |
-    {{- with secret "ojala-secrets/api" -}}
+    {{- with secret "phos-secrets/api" -}}
     {
       "secret": "{{ .Data.data.JwtSettings_SecretKey }}",
       "issuer": "{{ .Data.data.JwtSettings_Issuer }}",

@@ -9,7 +9,7 @@
 class SignalingService {
   constructor(config = {}) {
     this.config = {
-      signalServerUrl: 'wss://signal.ojala-healthcare.com',
+      signalServerUrl: 'wss://signal.phos-healthcare.com',
       reconnectAttempts: 5,
       reconnectInterval: 2000,
       peerConnectionConfig: {
@@ -18,8 +18,8 @@ class SignalingService {
           { urls: 'stun:stun1.l.google.com:19302' },
           { urls: 'stun:stun2.l.google.com:19302' },
           {
-            urls: 'turn:turn.ojala-healthcare.com:3478',
-            username: 'ojala',
+            urls: 'turn:turn.phos-healthcare.com:3478',
+            username: 'phos',
             credential: 'placeholder-credential-to-be-replaced'
           }
         ],

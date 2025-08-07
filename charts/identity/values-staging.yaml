@@ -4,7 +4,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-identity
+  repository: registry.hub.docker.com/your-org/phos-identity
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -35,14 +35,14 @@ ingress:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
   hosts:
-    - host: identity.staging.ojala.local
+    - host: identity.staging.phos.local
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: identity-staging-tls
       hosts:
-        - identity.staging.ojala.local
+        - identity.staging.phos.local
 
 resources:
   limits:
@@ -79,7 +79,7 @@ affinity:
 vault:
   enabled: true
   addr: "http://vault.staging:8200"
-  token: "ojala-staging-token"
+  token: "phos-staging-token"
 
 serviceMonitor:
   enabled: true

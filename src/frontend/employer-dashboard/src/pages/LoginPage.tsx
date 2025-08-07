@@ -151,7 +151,7 @@ const LoginPage: React.FC = () => {
             <Box sx={{ color: 'white', textAlign: { xs: 'center', md: 'left' } }}>
               <Business sx={{ fontSize: 64, mb: 2 }} />
               <Typography variant="h3" fontWeight="bold" gutterBottom>
-                Ojala Employer Portal
+                Phos Employer Portal
               </Typography>
               <Typography variant="h6" sx={{ opacity: 0.9, mb: 4, fontWeight: 300 }}>
                 Comprehensive employee health analytics and benefits management
@@ -369,7 +369,7 @@ const LoginPage: React.FC = () => {
                   
                   <Typography variant="body2" color="text.secondary">
                     Need help accessing your account? Contact your IT administrator or 
-                    Ojala Healthcare support.
+                    Phos Healthcare support.
                   </Typography>
                 </Box>
 
@@ -397,7 +397,7 @@ const LoginPage: React.FC = () => {
         {/* Footer */}
         <Box sx={{ textAlign: 'center', mt: 4 }}>
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-            © 2024 Ojala Healthcare • Enterprise • Secure • Compliant
+            © 2024 Phos Healthcare • Enterprise • Secure • Compliant
           </Typography>
         </Box>
       </Container>

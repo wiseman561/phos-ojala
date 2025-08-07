@@ -181,7 +181,7 @@ const LoginPage: React.FC = () => {
             MD Dashboard
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            Ojala Healthcare Platform
+            Phos Healthcare Platform
           </Typography>
         </Box>
 
@@ -282,7 +282,7 @@ const LoginPage: React.FC = () => {
               <Alert severity="info" sx={{ mt: 2 }}>
                 <Typography variant="body2">
                   <strong>Test Credentials:</strong><br />
-                  Email: <code>doctor@ojala-healthcare.com</code><br />
+                  Email: <code>doctor@phos-healthcare.com</code><br />
                   Password: <code>Password123!</code>
                 </Typography>
                 <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>

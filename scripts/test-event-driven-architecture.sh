@@ -55,14 +55,14 @@ echo ""
 echo "🔧 Test 1: Verifying Event Contracts"
 echo "------------------------------------"
 
-if [ -f "src/shared/Ojala.Contracts/Events/UserRegisteredEvent.cs" ]; then
+if [ -f "src/shared/Phos.Contracts/Events/UserRegisteredEvent.cs" ]; then
     print_status "UserRegisteredEvent.cs exists"
 else
     print_error "UserRegisteredEvent.cs not found"
     exit 1
 fi
 
-if [ -f "src/shared/Ojala.Contracts/Events/IEventBus.cs" ]; then
+if [ -f "src/shared/Phos.Contracts/Events/IEventBus.cs" ]; then
     print_status "IEventBus.cs exists"
 else
     print_error "IEventBus.cs not found"
@@ -74,7 +74,7 @@ echo ""
 echo "🔧 Test 2: Verifying Redis Event Bus"
 echo "------------------------------------"
 
-if [ -f "src/shared/Ojala.Common/Events/RedisEventBus.cs" ]; then
+if [ -f "src/shared/Phos.Common/Events/RedisEventBus.cs" ]; then
     print_status "RedisEventBus.cs exists"
 else
     print_error "RedisEventBus.cs not found"
@@ -86,15 +86,15 @@ echo ""
 echo "🔧 Test 3: Verifying Identity Service Integration"
 echo "------------------------------------------------"
 
-if [ -f "src/backend/Ojala.Identity/Events/UserEventPublisher.cs" ]; then
+if [ -f "src/backend/Phos.Identity/Events/UserEventPublisher.cs" ]; then
     print_status "UserEventPublisher.cs exists"
 else
     print_error "UserEventPublisher.cs not found"
     exit 1
 fi
 
-if [ -f "src/backend/Ojala.Identity/Program.cs" ]; then
-    if grep -q "RedisEventBus" "src/backend/Ojala.Identity/Program.cs"; then
+if [ -f "src/backend/Phos.Identity/Program.cs" ]; then
+    if grep -q "RedisEventBus" "src/backend/Phos.Identity/Program.cs"; then
         print_status "Identity Program.cs includes Redis event bus registration"
     else
         print_warning "Identity Program.cs may not include Redis event bus registration"
@@ -109,15 +109,15 @@ echo ""
 echo "🔧 Test 4: Verifying API Service Integration"
 echo "-------------------------------------------"
 
-if [ -f "src/backend/Ojala.Api/Listeners/UserRegisteredHandler.cs" ]; then
+if [ -f "src/backend/Phos.Api/Listeners/UserRegisteredHandler.cs" ]; then
     print_status "UserRegisteredHandler.cs exists"
 else
     print_error "UserRegisteredHandler.cs not found"
     exit 1
 fi
 
-if [ -f "src/backend/Ojala.Api/Program.cs" ]; then
-    if grep -q "UserRegisteredHandler" "src/backend/Ojala.Api/Program.cs"; then
+if [ -f "src/backend/Phos.Api/Program.cs" ]; then
+    if grep -q "UserRegisteredHandler" "src/backend/Phos.Api/Program.cs"; then
         print_status "API Program.cs includes UserRegisteredHandler registration"
     else
         print_warning "API Program.cs may not include UserRegisteredHandler registration"
@@ -158,8 +158,8 @@ echo ""
 echo "🔧 Test 6: Verifying Configuration Files"
 echo "---------------------------------------"
 
-if [ -f "src/backend/Ojala.Identity/appsettings.json" ]; then
-    if grep -q "Redis" "src/backend/Ojala.Identity/appsettings.json"; then
+if [ -f "src/backend/Phos.Identity/appsettings.json" ]; then
+    if grep -q "Redis" "src/backend/Phos.Identity/appsettings.json"; then
         print_status "Identity appsettings.json includes Redis configuration"
     else
         print_warning "Identity appsettings.json may not include Redis configuration"
@@ -169,8 +169,8 @@ else
     exit 1
 fi
 
-if [ -f "src/backend/Ojala.Api/appsettings.json" ]; then
-    if grep -q "Redis" "src/backend/Ojala.Api/appsettings.json"; then
+if [ -f "src/backend/Phos.Api/appsettings.json" ]; then
+    if grep -q "Redis" "src/backend/Phos.Api/appsettings.json"; then
         print_status "API appsettings.json includes Redis configuration"
     else
         print_warning "API appsettings.json may not include Redis configuration"

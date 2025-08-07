@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   # Redis for event bus
-  ojala-redis:
+  phos-redis:
     image: redis:7-alpine
-    container_name: ojala-redis-event-driven
+    container_name: phos-redis-event-driven
     ports:
       - "6379:6379"
     command: redis-server --appendonly yes
@@ -16,18 +16,18 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - ojala-event-network
+      - phos-event-network
 
   # PostgreSQL database
-  ojala-db:
+  phos-db:
     image: postgres:15-alpine
-    container_name: ojala-db-event-driven
+    container_name: phos-db-event-driven
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ojala
+      - POSTGRES_DB=phos
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -36,60 +36,60 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - ojala-event-network
+      - phos-event-network
 
   # Identity Service (simplified build)
-  ojala-identity:
+  phos-identity:
     build:
-      context: ./src/backend/Ojala.Identity
+      context: ./src/backend/Phos.Identity
       dockerfile: Dockerfile
-    container_name: ojala-identity-event-driven
+    container_name: phos-identity-event-driven
     ports:
       - "5501:8080"
     depends_on:
-      ojala-db:
+      phos-db:
         condition: service_healthy
-      ojala-redis:
+      phos-redis:
         condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=postgres
-      - ConnectionStrings__Redis=ojala-redis:6379
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=phos-redis:6379
       - Jwt__Key=super-secret-jwt-key-for-development
-      - Jwt__Issuer=ojala-identity
-      - Jwt__Audience=ojala-api
+      - Jwt__Issuer=phos-identity
+      - Jwt__Audience=phos-api
     networks:
-      - ojala-event-network
+      - phos-event-network
 
   # API Service (simplified build)
-  ojala-api:
+  phos-api:
     build:
-      context: ./src/backend/Ojala.Api
+      context: ./src/backend/Phos.Api
       dockerfile: Dockerfile
-    container_name: ojala-api-event-driven
+    container_name: phos-api-event-driven
     ports:
       - "8080:8080"
     depends_on:
-      ojala-db:
+      phos-db:
         condition: service_healthy
-      ojala-redis:
+      phos-redis:
         condition: service_healthy
-      ojala-identity:
+      phos-identity:
         condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=postgres
-      - ConnectionStrings__Redis=ojala-redis:6379
-      - IdentityServer__Authority=http://ojala-identity:8080
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=phos-redis:6379
+      - IdentityServer__Authority=http://phos-identity:8080
     networks:
-      - ojala-event-network
+      - phos-event-network
 
 volumes:
   redis-data:
   postgres-data:
 
 networks:
-  ojala-event-network:
+  phos-event-network:
     driver: bridge

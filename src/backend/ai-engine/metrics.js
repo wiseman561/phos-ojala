@@ -35,7 +35,7 @@ class MetricsService {
         }
         // Anything worse than fair is considered poor
       },
-      analyticsEndpoint: 'https://analytics.ojala-healthcare.com/api/metrics',
+      analyticsEndpoint: 'https://analytics.phos-healthcare.com/api/metrics',
       enableRealTimeAnalytics: true,
       storageRetentionDays: 90,
       ...config

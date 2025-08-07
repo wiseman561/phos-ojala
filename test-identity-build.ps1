@@ -1,14 +1,14 @@
-# Test script for Ojala Identity build verification
-Write-Host "=== Ojala Identity Build Test ===" -ForegroundColor Green
+# Test script for Phos Identity build verification
+Write-Host "=== Phos Identity Build Test ===" -ForegroundColor Green
 
 # 1. Verify project structure
 Write-Host "`n1. Verifying project structure..." -ForegroundColor Yellow
 
 $requiredPaths = @(
-    "src/backend/Ojala.Identity/Ojala.Identity.csproj",
-    "src/shared/Ojala.Common/Ojala.Common.csproj",
-    "src/shared/Ojala.Contracts/Ojala.Contracts.csproj",
-    "src/backend/Ojala.Data/Ojala.Data.csproj"
+    "src/backend/Phos.Identity/Phos.Identity.csproj",
+    "src/shared/Phos.Common/Phos.Common.csproj",
+    "src/shared/Phos.Contracts/Phos.Contracts.csproj",
+    "src/backend/Phos.Data/Phos.Data.csproj"
 )
 
 foreach ($path in $requiredPaths) {
@@ -22,7 +22,7 @@ foreach ($path in $requiredPaths) {
 
 # 2. Test dotnet restore
 Write-Host "`n2. Testing dotnet restore..." -ForegroundColor Yellow
-Set-Location "src/backend/Ojala.Identity"
+Set-Location "src/backend/Phos.Identity"
 
 try {
     dotnet restore
@@ -60,11 +60,11 @@ Write-Host "`n4. Testing Docker build..." -ForegroundColor Yellow
 if (Get-Command docker -ErrorAction SilentlyContinue) {
     try {
         # Build the identity service specifically
-        docker build -f src/backend/Ojala.Identity/Dockerfile -t ojala-identity-test .
+        docker build -f src/backend/Phos.Identity/Dockerfile -t phos-identity-test .
         if ($LASTEXITCODE -eq 0) {
             Write-Host "✓ Docker build succeeded" -ForegroundColor Green
             # Clean up test image
-            docker rmi ojala-identity-test -f | Out-Null
+            docker rmi phos-identity-test -f | Out-Null
         } else {
             Write-Host "✗ Docker build failed" -ForegroundColor Red
             exit 1
@@ -78,4 +78,4 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
 }
 
 Write-Host "`n=== All tests passed! ===" -ForegroundColor Green
-Write-Host "The Ojala Identity service build configuration is correct." -ForegroundColor Green
+Write-Host "The Phos Identity service build configuration is correct." -ForegroundColor Green

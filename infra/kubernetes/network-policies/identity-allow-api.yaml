@@ -9,7 +9,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: ojala-api
+      app: phos-api
       role: api
   policyTypes:
   - Ingress
@@ -17,10 +17,10 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: ojala-ns
+          name: phos-ns
       podSelector:
         matchLabels:
-          app: ojala-identity
+          app: phos-identity
           role: identity
     ports:
     - protocol: TCP
@@ -32,14 +32,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: identity-to-api-egress
-  namespace: ojala-ns
+  namespace: phos-ns
   annotations:
     description: "Allows identity service to initiate connections to API service"
     hipaa.compliance: "164.312(a)(1)"
 spec:
   podSelector:
     matchLabels:
-      app: ojala-identity
+      app: phos-identity
       role: identity
   policyTypes:
   - Egress
@@ -50,7 +50,7 @@ spec:
           name: demo
       podSelector:
         matchLabels:
-          app: ojala-api
+          app: phos-api
           role: api
     ports:
     - protocol: TCP

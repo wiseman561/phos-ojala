@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Cleanup and Installation Script for Ojala Healthcare Platform
+# Cleanup and Installation Script for Phos Healthcare Platform
 # This script frees up inodes and installs dependencies for frontend projects
 
 set -e
@@ -29,13 +29,20 @@ sudo find /var/log -type f -name "*.1" -delete 2>/dev/null || true
 # Step 2: Install dependencies for frontend projects
 echo "Step 2: Installing dependencies for frontend projects..."
 
-FRONTEND_PROJECTS=(
-  "src/frontend/Ojala.Web"
-  "src/frontend/Ojala.PatientPortal"
-  "src/frontend/rn-dashboard"
-  "src/frontend/employer-dashboard"
-  "src/frontend/patient-app"
-)
+# Automatically detect frontend projects by finding package.json files
+echo "Detecting frontend projects..."
+FRONTEND_PROJECTS=($(find src/frontend -maxdepth 2 -name "package.json" -type f | grep -v node_modules | sed 's|/package.json||'))
+
+if [ ${#FRONTEND_PROJECTS[@]} -eq 0 ]; then
+  echo "Warning: No frontend projects found with package.json files."
+  echo "Make sure you're running this script from the project root directory."
+  exit 1
+fi
+
+echo "Found ${#FRONTEND_PROJECTS[@]} frontend projects:"
+for project in "${FRONTEND_PROJECTS[@]}"; do
+  echo "  - $project"
+done
 
 for project in "${FRONTEND_PROJECTS[@]}"; do
   if [ -d "$project" ]; then

@@ -5,7 +5,7 @@ provider "aws" {
 # VPC and Networking
 module "vpc" {
   source            = "./modules/vpc-override"
-  name              = "ojala-vpc-${var.environment}"
+  name              = "phos-vpc-${var.environment}"
   cidr              = var.vpc_cidr
   azs               = var.availability_zones
   private_subnets   = var.private_subnet_cidrs
@@ -19,7 +19,7 @@ module "vpc" {
 
   tags = {
     Environment = var.environment,
-    Project     = "ojala-healthcare",
+    Project     = "phos-healthcare",
     Terraform   = "true",
   }
 }
@@ -28,7 +28,7 @@ module "vpc" {
 module "eks" {
   source           = "terraform-aws-modules/eks/aws"
   version          = "~> 18.0"
-  cluster_name     = "ojala-eks-${var.environment}"
+  cluster_name     = "phos-eks-${var.environment}"
   cluster_version  = var.kubernetes_version
   vpc_id           = module.vpc.vpc_id
   subnet_ids       = module.vpc.private_subnets
@@ -47,7 +47,7 @@ module "eks" {
       }
       tags = {
         Environment = var.environment,
-        Project     = "ojala-healthcare",
+        Project     = "phos-healthcare",
         Terraform   = "true",
       }
     }
@@ -90,7 +90,7 @@ module "eks" {
 
   tags = {
     Environment = var.environment,
-    Project     = "ojala-healthcare",
+    Project     = "phos-healthcare",
     Terraform   = "true",
   }
 }
@@ -103,7 +103,7 @@ resource "aws_kms_key" "eks" {
 
   tags = {
     Environment = var.environment,
-    Project     = "ojala-healthcare",
+    Project     = "phos-healthcare",
     Terraform   = "true",
   }
 }
@@ -112,13 +112,13 @@ resource "aws_kms_key" "eks" {
 module "db" {
   source                 = "terraform-aws-modules/rds/aws"
   version                = "~> 6.0"
-  identifier             = "ojala-postgres-${var.environment}"
+  identifier             = "phos-postgres-${var.environment}"
   engine                 = "postgres"
   engine_version         = "14.5"
   instance_class         = var.db_instance_class
   allocated_storage      = var.db_allocated_storage
   storage_encrypted      = true
-  db_name                = "ojala"
+  db_name                = "phos"
   username               = var.db_username
   password               = var.db_password
   port                   = "5432"
@@ -139,15 +139,15 @@ module "db" {
 
   tags = {
     Environment = var.environment,
-    Project     = "ojala-healthcare",
+    Project     = "phos-healthcare",
     Terraform   = "true",
   }
 }
 
 # Security group for RDS
 resource "aws_security_group" "db" {
-  name        = "ojala-db-sg-${var.environment}"
-  description = "Security group for Ojala PostgreSQL"
+  name        = "phos-db-sg-${var.environment}"
+  description = "Security group for Phos PostgreSQL"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -166,27 +166,27 @@ resource "aws_security_group" "db" {
 
   tags = {
     Environment = var.environment,
-    Project     = "ojala-healthcare",
+    Project     = "phos-healthcare",
     Terraform   = "true",
   }
 }
 
 # ElastiCache Redis Subnet Group
 resource "aws_elasticache_subnet_group" "redis" {
-  name       = "ojala-redis-sg-${var.environment}"
+  name       = "phos-redis-sg-${var.environment}"
   subnet_ids = module.vpc.private_subnets
 
   tags = {
     Environment = var.environment
-    Project     = "ojala-healthcare"
+    Project     = "phos-healthcare"
     Terraform   = "true"
   }
 }
 
 # Security group for Redis
 resource "aws_security_group" "redis" {
-  name        = "ojala-redis-sg-${var.environment}"
-  description = "Security group for Ojala Redis"
+  name        = "phos-redis-sg-${var.environment}"
+  description = "Security group for Phos Redis"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -206,15 +206,15 @@ resource "aws_security_group" "redis" {
 
   tags = {
     Environment = var.environment
-    Project     = "ojala-healthcare"
+    Project     = "phos-healthcare"
     Terraform   = "true"
   }
 }
 
 # ElastiCache Redis
 resource "aws_elasticache_replication_group" "redis" {
-  replication_group_id       = "ojala-redis-${var.environment}"
-  description                = "Ojala Redis cluster"
+  replication_group_id       = "phos-redis-${var.environment}"
+  description                = "Phos Redis cluster"
 
   node_type                  = var.redis_node_type
   port                       = 6379
@@ -235,7 +235,7 @@ resource "aws_elasticache_replication_group" "redis" {
 
   tags = {
     Environment = var.environment
-    Project     = "ojala-healthcare"
+    Project     = "phos-healthcare"
     Terraform   = "true"
   }
 }

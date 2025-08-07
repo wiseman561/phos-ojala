@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Ojala HealthScore API
+  title: Phos HealthScore API
   description: API for calculating patient health scores and risk tiers
   version: 1.0.0
 

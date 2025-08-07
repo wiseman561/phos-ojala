@@ -36,14 +36,14 @@ check_docker_containers() {
     print_step "Checking Docker containers..."
 
     # Check if containers are running
-    if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "ojala-redis-dev.*Up"; then
+    if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "phos-redis-dev.*Up"; then
         print_success "Redis container is running"
     else
         print_error "Redis container is not running"
         return 1
     fi
 
-    if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "ojala-db-dev.*Up"; then
+    if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "phos-db-dev.*Up"; then
         print_success "PostgreSQL container is running"
     else
         print_error "PostgreSQL container is not running"
@@ -57,7 +57,7 @@ check_docker_containers() {
 test_redis() {
     print_step "Testing Redis connection..."
 
-    if docker exec ojala-redis-dev redis-cli ping | grep -q "PONG"; then
+    if docker exec phos-redis-dev redis-cli ping | grep -q "PONG"; then
         print_success "Redis is responding"
         return 0
     else
@@ -70,7 +70,7 @@ test_redis() {
 test_postgresql() {
     print_step "Testing PostgreSQL connection..."
 
-    if docker exec ojala-db-dev pg_isready -U postgres > /dev/null 2>&1; then
+    if docker exec phos-db-dev pg_isready -U postgres > /dev/null 2>&1; then
         print_success "PostgreSQL is responding"
         return 0
     else
@@ -97,17 +97,17 @@ check_dotnet() {
 check_backend_projects() {
     print_step "Checking backend projects..."
 
-    if [ -d "src/backend/Ojala.Identity" ]; then
-        print_success "Ojala.Identity project exists"
+    if [ -d "src/backend/Phos.Identity" ]; then
+        print_success "Phos.Identity project exists"
     else
-        print_error "Ojala.Identity project not found"
+        print_error "Phos.Identity project not found"
         return 1
     fi
 
-    if [ -d "src/backend/Ojala.Api" ]; then
-        print_success "Ojala.Api project exists"
+    if [ -d "src/backend/Phos.Api" ]; then
+        print_success "Phos.Api project exists"
     else
-        print_error "Ojala.Api project not found"
+        print_error "Phos.Api project not found"
         return 1
     fi
 
@@ -165,7 +165,7 @@ show_next_steps() {
     echo ""
     echo "3. Start frontend applications separately:"
     echo "   cd src/frontend/md-dashboard && npm run dev"
-    echo "   cd src/frontend/Ojala.PatientPortal && npm start"
+    echo "   cd src/frontend/Phos.PatientPortal && npm start"
     echo ""
     echo "4. Access services:"
     echo "   • Identity API: http://localhost:5501"

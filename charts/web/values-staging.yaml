@@ -4,7 +4,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-web
+  repository: registry.hub.docker.com/your-org/phos-web
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -39,14 +39,14 @@ ingress:
       more_set_headers "X-XSS-Protection: 1; mode=block";
       more_set_headers "X-Content-Type-Options: nosniff";
   hosts:
-    - host: web.staging.ojala.local
+    - host: web.staging.phos.local
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: web-staging-tls
       hosts:
-        - web.staging.ojala.local
+        - web.staging.phos.local
 
 resources:
   limits:

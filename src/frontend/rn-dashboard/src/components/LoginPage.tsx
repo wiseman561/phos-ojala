@@ -302,7 +302,7 @@ const LoginPage: React.FC = () => {
         {/* Footer */}
         <Box sx={{ textAlign: 'center', mt: 3 }}>
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-            © 2024 Ojala Healthcare • Secure • Compliant • Trusted
+            © 2024 Phos Healthcare • Secure • Compliant • Trusted
           </Typography>
         </Box>
       </Container>

@@ -1,1 +1,0 @@
-# Ojala.OmicsImporter.utils package 

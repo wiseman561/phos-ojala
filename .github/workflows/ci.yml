@@ -54,18 +54,18 @@ jobs:
       # ──────────────────────────────────────────────────────────────
       # BUILD & TEST
       - name: Restore .NET dependencies
-        run: dotnet restore Ojala.sln --verbosity minimal
+        run: dotnet restore Phos.sln --verbosity minimal
 
       - name: Build .NET solution
-        run: dotnet build Ojala.sln --configuration Release --no-restore --verbosity minimal
+        run: dotnet build Phos.sln --configuration Release --no-restore --verbosity minimal
 
       - name: Run .NET tests
-        run: dotnet test Ojala.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
+        run: dotnet test Phos.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
 
       - name: Install frontend dependencies
         run: |
           # Install dependencies for all frontend apps
-          for app in ojala.web employer-dashboard patient-app rn-dashboard; do
+          for app in phos-web employer-dashboard patient-app rn-dashboard md-dashboard phos-admin phos-patient-portal; do
             dir="src/frontend/$app"
             if [ -f "$dir/package.json" ]; then
               echo "Installing dependencies for $app"
@@ -76,7 +76,7 @@ jobs:
       - name: Build frontend applications
         run: |
           # Build all frontend apps
-          for app in ojala.web employer-dashboard patient-app rn-dashboard; do
+          for app in phos-web employer-dashboard patient-app rn-dashboard md-dashboard phos-admin phos-patient-portal; do
             dir="src/frontend/$app"
             if [ -f "$dir/package.json" ]; then
               echo "Building $app"
@@ -107,7 +107,7 @@ jobs:
       - name: Push Docker images
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          services="ojala-identity ojala-api ojala-apigateway ojala-healthscore ojala-web"
+          services="phos-identity phos-api phos-apigateway phos-healthscore phos-web"
           for service in $services; do
             if docker image inspect "$service:latest" >/dev/null 2>&1; then
               docker tag "$service:latest" "${{ secrets.DOCKERHUB_USER }}/$service:latest"

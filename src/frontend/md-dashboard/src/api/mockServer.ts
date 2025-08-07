@@ -99,7 +99,7 @@ export const setupMockServer = () => {
         console.log(`[Mock Server] Request data:`, data);
 
         // Check credentials
-        if (email === 'doctor@ojala-healthcare.com' && password === 'Password123!') {
+        if (email === 'doctor@phos-healthcare.com' && password === 'Password123!') {
           // Create a valid JWT token structure
           const mockJwtPayload = {
             sub: 'md123',

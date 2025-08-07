@@ -81,7 +81,7 @@ variable "db_allocated_storage" {
 variable "db_username" {
   description = "Username for RDS database"
   type        = string
-  default     = "ojala_admin"
+  default     = "phos_admin"
   sensitive   = true
 }
 
@@ -101,7 +101,7 @@ variable "redis_node_type" {
 variable "domain_name" {
   description = "Domain name for the application"
   type        = string
-  default     = "ojalahealth.com"
+  default     = "phoshealth.com"
 }
 
 variable "create_route53_zone" {
@@ -118,17 +118,17 @@ variable "route53_zone_id" {
 
 # CI/CD image URLs (populated by your pipeline)
 
-variable "ojala_api_image_url" {
-  description = "Docker image URL for Ojala.Api service"
+variable "phos_api_image_url" {
+  description = "Docker image URL for Phos.Api service"
   type        = string
 }
 
-variable "ojala_identity_image_url" {
-  description = "Docker image URL for Ojala.Identity service"
+variable "phos_identity_image_url" {
+  description = "Docker image URL for Phos.Identity service"
   type        = string
 }
 
-variable "ojala_web_image_url" {
-  description = "Docker image URL for Ojala.Web service"
+variable "phos_web_image_url" {
+  description = "Docker image URL for Phos.Web service"
   type        = string
 }

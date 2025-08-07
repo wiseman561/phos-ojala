@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phos-healthscore
+  namespace: demo
+  labels:
+    app: phos-healthscore
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: phos-healthscore
+  template:
+    metadata:
+      labels:
+        app: phos-healthscore
+        component: backend
+    spec:
+      containers:
+      - name: phos-healthscore
+        image: yourdockerhubuser/phos-healthscore:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        envFrom:
+        - configMapRef:
+            name: phos-healthscore-config
+        - secretRef:
+            name: phos-healthscore-secrets
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Staging"
+        - name: HEALTHSCORE_DB_CONN
+          valueFrom:
+            secretKeyRef:
+              name: phos-db-credentials
+              key: connection-string
+        - name: AI_MODEL_PATH
+          value: "/app/models/healthscore-model.onnx"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 5 

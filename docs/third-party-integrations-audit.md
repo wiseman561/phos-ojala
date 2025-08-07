@@ -6,7 +6,7 @@ This audit reviewed the integration of third-party services within the Ojalá He
 
 ## Findings
 
-1.  **Secret Management (Vault)**: The platform utilizes HashiCorp Vault for secret management, as evidenced by `VaultSettings` in various `appsettings.json` files (e.g., Ojala.Api, Ojala.ApiGateway, Ojala.Identity, ai-engine, nurse-assistant). Backend services appear configured to fetch secrets from Vault, which is a strong security practice.
+1.  **Secret Management (Vault)**: The platform utilizes HashiCorp Vault for secret management, as evidenced by `VaultSettings` in various `appsettings.json` files (e.g., Phos.Api, Phos.ApiGateway, Phos.Identity, ai-engine, nurse-assistant). Backend services appear configured to fetch secrets from Vault, which is a strong security practice.
 
 2.  **Payment Processing (Stripe)**: The `src/frontend/patient-app/payment.js` file indicates integration with Stripe. The code structure suggests a `stripeService` dependency is injected during initialization. However, the audit needs to confirm how the Stripe API keys (publishable and secret) are provided to this service. Ideally, the secret key should be handled exclusively by the backend and fetched from Vault, while the publishable key can be configured for the frontend.
 

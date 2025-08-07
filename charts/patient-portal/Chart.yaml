@@ -1,6 +1,6 @@
 apiVersion: v2
 name: patient-portal
-description: A Helm chart for Ojala Patient Portal
+description: A Helm chart for Phos Patient Portal
 type: application
 version: 0.1.0
 appVersion: "1.0.0"

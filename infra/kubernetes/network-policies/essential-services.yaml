@@ -22,9 +22,9 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-dns
-  namespace: ojala-ns
+  namespace: phos-ns
   annotations:
-    description: "Allows DNS resolution for pods in ojala-ns namespace"
+    description: "Allows DNS resolution for pods in phos-ns namespace"
     hipaa.compliance: "164.312(a)(1)"
 spec:
   podSelector: {}
@@ -68,7 +68,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-kube-dns
-  namespace: ojala-ns
+  namespace: phos-ns
   annotations:
     description: "Allows access to kube-dns service"
     hipaa.compliance: "164.312(a)(1)"

@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <!-- Core EF packages -->
-    <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+    <!-- Microsoft.AspNetCore.Http is part of the framework in .NET 9, no separate package needed -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" PrivateAssets="all" />
@@ -35,8 +35,8 @@
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
 
     <!-- AutoMapper -->
-    <PackageVersion Include="AutoMapper" Version="13.0.1" />
-    <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="13.0.1" />
+    <PackageVersion Include="AutoMapper" Version="12.0.1" />
+    <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 
     <!-- Swagger -->
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -45,8 +45,8 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
 
     <!-- Authentication & Identity -->
-    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="7.3.1" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.0.1" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
 
     <!-- Swagger / OpenAPI -->
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
@@ -67,17 +67,19 @@
     <PackageVersion Include="StackExchange.Redis" Version="2.7.17" />
 
     <!-- Testing -->
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageVersion Include="xunit" Version="2.6.6" />
-    <PackageVersion Include="xunit.runner.console" Version="2.9.3">
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageVersion Include="xunit" Version="2.7.0" />
+    <PackageVersion Include="xunit.runner.console" Version="2.7.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.7.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="9.0.0" />
     <PackageVersion Include="Testcontainers" Version="3.7.0" />
     <PackageVersion Include="YamlDotNet" Version="13.7.1" />
 
@@ -86,6 +88,6 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.0" />
 
     <!-- SignalR -->
-    <PackageVersion Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <!-- Microsoft.AspNetCore.SignalR is part of the framework in .NET 9, no separate package needed -->
   </ItemGroup>
 </Project>

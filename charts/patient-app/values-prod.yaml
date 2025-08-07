@@ -4,7 +4,7 @@
 replicaCount: 3
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-patient-app
+  repository: registry.hub.docker.com/your-org/phos-patient-app
   tag: stable
   pullPolicy: Always
 
@@ -44,18 +44,18 @@ ingress:
       more_set_headers "X-XSS-Protection: 1; mode=block";
       more_set_headers "X-Content-Type-Options: nosniff";
       more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload";
-      more_set_headers "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.ojala.com;";
+      more_set_headers "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.phos.com;";
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
   hosts:
-    - host: app.ojala.com
+    - host: app.phos.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: patient-app-prod-tls
       hosts:
-        - app.ojala.com
+        - app.phos.com
 
 resources:
   limits:

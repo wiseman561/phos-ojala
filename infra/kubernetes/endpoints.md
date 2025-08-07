@@ -1,6 +1,6 @@
-# OjalaHealthcarePlatform Local Deployment Endpoints
+# PhosHealthcarePlatform Local Deployment Endpoints
 
-After running the deployment script, the following endpoints will be available for accessing the OjalaHealthcarePlatform services:
+After running the deployment script, the following endpoints will be available for accessing the PhosHealthcarePlatform services:
 
 ## API Endpoints
 - **API Healthcheck**: http://localhost:5000/health
@@ -30,5 +30,5 @@ To verify all services are running correctly:
 ## Troubleshooting
 If any service is not accessible:
 1. Check pod status: `kubectl get pods -n demo`
-2. View logs for specific service: `kubectl logs -n demo deployment/ojala-api`
+2. View logs for specific service: `kubectl logs -n demo deployment/phos-api`
 3. Restart the deployment script: `./scripts/deploy-local.sh`

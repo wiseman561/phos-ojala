@@ -14,7 +14,7 @@
           │                 │                │                 │
           ▼                 ▼                ▼                 ▼
 ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│  Ojala.Api   │   │Legacy Backend│   │GraphQL Layer │   │ Auth Service │
+│  Phos.Api   │   │Legacy Backend│   │GraphQL Layer │   │ Auth Service │
 │  ASP.NET Core│   │   Services   │   │              │   │              │
 └──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
           │                 │                │                 │
@@ -41,7 +41,7 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         Frontend Applications                            │
 ├─────────────┬─────────────┬─────────────┬─────────────┬─────────────────┤
-│ Ojala.Web   │ RN Dashboard│MD Dashboard │ Employer    │ Patient App     │
+│ phos-web   │ RN Dashboard│MD Dashboard │ Employer    │ Patient App     │
 │ (React)     │             │             │ Dashboard   │ (React Native)  │
 └─────────────┴─────────────┴─────────────┴─────────────┴─────────────────┘
                                      │
@@ -96,7 +96,7 @@
 ```
 ┌──────────────────────┐                      ┌──────────────────────┐
 │                      │                      │                      │
-│   Existing System    │                      │   New Ojala System   │
+│   Existing System    │                      │   New Phos System   │
 │                      │                      │                      │
 └──────────┬───────────┘                      └──────────┬───────────┘
            │                                             │
@@ -104,7 +104,7 @@
            ▼                                             ▼
 ┌──────────────────────┐                      ┌──────────────────────┐
 │                      │      ┌─────────┐     │                      │
-│   Legacy API         │◀────▶│ API     │◀───▶│   Ojala.Api          │
+│   Legacy API         │◀────▶│ API     │◀───▶│   Phos.Api          │
 │                      │      │ Gateway │     │                      │
 └──────────┬───────────┘      └─────────┘     └──────────┬───────────┘
            │                                             │
@@ -147,4 +147,4 @@
 └─────────────┴─────────────┴─────────────┴─────────────┴─────────────────┘
 ```
 
-This architecture diagram provides a high-level overview of the integrated healthcare SaaS platform, showing how the existing components will be combined with the new OjalaHealthcarePlatform requirements. The diagrams illustrate the system layers, component relationships, data flow, integration points, security architecture, and feature implementation approach.
+This architecture diagram provides a high-level overview of the integrated healthcare SaaS platform, showing how the existing components will be combined with the new PhosHealthcarePlatform requirements. The diagrams illustrate the system layers, component relationships, data flow, integration points, security architecture, and feature implementation approach.

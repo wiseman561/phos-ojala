@@ -11,10 +11,10 @@ $duplicateDirs = @(
     'backend',
     'libs',
     'integration',
-    'Ojala.Data',
-    'Ojala.Api',
-    'Ojala.Services',
-    'ojala.web'
+    'Phos.Data',
+    'Phos.Api',
+    'Phos.Services',
+    'phos-web'
 )
 
 foreach ($dir in $duplicateDirs) {

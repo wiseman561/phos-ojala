@@ -1,4 +1,4 @@
-{{- with secret "ojala-secrets/api" -}}
+{{- with secret "phos-secrets/api" -}}
 {
   "ConnectionStrings": {
     "DefaultConnection": "{{ .Data.data.ConnectionStrings_DefaultConnection }}"

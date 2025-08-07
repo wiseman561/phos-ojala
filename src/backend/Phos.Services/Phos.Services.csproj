@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="LaunchDarkly.ServerSdk" />
+		<PackageReference Include="StackExchange.Redis" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\shared\Phos.Common\Phos.Common.csproj" />
+		<ProjectReference Include="..\..\shared\Phos.Contracts\Phos.Contracts.csproj" />
+		<ProjectReference Include="..\Phos.Data\Phos.Data.csproj" />
+	</ItemGroup>
+
+</Project>

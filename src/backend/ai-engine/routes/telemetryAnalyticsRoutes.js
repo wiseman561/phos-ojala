@@ -14,9 +14,9 @@ const openai = new OpenAI({
 
 // InfluxDB configuration
 const INFLUX_URL = process.env.INFLUX_URL || 'http://influxdb:8086';
-const INFLUX_TOKEN = process.env.INFLUX_TOKEN || 'ojala-influxdb-token';
-const INFLUX_ORG = process.env.INFLUX_ORG || 'ojala';
-const INFLUX_BUCKET = process.env.INFLUX_BUCKET || 'ojala_telemetry';
+const INFLUX_TOKEN = process.env.INFLUX_TOKEN || 'phos-influxdb-token';
+const INFLUX_ORG = process.env.INFLUX_ORG || 'phos';
+const INFLUX_BUCKET = process.env.INFLUX_BUCKET || 'phos_telemetry';
 
 // Create InfluxDB client
 const influxClient = new InfluxDB({

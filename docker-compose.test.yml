@@ -1,39 +1,37 @@
 version: '3.8'
 
 services:
-  # Redis for event bus testing
-  redis:
-    image: redis:7-alpine
-    container_name: ojala-redis-test
-    ports:
-      - "6379:6379"
-    command: redis-server --appendonly yes
+  tests:
+    image: mcr.microsoft.com/dotnet/sdk:9.0.203
+    container_name: phos-tests
+    working_dir: /app
     volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  # PostgreSQL for database testing
-  postgres:
-    image: postgres:15-alpine
-    container_name: ojala-postgres-test
+      # Mount the WSL-native repo path
+      - ~/projects/Phos-healthcare_new:/app
+      # Cache NuGet packages
+      - nuget-cache:/root/.nuget/packages
     environment:
-      POSTGRES_DB: ojala_test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: testpassword
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+      - DOTNET_NOLOGO=1
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+    command: >
+      bash -c "
+        echo '🔍 Checking .NET SDK version...' &&
+        dotnet --version &&
+        echo '📦 Restoring packages...' &&
+        dotnet restore --verbosity normal &&
+        echo '🔨 Building solution...' &&
+        dotnet build --no-restore --verbosity normal &&
+        echo '🧪 Running tests...' &&
+        dotnet test --no-build --verbosity normal --logger 'console;verbosity=normal' &&
+        echo '✅ All tests completed!'
+      "
+    networks:
+      - phos-test-network
 
 volumes:
-  redis-data:
-  postgres-data:
+  nuget-cache:
+
+networks:
+  phos-test-network:
+    driver: bridge

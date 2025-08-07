@@ -1,4 +1,4 @@
-import { authApi } from '../../../../frontend/ojala.web/src/services/api';
+import { authApi } from '../../../../frontend/phos.web/src/services/api';
 import axios from 'axios';
 
 // Mock axios

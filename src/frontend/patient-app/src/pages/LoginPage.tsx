@@ -222,7 +222,7 @@ const LoginPage: React.FC = () => {
             Patient Portal
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            Ojala Healthcare Platform
+            Phos Healthcare Platform
           </Typography>
         </Box>
 
@@ -334,7 +334,7 @@ const LoginPage: React.FC = () => {
                   Create Account
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                  Join Ojala Healthcare to manage your health
+                  Join Phos Healthcare to manage your health
                 </Typography>
 
                 {errors.register && (
@@ -532,7 +532,7 @@ const LoginPage: React.FC = () => {
 
         {/* Footer */}
         <Typography variant="body2" color="text.secondary" sx={{ mt: 4, textAlign: 'center' }}>
-          © 2024 Ojala Healthcare. All rights reserved.
+          © 2024 Phos Healthcare. All rights reserved.
         </Typography>
       </Box>
     </Container>

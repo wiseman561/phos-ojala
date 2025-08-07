@@ -36,13 +36,13 @@ check_services() {
     print_step "Checking if services are running..."
 
     # Check Redis
-    if ! docker exec ojala-redis-dev redis-cli ping > /dev/null 2>&1; then
+    if ! docker exec phos-redis-dev redis-cli ping > /dev/null 2>&1; then
         print_error "Redis is not running. Please start the development environment first."
         return 1
     fi
 
     # Check PostgreSQL
-    if ! docker exec ojala-db-dev pg_isready -U postgres > /dev/null 2>&1; then
+    if ! docker exec phos-db-dev pg_isready -U postgres > /dev/null 2>&1; then
         print_error "PostgreSQL is not running. Please start the development environment first."
         return 1
     fi
@@ -117,7 +117,7 @@ monitor_redis_events() {
     print_step "Monitoring Redis events for 10 seconds..."
 
     # Start Redis monitor in background
-    docker exec ojala-redis-dev redis-cli monitor > /tmp/redis_monitor.log 2>&1 &
+    docker exec phos-redis-dev redis-cli monitor > /tmp/redis_monitor.log 2>&1 &
     local monitor_pid=$!
 
     # Wait a bit for events to be processed

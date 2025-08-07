@@ -5,7 +5,7 @@
 
 set -e
 
-echo "🚀 Starting Ojala Backend Development Environment"
+echo "🚀 Starting Phos Backend Development Environment"
 echo "================================================="
 
 # Colors for output
@@ -64,7 +64,7 @@ start_infrastructure() {
     docker-compose -f docker-compose.dev.yml down 2>/dev/null || true
 
     # Start Redis and PostgreSQL
-    if docker-compose -f docker-compose.dev.yml up -d ojala-redis ojala-db; then
+    if docker-compose -f docker-compose.dev.yml up -d phos-redis phos-db; then
         print_success "Infrastructure services started"
 
         # Wait for services to be ready
@@ -72,7 +72,7 @@ start_infrastructure() {
         sleep 10
 
         # Test Redis connection
-        if docker exec ojala-redis-dev redis-cli ping > /dev/null 2>&1; then
+        if docker exec phos-redis-dev redis-cli ping > /dev/null 2>&1; then
             print_success "Redis is ready"
         else
             print_error "Redis is not responding"
@@ -80,7 +80,7 @@ start_infrastructure() {
         fi
 
         # Test PostgreSQL connection
-        if docker exec ojala-db-dev pg_isready -U postgres > /dev/null 2>&1; then
+        if docker exec phos-db-dev pg_isready -U postgres > /dev/null 2>&1; then
             print_success "PostgreSQL is ready"
         else
             print_error "PostgreSQL is not responding"
@@ -99,7 +99,7 @@ run_migrations() {
     print_step "Running database migrations..."
 
     # Run Identity migrations
-    cd src/backend/Ojala.Identity
+    cd src/backend/Phos.Identity
     if dotnet ef database update --no-build; then
         print_success "Identity migrations completed"
     else
@@ -107,7 +107,7 @@ run_migrations() {
     fi
 
     # Run API migrations
-    cd ../Ojala.Api
+    cd ../Phos.Api
     if dotnet ef database update --no-build; then
         print_success "API migrations completed"
     else
@@ -128,14 +128,14 @@ start_backend_services() {
 # Function to start Identity service
 start_identity() {
     echo "🆔 Starting Identity service..."
-    cd src/backend/Ojala.Identity
+    cd src/backend/Phos.Identity
     export ASPNETCORE_ENVIRONMENT=Development
     export ASPNETCORE_URLS=http://localhost:5501
-    export ConnectionStrings__DefaultConnection="Host=localhost;Port=5432;Database=ojala;Username=postgres;Password=postgres"
+    export ConnectionStrings__DefaultConnection="Host=localhost;Port=5432;Database=phos;Username=postgres;Password=postgres"
     export ConnectionStrings__Redis="localhost:6379"
     export Jwt__Key="super-secret-jwt-key-for-development"
-    export Jwt__Issuer="ojala-identity"
-    export Jwt__Audience="ojala-api"
+    export Jwt__Issuer="phos-identity"
+    export Jwt__Audience="phos-api"
 
     dotnet watch run --no-hot-reload
 }
@@ -143,10 +143,10 @@ start_identity() {
 # Function to start API service
 start_api() {
     echo "🔌 Starting API service..."
-    cd src/backend/Ojala.Api
+    cd src/backend/Phos.Api
     export ASPNETCORE_ENVIRONMENT=Development
     export ASPNETCORE_URLS=http://localhost:8080
-    export ConnectionStrings__DefaultConnection="Host=localhost;Port=5432;Database=ojala;Username=postgres;Password=postgres"
+    export ConnectionStrings__DefaultConnection="Host=localhost;Port=5432;Database=phos;Username=postgres;Password=postgres"
     export ConnectionStrings__Redis="localhost:6379"
     export IdentityServer__Authority="http://localhost:5501"
 
@@ -205,8 +205,8 @@ show_status() {
     echo ""
     echo "📝 Development Commands:"
     echo "  • Test patient flow: ./scripts/dev-test-patient-flow.sh"
-    echo "  • Monitor Redis: docker exec ojala-redis-dev redis-cli monitor"
-    echo "  • View logs: docker logs ojala-redis-dev"
+    echo "  • Monitor Redis: docker exec phos-redis-dev redis-cli monitor"
+    echo "  • View logs: docker logs phos-redis-dev"
     echo ""
 }
 
@@ -215,14 +215,14 @@ check_services() {
     print_step "Checking service status..."
 
     # Check Redis
-    if docker exec ojala-redis-dev redis-cli ping > /dev/null 2>&1; then
+    if docker exec phos-redis-dev redis-cli ping > /dev/null 2>&1; then
         print_success "Redis is running"
     else
         print_error "Redis is not running"
     fi
 
     # Check PostgreSQL
-    if docker exec ojala-db-dev pg_isready -U postgres > /dev/null 2>&1; then
+    if docker exec phos-db-dev pg_isready -U postgres > /dev/null 2>&1; then
         print_success "PostgreSQL is running"
     else
         print_error "PostgreSQL is not running"

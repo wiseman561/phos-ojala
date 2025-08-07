@@ -4,7 +4,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-patient-portal
+  repository: registry.hub.docker.com/your-org/phos-patient-portal
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -39,14 +39,14 @@ ingress:
       more_set_headers "X-XSS-Protection: 1; mode=block";
       more_set_headers "X-Content-Type-Options: nosniff";
   hosts:
-    - host: patient-portal.staging.ojala.local
+    - host: patient-portal.staging.phos.local
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: patient-portal-staging-tls
       hosts:
-        - patient-portal.staging.ojala.local
+        - patient-portal.staging.phos.local
 
 resources:
   limits:

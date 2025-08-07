@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phos-identity
+  namespace: demo
+  labels:
+    app: phos-identity
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: phos-identity
+  template:
+    metadata:
+      labels:
+        app: phos-identity
+        component: backend
+    spec:
+      containers:
+      - name: phos-identity
+        image: yourdockerhubuser/phos-identity:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        envFrom:
+        - configMapRef:
+            name: phos-identity-config
+        - secretRef:
+            name: phos-identity-secrets
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Staging"
+        - name: ASPNETCORE_URLS
+          value: "http://+:5000"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 5 

@@ -1,4 +1,4 @@
-# GitHub Actions CI/CD Workflow for OjalaHealthcarePlatform
+# GitHub Actions CI/CD Workflow for PhosHealthcarePlatform
 
 name: CI/CD Pipeline
 
@@ -10,8 +10,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY_API: ojala-api
-  ECR_REPOSITORY_WEB: ojala-web
+  ECR_REPOSITORY_API: phos-api
+  ECR_REPOSITORY_WEB: phos-web
   ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
 jobs:
@@ -36,14 +36,14 @@ jobs:
         cache-dependency-path: '**/package-lock.json'
         
     - name: Restore .NET dependencies
-      run: dotnet restore Ojala.Api/Ojala.Api.csproj
+      run: dotnet restore Phos.Api/Phos.Api.csproj
       
     - name: Build .NET projects
-      run: dotnet build --configuration Release --no-restore Ojala.Api/Ojala.Api.csproj
+      run: dotnet build --configuration Release --no-restore Phos.Api/Phos.Api.csproj
       
     - name: Run .NET tests with coverage
       run: |
-        dotnet test Ojala.Tests/Ojala.Tests.csproj \
+        dotnet test Phos.Tests/Phos.Tests.csproj \
           --configuration Release \
           --no-build \
           --verbosity normal \
@@ -58,22 +58,22 @@ jobs:
         
     - name: Install frontend dependencies
       run: |
-        cd Ojala.Web
+        cd Phos.Web
         npm ci
         
     - name: Lint frontend code
       run: |
-        cd Ojala.Web
+        cd Phos.Web
         npm run lint
         
     - name: Build frontend
       run: |
-        cd Ojala.Web
+        cd Phos.Web
         npm run build
         
     - name: Run frontend tests
       run: |
-        cd Ojala.Web
+        cd Phos.Web
         npm test -- --coverage
         
     - name: SonarCloud Scan
@@ -83,20 +83,20 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         args: >
-          -Dsonar.projectKey=ojala-healthcare-platform
-          -Dsonar.organization=ojala-healthcare
-          -Dsonar.sources=Ojala.Api,Ojala.Web,Ojala.Services
-          -Dsonar.tests=Ojala.Tests
+          -Dsonar.projectKey=phos-healthcare-platform
+          -Dsonar.organization=phos-healthcare
+          -Dsonar.sources=Phos.Api,Phos.Web,Phos.Services
+          -Dsonar.tests=Phos.Tests
           -Dsonar.cs.opencover.reportsPaths=coverage/**/coverage.opencover.xml
-          -Dsonar.javascript.lcov.reportPaths=Ojala.Web/coverage/lcov.info
+          -Dsonar.javascript.lcov.reportPaths=Phos.Web/coverage/lcov.info
           
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
         path: |
-          Ojala.Api/bin/Release/net6.0/
-          Ojala.Web/build/
+          Phos.Api/bin/Release/net6.0/
+          Phos.Web/build/
 
   build-and-push-images:
     name: Build and Push Docker Images
@@ -125,7 +125,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY_API:latest -f Ojala.Api/Dockerfile .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY_API:latest -f Phos.Api/Dockerfile .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY_API:latest
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG"
@@ -136,7 +136,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_WEB:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY_WEB:latest -f Ojala.Web/Dockerfile .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_WEB:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY_WEB:latest -f Phos.Web/Dockerfile .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY_WEB:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY_WEB:latest
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY_WEB:$IMAGE_TAG"
@@ -162,7 +162,7 @@ jobs:
       run: |
         aws cloudformation deploy \
           --template-file infra/cloudformation/network.yml \
-          --stack-name ${{ env.ENVIRONMENT }}-ojala-network \
+          --stack-name ${{ env.ENVIRONMENT }}-phos-network \
           --parameter-overrides \
             EnvironmentName=${{ env.ENVIRONMENT }} \
           --capabilities CAPABILITY_IAM \
@@ -172,7 +172,7 @@ jobs:
       run: |
         aws cloudformation deploy \
           --template-file infra/cloudformation/rds-instance.yml \
-          --stack-name ${{ env.ENVIRONMENT }}-ojala-rds \
+          --stack-name ${{ env.ENVIRONMENT }}-phos-rds \
           --parameter-overrides \
             EnvironmentName=${{ env.ENVIRONMENT }} \
             DBPassword=${{ secrets.DB_PASSWORD }} \
@@ -183,7 +183,7 @@ jobs:
       run: |
         aws cloudformation deploy \
           --template-file infra/cloudformation/ecs-cluster.yml \
-          --stack-name ${{ env.ENVIRONMENT }}-ojala-ecs \
+          --stack-name ${{ env.ENVIRONMENT }}-phos-ecs \
           --parameter-overrides \
             EnvironmentName=${{ env.ENVIRONMENT }} \
             KeyName=${{ secrets.EC2_KEY_NAME }} \
@@ -213,10 +213,10 @@ jobs:
     - name: Download task definition
       run: |
         aws ecs describe-task-definition \
-          --task-definition ${{ env.ENVIRONMENT }}-ojala-api \
+          --task-definition ${{ env.ENVIRONMENT }}-phos-api \
           --query taskDefinition > task-definition-api.json
         aws ecs describe-task-definition \
-          --task-definition ${{ env.ENVIRONMENT }}-ojala-web \
+          --task-definition ${{ env.ENVIRONMENT }}-phos-web \
           --query taskDefinition > task-definition-web.json
           
     - name: Fill in the new API image ID in the Amazon ECS task definition
@@ -224,7 +224,7 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition-api.json
-        container-name: ojala-api
+        container-name: phos-api
         image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_API }}:${{ github.sha }}
         
     - name: Fill in the new Web image ID in the Amazon ECS task definition
@@ -232,23 +232,23 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition-web.json
-        container-name: ojala-web
+        container-name: phos-web
         image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_WEB }}:${{ github.sha }}
         
     - name: Deploy API Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def-api.outputs.task-definition }}
-        service: ${{ env.ENVIRONMENT }}-ojala-api
-        cluster: ${{ env.ENVIRONMENT }}-ojala-cluster
+        service: ${{ env.ENVIRONMENT }}-phos-api
+        cluster: ${{ env.ENVIRONMENT }}-phos-cluster
         wait-for-service-stability: true
         
     - name: Deploy Web Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def-web.outputs.task-definition }}
-        service: ${{ env.ENVIRONMENT }}-ojala-web
-        cluster: ${{ env.ENVIRONMENT }}-ojala-cluster
+        service: ${{ env.ENVIRONMENT }}-phos-web
+        cluster: ${{ env.ENVIRONMENT }}-phos-cluster
         wait-for-service-stability: true
         
     - name: Notify deployment status
@@ -260,7 +260,7 @@ jobs:
         SLACK_COLOR: ${{ job.status }}
         SLACK_TITLE: Deployment Status
         SLACK_MESSAGE: 'Deployment to ${{ env.ENVIRONMENT }} ${{ job.status }}'
-        SLACK_FOOTER: 'OjalaHealthcarePlatform CI/CD Pipeline'
+        SLACK_FOOTER: 'PhosHealthcarePlatform CI/CD Pipeline'
 
   run-e2e-tests:
     name: Run End-to-End Tests

@@ -1,5 +1,5 @@
-﻿using Ojala.Api.Controllers;
-using Ojala.Identity.Services.Interfaces;
+﻿using Phos.Api.Controllers;
+using Phos.Identity.Services.Interfaces;
 using Moq;
 
 namespace AuthControllerManualTest

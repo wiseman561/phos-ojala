@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 KUBERNETES_DIR="${REPO_ROOT}/infra/kubernetes"
-CLUSTER_NAME="ojala-cluster"
+CLUSTER_NAME="phos-cluster"
 NAMESPACE="demo"
 
 # Colors for output
@@ -12,7 +12,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}Deploying OjalaHealthcarePlatform to local Kubernetes cluster${NC}"
+echo -e "${YELLOW}Deploying PhosHealthcarePlatform to local Kubernetes cluster${NC}"
 
 # Check if kind is installed
 if ! command -v kind &> /dev/null; then
@@ -51,64 +51,64 @@ fi
 
 # Apply Kubernetes manifests for original services
 echo -e "${YELLOW}Applying Kubernetes manifests for core services${NC}"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-api-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-api-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-apigateway-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-apigateway-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-web-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-web-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-patientportal-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-patientportal-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-api-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-api-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-apigateway-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-apigateway-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-web-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-web-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-patientportal-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-patientportal-service.yaml"
 
 # Apply Kubernetes manifests for new microservices
 echo -e "${YELLOW}Applying Kubernetes manifests for new microservices${NC}"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-ai-engine-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-ai-engine-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-nurse-assistant-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-nurse-assistant-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-rn-dashboard-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-rn-dashboard-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-employer-dashboard-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-employer-dashboard-service.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-patient-app-deployment.yaml"
-kubectl apply -f "${KUBERNETES_DIR}/ojala-patient-app-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-ai-engine-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-ai-engine-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-nurse-assistant-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-nurse-assistant-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-rn-dashboard-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-rn-dashboard-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-employer-dashboard-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-employer-dashboard-service.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-patient-app-deployment.yaml"
+kubectl apply -f "${KUBERNETES_DIR}/phos-patient-app-service.yaml"
 
 # Update services to use NodePort for local access
 echo -e "${YELLOW}Updating services to use NodePort for local access${NC}"
 # Original services
-kubectl patch svc ojala-api -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5000, "nodePort": 30500}]}}'
-kubectl patch svc ojala-apigateway -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5001, "nodePort": 30501}]}}'
-kubectl patch svc ojala-web -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3000, "nodePort": 30300}]}}'
-kubectl patch svc ojala-patientportal -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3001, "nodePort": 30301}]}}'
+kubectl patch svc phos-api -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5000, "nodePort": 30500}]}}'
+kubectl patch svc phos-apigateway -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5001, "nodePort": 30501}]}}'
+kubectl patch svc phos-web -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3000, "nodePort": 30300}]}}'
+kubectl patch svc phos-patientportal -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3001, "nodePort": 30301}]}}'
 
 # New microservices
-kubectl patch svc ojala-ai-engine -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5002, "nodePort": 30502}]}}'
-kubectl patch svc ojala-nurse-assistant -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5003, "nodePort": 30503}]}}'
-kubectl patch svc ojala-rn-dashboard -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3002, "nodePort": 30302}]}}'
-kubectl patch svc ojala-employer-dashboard -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3003, "nodePort": 30303}]}}'
-kubectl patch svc ojala-patient-app -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3004, "nodePort": 30304}]}}'
+kubectl patch svc phos-ai-engine -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5002, "nodePort": 30502}]}}'
+kubectl patch svc phos-nurse-assistant -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 5003, "nodePort": 30503}]}}'
+kubectl patch svc phos-rn-dashboard -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3002, "nodePort": 30302}]}}'
+kubectl patch svc phos-employer-dashboard -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3003, "nodePort": 30303}]}}'
+kubectl patch svc phos-patient-app -n ${NAMESPACE} -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 3004, "nodePort": 30304}]}}'
 
 # Wait for deployments to be ready
 echo -e "${YELLOW}Waiting for deployments to be ready...${NC}"
 # Original services
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-api -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-apigateway -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-web -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-patientportal -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-api -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-apigateway -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-web -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-patientportal -n ${NAMESPACE}
 
 # New microservices
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-ai-engine -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-nurse-assistant -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-rn-dashboard -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-employer-dashboard -n ${NAMESPACE}
-kubectl wait --for=condition=available --timeout=300s deployment/ojala-patient-app -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-ai-engine -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-nurse-assistant -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-rn-dashboard -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-employer-dashboard -n ${NAMESPACE}
+kubectl wait --for=condition=available --timeout=300s deployment/phos-patient-app -n ${NAMESPACE}
 
 # Print pod status
 echo -e "${YELLOW}Pod status:${NC}"
 kubectl get pods -n ${NAMESPACE}
 
 # Print service endpoints
-echo -e "\n${GREEN}OjalaHealthcarePlatform is now available at:${NC}"
+echo -e "\n${GREEN}PhosHealthcarePlatform is now available at:${NC}"
 echo -e "${GREEN}API Gateway: http://localhost:30501${NC}"
 echo -e "${GREEN}API healthcheck: http://localhost:30500/health${NC}"
 echo -e "${GREEN}Provider portal: http://localhost:30300${NC}"

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Phos.Common\Phos.Common.csproj" />
+    <ProjectReference Include="..\..\shared\Phos.Contracts\Phos.Contracts.csproj" />
+    <ProjectReference Include="..\Phos.Data\Phos.Data.csproj" />
+  </ItemGroup>
+
+</Project>

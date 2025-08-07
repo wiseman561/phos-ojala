@@ -3,7 +3,7 @@ version: '3.8'
 services:
   omics-db:
     image: postgres:15
-    container_name: ojala_platform_clean_scaffold_redo-omics-db-1
+    container_name: phos_platform_clean_scaffold_redo-omics-db-1
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -13,13 +13,13 @@ services:
     volumes:
       - omics_db_data:/var/lib/postgresql/data
     networks:
-      - ojala-network
+      - phos-network
   
   omics-importer:
     build:
-      context: ./src/backend/Ojala.OmicsImporter
+      context: ./src/backend/Phos.OmicsImporter
       dockerfile: Dockerfile
-    container_name: ojala_platform_clean_scaffold_redo-omics-importer-1
+    container_name: phos_platform_clean_scaffold_redo-omics-importer-1
     ports:
       - "8085:8000"
     depends_on:
@@ -28,14 +28,14 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@omics-db:5432/omics
       - RELOAD=True
     networks:
-      - ojala-network
+      - phos-network
     volumes:
-      - ./src/backend/Ojala.OmicsImporter:/app
+      - ./src/backend/Phos.OmicsImporter:/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   omics_db_data:
 
 networks:
-  ojala-network:
+  phos-network:
     external: true 

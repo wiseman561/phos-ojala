@@ -25,8 +25,8 @@ REACT_APP_SIGNALR_URL=http://localhost:5000/hubs/alerts
 Set `REACT_APP_USE_MOCKS=false` in `.env.production`:
 ```env
 REACT_APP_USE_MOCKS=false
-REACT_APP_API_URL=https://api.ojala-healthcare.com
-REACT_APP_SIGNALR_URL=https://api.ojala-healthcare.com/hubs/alerts
+REACT_APP_API_URL=https://api.phos-healthcare.com
+REACT_APP_SIGNALR_URL=https://api.phos-healthcare.com/hubs/alerts
 ```
 
 ## Services

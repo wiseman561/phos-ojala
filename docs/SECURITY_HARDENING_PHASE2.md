@@ -1,6 +1,6 @@
 # Phase 2 Security Hardening Summary
 
-This document summarizes the security improvements implemented during Phase 2 (Docker/Kubernetes/CI Hardening) of the Ojala Healthcare Platform project.
+This document summarizes the security improvements implemented during Phase 2 (Docker/Kubernetes/CI Hardening) of the Phos Healthcare Platform project.
 
 ## 1. Dockerfile Hardening
 
@@ -14,24 +14,24 @@ Security best practices were applied across multiple Dockerfiles to minimize the
 *   **Optimized Package Installation:** Used flags like `--no-cache-dir` (pip) to avoid storing unnecessary cache data within the image layers.
 
 These improvements were applied to the Dockerfiles for the following services:
-*   `Ojala.Api`
+*   `Phos.Api`
 *   `rn-dashboard`
-*   `Ojala.Identity`
-*   `Ojala.AlertsStreamer`
-*   `Ojala.ApiGateway`
-*   `Ojala.DeviceGateway`
-*   `Ojala.Services`
-*   `Ojala.TelemetryProcessor`
+*   `Phos.Identity`
+*   `Phos.AlertsStreamer`
+*   `Phos.ApiGateway`
+*   `Phos.DeviceGateway`
+*   `Phos.Services`
+*   `Phos.TelemetryProcessor`
 *   `ai-engine`
 *   `nurse-assistant`
-*   `Ojala.PatientPortal`
-*   `Ojala.Web`
+*   `Phos.PatientPortal`
+*   `Phos.Web`
 
 ## 2. Kubernetes Manifest Hardening (Helm Charts)
 
 The Helm charts for the `api` and `identity` services were updated to address critical security vulnerabilities and enforce stricter configurations:
 
-*   **Removed Hardcoded Secrets:** Eliminated hardcoded Vault tokens (`vault.token: "ojala-root-token"`) from `values.yaml` files, preventing sensitive credentials from being stored in version control.
+*   **Removed Hardcoded Secrets:** Eliminated hardcoded Vault tokens (`vault.token: "phos-root-token"`) from `values.yaml` files, preventing sensitive credentials from being stored in version control.
 *   **Secure Secret Injection (Vault Agent):** Configured deployments to use the Vault Agent Injector with the Kubernetes authentication method. Pods now authenticate to Vault using their Service Account Token (SAT) and receive secrets securely via annotations (`vault.hashicorp.com/agent-inject: 'true'`, `vault.hashicorp.com/role`, `vault.hashicorp.com/agent-inject-secret-*`), replacing the insecure injection of `VAULT_TOKEN` as an environment variable.
 *   **Stricter Security Contexts:** Implemented Pod and Container `securityContext` settings in `deployment.yaml` templates to enforce the principle of least privilege:
     *   `runAsNonRoot: true`: Prevents containers from running as root.
@@ -51,5 +51,5 @@ Security was enhanced across the GitHub Actions workflows (`ci-cd.yml`, `docker-
 *   **Vulnerability Scanning:** Integrated and configured Trivy (`aquasecurity/trivy-action`) in `docker-ci.yml` to scan container images for vulnerabilities, failing the build on `CRITICAL` or `HIGH` severity findings.
 *   **Workflow Optimization:** Added `--no-build` flag to `dotnet ef database update` in `db-migrations.yml` to avoid potentially redundant build steps during migration application.
 
-These combined measures significantly improve the security posture of the Ojala Healthcare Platform's containerization, deployment, and CI/CD processes.
+These combined measures significantly improve the security posture of the Phos Healthcare Platform's containerization, deployment, and CI/CD processes.
 

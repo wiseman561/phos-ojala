@@ -1,5 +1,5 @@
 groups:
-  - name: OjalaHealthcarePlatform
+  - name: PhosHealthcarePlatform
     rules:
       - alert: HighErrorRate
         expr: sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
@@ -37,14 +37,14 @@ groups:
           summary: "Legacy API is down"
           description: "Legacy API has been down for more than 1 minute"
 
-      - alert: OjalaApiDown
-        expr: up{job="ojala-api"} == 0
+      - alert: PhosApiDown
+        expr: up{job="phos-api"} == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "Ojala API is down"
-          description: "Ojala API has been down for more than 1 minute"
+          summary: "Phos API is down"
+          description: "Phos API has been down for more than 1 minute"
 
       - alert: AiEngineDown
         expr: up{job="ai-integration"} == 0

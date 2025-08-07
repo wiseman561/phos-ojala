@@ -8,7 +8,7 @@ The system uses a publish-subscribe pattern with Redis as the message broker to 
 
 ```
 ┌─────────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Ojala.Identity│    │    Redis    │    │  Ojala.Api  │
+│   Phos.Identity│    │    Redis    │    │  Phos.Api  │
 │                 │    │   Pub/Sub   │    │             │
 │ ┌─────────────┐ │    │             │    │ ┌─────────┐ │
 │ │AuthService  │ │───▶│  Event Bus  │───▶│ │Listener │ │
@@ -22,27 +22,27 @@ The system uses a publish-subscribe pattern with Redis as the message broker to 
 ## 📋 Components
 
 ### 1. Event Definition
-- **File**: `src/shared/Ojala.Contracts/Events/UserRegisteredEvent.cs`
+- **File**: `src/shared/Phos.Contracts/Events/UserRegisteredEvent.cs`
 - **Purpose**: Defines the structure of user registration events
 - **Properties**: UserId, Email, Role, FirstName, LastName, RegisteredAt, Metadata
 
 ### 2. Event Bus Interface
-- **File**: `src/shared/Ojala.Contracts/Events/IEventBus.cs`
+- **File**: `src/shared/Phos.Contracts/Events/IEventBus.cs`
 - **Purpose**: Generic interface for publishing and subscribing to events
 - **Methods**: `PublishAsync<T>()`, `SubscribeAsync<T>()`
 
 ### 3. Redis Event Bus Implementation
-- **File**: `src/shared/Ojala.Common/Events/RedisEventBus.cs`
+- **File**: `src/shared/Phos.Common/Events/RedisEventBus.cs`
 - **Purpose**: Redis-based implementation of the event bus using pub/sub
 - **Features**: JSON serialization, error handling, logging
 
-### 4. Event Publisher (Ojala.Identity)
-- **File**: `src/backend/Ojala.Identity/Events/UserEventPublisher.cs`
+### 4. Event Publisher (Phos.Identity)
+- **File**: `src/backend/Phos.Identity/Events/UserEventPublisher.cs`
 - **Purpose**: Publishes UserRegistered events when users are created
 - **Integration**: Called from AuthService.RegisterAsync()
 
-### 5. Event Handler (Ojala.Api)
-- **File**: `src/backend/Ojala.Api/Listeners/UserRegisteredHandler.cs`
+### 5. Event Handler (Phos.Api)
+- **File**: `src/backend/Phos.Api/Listeners/UserRegisteredHandler.cs`
 - **Purpose**: Background service that listens for UserRegistered events
 - **Action**: Creates patient records for users with "Patient" role
 
@@ -54,14 +54,14 @@ Both services are configured to connect to Redis:
 ```json
 {
   "ConnectionStrings": {
-    "Redis": "ojala-redis:6379"
+    "Redis": "phos-redis:6379"
   }
 }
 ```
 
 ### Service Registration
 
-#### Ojala.Identity (Program.cs)
+#### Phos.Identity (Program.cs)
 ```csharp
 // Add Redis and Event Bus
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
@@ -75,7 +75,7 @@ builder.Services.AddSingleton<IEventBus, RedisEventBus>();
 builder.Services.AddScoped<IUserEventPublisher, UserEventPublisher>();
 ```
 
-#### Ojala.Api (Program.cs)
+#### Phos.Api (Program.cs)
 ```csharp
 // Add Redis and Event Bus
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
@@ -114,17 +114,17 @@ builder.Services.AddHostedService<UserRegisteredHandler>();
 ## 🧪 Testing
 
 ### Unit Tests
-- **File**: `tests/Ojala.Tests.Unit/Events/UserRegisteredEventTests.cs`
+- **File**: `tests/Phos.Tests.Unit/Events/UserRegisteredEventTests.cs`
 - **Coverage**: Event serialization, Redis pub/sub, error handling
 
 ### Integration Tests
-- **File**: `tests/Ojala.Tests.Integration/UserRegistrationIntegrationTests.cs`
+- **File**: `tests/Phos.Tests.Integration/UserRegistrationIntegrationTests.cs`
 - **Coverage**: Complete flow from event to patient creation
 
 ## 🚀 Benefits
 
 ### 1. Decoupling
-- Ojala.Identity has no knowledge of Ojala.Api
+- Phos.Identity has no knowledge of Phos.Api
 - Services can be deployed independently
 - Changes to patient creation logic don't affect user registration
 

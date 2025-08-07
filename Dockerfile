@@ -8,13 +8,13 @@ RUN groupadd --system appgroup && \
     chown -R appuser:appgroup /app
 
 # Only copy the package.json and package-lock.json first for better caching
-COPY src/backend/Ojala.TelemetryProcessor/package*.json ./
+COPY src/backend/Phos.TelemetryProcessor/package*.json ./
 
 # Install dependencies
 RUN npm install --legacy-peer-deps
 
 # Copy only the rest of the source after dependencies are installed
-COPY src/backend/Ojala.TelemetryProcessor/ ./
+COPY src/backend/Phos.TelemetryProcessor/ ./
 
 # Set correct permissions
 RUN chown -R appuser:appgroup /app

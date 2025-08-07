@@ -1,12 +1,12 @@
-# Vault Secret Management for Ojala API
+# Vault Secret Management for Phos API
 
-This directory contains the complete HashiCorp Vault setup for secure secret management in the Ojala API.
+This directory contains the complete HashiCorp Vault setup for secure secret management in the Phos API.
 
 ## Architecture Overview
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Ojala API     │    │   Vault Agent    │    │   Vault Server  │
+│   Phos API     │    │   Vault Agent    │    │   Vault Server  │
 │                 │    │                  │    │                 │
 │ Reads JWT       │◄───┤ Renders secrets  │◄───┤ Stores secrets  │
 │ from file       │    │ from templates   │    │ securely        │
@@ -22,7 +22,7 @@ vault/
 ├── templates/
 │   └── jwt-secret.json.tpl      # JWT secret template
 ├── policies/
-│   └── ojala-api-policy.hcl     # Vault policy for API access
+│   └── phos-api-policy.hcl     # Vault policy for API access
 ├── scripts/
 │   ├── init-vault.sh            # Vault initialization script
 │   └── rotate-jwt-secret.sh     # Secret rotation script
@@ -39,7 +39,7 @@ docker-compose up vault -d
 
 # Wait for Vault to be ready, then initialize
 export VAULT_ADDR=http://localhost:8200
-export VAULT_TOKEN=ojala-dev-token
+export VAULT_TOKEN=phos-dev-token
 
 # Run initialization script
 chmod +x vault/scripts/init-vault.sh
@@ -57,7 +57,7 @@ docker-compose up -d
 
 ```bash
 # Check if JWT secret file exists
-docker exec ojala-api ls -la /vault/secrets/
+docker exec phos-api ls -la /vault/secrets/
 
 # Test health endpoint
 curl http://localhost:5000/health
@@ -78,13 +78,13 @@ Renders the following JSON structure:
 ```json
 {
   "secret": "base64-encoded-jwt-secret",
-  "issuer": "OjalaHealthcarePlatform",
-  "audience": "OjalaHealthcarePlatformClients",
+  "issuer": "PhosHealthcarePlatform",
+  "audience": "PhosHealthcarePlatformClients",
   "expiry_minutes": "60"
 }
 ```
 
-### Vault Policy (`ojala-api-policy.hcl`)
+### Vault Policy (`phos-api-policy.hcl`)
 
 Grants the following permissions:
 - Read access to `secret/data/jwt-secret`
@@ -107,8 +107,8 @@ chmod +x vault/scripts/rotate-jwt-secret.sh
 # Update JWT secret manually
 vault kv put secret/jwt-secret \
   secret="your-new-secret" \
-  issuer="OjalaHealthcarePlatform" \
-  audience="OjalaHealthcarePlatformClients" \
+  issuer="PhosHealthcarePlatform" \
+  audience="PhosHealthcarePlatformClients" \
   expiry_minutes="60"
 ```
 
@@ -159,14 +159,14 @@ helm install vault hashicorp/vault --set injector.enabled=true
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ojala-api
+  name: phos-api
 spec:
   template:
     metadata:
       annotations:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/agent-inject-secret-jwt-secret: "secret/jwt-secret"
-        vault.hashicorp.com/role: "ojala-api-role"
+        vault.hashicorp.com/role: "phos-api-role"
 ```
 
 3. Vault Injector will automatically:
@@ -209,13 +209,13 @@ vault status
 vault kv list secret/
 
 # Check AppRole
-vault read auth/approle/role/ojala-api-role
+vault read auth/approle/role/phos-api-role
 
 # Test policy
-vault policy read ojala-api-policy
+vault policy read phos-api-policy
 
 # Check Vault Agent logs
-docker logs ojala-vault-agent-api
+docker logs phos-vault-agent-api
 ```
 
 ## Security Best Practices

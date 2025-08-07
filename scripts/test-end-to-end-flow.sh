@@ -34,7 +34,7 @@ print_error() {
 # Function to check if Redis is running
 check_redis() {
     print_step "Checking Redis connection..."
-    if docker exec ojala-redis-test redis-cli ping > /dev/null 2>&1; then
+    if docker exec phos-redis-test redis-cli ping > /dev/null 2>&1; then
         print_success "Redis is running and accessible"
         return 0
     else
@@ -71,7 +71,7 @@ EOF
 )
 
     # Publish to Redis
-    local result=$(docker exec ojala-redis-test redis-cli publish "events:userregisteredevent" "$event_json")
+    local result=$(docker exec phos-redis-test redis-cli publish "events:userregisteredevent" "$event_json")
 
     if [ "$result" -ge 0 ]; then
         print_success "UserRegisteredEvent published successfully (subscribers: $result)"
@@ -228,8 +228,8 @@ main() {
     echo "🎉 End-to-end test PASSED!"
     echo ""
     echo "💡 Next steps for production deployment:"
-    echo "  1. Start Identity service: dotnet run --project src/backend/Ojala.Identity"
-    echo "  2. Start API service: dotnet run --project src/backend/Ojala.Api"
+    echo "  1. Start Identity service: dotnet run --project src/backend/Phos.Identity"
+    echo "  2. Start API service: dotnet run --project src/backend/Phos.Api"
     echo "  3. Start frontend: npm start --prefix src/frontend/md-dashboard"
     echo "  4. Monitor logs for event processing"
 }

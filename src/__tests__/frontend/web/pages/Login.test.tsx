@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { useAuth } from '../../../../hooks/useAuth';
-import Login from '../../../../ojala.web/Login';
+import Login from '../../../../phos.web/Login';
 
 // Mock the useAuth hook
 jest.mock('../../../../hooks/useAuth');

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phos-identity-deployment
+  namespace: phos-ns # Assuming a namespace, create if not existing
+  labels:
+    app: phos-identity
+spec:
+  replicas: 2 # Start with 2 replicas, adjust based on needs
+  selector:
+    matchLabels:
+      app: phos-identity
+  template:
+    metadata:
+      labels:
+        app: phos-identity
+    spec:
+      containers:
+        - name: phos-identity
+          image: yourdockerhubuser/phos-identity:latest # Replace with actual image name and tag from CI
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80 # Port the application listens on inside the container
+          envFrom:
+            - configMapRef:
+                name: phos-identity-configmap
+            - secretRef:
+                name: phos-identity-secrets
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /healthz # Matches Dockerfile HEALTHCHECK
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phos-identity-service
+  namespace: phos-ns
+  labels:
+    app: phos-identity
+spec:
+  type: ClusterIP # Or LoadBalancer if it needs to be externally accessible directly
+  selector:
+    app: phos-identity
+  ports:
+    - protocol: TCP
+      port: 80 # Port the service will be available on within the cluster
+      targetPort: 80 # Port the container is listening on
+

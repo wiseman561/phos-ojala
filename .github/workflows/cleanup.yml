@@ -71,7 +71,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const packages = ['ojala-identity', 'ojala-api', 'ojala-apigateway', 'ojala-healthscore', 'ojala-web'];
+            const packages = ['phos-identity', 'phos-api', 'phos-apigateway', 'phos-healthscore', 'phos-web'];
 
             for (const packageName of packages) {
               try {

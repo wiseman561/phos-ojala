@@ -7,29 +7,29 @@ This document summarizes the changes made to migrate hardcoded JWT secrets to Ha
 
 ### 1. Application Configuration Updates
 
-#### Ojala.Api Service
-- **File:** `src/backend/Ojala.Api/appsettings.json`
+#### Phos.Api Service
+- **File:** `src/backend/Phos.Api/appsettings.json`
   - Added `JwtSettings` section with `SecretKeyPath` pointing to `/vault/secrets/jwt-secret.json`
   - Removed hardcoded JWT secret values
 
-- **File:** `src/backend/Ojala.Api/appsettings.Development.json`
+- **File:** `src/backend/Phos.Api/appsettings.Development.json`
   - Updated to use `SecretKeyPath` instead of hardcoded `SecretKey`
   - Standardized issuer and audience values
 
-- **File:** `src/backend/Ojala.Api/Startup.cs`
+- **File:** `src/backend/Phos.Api/Startup.cs`
   - Added `GetJwtSecretKey()` method to read secret from Vault-mounted file
   - Updated JWT configuration to use the secret from file
   - Added proper error handling for missing files
 
-#### Ojala.Identity Service
-- **File:** `src/backend/Ojala.Identity/appsettings.json`
+#### Phos.Identity Service
+- **File:** `src/backend/Phos.Identity/appsettings.json`
   - Updated `JwtSettings` to use `SecretKeyPath` instead of hardcoded `Secret`
   - Standardized issuer and audience values
 
-- **File:** `src/backend/Ojala.Identity/appsettings.Development.json`
+- **File:** `src/backend/Phos.Identity/appsettings.Development.json`
   - Updated to use `SecretKeyPath` instead of hardcoded `SecretKey`
 
-- **File:** `src/backend/Ojala.Identity/Services/TokenService.cs`
+- **File:** `src/backend/Phos.Identity/Services/TokenService.cs`
   - Added `GetJwtSecretKey()` method to read secret from Vault-mounted file
   - Updated both `GenerateJwtToken()` and `ValidateToken()` methods
   - Added proper error handling for missing files
@@ -39,7 +39,7 @@ This document summarizes the changes made to migrate hardcoded JWT secrets to Ha
 #### API Service Templates
 - **File:** `vault/api/jwt-secret.tpl` (NEW)
   - Creates `/vault/secrets/jwt-secret.json` with JWT secret data
-  - Uses `ojala-secrets/api` Vault path
+  - Uses `phos-secrets/api` Vault path
 
 - **File:** `vault/api/agent.hcl`
   - Updated to use Kubernetes auth method instead of token auth
@@ -49,7 +49,7 @@ This document summarizes the changes made to migrate hardcoded JWT secrets to Ha
 #### Identity Service Templates
 - **File:** `vault/identity/jwt-secret.tpl` (NEW)
   - Creates `/vault/secrets/jwt-secret.json` with JWT secret data
-  - Uses `ojala-secrets/identity` Vault path
+  - Uses `phos-secrets/identity` Vault path
 
 - **File:** `vault/identity/agent.hcl`
   - Updated to use Kubernetes auth method instead of token auth
@@ -59,7 +59,7 @@ This document summarizes the changes made to migrate hardcoded JWT secrets to Ha
 ### 3. Kubernetes Deployment Configuration
 
 #### API Service Deployment
-- **File:** `infra/kubernetes/ojala-api-deployment.yaml`
+- **File:** `infra/kubernetes/phos-api-deployment.yaml`
   - Updated ConfigMap reference to include `jwt-secret.tpl`
   - Ensured proper volume mounting for Vault secrets
 
@@ -105,7 +105,7 @@ This document summarizes the changes made to migrate hardcoded JWT secrets to Ha
 
 2. **Deploy Updated Services:**
    ```bash
-   kubectl apply -f infra/kubernetes/ojala-api-deployment.yaml
+   kubectl apply -f infra/kubernetes/phos-api-deployment.yaml
    ```
 
 3. **Verify Vault Integration:**

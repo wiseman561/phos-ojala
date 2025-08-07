@@ -1,0 +1,103 @@
+{
+  "patientDemographics": {
+    "age": 55,
+    "gender": "Female",
+    "isSmoker": true,
+    "hasDiabetes": true,
+    "hasHeartDisease": false,
+    "hasHypertension": true,
+    "previousHospitalizations": 1
+  },
+  "vitalSigns": [
+    {
+      "name": "Systolic Blood Pressure",
+      "value": 145,
+      "unit": "mmHg",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "Diastolic Blood Pressure",
+      "value": 85,
+      "unit": "mmHg",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "Heart Rate",
+      "value": 88,
+      "unit": "bpm",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "SpO2",
+      "value": 96,
+      "unit": "%",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "Temperature",
+      "value": 37.1,
+      "unit": "C",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    }
+  ],
+  "labResults": [
+    {
+      "testName": "Blood Glucose",
+      "value": 155,
+      "unit": "mg/dL",
+      "minNormalValue": 70,
+      "maxNormalValue": 140,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    },
+    {
+      "testName": "Hemoglobin A1c",
+      "value": 7.2,
+      "unit": "%",
+      "minNormalValue": 4.0,
+      "maxNormalValue": 5.7,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    },
+    {
+      "testName": "Creatinine",
+      "value": 1.1,
+      "unit": "mg/dL",
+      "minNormalValue": 0.6,
+      "maxNormalValue": 1.2,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    },
+    {
+      "testName": "Potassium",
+      "value": 5.2,
+      "unit": "mEq/L",
+      "minNormalValue": 3.5,
+      "maxNormalValue": 5.0,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Metformin",
+      "dosage": "1000 mg",
+      "frequency": "BID",
+      "isHighRisk": false
+    },
+    {
+      "name": "Lisinopril",
+      "dosage": "20 mg",
+      "frequency": "Daily",
+      "isHighRisk": false
+    },
+    {
+      "name": "Atorvastatin",
+      "dosage": "40 mg",
+      "frequency": "Daily",
+      "isHighRisk": false
+    },
+    {
+      "name": "Aspirin",
+      "dosage": "81 mg",
+      "frequency": "Daily",
+      "isHighRisk": false
+    }
+  ]
+}

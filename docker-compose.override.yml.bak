@@ -2,7 +2,7 @@ services:
   # Vault Server (for local development)
   vault:
     image: hashicorp/vault:1.15.2
-    container_name: ojala-vault
+    container_name: phos-vault
     ports:
       - "8200:8200"
     environment:
@@ -19,21 +19,21 @@ services:
       retries: 5
       start_period: 10s
     networks:
-      - ojala-network
+      - phos-network
 
-  # Vault Agent for Ojala API
-  vault-agent-ojala-api:
+  # Vault Agent for Phos API
+  vault-agent-phos-api:
     build:
       context: ./vault
       dockerfile: Dockerfile
-    container_name: ojala-vault-agent-api
+    container_name: phos-vault-agent-api
     depends_on:
       vault:
         condition: service_healthy
     environment:
       - VAULT_ADDR=http://vault:8200
     volumes:
-      - ojala-secrets:/vault/secrets
+      - phos-secrets:/vault/secrets
       - ./vault/role-id:/vault/config/role-id:ro
       - ./vault/secret-id:/vault/config/secret-id:ro
     restart: unless-stopped
@@ -44,24 +44,24 @@ services:
       retries: 10
       start_period: 30s
     networks:
-      - ojala-network
+      - phos-network
 
-  # Ojala API with Vault integration
-  ojala-api:
+  # Phos API with Vault integration
+  phos-api:
     build:
       context: .
-      dockerfile: src/backend/Ojala.Api/Dockerfile
-    container_name: ojala-api
+      dockerfile: src/backend/Phos.Api/Dockerfile
+    container_name: phos-api
     ports:
       - "5000:80"
     depends_on:
-      vault-agent-ojala-api:
+      vault-agent-phos-api:
         condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     volumes:
-      - ojala-secrets:/vault/secrets:ro
+      - phos-secrets:/vault/secrets:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
@@ -70,7 +70,7 @@ services:
       retries: 3
       start_period: 40s
     networks:
-      - ojala-network
+      - phos-network
     command: >
       sh -c "
         echo 'Waiting for JWT secret file...' &&
@@ -78,13 +78,13 @@ services:
           sleep 2;
         done &&
         echo 'JWT secret file found, starting application...' &&
-        dotnet Ojala.Api.dll
+        dotnet Phos.Api.dll
       "
 
 volumes:
-  ojala-secrets:
+  phos-secrets:
     driver: local
 
 networks:
-  ojala-network:
+  phos-network:
     driver: bridge

@@ -72,7 +72,7 @@ start_infrastructure() {
         sleep 5
 
         # Test Redis connection
-        if docker exec ojala-redis redis-cli ping > /dev/null 2>&1; then
+        if docker exec phos-redis redis-cli ping > /dev/null 2>&1; then
             print_success "Redis is ready"
         else
             print_error "Redis is not responding"
@@ -91,32 +91,32 @@ build_backend_services() {
     print_step "Building backend services..."
 
     # Build shared projects first
-    if dotnet build src/shared/Ojala.Contracts/Ojala.Contracts.csproj --no-restore; then
-        print_success "Ojala.Contracts built successfully"
+    if dotnet build src/shared/Phos.Contracts/Phos.Contracts.csproj --no-restore; then
+        print_success "Phos.Contracts built successfully"
     else
-        print_error "Failed to build Ojala.Contracts"
+        print_error "Failed to build Phos.Contracts"
         return 1
     fi
 
-    if dotnet build src/shared/Ojala.Common/Ojala.Common.csproj --no-restore; then
-        print_success "Ojala.Common built successfully"
+    if dotnet build src/shared/Phos.Common/Phos.Common.csproj --no-restore; then
+        print_success "Phos.Common built successfully"
     else
-        print_error "Failed to build Ojala.Common"
+        print_error "Failed to build Phos.Common"
         return 1
     fi
 
     # Build Identity service
-    if dotnet build src/backend/Ojala.Identity/Ojala.Identity.csproj --no-restore; then
-        print_success "Ojala.Identity built successfully"
+    if dotnet build src/backend/Phos.Identity/Phos.Identity.csproj --no-restore; then
+        print_success "Phos.Identity built successfully"
     else
-        print_warning "Ojala.Identity build failed (may have dependency issues)"
+        print_warning "Phos.Identity build failed (may have dependency issues)"
     fi
 
     # Build API service
-    if dotnet build src/backend/Ojala.Api/Ojala.Api.csproj --no-restore; then
-        print_success "Ojala.Api built successfully"
+    if dotnet build src/backend/Phos.Api/Phos.Api.csproj --no-restore; then
+        print_success "Phos.Api built successfully"
     else
-        print_warning "Ojala.Api build failed (may have dependency issues)"
+        print_warning "Phos.Api build failed (may have dependency issues)"
     fi
 
     return 0
@@ -161,11 +161,11 @@ start_services() {
     echo "🔧 To start the services manually, run:"
     echo ""
     echo "1. Start Identity service:"
-    echo "   cd src/backend/Ojala.Identity"
+    echo "   cd src/backend/Phos.Identity"
     echo "   dotnet run"
     echo ""
     echo "2. Start API service (in another terminal):"
-    echo "   cd src/backend/Ojala.Api"
+    echo "   cd src/backend/Phos.Api"
     echo "   dotnet run"
     echo ""
     echo "3. Start frontend (in another terminal):"
@@ -204,11 +204,11 @@ show_deployment_summary() {
 
     echo ""
     echo "📁 Key Files Created:"
-    echo "  • src/shared/Ojala.Contracts/Events/UserRegisteredEvent.cs"
-    echo "  • src/shared/Ojala.Contracts/Events/IEventBus.cs"
-    echo "  • src/shared/Ojala.Common/Events/RedisEventBus.cs"
-    echo "  • src/backend/Ojala.Identity/Events/UserEventPublisher.cs"
-    echo "  • src/backend/Ojala.Api/Listeners/UserRegisteredHandler.cs"
+    echo "  • src/shared/Phos.Contracts/Events/UserRegisteredEvent.cs"
+    echo "  • src/shared/Phos.Contracts/Events/IEventBus.cs"
+    echo "  • src/shared/Phos.Common/Events/RedisEventBus.cs"
+    echo "  • src/backend/Phos.Identity/Events/UserEventPublisher.cs"
+    echo "  • src/backend/Phos.Api/Listeners/UserRegisteredHandler.cs"
     echo "  • src/frontend/md-dashboard/src/services/patientService.ts (updated)"
     echo "  • docs/EVENT_DRIVEN_ARCHITECTURE.md"
     echo "  • scripts/test-end-to-end-flow.sh"

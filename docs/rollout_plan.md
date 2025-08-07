@@ -1,4 +1,4 @@
-# OjalaHealthcarePlatform 6-Quarter Rollout Plan
+# PhosHealthcarePlatform 6-Quarter Rollout Plan
 
 | Quarter | Feature | Owner | Dependencies | Status |
 |---------|---------|-------|--------------|--------|

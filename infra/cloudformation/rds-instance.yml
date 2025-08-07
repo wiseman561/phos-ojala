@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'OjalaHealthcarePlatform - RDS SQL Server Instance'
+Description: 'PhosHealthcarePlatform - RDS SQL Server Instance'
 
 Parameters:
   EnvironmentName:
@@ -25,7 +25,7 @@ Parameters:
   DBName:
     Description: Database name
     Type: String
-    Default: OjalaHealthcare
+    Default: PhosHealthcare
     MinLength: 1
     MaxLength: 64
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
@@ -119,7 +119,7 @@ Resources:
   DBInstance:
     Type: AWS::RDS::DBInstance
     Properties:
-      DBInstanceIdentifier: !Sub ${EnvironmentName}-ojala-db
+      DBInstanceIdentifier: !Sub ${EnvironmentName}-phos-db
       AllocatedStorage: !Ref DBAllocatedStorage
       DBInstanceClass: !Ref DBInstanceClass
       Engine: sqlserver-se
@@ -147,7 +147,7 @@ Resources:
       MonitoringInterval: 60
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-db
+          Value: !Sub ${EnvironmentName}-phos-db
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -200,7 +200,7 @@ Resources:
   BackupBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub ${EnvironmentName}-ojala-db-backups-${AWS::AccountId}
+      BucketName: !Sub ${EnvironmentName}-phos-db-backups-${AWS::AccountId}
       VersioningConfiguration:
         Status: Enabled
       LifecycleConfiguration:
@@ -219,7 +219,7 @@ Resources:
         RestrictPublicBuckets: true
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-db-backups
+          Value: !Sub ${EnvironmentName}-phos-db-backups
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -283,7 +283,7 @@ Resources:
   SnapshotExportFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Sub ${EnvironmentName}-ojala-db-snapshot-export
+      FunctionName: !Sub ${EnvironmentName}-phos-db-snapshot-export
       Handler: index.handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: python3.9

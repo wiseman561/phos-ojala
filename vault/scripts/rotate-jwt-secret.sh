@@ -7,7 +7,7 @@ set -e
 
 # Configuration
 VAULT_ADDR=${VAULT_ADDR:-"http://localhost:8200"}
-VAULT_TOKEN=${VAULT_TOKEN:-"ojala-dev-token"}
+VAULT_TOKEN=${VAULT_TOKEN:-"phos-dev-token"}
 SECRET_PATH="secret/jwt-secret"
 
 echo "🔄 Rotating JWT secret..."
@@ -20,8 +20,8 @@ echo "🔑 Generated new JWT secret"
 # Update the secret in Vault
 vault kv put $SECRET_PATH \
     secret="$NEW_SECRET" \
-    issuer="OjalaHealthcarePlatform" \
-    audience="OjalaHealthcarePlatformClients" \
+    issuer="PhosHealthcarePlatform" \
+    audience="PhosHealthcarePlatformClients" \
     expiry_minutes="60"
 
 echo "✅ JWT secret rotated successfully!"

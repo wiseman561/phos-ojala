@@ -231,7 +231,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                   variant="outlined"
                   startIcon={<ContactSupport />}
                   onClick={() => {
-                    window.open('mailto:support@ojala-healthcare.com?subject=Access Request&body=I need access to additional features in the employer portal.', '_blank');
+                    window.open('mailto:support@phos-healthcare.com?subject=Access Request&body=I need access to additional features in the employer portal.', '_blank');
                   }}
                   sx={{ borderRadius: 2 }}
                 >
@@ -247,9 +247,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 </Typography>
 
                 <Typography variant="caption" color="text.secondary">
-                  For immediate assistance, contact Ojala Healthcare support at{' '}
-                  <a href="mailto:support@ojala-healthcare.com" style={{ color: '#1976d2' }}>
-                    support@ojala-healthcare.com
+                  For immediate assistance, contact Phos Healthcare support at{' '}
+                  <a href="mailto:support@phos-healthcare.com" style={{ color: '#1976d2' }}>
+                    support@phos-healthcare.com
                   </a>
                 </Typography>
               </Box>

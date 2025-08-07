@@ -41,11 +41,11 @@ Build and run services one by one to avoid resource conflicts:
 docker-compose -f docker-compose.test.yml up -d redis postgres
 
 # 2. Build and run Identity service
-cd src/backend/Ojala.Identity
+cd src/backend/Phos.Identity
 dotnet run
 
 # 3. Build and run API service (in another terminal)
-cd src/backend/Ojala.Api
+cd src/backend/Phos.Api
 dotnet run
 
 # 4. Test the event-driven architecture
@@ -100,11 +100,11 @@ docker-compose -f docker-compose.event-driven.yml up -d
 docker-compose -f docker-compose.test.yml up -d redis postgres
 
 # 2. Start Identity service
-cd src/backend/Ojala.Identity
+cd src/backend/Phos.Identity
 dotnet run
 
 # 3. Start API service (new terminal)
-cd src/backend/Ojala.Api
+cd src/backend/Phos.Api
 dotnet run
 
 # 4. Test user registration
@@ -119,7 +119,7 @@ curl -X POST http://localhost:5501/api/auth/register \
   }'
 
 # 5. Monitor events
-docker exec ojala-redis-test redis-cli monitor
+docker exec phos-redis-test redis-cli monitor
 
 # 6. Check patient creation
 curl http://localhost:8080/api/patients
@@ -137,29 +137,29 @@ docker system info
 docker ps
 
 # Check container logs
-docker logs ojala-redis-test
-docker logs ojala-postgres-test
+docker logs phos-redis-test
+docker logs phos-postgres-test
 ```
 
 ### **Check Event Bus**
 ```bash
 # Test Redis connection
-docker exec ojala-redis-test redis-cli ping
+docker exec phos-redis-test redis-cli ping
 
 # Monitor Redis events
-docker exec ojala-redis-test redis-cli monitor
+docker exec phos-redis-test redis-cli monitor
 
 # List Redis channels
-docker exec ojala-redis-test redis-cli pubsub channels
+docker exec phos-redis-test redis-cli pubsub channels
 ```
 
 ### **Check Database**
 ```bash
 # Test PostgreSQL connection
-docker exec ojala-postgres-test pg_isready -U postgres
+docker exec phos-postgres-test pg_isready -U postgres
 
 # Connect to database
-docker exec -it ojala-postgres-test psql -U postgres -d ojala
+docker exec -it phos-postgres-test psql -U postgres -d phos
 ```
 
 ## 📊 **Performance Optimization**
@@ -176,7 +176,7 @@ docker exec -it ojala-postgres-test psql -U postgres -d ojala
 docker-compose build --parallel
 
 # Build specific services only
-docker-compose build ojala-identity ojala-api
+docker-compose build phos-identity phos-api
 
 # Use no-cache for clean builds
 docker-compose build --no-cache
@@ -202,10 +202,10 @@ docker buildx build --platform linux/amd64 .
 2. **Run services locally**:
    ```bash
    # Terminal 1: Identity service
-   cd src/backend/Ojala.Identity && dotnet run
+   cd src/backend/Phos.Identity && dotnet run
    
    # Terminal 2: API service
-   cd src/backend/Ojala.Api && dotnet run
+   cd src/backend/Phos.Api && dotnet run
    
    # Terminal 3: Frontend (if needed)
    cd src/frontend/md-dashboard && npm start

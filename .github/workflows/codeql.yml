@@ -85,14 +85,14 @@ jobs:
       - name: Build .NET solution
         if: matrix.language == 'csharp'
         run: |
-          dotnet restore Ojala.sln --verbosity minimal
-          dotnet build Ojala.sln --configuration Release --no-restore --verbosity minimal
+          dotnet restore Phos.sln --verbosity minimal
+          dotnet build Phos.sln --configuration Release --no-restore --verbosity minimal
 
       - name: Build JavaScript projects
         if: matrix.language == 'javascript'
         run: |
           # Build frontend applications
-          for app in ojala.web employer-dashboard patient-app rn-dashboard; do
+          for app in phos-web employer-dashboard patient-app rn-dashboard md-dashboard phos-admin phos-patient-portal; do
             dir="src/frontend/$app"
             if [ -f "$dir/package.json" ]; then
               echo "→ Building $app"
@@ -102,7 +102,7 @@ jobs:
           done
 
           # Build Node.js backend services
-          dir="src/backend/Ojala.AlertsStreamer"
+          dir="src/backend/Phos.AlertsStreamer"
           if [ -f "$dir/package.json" ]; then
             echo "→ Building AlertsStreamer"
             (cd "$dir" && (npm ci || npm install))

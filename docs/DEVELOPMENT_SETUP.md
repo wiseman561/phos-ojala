@@ -1,290 +1,349 @@
-# 🛠 Development Setup Guide
+# Development Setup Guide
 
 ## Overview
+This guide helps you set up the Phos Healthcare Platform development environment, including solutions for common WSL and Docker issues.
 
-This guide provides a complete development setup for the Ojala Healthcare Platform that eliminates Docker build issues and provides hot reload for backend services.
+## Prerequisites
 
-## 🚀 Quick Start
+### Required Software
+- **WSL2** (Windows Subsystem for Linux 2)
+- **Docker Desktop** with WSL2 backend
+- **Git** for version control
+- **VS Code** (recommended) with WSL extension
 
-### 1. Verify Setup
+### Optional Software
+- **.NET 9.0.203 SDK** (if running tests locally)
+- **PostgreSQL** (for local database development)
+- **Redis** (for local caching/event bus)
+
+## Quick Start
+
+### 1. Clone the Repository
 ```bash
-# Check that everything is ready
-./scripts/dev-verify-setup.sh
+# Clone to WSL-native storage (recommended)
+git clone https://github.com/your-org/Phos-healthcare_new.git ~/projects/Phos-healthcare_new
+cd ~/projects/Phos-healthcare_new
+
+# Or clone to Windows path (may cause I/O issues)
+git clone https://github.com/your-org/Phos-healthcare_new.git /mnt/c/Users/your-username/Desktop/Repositories/Phos-healthcare_new
 ```
 
-### 2. Start Backend Services
+### 2. Run Tests (Recommended Method)
 ```bash
-# Start Redis/Postgres in Docker + backend services with hot reload
-./scripts/dev-start-backend.sh
+# Use the automated test runner
+./scripts/run-tests.sh
 ```
 
-### 3. Test Event-Driven Architecture
+This script will:
+- ✅ Check if you're in WSL
+- ✅ Move repository to WSL-native storage if needed
+- ✅ Verify Docker availability
+- ✅ Run tests in a clean .NET 9.0.203 container
+- ✅ Provide detailed output and error handling
+
+### 3. Alternative: Manual Docker Setup
 ```bash
-# Test the complete patient registration flow
-./scripts/dev-test-patient-flow.sh
+# Run tests in Docker container
+docker-compose -f docker-compose.test.yml up
+
+# Or build and test step by step
+docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 ```
 
-## 📁 Files Created
+## Environment Setup
 
-### Docker Compose
-- `docker-compose.dev.yml` - Optimized development compose file
-  - Only includes Redis and PostgreSQL
-  - No frontend services
-  - Uses volumes for data persistence
+### WSL Configuration
 
-### Scripts
-- `scripts/dev-start-backend.sh` - Starts infrastructure and backend services
-- `scripts/dev-test-patient-flow.sh` - Tests complete patient flow
-- `scripts/dev-verify-setup.sh` - Verifies development environment
+#### Fix File System Issues
+If you encounter I/O errors with Windows-mounted paths:
 
-### Configuration
-- `.dockerignore` - Prevents large file transfers during builds
-- Updated `README.md` - Added development section
-
-## 🏗 Architecture
-
-### Infrastructure (Docker)
-- **Redis**: `localhost:6379` - Event bus for inter-service communication
-- **PostgreSQL**: `localhost:5432` - Database for all services
-
-### Backend Services (Local with Hot Reload)
-- **Identity API**: `http://localhost:5501` - User authentication and registration
-- **Main API**: `http://localhost:8080` - Core business logic and patient management
-
-### Frontend Applications (Separate)
-- **MD Dashboard**: `http://localhost:3000` - Physician interface
-- **Patient Portal**: `http://localhost:3001` - Patient interface
-- **RN Dashboard**: `http://localhost:3002` - Nurse interface
-
-## 🔄 Event-Driven Flow
-
-1. **User Registration**: Patient registers via Identity API
-2. **Event Publishing**: Identity service publishes `UserRegisteredEvent` to Redis
-3. **Event Consumption**: API service subscribes and creates patient record
-4. **Verification**: Patient appears in MD Dashboard
-
-## 🛠 Development Workflow
-
-### Starting Development
 ```bash
-# 1. Start infrastructure
-docker-compose -f docker-compose.dev.yml up -d
+# Move repository to WSL-native storage
+./scripts/move-to-wsl.sh
 
-# 2. Start backend services (in separate terminals)
-cd src/backend/Ojala.Identity && dotnet watch run
-cd src/backend/Ojala.Api && dotnet watch run
-
-# 3. Start frontend (in separate terminals)
-cd src/frontend/md-dashboard && npm run dev
-cd src/frontend/Ojala.PatientPortal && npm start
+# This will:
+# 1. Copy the repo to ~/projects/Phos-healthcare_new
+# 2. Create a symlink back to the original Windows path
+# 3. Resolve I/O errors
 ```
 
-### Testing
-```bash
-# Test complete flow
-./scripts/dev-test-patient-flow.sh
+#### WSL Performance Optimization
+Add to `/etc/wsl.conf`:
+```ini
+[automount]
+enabled = true
+options = "metadata,umask=22,fmask=11"
 
-# Test individual components
-curl http://localhost:5501/health  # Identity health check
-curl http://localhost:8080/health  # API health check
-docker exec ojala-redis-dev redis-cli ping  # Redis test
+[interop]
+enabled = true
+appendWindowsPath = false
 ```
 
-### Monitoring
+### Docker Setup
+
+#### Enable WSL2 Backend
+1. Open Docker Desktop
+2. Go to Settings → General
+3. Check "Use the WSL 2 based engine"
+4. Go to Settings → Resources → WSL Integration
+5. Enable integration with your WSL distribution
+
+#### Verify Docker Installation
 ```bash
-# Monitor Redis events
-docker exec ojala-redis-dev redis-cli monitor
+# Check Docker version
+docker --version
 
-# View service logs
-docker logs ojala-redis-dev
-docker logs ojala-db-dev
+# Check Docker Compose version
+docker-compose --version
 
-# Check running containers
-docker ps
+# Test Docker functionality
+docker run hello-world
 ```
 
-## 🎯 Benefits
+### .NET SDK Setup (Optional)
 
-### Performance
-- ✅ **Fast startup**: No Docker builds required
-- ✅ **Hot reload**: Instant code changes
-- ✅ **Resource efficient**: Minimal Docker overhead
-
-### Development Experience
-- ✅ **Better debugging**: Direct access to logs and debugging
-- ✅ **Flexible**: Easy to modify and test individual services
-- ✅ **Isolated**: Frontend and backend can be developed independently
-
-### Maintainability
-- ✅ **Long-term**: Uses standard development practices
-- ✅ **Scalable**: Easy to add new services
-- ✅ **Reliable**: Eliminates Docker build issues
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-#### Port Conflicts
+#### Install .NET 9.0.203 SDK
 ```bash
-# Check what's using a port
-lsof -i :5501
-lsof -i :8080
+# Download installer
+wget https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh
+chmod +x dotnet-install.sh
 
-# Kill process using port
-kill -9 <PID>
-```
+# Install specific version
+./dotnet-install.sh --version 9.0.203
 
-#### Docker Issues
-```bash
-# Restart Docker containers
-docker-compose -f docker-compose.dev.yml down
-docker-compose -f docker-compose.dev.yml up -d
+# Add to PATH
+echo 'export PATH="$HOME/.dotnet:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
-# Clear Docker cache
-docker system prune -a
-```
-
-#### .NET Issues
-```bash
-# Clear .NET cache
-dotnet clean
-dotnet restore
-
-# Check .NET version
+# Verify installation
 dotnet --version
 ```
 
-### Service Status
-
-#### Check All Services
+#### Verify Solution Build
 ```bash
-./scripts/dev-verify-setup.sh
+# Restore packages
+dotnet restore
+
+# Build solution
+dotnet build
+
+# Run tests
+dotnet test
 ```
 
-#### Manual Checks
-```bash
-# Docker containers
-docker ps
+## Project Structure
 
-# Redis
-docker exec ojala-redis-dev redis-cli ping
-
-# PostgreSQL
-docker exec ojala-db-dev pg_isready -U postgres
-
-# Identity API
-curl http://localhost:5501/health
-
-# Main API
-curl http://localhost:8080/health
+```
+Phos-healthcare_new/
+├── src/
+│   ├── backend/           # .NET 9 backend services
+│   │   ├── Phos.Api/     # Main API
+│   │   ├── Phos.Identity/# Identity service
+│   │   ├── Phos.Data/    # Data access layer
+│   │   └── ...
+│   ├── shared/            # Shared libraries
+│   └── frontend/          # Frontend applications
+├── tests/                 # Test projects
+├── scripts/               # Automation scripts
+├── docs/                  # Documentation
+├── docker-compose.test.yml # Test environment
+└── .github/workflows/     # CI/CD workflows
 ```
 
-## 📊 Monitoring and Logs
+## Testing
 
-### Service Logs
+### Test Projects
+- **Phos.Api.Tests**: API integration tests
+- **Phos.Tests.Unit**: Unit tests
+- **Phos.Tests.Integration**: Integration tests
+- **AuthControllerTests**: Authentication tests
+
+### Running Tests
+
+#### Automated (Recommended)
 ```bash
-# Redis logs
-docker logs ojala-redis-dev
-
-# PostgreSQL logs
-docker logs ojala-db-dev
-
-# Backend logs (in terminal where services are running)
-# Identity and API logs appear in their respective terminals
+./scripts/run-tests.sh
 ```
 
-### Event Monitoring
+#### Manual Docker
 ```bash
-# Monitor all Redis events
-docker exec ojala-redis-dev redis-cli monitor
+# Run all tests
+docker-compose -f docker-compose.test.yml up
 
-# Monitor specific channel
-docker exec ojala-redis-dev redis-cli subscribe events:userregisteredevent
+# Run specific test project
+docker run --rm -v $(pwd):/app mcr.microsoft.com/dotnet/sdk:9.0.203 \
+  dotnet test src/backend/Phos.Api.Tests/Phos.Api.Tests.csproj
 ```
 
-### Database Access
+#### Local Development
 ```bash
-# Connect to PostgreSQL
-docker exec -it ojala-db-dev psql -U postgres -d ojala
+# Run all tests
+dotnet test
 
-# List tables
-\dt
+# Run specific test project
+dotnet test src/backend/Phos.Api.Tests/
 
-# Query patients
-SELECT * FROM "Patients";
+# Run with coverage
+dotnet test --collect:"XPlat Code Coverage"
 ```
 
-## 🚀 Production Deployment
+## Troubleshooting
 
-### Docker Build (For Production)
+### Common Issues
+
+#### 1. WSL File System I/O Errors
+**Symptoms**: `Input/output error` when accessing files
+**Solution**: Move repository to WSL-native storage
 ```bash
-# Build optimized images
-docker-compose -f docker-compose.event-driven.yml build
-
-# Deploy to production
-docker-compose -f docker-compose.event-driven.yml up -d
+./scripts/move-to-wsl.sh
 ```
 
-### Kubernetes Deployment
+#### 2. Docker Container Empty Mounts
+**Symptoms**: `/app` directory is empty in container
+**Solution**: Ensure repository is in WSL-native storage
 ```bash
-# Apply Kubernetes manifests
-kubectl apply -f charts/
+# Check current location
+pwd
 
-# Check deployment status
-kubectl get pods
-kubectl get services
+# If in /mnt/c/, move to WSL-native storage
+./scripts/move-to-wsl.sh
 ```
 
-## 📚 Additional Resources
-
-### Documentation
-- [Event-Driven Architecture](./EVENT_DRIVEN_ARCHITECTURE.md)
-- [Docker Troubleshooting](./DOCKER_TROUBLESHOOTING.md)
-- [API Documentation](./healthscore-api.yaml)
-
-### Scripts Reference
-- `./scripts/dev-start-backend.sh` - Start development environment
-- `./scripts/dev-test-patient-flow.sh` - Test patient registration flow
-- `./scripts/dev-verify-setup.sh` - Verify development setup
-- `./scripts/test-event-driven-only.sh` - Test event-driven architecture
-- `./scripts/test-end-to-end-flow.sh` - End-to-end testing
-
-### Environment Variables
+#### 3. .NET SDK Version Mismatch
+**Symptoms**: `The current .NET SDK does not support targeting .NET 9.0`
+**Solution**: Use Docker or update SDK
 ```bash
-# Identity Service
-ASPNETCORE_ENVIRONMENT=Development
-ASPNETCORE_URLS=http://localhost:5501
-ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=ojala;Username=postgres;Password=postgres
-ConnectionStrings__Redis=localhost:6379
+# Use Docker (recommended)
+docker-compose -f docker-compose.test.yml up
 
-# API Service
-ASPNETCORE_ENVIRONMENT=Development
-ASPNETCORE_URLS=http://localhost:8080
-ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=ojala;Username=postgres;Password=postgres
-ConnectionStrings__Redis=localhost:6379
-IdentityServer__Authority=http://localhost:5501
+# Or install correct SDK version
+./dotnet-install.sh --version 9.0.203
 ```
 
-## ✅ Success Criteria
+#### 4. Docker Permission Issues
+**Symptoms**: `Got permission denied while trying to connect to the Docker daemon`
+**Solution**: Add user to docker group
+```bash
+sudo usermod -aG docker $USER
+# Log out and back in, or restart WSL
+```
 
-The development environment is working correctly when:
+#### 5. Memory Issues
+**Symptoms**: Build fails with out-of-memory errors
+**Solution**: Increase WSL memory limit
+```bash
+# Create .wslconfig in Windows user directory
+echo "[wsl2]
+memory=8GB
+processors=4" > /mnt/c/Users/$USER/.wslconfig
+```
 
-- ✅ Redis and PostgreSQL containers are running
-- ✅ Identity API responds on port 5501
-- ✅ Main API responds on port 8080
-- ✅ User registration creates events in Redis
-- ✅ Patient records are created automatically
-- ✅ Frontend applications can connect to APIs
-- ✅ Hot reload works for backend services
+### Performance Optimization
 
-## 🎉 Summary
+#### WSL Performance
+```bash
+# Add to /etc/wsl.conf
+[automount]
+enabled = true
+options = "metadata,umask=22,fmask=11"
 
-This development setup provides:
+[interop]
+enabled = true
+appendWindowsPath = false
+```
 
-1. **Eliminated Docker build issues** by using local development
-2. **Hot reload** for instant code changes
-3. **Event-driven architecture** testing
-4. **Comprehensive tooling** for development and testing
-5. **Production-ready** deployment options
+#### Docker Performance
+```bash
+# Increase Docker resources in Docker Desktop
+# Settings → Resources → Advanced
+# Memory: 8GB
+# CPUs: 4
+# Swap: 2GB
+```
 
-The setup is designed for long-term maintainability and provides an excellent development experience while maintaining the robustness of the event-driven architecture. 
+## CI/CD
+
+### GitHub Actions
+The repository includes GitHub Actions workflows that:
+- ✅ Build the solution on every push/PR
+- ✅ Run all tests with .NET 9.0.203
+- ✅ Generate code coverage reports
+- ✅ Provide detailed build logs
+
+### Local CI Simulation
+```bash
+# Simulate CI environment locally
+docker run --rm -v $(pwd):/app mcr.microsoft.com/dotnet/sdk:9.0.203 \
+  bash -c "cd /app && dotnet restore && dotnet build && dotnet test"
+```
+
+## Development Workflow
+
+### 1. Start Development
+```bash
+# Clone and setup
+git clone <repo-url> ~/projects/Phos-healthcare_new
+cd ~/projects/Phos-healthcare_new
+
+# Run tests to verify setup
+./scripts/run-tests.sh
+```
+
+### 2. Make Changes
+```bash
+# Create feature branch
+git checkout -b feature/your-feature
+
+# Make changes and test
+./scripts/run-tests.sh
+
+# Commit changes
+git add .
+git commit -m "feat: your feature description"
+```
+
+### 3. Submit Changes
+```bash
+# Push to remote
+git push origin feature/your-feature
+
+# Create pull request
+# GitHub Actions will automatically run tests
+```
+
+## Support
+
+### Getting Help
+1. **Check this documentation** for common issues
+2. **Run the test script** to verify your setup
+3. **Check GitHub Actions** for CI/CD status
+4. **Review logs** for detailed error information
+
+### Useful Commands
+```bash
+# Check environment
+./scripts/run-tests.sh
+
+# Clean and rebuild
+dotnet clean && dotnet restore && dotnet build
+
+# Run specific tests
+dotnet test --filter "FullyQualifiedName~YourTestName"
+
+# Check Docker status
+docker-compose -f docker-compose.test.yml ps
+```
+
+## Contributing
+
+### Before Submitting
+1. ✅ Run `./scripts/run-tests.sh`
+2. ✅ Ensure all tests pass
+3. ✅ Check code coverage
+4. ✅ Update documentation if needed
+
+### Code Standards
+- Follow .NET 9 conventions
+- Use central package management
+- Write unit tests for new features
+- Update documentation for API changes 

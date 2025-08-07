@@ -72,9 +72,9 @@ jobs:
         if: steps.detect-creds.outputs.credentials-configured == 'true'
         run: |
           echo "ENVIRONMENT=${{ inputs.environment || 'staging' }}" >> $GITHUB_ENV
-          echo "NAMESPACE=ojala-${{ inputs.environment || 'staging' }}" >> $GITHUB_ENV
+          echo "NAMESPACE=phos-${{ inputs.environment || 'staging' }}" >> $GITHUB_ENV
           echo "🏷️  Environment: ${{ inputs.environment || 'staging' }}"
-          echo "🏷️  Namespace: ojala-${{ inputs.environment || 'staging' }}"
+          echo "🏷️  Namespace: phos-${{ inputs.environment || 'staging' }}"
 
       - name: Create namespace if it doesn't exist
         if: steps.detect-creds.outputs.credentials-configured == 'true'

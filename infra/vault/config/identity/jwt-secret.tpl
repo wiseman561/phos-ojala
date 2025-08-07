@@ -1,4 +1,4 @@
-{{- with secret "ojala-secrets/identity" -}}
+{{- with secret "phos-secrets/identity" -}}
 {
   "secret": "{{ .Data.data.JwtSettings_SecretKey }}",
   "issuer": "{{ .Data.data.JwtSettings_Issuer }}",

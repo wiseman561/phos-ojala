@@ -59,7 +59,7 @@ start_essential_services() {
         sleep 10
 
         # Test Redis connection
-        if docker exec ojala-redis-test redis-cli ping > /dev/null 2>&1; then
+        if docker exec phos-redis-test redis-cli ping > /dev/null 2>&1; then
             print_success "Redis is ready"
         else
             print_error "Redis is not responding"
@@ -67,7 +67,7 @@ start_essential_services() {
         fi
 
         # Test PostgreSQL connection
-        if docker exec ojala-postgres-test pg_isready -U postgres > /dev/null 2>&1; then
+        if docker exec phos-postgres-test pg_isready -U postgres > /dev/null 2>&1; then
             print_success "PostgreSQL is ready"
         else
             print_error "PostgreSQL is not responding"
@@ -86,7 +86,7 @@ test_event_bus() {
     print_step "Testing Redis Event Bus functionality..."
 
     # Test basic Redis operations
-    if docker exec ojala-redis-test redis-cli ping | grep -q "PONG"; then
+    if docker exec phos-redis-test redis-cli ping | grep -q "PONG"; then
         print_success "Redis connection successful"
     else
         print_error "Redis connection failed"
@@ -95,7 +95,7 @@ test_event_bus() {
 
     # Test event publishing
     local test_event='{"userId":"test123","email":"test@example.com","role":"Patient","firstName":"John","lastName":"Doe"}'
-    local result=$(docker exec ojala-redis-test redis-cli publish "events:userregisteredevent" "$test_event")
+    local result=$(docker exec phos-redis-test redis-cli publish "events:userregisteredevent" "$test_event")
 
     if [ "$result" -ge 0 ]; then
         print_success "Event publishing test successful (subscribers: $result)"
@@ -136,7 +136,7 @@ EOF
 )
 
     # Publish event
-    local result=$(docker exec ojala-redis-test redis-cli publish "events:userregisteredevent" "$event_json")
+    local result=$(docker exec phos-redis-test redis-cli publish "events:userregisteredevent" "$event_json")
 
     if [ "$result" -ge 0 ]; then
         print_success "Event published successfully (subscribers: $result)"
@@ -165,11 +165,11 @@ show_next_steps() {
     echo "================================"
     echo ""
     echo "1. Build and run Identity service:"
-    echo "   cd src/backend/Ojala.Identity"
+    echo "   cd src/backend/Phos.Identity"
     echo "   dotnet run"
     echo ""
     echo "2. Build and run API service (in another terminal):"
-    echo "   cd src/backend/Ojala.Api"
+    echo "   cd src/backend/Phos.Api"
     echo "   dotnet run"
     echo ""
     echo "3. Test user registration:"
@@ -178,7 +178,7 @@ show_next_steps() {
     echo "     -d '{\"email\":\"test@example.com\",\"password\":\"Test123!\",\"role\":\"Patient\",\"firstName\":\"John\",\"lastName\":\"Doe\"}'"
     echo ""
     echo "4. Monitor event processing:"
-    echo "   docker exec ojala-redis-test redis-cli monitor"
+    echo "   docker exec phos-redis-test redis-cli monitor"
     echo ""
     echo "5. Check patient creation:"
     echo "   curl http://localhost:8080/api/patients"

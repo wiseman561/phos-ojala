@@ -18,14 +18,14 @@ const InteractiveDemoController = ({ onComplete }) => {
 
   useEffect(() => {
     // Load saved demo state from localStorage if available
-    const savedState = localStorage.getItem('ojala_demo_state');
+    const savedState = localStorage.getItem('phos_demo_state');
     if (savedState) {
       setDemoState(JSON.parse(savedState));
     }
   }, []);
 
   const saveDemoState = (newState) => {
-    localStorage.setItem('ojala_demo_state', JSON.stringify(newState));
+    localStorage.setItem('phos_demo_state', JSON.stringify(newState));
     setDemoState(newState);
   };
 

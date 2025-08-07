@@ -11,7 +11,7 @@ class RecordingService {
   constructor(config = {}) {
     this.config = {
       storageType: 'cloud', // 'cloud' or 'local'
-      cloudStorageUrl: 'https://recordings.ojala-healthcare.com/api',
+      cloudStorageUrl: 'https://recordings.phos-healthcare.com/api',
       localStoragePath: '/recordings',
       maxRecordingDuration: 3 * 60 * 60 * 1000, // 3 hours in milliseconds
       autoStopRecording: true,

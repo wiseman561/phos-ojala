@@ -1,6 +1,6 @@
 apiVersion: v2
 name: employer-dashboard
-description: A Helm chart for Ojala Employer Dashboard
+description: A Helm chart for Phos Employer Dashboard
 type: application
 version: 0.1.0
 appVersion: "1.0.0"

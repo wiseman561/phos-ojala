@@ -16,7 +16,7 @@ The implemented network policies ensure:
 ## Network Policy Files
 
 ### 1. `default-deny.yaml`
-- **Purpose**: Implements default-deny for all pods in both `demo` and `ojala-ns` namespaces
+- **Purpose**: Implements default-deny for all pods in both `demo` and `phos-ns` namespaces
 - **Effect**: Blocks all ingress and egress traffic by default
 - **Compliance**: Enforces principle of least privilege
 
@@ -25,24 +25,24 @@ The implemented network policies ensure:
 - **Traffic**: HTTP/HTTPS (ports 80, 5000)
 - **Direction**: Nurse Assistant → API
 - **Labels Required**: 
-  - API pods: `app: ojala-api, role: api`
-  - Nurse pods: `app: ojala-nurse-assistant, role: nurse-assistant`
+  - API pods: `app: phos-api, role: api`
+  - Nurse pods: `app: phos-nurse-assistant, role: nurse-assistant`
 
 ### 3. `api-allow-db.yaml`
 - **Purpose**: Allows API service to communicate with PostgreSQL database
 - **Traffic**: PostgreSQL (port 5432)
 - **Direction**: API → Database (cross-namespace)
 - **Labels Required**:
-  - API pods: `app: ojala-api, role: api`
-  - DB pods: `app: ojala-db, role: db`
+  - API pods: `app: phos-api, role: api`
+  - DB pods: `app: phos-db, role: db`
 
 ### 4. `identity-allow-api.yaml`
 - **Purpose**: Allows identity service to communicate with API for authentication
 - **Traffic**: HTTP/HTTPS (ports 80, 5000)
 - **Direction**: Identity → API (cross-namespace)
 - **Labels Required**:
-  - API pods: `app: ojala-api, role: api`
-  - Identity pods: `app: ojala-identity, role: identity`
+  - API pods: `app: phos-api, role: api`
+  - Identity pods: `app: phos-identity, role: identity`
 
 ### 5. `essential-services.yaml`
 - **Purpose**: Allows essential Kubernetes services (DNS resolution)
@@ -56,22 +56,22 @@ To ensure network policies work correctly, all pods must have the following labe
 ```yaml
 # API Service
 labels:
-  app: ojala-api
+  app: phos-api
   role: api
 
 # Nurse Assistant Service
 labels:
-  app: ojala-nurse-assistant
+  app: phos-nurse-assistant
   role: nurse-assistant
 
 # Identity Service
 labels:
-  app: ojala-identity
+  app: phos-identity
   role: identity
 
 # Database Service
 labels:
-  app: ojala-db
+  app: phos-db
   role: db
 ```
 
@@ -86,11 +86,11 @@ metadata:
   labels:
     name: demo
 
-# ojala-ns namespace
+# phos-ns namespace
 metadata:
-  name: ojala-ns
+  name: phos-ns
   labels:
-    name: ojala-ns
+    name: phos-ns
 ```
 
 ## Deployment Instructions
@@ -98,7 +98,7 @@ metadata:
 ### 1. Apply Namespace Labels
 ```bash
 kubectl label namespace demo name=demo
-kubectl label namespace ojala-ns name=ojala-ns
+kubectl label namespace phos-ns name=phos-ns
 ```
 
 ### 2. Update Pod Labels
@@ -124,19 +124,19 @@ kubectl get networkpolicies --all-namespaces
 ### Test Connectivity
 ```bash
 # Test nurse-assistant to API
-kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-api:80/healthz
+kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-api:80/healthz
 
 # Test API to database
-kubectl exec -n demo deployment/ojala-api -- nc -zv ojala-db-service.ojala-ns.svc.cluster.local 5432
+kubectl exec -n demo deployment/phos-api -- nc -zv phos-db-service.phos-ns.svc.cluster.local 5432
 
 # Test identity to API
-kubectl exec -n ojala-ns deployment/ojala-identity -- curl -v http://ojala-api.demo.svc.cluster.local:80/healthz
+kubectl exec -n phos-ns deployment/phos-identity -- curl -v http://phos-api.demo.svc.cluster.local:80/healthz
 ```
 
 ### Verify Default Deny
 ```bash
 # This should fail (blocked by default-deny)
-kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-identity-service.ojala-ns.svc.cluster.local:80/healthz
+kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-identity-service.phos-ns.svc.cluster.local:80/healthz
 ```
 
 ## Troubleshooting
@@ -159,11 +159,11 @@ kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-id
 ```bash
 # Check network policy details
 kubectl describe networkpolicy -n demo
-kubectl describe networkpolicy -n ojala-ns
+kubectl describe networkpolicy -n phos-ns
 
 # Check pod labels
 kubectl get pods -n demo --show-labels
-kubectl get pods -n ojala-ns --show-labels
+kubectl get pods -n phos-ns --show-labels
 
 # Check namespace labels
 kubectl get namespaces --show-labels

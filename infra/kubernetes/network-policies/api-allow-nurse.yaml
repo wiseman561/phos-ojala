@@ -9,7 +9,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: ojala-api
+      app: phos-api
       role: api
   policyTypes:
   - Ingress
@@ -17,7 +17,7 @@ spec:
   - from:
     - podSelector:
         matchLabels:
-          app: ojala-nurse-assistant
+          app: phos-nurse-assistant
           role: nurse-assistant
     ports:
     - protocol: TCP
