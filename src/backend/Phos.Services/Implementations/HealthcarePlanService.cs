@@ -150,6 +150,13 @@ namespace Phos.Services.Implementations
             }
         }
 
+        public async Task<IEnumerable<HealthcarePlanDto>> GetPatientHealthcarePlansAsync(string patientId, System.Threading.CancellationToken cancellationToken = default)
+        {
+            _logger.LogDebug("TODO: implement GetPatientHealthcarePlansAsync properly; delegating to GetPlansByPatientIdAsync.");
+            // We have an existing method; delegate while honoring cancellation if used internally in the future.
+            return await GetPlansByPatientIdAsync(patientId);
+        }
+
         public async Task<HealthcarePlanDto> CreateHealthcarePlanAsync(HealthcarePlanCreateDto planDto)
         {
             try
@@ -173,6 +180,13 @@ namespace Phos.Services.Implementations
                 _logger.LogError(ex, "Error creating healthcare plan");
                 throw;
             }
+        }
+
+        public async Task<HealthcarePlanDto> CreatePlanAsync(HealthcarePlanDto planDto)
+        {
+            // TODO: implement CreatePlanAsync properly; mapping to create DTO for now.
+            var createDto = _mapper.Map<HealthcarePlanCreateDto>(planDto);
+            return await CreateHealthcarePlanAsync(createDto);
         }
 
         public async Task<bool> UpdateHealthcarePlanAsync(HealthcarePlanUpdateDto planDto)
@@ -234,11 +248,11 @@ namespace Phos.Services.Implementations
             return await DeleteHealthcarePlanAsync(id);
         }
 
-        public Task GetAvailablePlansAsync()
+        public Task<IEnumerable<HealthcarePlanDto>> GetAvailablePlansAsync()
         {
-            // TODO: implement actual logic (e.g. filter by some criteria)
-            // For now, return a completed task so the interface is satisfied.
-            return Task.CompletedTask;
+            _logger.LogDebug("TODO: implement GetAvailablePlansAsync properly; returning safe default.");
+            // TODO: implement actual logic (e.g., filter by status or availability flags)
+            return Task.FromResult<IEnumerable<HealthcarePlanDto>>(Array.Empty<HealthcarePlanDto>());
         }
 
         public async Task<bool> AssignPlanToPatientAsync(string planId, string patientId)

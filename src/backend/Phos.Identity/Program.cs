@@ -98,14 +98,7 @@ builder.Services.AddHealthChecks();
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-// Add Redis and Event Bus
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-{
-    var configuration = sp.GetRequiredService<IConfiguration>();
-    var connectionString = configuration.GetConnectionString("Redis") ?? "localhost:6379";
-    return ConnectionMultiplexer.Connect(connectionString);
-});
-
+// Add Event Bus (IConnectionMultiplexer is registered in Phos.Api for the main API; Identity should not override it)
 builder.Services.AddSingleton<IEventBus, RedisEventBus>();
 builder.Services.AddScoped<IUserEventPublisher, UserEventPublisher>();
 

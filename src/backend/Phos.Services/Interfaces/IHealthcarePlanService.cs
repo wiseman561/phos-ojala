@@ -1,6 +1,7 @@
 using Phos.Contracts.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Phos.Services.Interfaces
 {
@@ -45,6 +46,14 @@ namespace Phos.Services.Interfaces
         /// <param name="patientId">The patient ID</param>
         /// <returns>A collection of healthcare plan DTOs</returns>
         Task<IEnumerable<HealthcarePlanDto>> GetPlansByPatientIdAsync(string patientId);
+
+        /// <summary>
+        /// Gets plans for a specific patient (alias used by DashboardController).
+        /// </summary>
+        /// <param name="patientId">The patient ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>A collection of healthcare plan DTOs</returns>
+        Task<IEnumerable<HealthcarePlanDto>> GetPatientHealthcarePlansAsync(string patientId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates a new healthcare plan

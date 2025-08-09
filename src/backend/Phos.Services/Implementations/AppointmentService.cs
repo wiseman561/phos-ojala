@@ -209,6 +209,12 @@ namespace Phos.Services.Implementations
             return _mapper.Map<IEnumerable<AppointmentDto>>(upcoming);
         }
 
+        public Task<IEnumerable<AppointmentDto>> GetPatientAppointmentsAsync(string patientId)
+        {
+            // TODO: implement GetPatientAppointmentsAsync properly; consider pagination and filtering; delegating to GetAppointmentsByPatientIdAsync for now.
+            return GetAppointmentsByPatientIdAsync(patientId);
+        }
+
         public async Task<bool> UpdateAppointmentStatusAsync(string appointmentId, string newStatus)
         {
             var appt = await _dbContext.Appointments.FindAsync(appointmentId);

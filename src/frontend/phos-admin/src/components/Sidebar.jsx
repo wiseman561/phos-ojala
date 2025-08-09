@@ -9,7 +9,7 @@ import {
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import logo from '/src/assets/phos-logo.png';
+import logo from '../assets/phos-logo.png';
 import { useAuth } from '../contexts/AuthContext';
 import { ROLES } from '../contexts/AuthContext';
 

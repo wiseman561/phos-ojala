@@ -119,10 +119,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 
-builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
-    p.AllowAnyOrigin()
-     .AllowAnyHeader()
-     .AllowAnyMethod()));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalDev", policy =>
+        policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+              .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+              .AllowAnyHeader()
+              .AllowCredentials());
+});
 
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
@@ -139,11 +143,17 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Add Redis and Event Bus
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+var services = builder.Services;
+var redisConnStr =
+    builder.Configuration["Redis:ConnectionString"]
+    ?? Environment.GetEnvironmentVariable("REDIS__CONNECTIONSTRING")
+    ?? "127.0.0.1:6379,abortConnect=false,connectTimeout=2000";
+
+services.AddSingleton<IConnectionMultiplexer>(_ =>
 {
-    var configuration = sp.GetRequiredService<IConfiguration>();
-    var connectionString = configuration.GetConnectionString("Redis") ?? "localhost:6379";
-    return ConnectionMultiplexer.Connect(connectionString);
+    var opts = ConfigurationOptions.Parse(redisConnStr);
+    opts.AbortOnConnectFail = false;
+    return ConnectionMultiplexer.Connect(opts);
 });
 
 builder.Services.AddSingleton<IEventBus, RedisEventBus>();
@@ -163,7 +173,7 @@ if (app.Environment.IsDevelopment())
 #if !DEBUG_DOCKER
 app.UseHttpsRedirection();
 #endif
-app.UseCors();
+app.UseCors("AllowLocalDev");
 app.UseAuthentication();
 app.UseAuthorization();
 

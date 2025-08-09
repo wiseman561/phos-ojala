@@ -471,3 +471,6 @@ export const AdminAuthProvider = createAuthProvider(adminAuthConfig);
 
 // ensure TS treats this file as a module
 export {};
+
+// Re-export a generic AuthProvider alias expected by app entrypoints
+export { AdminAuthProvider as AuthProvider };

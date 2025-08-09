@@ -1,0 +1,5 @@
+/* Minimal placeholder to satisfy import; extend with real styles as needed */
+:root {
+  --phos-primary: #2563eb;
+}
+html, body, #root { height: 100%; margin: 0; padding: 0; }

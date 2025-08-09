@@ -1,5 +1,7 @@
 // craco.config.js
 
+const path = require('path');
+
 module.exports = {
   eslint: {
     // Disable CRACO's ESLint integration
@@ -20,6 +22,13 @@ module.exports = {
 
       // Additional fix for module resolution
       config.resolve.fullySpecified = false;
+
+      // Add alias for @api to point to src/api
+      config.resolve = config.resolve || {};
+      config.resolve.alias = {
+        ...(config.resolve.alias || {}),
+        '@api': path.resolve(__dirname, 'src/api'),
+      };
 
       return config;
     },

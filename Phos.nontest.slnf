@@ -1,0 +1,10 @@
+{
+  "solution": { "path": "Phos.sln" },
+  "projects": [
+    "src\\backend\\Phos.Api\\Phos.Api.csproj",
+    "src\\backend\\Phos.Identity\\Phos.Identity.csproj",
+    "src\\backend\\Phos.HealthScore\\Phos.HealthScore.csproj",
+    "src\\backend\\Phos.ApiGateway\\Phos.ApiGateway.csproj",
+    "src\\backend\\Phos.Services\\Phos.Services.csproj"
+  ]
+}

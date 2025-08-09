@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import axios, { type AxiosInstance } from 'axios';
+import { http } from '@api/http';
+import { jwtDecode } from 'jwt-decode';
+
+interface DecodedJwt {
+  sub?: string;
+  exp?: number;
+  iat?: number;
+  [k: string]: unknown;
+}
 
 // Generic User interface that can be extended
 export interface BaseUser {
@@ -135,12 +143,7 @@ export const createAuthProvider = (config: AuthConfig) => {
     const isAuthenticated = !!tokens?.accessToken && !!user;
 
     // Create axios instance for auth calls (use provided client or create new one)
-    const authApi = config.apiClient || axios.create({
-      baseURL: config.baseURL,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const authApi: AxiosInstance = (config.apiClient as AxiosInstance) || http;
 
     // Set tokens and update localStorage
     const setAuthTokens = (tokenPair: TokenPair) => {
@@ -173,13 +176,11 @@ export const createAuthProvider = (config: AuthConfig) => {
       try {
         setIsLoading(true);
 
-        const response = await authApi.post<LoginResponse>('/api/auth/login', {
+        const { data } = await authApi.post<LoginResponse>('/api/auth/login', {
           email,
           password,
           role: config.userRole
         });
-
-        const data = response.data;
         let tokenPair: TokenPair;
         let userData: User | undefined;
 
@@ -206,7 +207,7 @@ export const createAuthProvider = (config: AuthConfig) => {
         // Decode user info from token if not provided
         if (!userData && tokenPair.accessToken) {
           try {
-            const decoded = jwtDecode(tokenPair.accessToken) as any;
+            const decoded = jwtDecode<DecodedJwt>(tokenPair.accessToken) as any;
             userData = {
               id: decoded.sub || decoded.userId || 'unknown',
               email: decoded.email || email,
@@ -263,12 +264,10 @@ export const createAuthProvider = (config: AuthConfig) => {
       try {
         setIsLoading(true);
 
-        const response = await authApi.post<LoginResponse>('/api/auth/register', {
+        const { data } = await authApi.post<LoginResponse>('/api/auth/register', {
           ...userData,
           role: config.userRole
         });
-
-        const data = response.data;
         let tokenPair: TokenPair;
 
         if (data.accessToken && data.refreshToken) {
@@ -288,7 +287,7 @@ export const createAuthProvider = (config: AuthConfig) => {
         }
 
         // Decode user info from token
-        const decoded = jwtDecode(tokenPair.accessToken) as any;
+        const decoded = jwtDecode<DecodedJwt>(tokenPair.accessToken) as any;
         const user: User = {
           id: decoded.sub || decoded.userId || 'unknown',
           email: userData.email,
@@ -322,11 +321,9 @@ export const createAuthProvider = (config: AuthConfig) => {
       }
 
       try {
-        const response = await authApi.post<LoginResponse>('/api/auth/refresh', {
+        const { data } = await authApi.post<LoginResponse>('/api/auth/refresh', {
           refreshToken: tokens.refreshToken
         });
-
-        const data = response.data;
         if (data.accessToken) {
           const newTokenPair: TokenPair = {
             accessToken: data.accessToken,
