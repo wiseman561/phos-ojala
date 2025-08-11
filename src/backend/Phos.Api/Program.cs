@@ -35,42 +35,7 @@ using Phos.Api.Listeners;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- DYNAMIC PORT CONFIGURATION ---
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    var urlsEnv = Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000";
-    var requested = urlsEnv.Split(';', StringSplitOptions.RemoveEmptyEntries);
-    var actualUrls = new List<string>();
-
-    foreach (var url in requested)
-    {
-        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
-            continue;
-
-        int startPort  = uri.Port;
-        string scheme  = uri.Scheme;
-        string host    = uri.Host;
-
-        int chosenPort = KestrelPortHelper.FindAvailablePort(startPort);
-        if (chosenPort != startPort)
-            Console.WriteLine($"Port {startPort} is in use, using port {chosenPort} instead");
-
-        // bind only IPv4 loopback for reliability
-        if (scheme.Equals("https", StringComparison.OrdinalIgnoreCase))
-        {
-            serverOptions.Listen(IPAddress.Loopback, chosenPort, listenOpts => listenOpts.UseHttps());
-        }
-        else
-        {
-            serverOptions.Listen(IPAddress.Loopback, chosenPort);
-        }
-
-        actualUrls.Add($"{scheme}://{host}:{chosenPort}");
-    }
-
-    // update env var once so any downstream tools see the real endpoints
-    Environment.SetEnvironmentVariable("ASPNETCORE_URLS", string.Join(';', actualUrls));
-});
+// Use Kestrel endpoints from configuration (see appsettings)
 
 // --- VAULT INTEGRATION ---
 var vaultEnabled = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VAULT_ADDR"));
