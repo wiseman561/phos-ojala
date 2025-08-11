@@ -1,3 +1,31 @@
+## Quick Start (PHOS)
+1. Devcontainer: open in GitHub Codespaces or VS Code Dev Containers.
+2. Copy envs:
+   ```bash
+   cp .env.example .env
+   # Frontend apps
+   cp src/frontend/phos-web/.env.example src/frontend/phos-web/.env
+   cp src/frontend/employer-dashboard/.env.example src/frontend/employer-dashboard/.env
+   cp src/frontend/patient-app/.env.example src/frontend/patient-app/.env
+   cp src/frontend/rn-dashboard/.env.example src/frontend/rn-dashboard/.env
+   cp src/frontend/md-dashboard/.env.example src/frontend/md-dashboard/.env
+   cp src/frontend/phos-admin/.env.example src/frontend/phos-admin/.env
+   cp src/frontend/phos-patient-portal/.env.example src/frontend/phos-patient-portal/.env
+   # Backend services (copy those you intend to run locally)
+   cp src/backend/Phos.Api/.env.example src/backend/Phos.Api/.env
+   cp src/backend/Phos.Identity/.env.example src/backend/Phos.Identity/.env
+   cp src/backend/Phos.ApiGateway/.env.example src/backend/Phos.ApiGateway/.env
+   cp src/backend/Phos.HealthScore/.env.example src/backend/Phos.HealthScore/.env
+   ```
+3. Install deps:
+   ```bash
+   make restore
+   ```
+4. Run locally:
+   ```bash
+   make dev
+   ```
+5. CI: Push to any branch; GitHub Actions will build/test automatically.
 # Ojalá Healthcare Platform - MD Dashboard (MVP - Phase 1B)
 
 This document provides an overview of the Minimum Viable Product (MVP) for the MD Dashboard, implemented as part of Phase 1B.
