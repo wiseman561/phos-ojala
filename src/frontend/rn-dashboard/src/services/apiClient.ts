@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
+import type { InternalAxiosRequestConfig } from 'axios';
 
 // Create the main API client instance
 const apiClient: AxiosInstance = axios.create({
@@ -10,13 +11,13 @@ const apiClient: AxiosInstance = axios.create({
 
 // Request interceptor to add authorization header
 apiClient.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     const tokens = localStorage.getItem('rn-dashboard-tokens');
     if (tokens) {
       const parsedTokens = JSON.parse(tokens);
       if (parsedTokens.accessToken) {
         config.headers = config.headers || {};
-        config.headers.Authorization = `Bearer ${parsedTokens.accessToken}`;
+        (config.headers as any).Authorization = `Bearer ${parsedTokens.accessToken}`;
       }
     }
     return config;
@@ -39,7 +40,7 @@ apiClient.interceptors.response.use(
         const tokens = localStorage.getItem('rn-dashboard-tokens');
         if (tokens) {
           const parsedTokens = JSON.parse(tokens);
-          
+
           // Try to refresh the token
           const refreshResponse = await axios.post(
             `${process.env.REACT_APP_API_URL || 'https://localhost:5001'}/api/auth/refresh`,
@@ -53,7 +54,7 @@ apiClient.interceptors.response.use(
           };
 
           localStorage.setItem('rn-dashboard-tokens', JSON.stringify(newTokens));
-          
+
           // Retry the original request with new token
           originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
           return apiClient.request(originalRequest);
@@ -76,72 +77,72 @@ export const nurseApi = {
   getPatients: () => apiClient.get('/api/nurses/patients'),
   getPatientById: (patientId: string) => apiClient.get(`/api/patients/${patientId}`),
   getPatientsByNurse: (nurseId: string) => apiClient.get(`/api/nurses/${nurseId}/patients`),
-  updatePatientStatus: (patientId: string, status: any) => 
+  updatePatientStatus: (patientId: string, status: any) =>
     apiClient.put(`/api/patients/${patientId}/status`, status),
 
   // Alert Management
   getActiveAlerts: () => apiClient.get('/api/alerts/active'),
   getAllAlerts: () => apiClient.get('/api/alerts'),
-  acknowledgeAlert: (alertId: string) => 
+  acknowledgeAlert: (alertId: string) =>
     apiClient.post(`/api/alerts/${alertId}/acknowledge`),
-  escalateAlert: (alertId: string, escalationData: any) => 
+  escalateAlert: (alertId: string, escalationData: any) =>
     apiClient.post(`/api/alerts/${alertId}/escalate`, escalationData),
 
   // Telemetry and Monitoring
   getPatientTelemetry: (patientId: string, range?: string) =>
     apiClient.get(`/api/patients/${patientId}/telemetry${range ? `?range=${range}` : ''}`),
-  getDeviceStatus: (deviceId: string) => 
+  getDeviceStatus: (deviceId: string) =>
     apiClient.get(`/api/devices/${deviceId}/status`),
-  getPatientDevices: (patientId: string) => 
+  getPatientDevices: (patientId: string) =>
     apiClient.get(`/api/patients/${patientId}/devices`),
 
   // Nurse-specific Data
   getNurseProfile: () => apiClient.get('/api/nurses/profile'),
-  updateNurseProfile: (profileData: any) => 
+  updateNurseProfile: (profileData: any) =>
     apiClient.put('/api/nurses/profile', profileData),
   getNurseSchedule: () => apiClient.get('/api/nurses/schedule'),
-  getCohortTelemetry: (nurseId: string) => 
+  getCohortTelemetry: (nurseId: string) =>
     apiClient.get(`/api/nurses/${nurseId}/cohort-telemetry`),
 
   // Telehealth
-  getTelehealthSessions: () => 
+  getTelehealthSessions: () =>
     apiClient.get('/api/telehealth/sessions?role=provider'),
-  createTelehealthSession: (sessionData: any) => 
+  createTelehealthSession: (sessionData: any) =>
     apiClient.post('/api/telehealth/schedule', sessionData),
-  getTelehealthSession: (sessionId: string) => 
+  getTelehealthSession: (sessionId: string) =>
     apiClient.get(`/api/telehealth/session/${sessionId}`),
-  endTelehealthSession: (sessionId: string) => 
+  endTelehealthSession: (sessionId: string) =>
     apiClient.post(`/api/telehealth/end-session/${sessionId}`),
-  saveTelehealthNotes: (sessionId: string, notes: string) => 
+  saveTelehealthNotes: (sessionId: string, notes: string) =>
     apiClient.post(`/api/telehealth/session-notes/${sessionId}`, { notes }),
 
   // Messaging
   getMessages: () => apiClient.get('/api/messages'),
   sendMessage: (messageData: any) => apiClient.post('/api/messages', messageData),
-  markMessageAsRead: (messageId: string) => 
+  markMessageAsRead: (messageId: string) =>
     apiClient.put(`/api/messages/${messageId}/read`),
 
   // Documentation
-  getPatientNotes: (patientId: string) => 
+  getPatientNotes: (patientId: string) =>
     apiClient.get(`/api/patients/${patientId}/notes`),
-  addPatientNote: (patientId: string, note: any) => 
+  addPatientNote: (patientId: string, note: any) =>
     apiClient.post(`/api/patients/${patientId}/notes`, note),
-  updatePatientNote: (patientId: string, noteId: string, note: any) => 
+  updatePatientNote: (patientId: string, noteId: string, note: any) =>
     apiClient.put(`/api/patients/${patientId}/notes/${noteId}`, note),
 
   // Reports and Analytics
   getNurseMetrics: () => apiClient.get('/api/nurses/metrics'),
-  getPatientMetrics: (patientId: string) => 
+  getPatientMetrics: (patientId: string) =>
     apiClient.get(`/api/patients/${patientId}/metrics`),
   getDepartmentMetrics: () => apiClient.get('/api/departments/metrics'),
 
   // Emergency and Critical Care
-  triggerEmergencyAlert: (patientId: string, alertData: any) => 
+  triggerEmergencyAlert: (patientId: string, alertData: any) =>
     apiClient.post(`/api/patients/${patientId}/emergency-alert`, alertData),
   getEmergencyProtocols: () => apiClient.get('/api/emergency/protocols'),
-  activateEmergencyProtocol: (protocolId: string, patientId: string) => 
+  activateEmergencyProtocol: (protocolId: string, patientId: string) =>
     apiClient.post(`/api/emergency/protocols/${protocolId}/activate`, { patientId }),
 };
 
 // Export the main client for general use
-export default apiClient; 
+export default apiClient;

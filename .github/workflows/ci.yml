@@ -39,33 +39,41 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Enable Corepack
+        run: corepack enable || true
+      - name: Prepare pnpm
+        run: corepack prepare pnpm@latest --activate || true
       - name: Install deps for ${{ matrix.app }}
         working-directory: ${{ matrix.app }}
         run: |
           if [ -f pnpm-lock.yaml ] || [ -f pnpm-workspace.yaml ]; then
-            corepack enable || true
-            corepack prepare pnpm@latest --activate || true
-            pnpm install || npm ci || yarn install
+            pnpm install --frozen-lockfile
           elif [ -f package-lock.json ]; then
-            npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+            npm ci
           elif [ -f yarn.lock ]; then
-            yarn install
+            yarn install --frozen-lockfile
           else
             npm install
           fi
       - name: Build ${{ matrix.app }}
         working-directory: ${{ matrix.app }}
         run: |
-          npm run build || yarn build || pnpm build
+          if [ -f pnpm-lock.yaml ] || [ -f pnpm-workspace.yaml ]; then
+            pnpm build || npm run build || yarn build
+          elif [ -f yarn.lock ]; then
+            yarn build || npm run build
+          else
+            npm run build || yarn build
+          fi
 
   backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET
+      - name: Setup .NET (respect global.json)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          global-json-file: global.json
       - name: Restore .NET
         run: |
           if [ -f "Phos.sln" ]; then
@@ -98,3 +106,31 @@ jobs:
               echo "No test projects found, skipping."
             fi
           fi
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Docker images
+        run: |
+          if [ -f "docker-compose.yml" ]; then
+            docker-compose build --parallel
+          else
+            echo "No docker-compose.yml found, skipping Docker build"
+          fi
+      - name: Push Docker images
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          services="phos-identity phos-api phos-apigateway phos-healthscore phos-web"
+          for service in $services; do
+            if docker image inspect "$service:latest" >/dev/null 2>&1; then
+              docker tag "$service:latest" "${{ secrets.DOCKERHUB_USER }}/$service:latest"
+              docker push "${{ secrets.DOCKERHUB_USER }}/$service:latest"
+              echo "Pushed $service"
+            else
+              echo "Image $service:latest not found, skipping"
+            fi
+          done
