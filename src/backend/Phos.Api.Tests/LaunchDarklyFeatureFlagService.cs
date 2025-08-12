@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using LaunchDarkly.Client;
+using Phos.Services.Interfaces;
 
 namespace Phos.Services.Implementations
 {
@@ -25,7 +27,7 @@ namespace Phos.Services.Implementations
             ILogger<LaunchDarklyFeatureFlagService> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            
+
             _sdkKey = configuration["LaunchDarkly:SdkKey"];
 
             if (string.IsNullOrEmpty(_sdkKey))
@@ -34,7 +36,7 @@ namespace Phos.Services.Implementations
                 // Throwing an exception ensures configuration is explicitly provided.
                 throw new InvalidOperationException("LaunchDarkly SDK Key is not configured. Please provide LaunchDarkly:SdkKey via configuration (e.g., Vault).");
             }
-            
+
             _ldClient = new LaunchDarkly.Client.LdClient(_sdkKey);
         }
 
@@ -54,11 +56,11 @@ namespace Phos.Services.Implementations
 
                 // Create a default user context for global checks
                 var user = LaunchDarkly.Client.User.WithKey("default-user");
-                
+
                 var result = _ldClient.BoolVariation(featureName, user, false);
-                
+
                 _logger.LogDebug("Feature flag {FeatureName} is {Status}", featureName, result ? "enabled" : "disabled");
-                
+
                 return Task.FromResult(result);
             }
             catch (Exception ex)
@@ -90,12 +92,12 @@ namespace Phos.Services.Implementations
 
                 // Create a user context for the specific user
                 var user = LaunchDarkly.Client.User.WithKey(userId);
-                
+
                 var result = _ldClient.BoolVariation(featureName, user, false);
-                
-                _logger.LogDebug("Feature flag {FeatureName} for user {UserId} is {Status}", 
+
+                _logger.LogDebug("Feature flag {FeatureName} for user {UserId} is {Status}",
                     featureName, userId, result ? "enabled" : "disabled");
-                
+
                 return Task.FromResult(result);
             }
             catch (Exception ex)
