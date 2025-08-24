@@ -64,6 +64,7 @@
     <!-- Services & Third-party -->
     <PackageVersion Include="LaunchDarkly.ServerSdk" Version="7.1.0" />
     <PackageVersion Include="LaunchDarkly.Client" Version="5.6.3" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="StackExchange.Redis" Version="2.7.17" />
 
     <!-- Testing -->

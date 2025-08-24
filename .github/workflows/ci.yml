@@ -57,6 +57,8 @@ jobs:
           fi
       - name: Build ${{ matrix.app }}
         working-directory: ${{ matrix.app }}
+        env:
+          CI: "false"
         run: |
           if [ -f pnpm-lock.yaml ] || [ -f pnpm-workspace.yaml ]; then
             pnpm build || npm run build || yarn build
