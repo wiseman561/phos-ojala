@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phos.labs.interpreted.v1.schema.json",
+  "type": "object",
+  "required": ["patientId", "flags", "recommendations", "fhir", "_meta"],
+  "properties": {
+    "patientId": { "type": "string" },
+    "flags": { "type": "array", "items": { "type": "object" } },
+    "recommendations": { "type": "array", "items": { "type": "object" } },
+    "fhir": {
+      "type": "object",
+      "required": ["diagnosticReport"],
+      "properties": {
+        "diagnosticReport": { "type": "object" },
+        "observations": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "_meta": {
+      "type": "object",
+      "required": ["eventId", "schemaVersion"],
+      "properties": {
+        "eventId": { "type": "string" },
+        "schemaVersion": { "const": "1.0.0" },
+        "correlationId": { "type": "string" }
+      }
+    }
+  }
+}
+
+

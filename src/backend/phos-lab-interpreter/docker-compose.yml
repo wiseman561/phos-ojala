@@ -1,0 +1,38 @@
+services:
+  lab-interpreter:
+    build: .
+    pull_policy: always
+    environment:
+      - NODE_ENV=development
+      - PORT=8094
+      - SERVICE_TOKEN=dev-token
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=phos
+      - DB_PASS=phos
+      - DB_NAME=phos_labs
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NATS_URL=nats://nats:4222
+      - PROFILE_GRPC_URL=profiles:50051
+    ports: ["8094:8094"]
+    depends_on: [postgres, redis, nats]
+  postgres:
+    image: mirror.gcr.io/library/postgres:15
+    pull_policy: always
+    environment:
+      - POSTGRES_USER=phos
+      - POSTGRES_PASSWORD=phos
+      - POSTGRES_DB=phos_labs
+    ports: ["5436:5432"]
+  redis:
+    image: mirror.gcr.io/library/redis:7
+    pull_policy: always
+    ports: ["6379:6379"]
+  nats:
+    image: ghcr.io/nats-io/nats-server:2
+    pull_policy: always
+    command: ["-js"]
+    ports: ["4222:4222", "8222:8222"]
+
+

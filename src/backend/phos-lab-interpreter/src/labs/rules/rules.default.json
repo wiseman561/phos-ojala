@@ -1,0 +1,83 @@
+{
+  "meta": { "version": "0.1.0", "source": "default-internal" },
+  "provenance": {
+    "guideline": "Composite: ADA/ACC/KDIGO/ATA clinical thresholds (for demo)",
+    "citationUrl": "https://example.org/phos/provenance",
+    "accessedAt": "2025-01-01"
+  },
+  "rules": [
+    {
+      "id": "hba1c_predm",
+      "if": { ">=": [ { "var": "HbA1c" }, 5.7 ] },
+      "and": { "<": [ { "var": "HbA1c" }, 6.5 ] },
+      "flag": { "loinc": "4548-4", "severity": "moderate", "reason": "Prediabetes range (HbA1c 5.7-6.4%)" },
+      "recommend": [
+        { "code": "lifestyle.low_gi", "text": "Reduce high-glycemic load foods", "rationale": "A1c elevated" }
+      ]
+    },
+    {
+      "id": "hba1c_dm",
+      "if": { ">=": [ { "var": "HbA1c" }, 6.5 ] },
+      "flag": { "loinc": "4548-4", "severity": "high", "reason": "Diabetes threshold (HbA1c ≥ 6.5%)" },
+      "recommend": [
+        { "code": "followup.confirm", "text": "Confirm with repeat test or fasting plasma glucose", "rationale": "Diagnostic threshold" }
+      ]
+    },
+    {
+      "id": "ldl_high",
+      "if": { ">": [ { "var": "LDL-C" }, 160 ] },
+      "flag": { "loinc": "2089-1", "severity": "moderate", "reason": "LDL-C > 160 mg/dL" },
+      "recommend": [ { "code": "lipids.panel_repeat", "text": "Repeat fasting lipids, assess ASCVD risk", "rationale": "Elevated LDL" } ]
+    },
+    {
+      "id": "dm_a1c_or_fpg",
+      "if": { ">=": [ { "var": "HbA1c" }, 6.5 ] },
+      "or": { ">=": [ { "var": "FPG" }, 126 ] },
+      "flag": { "loinc": "4548-4", "severity": "high", "reason": "Meets diabetes criteria (A1c ≥6.5% or FPG ≥126 mg/dL)" },
+      "recommend": [ { "code": "dm.confirm", "text": "Confirm on repeat and initiate management", "rationale": "Diagnostic threshold" } ]
+    },
+    {
+      "id": "ckd_egfr_low",
+      "if": { "<": [ { "var": "eGFR" }, 60 ] },
+      "flag": { "loinc": "2160-0", "severity": "moderate", "reason": "Reduced eGFR (<60 mL/min/1.73m2)" },
+      "recommend": [ { "code": "ckd.nephrology_eval", "text": "Consider nephrology evaluation", "rationale": "CKD staging" } ]
+    },
+    {
+      "id": "iron_deficiency_pattern",
+      "if": { "<": [ { "var": "Hgb" }, 13 ] },
+      "and": { "<": [ { "var": "MCV" }, 80 ] },
+      "and2": { "<": [ { "var": "Ferritin" }, 15 ] },
+      "flag": { "loinc": "718-7", "severity": "moderate", "reason": "Pattern suggests iron deficiency anemia" },
+      "recommend": [ { "code": "iron.replete", "text": "Start iron repletion and evaluate cause", "rationale": "Low ferritin" } ]
+    },
+    {
+      "id": "hypothyroid_pattern",
+      "if": { ">": [ { "var": "TSH" }, 4.0 ] },
+      "and": { "<": [ { "var": "Free T4" }, 0.8 ] },
+      "flag": { "loinc": "3016-3", "severity": "moderate", "reason": "Overt hypothyroidism pattern" },
+      "recommend": [ { "code": "thyroid.treat", "text": "Initiate levothyroxine per guidelines", "rationale": "Overt pattern" } ]
+    },
+    {
+      "id": "cholestasis_pattern",
+      "if": { ">": [ { "var": "ALP" }, 147 ] },
+      "and": { ">": [ { "var": "GGT" }, 60 ] },
+      "flag": { "loinc": "6768-6", "severity": "moderate", "reason": "Cholestatic pattern (ALP + GGT)" },
+      "recommend": [ { "code": "liver.imaging", "text": "Consider RUQ ultrasound and cholestasis workup", "rationale": "Pattern suggests cholestasis" } ]
+    }
+  ],
+  "loincMap": {
+    "4548-4": "HbA1c",
+    "2345-7": "FPG",
+    "2089-1": "LDL-C",
+    "2160-0": "Creatinine",
+    "718-7": "Hgb",
+    "787-2": "MCV",
+    "2276-4": "Ferritin",
+    "3016-3": "TSH",
+    "3024-7": "Free T4",
+    "6768-6": "ALP",
+    "2324-2": "GGT"
+  }
+}
+
+
