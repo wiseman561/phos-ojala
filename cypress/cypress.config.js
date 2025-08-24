@@ -28,7 +28,7 @@ module.exports = defineConfig({
     },
   },
   env: {
-    apiUrl: 'http://localhost:5000',
+    apiUrl: 'http://localhost:8080',
     adminUsername: 'admin@phos-healthcare.com',
     adminPassword: 'admin-password',
     rnUsername: 'nurse@phos-healthcare.com',

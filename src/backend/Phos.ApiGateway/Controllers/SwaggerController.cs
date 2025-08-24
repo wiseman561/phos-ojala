@@ -33,8 +33,8 @@ public class SwaggerController : ControllerBase
 <body>
     <div class=""service-selector"">
         <h3>Select Service API Documentation:</h3>
-        <button class=""service-btn"" onclick=""loadSwagger('api')"">Main API (Port 5000)</button>
-        <button class=""service-btn"" onclick=""loadSwagger('identity')"">Identity API (Port 5001)</button>
+        <button class=""service-btn"" onclick=""loadSwagger('api')"">Main API (Port 8080)</button>
+        <button class=""service-btn"" onclick=""loadSwagger('identity')"">Identity API (Port 5501)</button>
         <button class=""service-btn"" onclick=""loadSwagger('healthscore')"">Health Score API (Port 8083)</button>
     </div>
     <div id=""swagger-ui""></div>
@@ -45,10 +45,10 @@ public class SwaggerController : ControllerBase
             let url;
             switch(service) {{
                 case 'api':
-                    url = 'http://localhost:5000/swagger/v1/swagger.json';
+                    url = 'http://localhost:8080/swagger/v1/swagger.json';
                     break;
                 case 'identity':
-                    url = 'http://localhost:5001/swagger/v1/swagger.json';
+                    url = 'http://localhost:5501/swagger/v1/swagger.json';
                     break;
                 case 'healthscore':
                     url = 'http://localhost:8083/swagger/v1/swagger.json';
@@ -87,8 +87,8 @@ public class SwaggerController : ControllerBase
         {
             services = new[]
             {
-                new { name = "Main API", url = "http://localhost:5000/swagger/v1/swagger.json", port = 5000 },
-                new { name = "Identity API", url = "http://localhost:5001/swagger/v1/swagger.json", port = 5001 },
+                new { name = "Main API", url = "http://localhost:8080/swagger/v1/swagger.json", port = 8080 },
+                new { name = "Identity API", url = "http://localhost:5501/swagger/v1/swagger.json", port = 5501 },
                 new { name = "Health Score API", url = "http://localhost:8083/swagger/v1/swagger.json", port = 8083 }
             }
         };

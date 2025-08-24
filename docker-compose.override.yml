@@ -86,7 +86,7 @@ services:
       - ./:/src
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Default=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
+      - ConnectionStrings__Default=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=yourpassword
     entrypoint: ["/bin/sh","-c"]
     command: |
       set -e
@@ -156,7 +156,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - JwtSettings__Authority=http://localhost:5001
+      - JwtSettings__Authority=http://localhost:5501
       - JwtSettings__Issuer=Phos.Identity
       - JwtSettings__Audience=Phos.Client
       - JwtSettings__SecretKey=YOUR_SUPER_SECRET_KEY_HERE_THAT_IS_AT_LEAST_32_CHARACTERS_LONG
@@ -192,7 +192,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - VITE_API_BASE=http://localhost:5001
+      - VITE_API_BASE=http://localhost:8080
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
       interval: 30s

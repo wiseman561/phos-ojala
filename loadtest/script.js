@@ -7,7 +7,7 @@ import { Rate } from 'k6/metrics';
 const errorRate = new Rate('errors');
 
 // Configuration
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:5000';
+const BASE_URL = __ENV.BASE_URL || 'http://localhost:8080';
 const API_VERSION = __ENV.API_VERSION || 'v1';
 
 // Test data
@@ -51,22 +51,22 @@ function getAuthToken(username, password) {
     username: username,
     password: password
   });
-  
+
   const params = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
-  
+
   const response = check(http.post(loginUrl, payload, params), {
     'login successful': (r) => r.status === 200 && r.json('token') !== undefined,
   });
-  
+
   if (!response) {
     errorRate.add(1);
     return null;
   }
-  
+
   return response ? http.post(loginUrl, payload, params).json('token') : null;
 }
 
@@ -111,19 +111,19 @@ export const options = {
 export function rnAlertsScenario() {
   const user = users.filter(u => u.role === 'RN')[Math.floor(Math.random() * users.filter(u => u.role === 'RN').length)];
   const token = getAuthToken(user.username, user.password);
-  
+
   if (!token) {
     console.log('Failed to get auth token for RN user');
     return;
   }
-  
+
   const params = {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     }
   };
-  
+
   // Get alerts for RN dashboard
   const alertsResponse = http.get(`${BASE_URL}/api/${API_VERSION}/rn/alerts`, params);
   check(alertsResponse, {
@@ -131,7 +131,7 @@ export function rnAlertsScenario() {
     'alerts response has data': (r) => r.json('data') !== undefined,
     'alerts response time < 200ms': (r) => r.timings.duration < 200
   }) || errorRate.add(1);
-  
+
   // Get patient list
   const patientsResponse = http.get(`${BASE_URL}/api/${API_VERSION}/rn/patients`, params);
   check(patientsResponse, {
@@ -139,7 +139,7 @@ export function rnAlertsScenario() {
     'patients response has data': (r) => r.json('data') !== undefined,
     'patients response time < 300ms': (r) => r.timings.duration < 300
   }) || errorRate.add(1);
-  
+
   // Get details for a specific patient
   const patientId = getRandomPatientId();
   const patientDetailsResponse = http.get(`${BASE_URL}/api/${API_VERSION}/patients/${patientId}`, params);
@@ -148,7 +148,7 @@ export function rnAlertsScenario() {
     'patient details response has data': (r) => r.json('data') !== undefined,
     'patient details response time < 300ms': (r) => r.timings.duration < 300
   }) || errorRate.add(1);
-  
+
   // Get health score for the patient
   const healthScoreResponse = http.get(`${BASE_URL}/api/${API_VERSION}/ai/healthscore/${patientId}`, params);
   check(healthScoreResponse, {
@@ -156,7 +156,7 @@ export function rnAlertsScenario() {
     'health score response has data': (r) => r.json('score') !== undefined,
     'health score response time < 500ms': (r) => r.timings.duration < 500
   }) || errorRate.add(1);
-  
+
   sleep(1);
 }
 
@@ -164,19 +164,19 @@ export function rnAlertsScenario() {
 export function patientDashboardScenario() {
   const user = users.filter(u => u.role === 'Patient')[Math.floor(Math.random() * users.filter(u => u.role === 'Patient').length)];
   const token = getAuthToken(user.username, user.password);
-  
+
   if (!token) {
     console.log('Failed to get auth token for Patient user');
     return;
   }
-  
+
   const params = {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     }
   };
-  
+
   // Get patient dashboard data
   const dashboardResponse = http.get(`${BASE_URL}/api/${API_VERSION}/patient/dashboard-data`, params);
   check(dashboardResponse, {
@@ -184,7 +184,7 @@ export function patientDashboardScenario() {
     'dashboard response has data': (r) => r.json('data') !== undefined,
     'dashboard response time < 300ms': (r) => r.timings.duration < 300
   }) || errorRate.add(1);
-  
+
   // Get care plan
   const carePlanResponse = http.get(`${BASE_URL}/api/${API_VERSION}/patient/care-plan`, params);
   check(carePlanResponse, {
@@ -192,7 +192,7 @@ export function patientDashboardScenario() {
     'care plan response has data': (r) => r.json('data') !== undefined,
     'care plan response time < 300ms': (r) => r.timings.duration < 300
   }) || errorRate.add(1);
-  
+
   // Get health metrics
   const healthMetricsResponse = http.get(`${BASE_URL}/api/${API_VERSION}/patient/health-metrics`, params);
   check(healthMetricsResponse, {
@@ -200,7 +200,7 @@ export function patientDashboardScenario() {
     'health metrics response has data': (r) => r.json('data') !== undefined,
     'health metrics response time < 400ms': (r) => r.timings.duration < 400
   }) || errorRate.add(1);
-  
+
   // Submit a new health measurement
   const measurementPayload = JSON.stringify({
     type: 'blood_pressure',
@@ -209,12 +209,12 @@ export function patientDashboardScenario() {
     timestamp: new Date().toISOString(),
     notes: 'Recorded during load test'
   });
-  
+
   const measurementResponse = http.post(`${BASE_URL}/api/${API_VERSION}/patient/measurements`, measurementPayload, params);
   check(measurementResponse, {
     'measurement submission successful': (r) => r.status === 201,
     'measurement response time < 500ms': (r) => r.timings.duration < 500
   }) || errorRate.add(1);
-  
+
   sleep(1);
 }

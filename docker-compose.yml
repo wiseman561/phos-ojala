@@ -98,7 +98,7 @@ services:
       - VAULT_ADDR=http://vault:8200
       - VAULT_TOKEN=root
       - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
-      - IdentityServer__Authority=http://phos-identity:5001
+      - IdentityServer__Authority=http://phos-identity:8080
       - Redis__ConnectionString=phos-redis:6379
     command: >
       sh -c "
@@ -138,7 +138,7 @@ services:
     depends_on:
       - phos-api
     environment:
-      - REACT_APP_API_URL=http://localhost:5000
+      - REACT_APP_API_URL=http://localhost:8080
     networks:
       - phos-network
 
