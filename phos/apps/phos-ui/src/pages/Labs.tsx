@@ -6,6 +6,7 @@ export default function Labs() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -15,8 +16,10 @@ export default function Labs() {
       const payload = JSON.parse(input);
       const data = await postLabInterpret(payload);
       setResult(data);
+      setToast({ type: 'success', msg: 'Interpretation complete' });
     } catch (err: any) {
       setError(err?.message ?? 'Failed');
+      setToast({ type: 'error', msg: err?.message ?? 'Request failed' });
     } finally {
       setLoading(false);
     }
@@ -64,6 +67,11 @@ export default function Labs() {
           ) : (
             <pre className="panel">{JSON.stringify(result, null, 2)}</pre>
           )}
+        </div>
+      )}
+      {toast && (
+        <div className={`toast ${toast.type}`} onAnimationEnd={() => setToast(null)}>
+          {toast.msg}
         </div>
       )}
     </div>

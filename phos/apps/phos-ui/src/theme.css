@@ -28,3 +28,18 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-
 label { display: block; margin: 8px 0 4px; }
 textarea { width: 100%; min-height: 120px; }
 pre { white-space: pre-wrap; }
+
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  background: #1f2a44;
+  color: var(--color-text);
+  border: 1px solid #2a3659;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  z-index: 1000;
+}
+.toast.success { border-color: #37d399; }
+.toast.error { border-color: #ff6b6b; }
