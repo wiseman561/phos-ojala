@@ -23,7 +23,6 @@ export class ProxyService {
           changeOrigin: true,
           secure: false,
           xfwd: true,
-          logLevel: 'warn',
         }),
       );
     }
