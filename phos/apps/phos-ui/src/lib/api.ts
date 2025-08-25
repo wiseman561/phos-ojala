@@ -23,3 +23,8 @@ export async function postLabInterpret(payload: unknown) {
   const res = await api.post('/labs/interpret', payload);
   return res.data;
 }
+
+export async function postNutritionAnalyze(payload: unknown) {
+  const res = await api.post('/nutrition/analyze', payload);
+  return res.data;
+}
