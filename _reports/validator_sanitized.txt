@@ -33,13 +33,13 @@ Backend Services:
   [OK] Correct reference: ../Phos.Data/Phos.Data.csproj
 
 4. Checking for .NET 8 compatibility...
-  [X] src/backend/Phos.Identity/Phos.Identity.csproj does not target .NET 8
+  [OK] src/backend/Phos.Identity/Phos.Identity.csproj targets .NET 8
   [!] src/backend/Phos.Identity/Phos.Identity.csproj missing NuGet fallback folder setting
   [X] src/shared/Phos.Common/Phos.Common.csproj does not target .NET 8
   [!] src/shared/Phos.Common/Phos.Common.csproj missing NuGet fallback folder setting
   [X] src/shared/Phos.Contracts/Phos.Contracts.csproj does not target .NET 8
   [!] src/shared/Phos.Contracts/Phos.Contracts.csproj missing NuGet fallback folder setting
-  [X] src/backend/Phos.Data/Phos.Data.csproj does not target .NET 8
+  [OK] src/backend/Phos.Data/Phos.Data.csproj targets .NET 8
   [!] src/backend/Phos.Data/Phos.Data.csproj missing NuGet fallback folder setting
 
 5. Summary

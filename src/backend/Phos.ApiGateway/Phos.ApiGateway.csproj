@@ -11,13 +11,13 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Uris" />
     <PackageReference Include="CacheManager.Microsoft.Extensions.Caching.Memory" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Ocelot" />
     <PackageReference Include="Ocelot.Provider.Polly" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.*" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 

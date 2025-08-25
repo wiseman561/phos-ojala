@@ -141,8 +141,8 @@ function Invoke-DotNetBuilds {
   foreach ($proj in $csprojs) {
     $serviceName = if ($proj.BaseName) { $proj.BaseName } else { [IO.Path]::GetFileNameWithoutExtension($proj.Name) }
     $logPath = Join-Path $ReportsRoot ("$serviceName.log")
-    $dotnetArgs = @('build', '"' + $proj.FullName + '"', '-c','Release','-nologo')
-    $res = Start-CommandCapture -FilePath 'dotnet' -ArgumentList $dotnetArgs
+    $dotnetArgs = @('build', $proj.Name, '-nologo','-c','Release','-p:RestorePackagesWithLockFile=true')
+    $res = Start-CommandCapture -FilePath 'dotnet' -ArgumentList $dotnetArgs -WorkingDirectory $proj.DirectoryName
     $combined = $res.StdOut
     if ($res.StdErr) { $combined += "`n`n[stderr]`n" + $res.StdErr }
     Write-FileUtf8 -Path $logPath -Content $combined
@@ -272,7 +272,12 @@ if (Test-Path -LiteralPath 'phos/apps/phos-ui') {
 }
 
 # 5) Docker build
-$dockerResult = Invoke-DockerBuild -ComposeFile 'phos/docker-compose.yml' -ReportFile (Join-Path $reportsRoot 'docker_build.log')
+$composePath = 'phos/docker-compose.yml'
+if (Test-Path -LiteralPath $composePath) {
+  $dockerResult = Invoke-DockerBuild -ComposeFile $composePath -ReportFile (Join-Path $reportsRoot 'docker_build.log')
+} else {
+  $dockerResult = [PSCustomObject]@{ passed = $false; errors = @("Compose file not found: $composePath") }
+}
 
 # Build STATUS.json model
 $failCount = 0
