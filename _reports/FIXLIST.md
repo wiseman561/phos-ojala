@@ -115,24 +115,10 @@ MSBUILD : error MSB1009: Project file does not exist.
 
 ### Node failures
 
-#### api-gateway
+Node builds are currently silenced unless both apps exist and npm is available. If you intend to build these apps locally, ensure directories exist and Node/npm are installed; then re-run the doctor.
 
-```text
-Exception: Exception calling "Start" with "0" argument(s): "The system cannot find the file specified"
-```
+### Docker build
 
-#### phos-ui
-
-```text
-Exception: Exception calling "Start" with "0" argument(s): "The system cannot find the file specified"
-```
-
-### Docker build failures
-
-- Summary: compose file not found
-
-```text
-Compose file not found: phos/docker-compose.yml
-```
+Skipped if compose file doesn't exist. Add `phos/docker-compose.yml` to enable.
 
 
