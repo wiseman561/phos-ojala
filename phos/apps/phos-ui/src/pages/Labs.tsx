@@ -3,7 +3,7 @@ import { postLabInterpret } from '../lib/api';
 
 export default function Labs() {
   const [input, setInput] = useState('{\n  "biomarker": "LDL",\n  "value": 120\n}');
-  const [result, setResult] = useState<unknown>(null);
+  const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,8 +35,35 @@ export default function Labs() {
       {error && <p style={{ color: '#ff6b6b' }}>Error: {error}</p>}
       {result && (
         <div style={{ marginTop: 16 }}>
-          <h3>Response</h3>
-          <pre className="panel">{JSON.stringify(result, null, 2)}</pre>
+          <h3>Results</h3>
+          {Array.isArray(result.results) ? (
+            <div className="panel">
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left' }}>Code</th>
+                    <th style={{ textAlign: 'left' }}>Value</th>
+                    <th style={{ textAlign: 'left' }}>Unit</th>
+                    <th style={{ textAlign: 'left' }}>Severity</th>
+                    <th style={{ textAlign: 'left' }}>Summary</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.results.map((r: any, idx: number) => (
+                    <tr key={idx}>
+                      <td>{r.code}</td>
+                      <td>{r.value}</td>
+                      <td>{r.unit}</td>
+                      <td>{r.severity}</td>
+                      <td>{r.summary}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <pre className="panel">{JSON.stringify(result, null, 2)}</pre>
+          )}
         </div>
       )}
     </div>

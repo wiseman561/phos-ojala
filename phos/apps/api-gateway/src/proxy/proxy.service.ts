@@ -6,12 +6,12 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 export class ProxyService {
   configure(app: INestApplication) {
     const mappings: { path: string; target?: string }[] = [
-      { path: '/labs', target: process.env.LAB_INTERPRETER__URL },
-      { path: '/nutrition', target: process.env.NUTRITION_KIT__URL },
-      { path: '/genome', target: process.env.GENOME_KIT__URL },
-      { path: '/microbiome', target: process.env.MICROBIOME_KIT__URL },
-      { path: '/sleep', target: process.env.SLEEP_KIT__URL },
-      { path: '/core', target: process.env.PHOS_CORE__URL },
+      { path: '/api/labs', target: process.env.LAB_INTERPRETER__URL },
+      { path: '/api/nutrition', target: process.env.NUTRITION_KIT__URL },
+      { path: '/api/genome', target: process.env.GENOME_KIT__URL },
+      { path: '/api/microbiome', target: process.env.MICROBIOME_KIT__URL },
+      { path: '/api/sleep', target: process.env.SLEEP_KIT__URL },
+      { path: '/api/core', target: process.env.PHOS_CORE__URL },
     ];
 
     for (const { path, target } of mappings) {
