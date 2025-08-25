@@ -3,7 +3,7 @@ Synopsis:
   Repository doctor script. Runs sanity checks and writes consolidated reports under _reports.
   - Git status snapshot
   - Repository validation with unicode sanitization/retry
-  - .NET builds for all csproj under phos/services
+  - .NET builds for all csproj under src/backend
   - Node builds for phos/apps/api-gateway and phos/apps/phos-ui
   - Docker compose build (dev)
 
@@ -45,7 +45,9 @@ function Write-FileUtf8 {
     [Parameter(Mandatory=$true)][string]$Content
   )
   $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-  [System.IO.File]::WriteAllText((Resolve-Path -LiteralPath $Path), $Content, $utf8NoBom)
+  $parent = Split-Path -Path $Path -Parent
+  if ($parent) { New-DirectoryIfMissing -Path $parent }
+  [System.IO.File]::WriteAllText($Path, $Content, $utf8NoBom)
 }
 
 function Start-CommandCapture {
@@ -100,8 +102,10 @@ function Invoke-Validator {
   $validatorArgs = @('-NoProfile','-ExecutionPolicy','Bypass','-File','./validate-repository-structure.ps1')
 
   $res = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs
-  Write-FileUtf8 -Path $RawPath -Content ($res.StdOut + (if ($res.StdErr) { "`n`n[stderr]`n" + $res.StdErr } else { '' }))
-  $sanitized = ConvertTo-SanitizedText ($res.StdOut + (if ($res.StdErr) { "`n`n[stderr]`n" + $res.StdErr } else { '' }))
+  $combined1 = $res.StdOut
+  if ($res.StdErr) { $combined1 += "`n`n[stderr]`n" + $res.StdErr }
+  Write-FileUtf8 -Path $RawPath -Content $combined1
+  $sanitized = ConvertTo-SanitizedText $combined1
   Write-FileUtf8 -Path $SanitizedPath -Content $sanitized
 
   $passed = ($res.ExitCode -eq 0)
@@ -109,7 +113,9 @@ function Invoke-Validator {
   # If failed and raw output contains non-ASCII, retry once to see if sanitization resolves issues
   if (-not $passed -and (($res.StdOut + $res.StdErr) -match '[^\u0009\u000A\u000D\u0020-\u007E]')) {
     $res2 = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs
-    $san2 = ConvertTo-SanitizedText ($res2.StdOut + (if ($res2.StdErr) { "`n`n[stderr]`n" + $res2.StdErr } else { '' }))
+    $combined2 = $res2.StdOut
+    if ($res2.StdErr) { $combined2 += "`n`n[stderr]`n" + $res2.StdErr }
+    $san2 = ConvertTo-SanitizedText $combined2
     Write-FileUtf8 -Path $SanitizedPath -Content $san2
     $passed = ($res2.ExitCode -eq 0)
   }
@@ -137,7 +143,8 @@ function Invoke-DotNetBuilds {
     $logPath = Join-Path $ReportsRoot ("$serviceName.log")
     $dotnetArgs = @('build', '"' + $proj.FullName + '"', '-c','Release','-nologo')
     $res = Start-CommandCapture -FilePath 'dotnet' -ArgumentList $dotnetArgs
-    $combined = $res.StdOut + (if ($res.StdErr) { "`n`n[stderr]`n" + $res.StdErr } else { '' })
+    $combined = $res.StdOut
+    if ($res.StdErr) { $combined += "`n`n[stderr]`n" + $res.StdErr }
     Write-FileUtf8 -Path $logPath -Content $combined
 
     $passed = ($res.ExitCode -eq 0)
@@ -175,12 +182,16 @@ function Invoke-NodeBuild {
   } else {
     try {
       $resCi = Start-CommandCapture -FilePath 'npm' -ArgumentList @('ci') -WorkingDirectory $AppPath
-      $combinedLog += "# npm ci`n" + $resCi.StdOut + (if ($resCi.StdErr) { "`n[stderr]`n" + $resCi.StdErr } else { '' }) + "`n`n"
+      $combinedCi = $resCi.StdOut
+      if ($resCi.StdErr) { $combinedCi += "`n[stderr]`n" + $resCi.StdErr }
+      $combinedLog += "# npm ci`n" + $combinedCi + "`n`n"
       if ($resCi.ExitCode -ne 0) { $passed = $false }
 
       if ($passed) {
         $resBuild = Start-CommandCapture -FilePath 'npm' -ArgumentList @('run','build') -WorkingDirectory $AppPath
-        $combinedLog += "# npm run build`n" + $resBuild.StdOut + (if ($resBuild.StdErr) { "`n[stderr]`n" + $resBuild.StdErr } else { '' })
+        $combinedBuild = $resBuild.StdOut
+        if ($resBuild.StdErr) { $combinedBuild += "`n[stderr]`n" + $resBuild.StdErr }
+        $combinedLog += "# npm run build`n" + $combinedBuild
         if ($resBuild.ExitCode -ne 0) { $passed = $false }
       }
     } catch {
@@ -218,7 +229,8 @@ function Invoke-DockerBuild {
   }
 
   $res = Start-CommandCapture -FilePath 'docker' -ArgumentList @('compose','-f', '"' + $ComposeFile + '"','build')
-  $combined = $res.StdOut + (if ($res.StdErr) { "`n`n[stderr]`n" + $res.StdErr } else { '' })
+  $combined = $res.StdOut
+  if ($res.StdErr) { $combined += "`n`n[stderr]`n" + $res.StdErr }
   Write-FileUtf8 -Path $ReportFile -Content $combined
   $passed = ($res.ExitCode -eq 0)
 
@@ -248,15 +260,19 @@ Invoke-GitStatus -ReportFile (Join-Path $reportsRoot 'git_status.txt')
 $validatorResult = Invoke-Validator -RawPath (Join-Path $reportsRoot 'validator_raw.txt') -SanitizedPath (Join-Path $reportsRoot 'validator_sanitized.txt')
 
 # 3) .NET builds
-$dotnetItems = Invoke-DotNetBuilds -ServicesRoot 'phos/services' -ReportsRoot (Join-Path $reportsRoot 'dotnet')
+$dotnetItems = Invoke-DotNetBuilds -ServicesRoot 'src/backend' -ReportsRoot (Join-Path $reportsRoot 'dotnet')
 
 # 4) Node builds
 $nodeItems = @()
-$nodeItems += Invoke-NodeBuild -AppName 'api-gateway' -AppPath 'phos/apps/api-gateway' -ReportFile (Join-Path (Join-Path $reportsRoot 'node') 'api-gateway.log')
-$nodeItems += Invoke-NodeBuild -AppName 'phos-ui' -AppPath 'phos/apps/phos-ui' -ReportFile (Join-Path (Join-Path $reportsRoot 'node') 'phos-ui.log')
+if (Test-Path -LiteralPath 'phos/apps/api-gateway') {
+  $nodeItems += Invoke-NodeBuild -AppName 'api-gateway' -AppPath 'phos/apps/api-gateway' -ReportFile (Join-Path (Join-Path $reportsRoot 'node') 'api-gateway.log')
+}
+if (Test-Path -LiteralPath 'phos/apps/phos-ui') {
+  $nodeItems += Invoke-NodeBuild -AppName 'phos-ui' -AppPath 'phos/apps/phos-ui' -ReportFile (Join-Path (Join-Path $reportsRoot 'node') 'phos-ui.log')
+}
 
 # 5) Docker build
-$dockerResult = Invoke-DockerBuild -ComposeFile 'phos/docker-compose.dev.yml' -ReportFile (Join-Path $reportsRoot 'docker_build.log')
+$dockerResult = Invoke-DockerBuild -ComposeFile 'phos/docker-compose.yml' -ReportFile (Join-Path $reportsRoot 'docker_build.log')
 
 # Build STATUS.json model
 $failCount = 0
@@ -281,29 +297,35 @@ $md = @()
 $md += "# Repository Doctor Status"
 $md += ""
 $md += "## Validator"
-$md += ("- Status: " + (if ($status.validator.passed) { 'Passed ✅' } else { 'Failed ❌' }))
+$validatorStatusText = ''
+if ($status.validator.passed) { $validatorStatusText = 'Passed ✅' } else { $validatorStatusText = 'Failed ❌' }
+$md += ("- Status: " + $validatorStatusText)
 if ($status.validator.notes) { $md += ("- Notes: " + $status.validator.notes) }
 $md += ""
-$validatorCheck = if ($status.validator.passed) { 'x' } else { ' ' }
+$validatorCheck = ' '
+if ($status.validator.passed) { $validatorCheck = 'x' }
 $md += "- [$validatorCheck] Repository structure valid"
 $md += ""
 
 $md += "## .NET Builds"
 if ($status.dotnet.Count -eq 0) {
-  $md += "_No .csproj found under phos/services_"
+  $md += "_No .csproj found under src/backend_"
 } else {
   $md += "| Service | Status | Errors (first lines) |"
   $md += "|---|---|---|"
   foreach ($d in $status.dotnet) {
-    $statusText = if ($d.passed) { 'Passed ✅' } else { 'Failed ❌' }
-    $errText = if ($d.errors -and $d.errors.Count -gt 0) { ( ($d.errors -join '<br/>') -replace '\|','\\|' ) } else { '' }
+    $statusText = ''
+    if ($d.passed) { $statusText = 'Passed ✅' } else { $statusText = 'Failed ❌' }
+    $errText = ''
+    if ($d.errors -and $d.errors.Count -gt 0) { $errText = ( ($d.errors -join '<br/>') -replace '\|','\\|' ) }
     $md += "| $($d.name) | $statusText | $errText |"
   }
 }
 $md += ""
 $md += "### .NET Checklist"
 foreach ($d in $status.dotnet) {
-  $mark = if ($d.passed) { 'x' } else { ' ' }
+  $mark = ' '
+  if ($d.passed) { $mark = 'x' }
   $md += "- [$mark] $($d.name)"
 }
 $md += ""
@@ -312,31 +334,39 @@ $md += "## Node Builds"
 $md += "| App | Status | Errors (first lines) |"
 $md += "|---|---|---|"
 foreach ($n in $status.node) {
-  $statusText = if ($n.passed) { 'Passed ✅' } else { 'Failed ❌' }
-  $errText = if ($n.errors -and $n.errors.Count -gt 0) { ( ($n.errors -join '<br/>') -replace '\|','\\|' ) } else { '' }
+  $statusText = ''
+  if ($n.passed) { $statusText = 'Passed ✅' } else { $statusText = 'Failed ❌' }
+  $errText = ''
+  if ($n.errors -and $n.errors.Count -gt 0) { $errText = ( ($n.errors -join '<br/>') -replace '\|','\\|' ) }
   $md += "| $($n.name) | $statusText | $errText |"
 }
 $md += ""
 $md += "### Node Checklist"
 foreach ($n in $status.node) {
-  $mark = if ($n.passed) { 'x' } else { ' ' }
+  $mark = ' '
+  if ($n.passed) { $mark = 'x' }
   $md += "- [$mark] $($n.name)"
 }
 $md += ""
 
 $md += "## Docker Build"
-$md += ("- Status: " + (if ($status.docker.passed) { 'Passed ✅' } else { 'Failed ❌' }))
+$dockerStatusText = ''
+if ($status.docker.passed) { $dockerStatusText = 'Passed ✅' } else { $dockerStatusText = 'Failed ❌' }
+$md += ("- Status: " + $dockerStatusText)
 if ($status.docker.errors -and $status.docker.errors.Count -gt 0) {
   $md += ("- Errors:" )
   foreach ($e in $status.docker.errors) { $md += ("  - " + ($e -replace '\|','\\|')) }
 }
 $md += ""
-$dockerCheck = if ($status.docker.passed) { 'x' } else { ' ' }
+$dockerCheck = ' '
+if ($status.docker.passed) { $dockerCheck = 'x' }
 $md += "- [$dockerCheck] Docker compose build"
 $md += ""
 
 $md += "## Summary"
-$md += ("- Overall: " + (if ($status.summary.passed) { 'Passed ✅' } else { 'Failed ❌' }))
+$overallText = ''
+if ($status.summary.passed) { $overallText = 'Passed ✅' } else { $overallText = 'Failed ❌' }
+$md += ("- Overall: " + $overallText)
 $md += ("- Fail count: " + $status.summary.failCount)
 
 $statusMdPath = Join-Path $reportsRoot 'STATUS.md'

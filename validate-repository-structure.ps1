@@ -42,12 +42,13 @@ Write-Host "`n1. Checking for expected project structure..." -ForegroundColor Ye
 $allGood = $true
 
 foreach ($category in $expectedStructure.Keys) {
-    Write-Host "`n${category}:" -ForegroundColor Cyan
+    Write-Host "" -ForegroundColor Cyan
+    Write-Host ($category + ":") -ForegroundColor Cyan
     foreach ($path in $expectedStructure[$category]) {
         if (Test-Path $path) {
-            Write-Host "  ✓ $path" -ForegroundColor Green
+            Write-Host ("  [OK] " + $path) -ForegroundColor Green
         } else {
-            Write-Host "  ✗ MISSING: $path" -ForegroundColor Red
+            Write-Host ("  [X] MISSING: " + $path) -ForegroundColor Red
             $allGood = $false
         }
     }
@@ -57,10 +58,10 @@ Write-Host "`n2. Checking for problematic duplicate locations..." -ForegroundCol
 
 foreach ($duplicate in $duplicateLocations) {
     if (Test-Path $duplicate) {
-        Write-Host "  ✗ DUPLICATE FOUND: $duplicate (should be removed)" -ForegroundColor Red
+        Write-Host ("  [X] DUPLICATE FOUND: " + $duplicate + " (should be removed)") -ForegroundColor Red
         $allGood = $false
     } else {
-        Write-Host "  ✓ No duplicate at: $duplicate" -ForegroundColor Green
+        Write-Host ("  [OK] No duplicate at: " + $duplicate) -ForegroundColor Green
     }
 }
 
@@ -86,21 +87,21 @@ if (Test-Path $identityProjectPath) {
 
     foreach ($ref in $correctReferences) {
         if ($identityContent -match [regex]::Escape($ref)) {
-            Write-Host "  ✓ Correct reference: $ref" -ForegroundColor Green
+            Write-Host ("  [OK] Correct reference: " + $ref) -ForegroundColor Green
         } else {
-            Write-Host "  ✗ Missing correct reference: $ref" -ForegroundColor Red
+            Write-Host ("  [X] Missing correct reference: " + $ref) -ForegroundColor Red
             $allGood = $false
         }
     }
 
     foreach ($ref in $incorrectReferences) {
         if ($identityContent -match [regex]::Escape($ref)) {
-            Write-Host "  ✗ Incorrect reference found: $ref" -ForegroundColor Red
+            Write-Host ("  [X] Incorrect reference found: " + $ref) -ForegroundColor Red
             $allGood = $false
         }
     }
 } else {
-    Write-Host "  ✗ Identity project not found" -ForegroundColor Red
+    Write-Host "  [X] Identity project not found" -ForegroundColor Red
     $allGood = $false
 }
 
@@ -117,16 +118,16 @@ foreach ($projectFile in $projectFiles) {
     if (Test-Path $projectFile) {
         $content = Get-Content $projectFile -Raw
         if ($content -match "<TargetFramework>net8\.0</TargetFramework>") {
-            Write-Host "  ✓ $projectFile targets .NET 8" -ForegroundColor Green
+            Write-Host ("  [OK] " + $projectFile + " targets .NET 8") -ForegroundColor Green
         } else {
-            Write-Host "  ✗ $projectFile does not target .NET 8" -ForegroundColor Red
+            Write-Host ("  [X] " + $projectFile + " does not target .NET 8") -ForegroundColor Red
             $allGood = $false
         }
 
         if ($content -match "DisableImplicitNuGetFallbackFolder") {
-            Write-Host "  ✓ $projectFile has NuGet fallback folder disabled" -ForegroundColor Green
+            Write-Host ("  [OK] " + $projectFile + " has NuGet fallback folder disabled") -ForegroundColor Green
         } else {
-            Write-Host "  ⚠ $projectFile missing NuGet fallback folder setting" -ForegroundColor Yellow
+            Write-Host ("  [!] " + $projectFile + " missing NuGet fallback folder setting") -ForegroundColor Yellow
         }
     }
 }
@@ -134,10 +135,10 @@ foreach ($projectFile in $projectFiles) {
 Write-Host "`n5. Summary" -ForegroundColor Yellow
 
 if ($allGood) {
-    Write-Host "✓ Repository structure is correct!" -ForegroundColor Green
+    Write-Host "[OK] Repository structure is correct!" -ForegroundColor Green
     Write-Host "All projects are in their proper locations and have correct references." -ForegroundColor Green
 } else {
-    Write-Host "✗ Repository structure has issues that need to be fixed." -ForegroundColor Red
+    Write-Host "[X] Repository structure has issues that need to be fixed." -ForegroundColor Red
     Write-Host "Please address the problems listed above." -ForegroundColor Red
 }
 

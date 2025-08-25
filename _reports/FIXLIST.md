@@ -8,76 +8,110 @@
 
 ### Validator issues
 
-```text
-At C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\validate-repository-structure.ps1:87 char:42
-Missing closing '}' in statement block or type definition.
-At C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\validate-repository-structure.ps1:71 char:37
-Missing closing '}' in statement block or type definition.
-At C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\validate-repository-structure.ps1:44 char:48
-Missing closing '}' in statement block or type definition.
-```
+Validator passed.
 
 ### .NET failures
 
-#### Phos.GenomeKit
+#### AuthControllerManualTest
 
 ```text
 MSBUILD : error MSB1009: Project file does not exist.
-Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\phos\services\genome-kit\Phos.GenomeKit.csproj 
 ```
 
 - Failing files/paths:
-  - `phos/services/genome-kit/Phos.GenomeKit.csproj`
+  - `src/backend/AuthControllerManualTest/AuthControllerManualTest.csproj`
 
-#### Phos.LabInterpreter
+#### AuthControllerTestRunner
 
 ```text
 MSBUILD : error MSB1009: Project file does not exist.
-Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\phos\services\lab-interpreter\Phos.LabInterpreter.csproj 
 ```
 
 - Failing files/paths:
-  - `phos/services/lab-interpreter/Phos.LabInterpreter.csproj`
+  - `src/backend/AuthControllerTestRunner/AuthControllerTestRunner.csproj`
 
-#### Phos.MicrobiomeKit
+#### AuthControllerTests.Simple
 
 ```text
 MSBUILD : error MSB1009: Project file does not exist.
-Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\phos\services\microbiome-kit\Phos.MicrobiomeKit.csproj 
 ```
 
 - Failing files/paths:
-  - `phos/services/microbiome-kit/Phos.MicrobiomeKit.csproj`
+  - `src/backend/AuthControllerTests.Simple/AuthControllerTests.Simple.csproj`
 
-#### Phos.NutritionKit
+#### MigrationHelper
 
 ```text
 MSBUILD : error MSB1009: Project file does not exist.
-Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\phos\services\nutrition-kit\Phos.NutritionKit.csproj 
 ```
 
 - Failing files/paths:
-  - `phos/services/nutrition-kit/Phos.NutritionKit.csproj`
+  - `src/backend/MigrationHelper/MigrationHelper.csproj`
 
-#### Phos.PhosCore
+#### Phos.Api
 
 ```text
 MSBUILD : error MSB1009: Project file does not exist.
-Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\phos\services\phos-core\Phos.PhosCore.csproj 
+Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\backend\Phos.Api\Phos.Api.csproj 
 ```
 
 - Failing files/paths:
-  - `phos/services/phos-core/Phos.PhosCore.csproj`
+  - `src/backend/Phos.Api/Phos.Api.csproj`
 
-#### Phos.SleepKit
+#### Phos.Api.Tests
 
 ```text
 MSBUILD : error MSB1009: Project file does not exist.
-Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\phos\services\sleep-kit\Phos.SleepKit.csproj 
 ```
 
 - Failing files/paths:
-  - `phos/services/sleep-kit/Phos.SleepKit.csproj`
+  - `src/backend/Phos.Api.Tests/Phos.Api.Tests.csproj`
+
+#### Phos.ApiGateway
+
+```text
+MSBUILD : error MSB1009: Project file does not exist.
+```
+
+- Failing files/paths:
+  - `src/backend/Phos.ApiGateway/Phos.ApiGateway.csproj`
+
+#### Phos.Data
+
+```text
+MSBUILD : error MSB1009: Project file does not exist.
+```
+
+- Failing files/paths:
+  - `src/backend/Phos.Data/Phos.Data.csproj`
+
+#### Phos.HealthScore
+
+```text
+MSBUILD : error MSB1009: Project file does not exist.
+```
+
+- Failing files/paths:
+  - `src/backend/Phos.HealthScore/Phos.HealthScore.csproj`
+
+#### Phos.Identity
+
+```text
+MSBUILD : error MSB1009: Project file does not exist.
+Switch:  C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\backend\Phos.Identity\Phos.Identity.csproj 
+```
+
+- Failing files/paths:
+  - `src/backend/Phos.Identity/Phos.Identity.csproj`
+
+#### Phos.Services
+
+```text
+MSBUILD : error MSB1009: Project file does not exist.
+```
+
+- Failing files/paths:
+  - `src/backend/Phos.Services/Phos.Services.csproj`
 
 ### Node failures
 
@@ -95,10 +129,10 @@ Exception: Exception calling "Start" with "0" argument(s): "The system cannot fi
 
 ### Docker build failures
 
-- Summary: compose file not found or bad path
+- Summary: compose file not found
 
 ```text
-open C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\ phos\docker-compose.dev.yml: The system cannot find the path specified.
+Compose file not found: phos/docker-compose.yml
 ```
 
 
