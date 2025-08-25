@@ -1,0 +1,111 @@
+﻿{
+    "validator":  {
+                      "passed":  true,
+                      "notes":  "Validator succeeded"
+                  },
+    "dotnet":  [
+                   {
+                       "name":  "AuthControllerManualTest",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "AuthControllerTestRunner",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "AuthControllerTests.Simple",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "MigrationHelper",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Api",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Api.Tests",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.ApiGateway",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Data",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.HealthScore",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Identity",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Services",
+                       "passed":  false,
+                       "errors":  [
+                                      "MSBUILD : error MSB1009: Project file does not exist."
+                                  ]
+                   }
+               ],
+    "node":  [
+                 {
+                     "name":  "api-gateway",
+                     "passed":  false,
+                     "errors":  [
+                                    "Exception: Exception calling \"Start\" with \"0\" argument(s): \"The system cannot find the file specified\""
+                                ]
+                 },
+                 {
+                     "name":  "phos-ui",
+                     "passed":  false,
+                     "errors":  [
+                                    "Exception: Exception calling \"Start\" with \"0\" argument(s): \"The system cannot find the file specified\""
+                                ]
+                 }
+             ],
+    "docker":  {
+                   "passed":  false,
+                   "errors":  [
+                                  "Compose file not found: phos/docker-compose.yml"
+                              ]
+               },
+    "summary":  {
+                    "passed":  false,
+                    "failCount":  14
+                }
+}

@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
     <ProjectGuid>{6B1E2E6A0-C770-4B5B-8E94-F0C3E172EDAD}</ProjectGuid>
-  </PropertyGroup>
+  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile></PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Uris" />

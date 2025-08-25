@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ProjectGuid>{8D1E2E6A0-C770-4B5B-8E94-F0C3E172EDAD}</ProjectGuid>
-	</PropertyGroup>
+	<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile></PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" />
@@ -25,13 +25,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!-- ─── Prevent Identity's appsettings files from ever reaching bin/ or publish/ ─── -->
-		<Content Update="appsettings.json"
-		         CopyToPublishDirectory="Never"
-		         CopyToOutputDirectory="Never" />
-		<Content Update="appsettings.Development.json"
-		         CopyToPublishDirectory="Never"
-		         CopyToOutputDirectory="Never" />
+		<!-- â”€â”€â”€ Prevent Identity's appsettings files from ever reaching bin/ or publish/ â”€â”€â”€ -->
+		<Content Update="appsettings.json" CopyToPublishDirectory="Never" CopyToOutputDirectory="Never" />
+		<Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" CopyToOutputDirectory="Never" />
 	</ItemGroup>
 
 </Project>

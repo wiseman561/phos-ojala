@@ -1,0 +1,49 @@
+=== Phos Healthcare Repository Structure Validation ===
+
+1. Checking for expected project structure...
+
+Shared Libraries:
+  [OK] src/shared/Phos.Common
+  [OK] src/shared/Phos.Contracts
+
+Frontend Applications:
+  [OK] src/frontend/phos-web
+  [OK] src/frontend/employer-dashboard
+  [OK] src/frontend/patient-app
+  [OK] src/frontend/rn-dashboard
+
+Backend Services:
+  [OK] src/backend/Phos.Api
+  [OK] src/backend/Phos.ApiGateway
+  [OK] src/backend/Phos.Identity
+  [OK] src/backend/Phos.Services
+  [OK] src/backend/Phos.Data
+  [OK] src/backend/Phos.HealthScore
+
+2. Checking for problematic duplicate locations...
+  [OK] No duplicate at: Phos.Data
+  [OK] No duplicate at: Phos.Api
+  [OK] No duplicate at: Phos.Services
+  [OK] No duplicate at: backend
+  [OK] No duplicate at: phos-web
+
+3. Checking project file references...
+  [OK] Correct reference: ../../shared/Phos.Common/Phos.Common.csproj
+  [OK] Correct reference: ../../shared/Phos.Contracts/Phos.Contracts.csproj
+  [OK] Correct reference: ../Phos.Data/Phos.Data.csproj
+
+4. Checking for .NET 8 compatibility...
+  [X] src/backend/Phos.Identity/Phos.Identity.csproj does not target .NET 8
+  [!] src/backend/Phos.Identity/Phos.Identity.csproj missing NuGet fallback folder setting
+  [X] src/shared/Phos.Common/Phos.Common.csproj does not target .NET 8
+  [!] src/shared/Phos.Common/Phos.Common.csproj missing NuGet fallback folder setting
+  [X] src/shared/Phos.Contracts/Phos.Contracts.csproj does not target .NET 8
+  [!] src/shared/Phos.Contracts/Phos.Contracts.csproj missing NuGet fallback folder setting
+  [X] src/backend/Phos.Data/Phos.Data.csproj does not target .NET 8
+  [!] src/backend/Phos.Data/Phos.Data.csproj missing NuGet fallback folder setting
+
+5. Summary
+[X] Repository structure has issues that need to be fixed.
+Please address the problems listed above.
+
+=== Validation Complete ===

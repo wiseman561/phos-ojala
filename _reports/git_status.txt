@@ -1,0 +1,8 @@
+ M _reports/FIXLIST.md
+ M phos/scripts/doctor.ps1
+ M validate-repository-structure.ps1
+?? _reports/STATUS.json
+?? _reports/STATUS.md
+?? _reports/git_status.txt
+?? _reports/validator_raw.txt
+?? _reports/validator_sanitized.txt
