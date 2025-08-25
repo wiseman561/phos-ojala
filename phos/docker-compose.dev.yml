@@ -1,0 +1,69 @@
+﻿version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: phos
+      POSTGRES_PASSWORD: phos
+      POSTGRES_DB: phos
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  nats:
+    image: nats:2
+    ports: ["4222:4222","8222:8222"]
+
+  api-gateway:
+    build: ./apps/api-gateway
+    env_file: [.env]
+    ports: ["8080:8080"]
+    depends_on: [lab-interpreter, nutrition-kit, phos-core]
+
+  lab-interpreter:
+    build: ./services/lab-interpreter
+    env_file: [.env]
+    ports: ["5101:8080"]
+    depends_on: [postgres, redis]
+
+  nutrition-kit:
+    build: ./services/nutrition-kit
+    env_file: [.env]
+    ports: ["5102:8080"]
+    depends_on: [postgres, redis]
+
+  genome-kit:
+    build: ./services/genome-kit
+    env_file: [.env]
+    ports: ["5103:8080"]
+    depends_on: [postgres]
+
+  microbiome-kit:
+    build: ./services/microbiome-kit
+    env_file: [.env]
+    ports: ["5104:8080"]
+    depends_on: [postgres]
+
+  sleep-kit:
+    build: ./services/sleep-kit
+    env_file: [.env]
+    ports: ["5105:8080"]
+    depends_on: [postgres]
+
+  phos-core:
+    build: ./services/phos-core
+    env_file: [.env]
+    ports: ["5200:8080"]
+    depends_on: [nats, postgres, redis]
+
+  phos-ui:
+    build: ./apps/phos-ui
+    env_file: [.env]
+    ports: ["3000:3000"]
+    depends_on: [api-gateway]
+
+volumes:
+  pgdata:
