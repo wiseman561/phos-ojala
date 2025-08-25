@@ -16,8 +16,8 @@
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
 
     <!-- Identity packages -->
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
 
     <!-- Common Microsoft Extensions - All 9.0.0 for consistency -->
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
@@ -49,7 +49,7 @@
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
 
     <!-- Swagger / OpenAPI -->
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
 
     <!-- API Versioning -->
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
@@ -78,9 +78,9 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="8.0.8" />
     <PackageVersion Include="Testcontainers" Version="3.7.0" />
     <PackageVersion Include="YamlDotNet" Version="13.7.1" />
 
