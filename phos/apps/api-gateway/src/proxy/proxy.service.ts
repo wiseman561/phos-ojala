@@ -23,6 +23,16 @@ export class ProxyService {
           changeOrigin: true,
           secure: false,
           xfwd: true,
+          pathRewrite: (pathReq) => {
+            // Allow health and info through the gateway: /api/{svc}/healthz|info -> /healthz|/info
+            if (pathReq === `${path}/healthz`) return '/healthz';
+            if (pathReq === `${path}/info` || pathReq === `${path}/api/info`) return '/info';
+            // Rewrite Swagger UI and JSON: /api/{svc}/swagger* -> /swagger*
+            if (pathReq.startsWith(`${path}/swagger`)) {
+              return pathReq.slice(path.length);
+            }
+            return pathReq;
+          },
         }),
       );
     }

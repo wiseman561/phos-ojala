@@ -1,9 +1,17 @@
 ﻿import { useState } from 'react';
 import { postLabInterpret } from '../lib/api';
+import { LabInterpretRequest, LabInterpretResponse } from '../lib/types';
 
 export default function Labs() {
-  const [input, setInput] = useState('{\n  "biomarker": "LDL",\n  "value": 120\n}');
-  const [result, setResult] = useState<any>(null);
+  const [input, setInput] = useState(`{
+  "userId": "u123",
+  "context": { "sex": "male", "ageYears": 40 },
+  "measurements": [
+    { "code": "LDL_C", "name": "LDL Cholesterol", "value": 120, "unit": "mg/dL" },
+    { "code": "A1C", "value": 5.9, "unit": "%" }
+  ]
+}`);
+  const [result, setResult] = useState<LabInterpretResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
@@ -13,13 +21,14 @@ export default function Labs() {
     setError(null);
     try {
       setLoading(true);
-      const payload = JSON.parse(input);
+      const payload = JSON.parse(input) as LabInterpretRequest;
       const data = await postLabInterpret(payload);
       setResult(data);
       setToast({ type: 'success', msg: 'Interpretation complete' });
-    } catch (err: any) {
-      setError(err?.message ?? 'Failed');
-      setToast({ type: 'error', msg: err?.message ?? 'Request failed' });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed';
+      setError(msg);
+      setToast({ type: 'error', msg: msg ?? 'Request failed' });
     } finally {
       setLoading(false);
     }
@@ -29,30 +38,30 @@ export default function Labs() {
     <div className="panel">
       <h2>Labs Interpreter</h2>
       <form onSubmit={submit}>
-        <label>JSON Payload</label>
-        <textarea value={input} onChange={(e) => setInput(e.target.value)} className="input" />
-        <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
+        <label htmlFor="labs-json">JSON Payload</label>
+        <textarea id="labs-json" placeholder="Paste JSON payload" value={input} onChange={(e) => setInput(e.target.value)} className="input" />
+        <div className="row gap">
           <button type="submit" className="button" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
         </div>
       </form>
       {error && <p style={{ color: '#ff6b6b' }}>Error: {error}</p>}
       {result && (
-        <div style={{ marginTop: 16 }}>
+        <div className="mt">
           <h3>Results</h3>
           {Array.isArray(result.results) ? (
             <div className="panel">
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <table className="table">
                 <thead>
                   <tr>
-                    <th style={{ textAlign: 'left' }}>Code</th>
-                    <th style={{ textAlign: 'left' }}>Value</th>
-                    <th style={{ textAlign: 'left' }}>Unit</th>
-                    <th style={{ textAlign: 'left' }}>Severity</th>
-                    <th style={{ textAlign: 'left' }}>Summary</th>
+                    <th>Code</th>
+                    <th>Value</th>
+                    <th>Unit</th>
+                    <th>Severity</th>
+                    <th>Summary</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {result.results.map((r: any, idx: number) => (
+                  {result.results.map((r, idx) => (
                     <tr key={idx}>
                       <td>{r.code}</td>
                       <td>{r.value}</td>

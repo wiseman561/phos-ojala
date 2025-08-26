@@ -23,6 +23,14 @@ app.MapGet("/api/info", () => Results.Ok(new {
     version = typeof(Program).Assembly.GetName().Version?.ToString() ?? "0.0.0"
 }));
 
-app.MapHealthChecks("/healthz");
+app.MapGet("/info", () => Results.Ok(new {
+    name = "Phos.MicrobiomeKit",
+    version = typeof(Program).Assembly.GetName().Version?.ToString() ?? "0.0.0"
+}));
+
+app.MapGet("/healthz", () => Results.Ok(new {
+    service = "microbiome-kit",
+    status = "healthy"
+}));
 
 app.Run();

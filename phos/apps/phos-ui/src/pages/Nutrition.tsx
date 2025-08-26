@@ -1,5 +1,6 @@
 ﻿import { useState } from 'react';
 import { postNutritionAnalyze } from '../lib/api';
+import { NutritionAnalyzeRequest, NutritionAnalyzeResponse, MealItem } from '../lib/types';
 
 type Item = { name: string; grams: number };
 
@@ -7,7 +8,7 @@ export default function Nutrition() {
   const [items, setItems] = useState<Item[]>([{ name: 'chicken', grams: 150 }]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<NutritionAnalyzeResponse | null>(null);
 
   function updateItem(idx: number, patch: Partial<Item>) {
     setItems((prev) => prev.map((it, i) => (i === idx ? { ...it, ...patch } : it)));
@@ -23,11 +24,13 @@ export default function Nutrition() {
     setResult(null);
     try {
       setLoading(true);
-      const payload = { meals: [{ items }] } as any;
+      const mealItems: MealItem[] = items.map((i) => ({ name: i.name, grams: i.grams }));
+      const payload: NutritionAnalyzeRequest = { meals: [{ items: mealItems }] };
       const data = await postNutritionAnalyze(payload);
       setResult(data);
-    } catch (err: any) {
-      setError(err?.message ?? 'Failed');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed';
+      setError(msg);
     } finally {
       setLoading(false);
     }
