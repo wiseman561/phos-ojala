@@ -186,14 +186,14 @@ function Invoke-NodeBuild {
     $passed = $false
   } else {
     try {
-      $resCi = Start-CommandCapture -FilePath 'npm' -ArgumentList @('ci') -WorkingDirectory $AppPath
+      $resCi = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','npm','ci') -WorkingDirectory $AppPath
       $combinedCi = $resCi.StdOut
       if ($resCi.StdErr) { $combinedCi += "`n[stderr]`n" + $resCi.StdErr }
       $combinedLog += "# npm ci`n" + $combinedCi + "`n`n"
       if ($resCi.ExitCode -ne 0) { $passed = $false }
 
       if ($passed) {
-        $resBuild = Start-CommandCapture -FilePath 'npm' -ArgumentList @('run','build') -WorkingDirectory $AppPath
+        $resBuild = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','npm','run','build') -WorkingDirectory $AppPath
         $combinedBuild = $resBuild.StdOut
         if ($resBuild.StdErr) { $combinedBuild += "`n[stderr]`n" + $resBuild.StdErr }
         $combinedLog += "# npm run build`n" + $combinedBuild
@@ -233,7 +233,7 @@ function Invoke-DockerBuild {
     return [PSCustomObject]@{ passed = $false; errors = @($msg) }
   }
 
-  $res = Start-CommandCapture -FilePath 'docker' -ArgumentList @('compose','-f', '"' + $ComposeFile + '"','build')
+  $res = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','docker','compose','-f',$ComposeFile,'build')
   $combined = $res.StdOut
   if ($res.StdErr) { $combined += "`n`n[stderr]`n" + $res.StdErr }
   Write-FileUtf8 -Path $ReportFile -Content $combined
@@ -278,7 +278,7 @@ if ($haveApi -and $haveUi -and $npmAvailable) {
 }
 
 # 5) Docker build (skip if compose file missing)
-$composePath = 'phos/docker-compose.yml'
+$composePath = 'phos/docker-compose.dev.yml'
 if (Test-Path -LiteralPath $composePath) {
   $dockerResult = Invoke-DockerBuild -ComposeFile $composePath -ReportFile (Join-Path $reportsRoot 'docker_build.log')
 } else {

@@ -64,27 +64,35 @@
     "node":  [
                  {
                      "name":  "api-gateway",
-                     "passed":  false,
+                     "passed":  true,
                      "errors":  [
-                                    "Exception: Exception calling \"Start\" with \"0\" argument(s): \"The system cannot find the file specified\""
+
                                 ]
                  },
                  {
                      "name":  "phos-ui",
-                     "passed":  false,
+                     "passed":  true,
                      "errors":  [
-                                    "Exception: Exception calling \"Start\" with \"0\" argument(s): \"The system cannot find the file specified\""
+
                                 ]
                  }
              ],
     "docker":  {
-                   "passed":  true,
+                   "passed":  false,
                    "errors":  [
-
+                                  "#1 [internal] load local bake definitions",
+                                  "#1 reading from stdin 4.56kB 0.0s done",
+                                  "#1 DONE 0.0s",
+                                  "",
+                                  "",
+                                  "[stderr]",
+                                  "EOF",
+                                  "",
+                                  ""
                               ]
                },
     "summary":  {
                     "passed":  false,
-                    "failCount":  2
+                    "failCount":  1
                 }
 }

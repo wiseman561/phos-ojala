@@ -31,18 +31,28 @@
 ## Node Builds
 | App | Status | Errors (first lines) |
 |---|---|---|
-| api-gateway | Failed âŒ | Exception: Exception calling "Start" with "0" argument(s): "The system cannot find the file specified" |
-| phos-ui | Failed âŒ | Exception: Exception calling "Start" with "0" argument(s): "The system cannot find the file specified" |
+| api-gateway | Passed âœ… |  |
+| phos-ui | Passed âœ… |  |
 
 ### Node Checklist
-- [ ] api-gateway
-- [ ] phos-ui
+- [x] api-gateway
+- [x] phos-ui
 
 ## Docker Build
-- Status: Passed âœ…
+- Status: Failed âŒ
+- Errors:
+  - #1 [internal] load local bake definitions
+  - #1 reading from stdin 4.56kB 0.0s done
+  - #1 DONE 0.0s
+  - 
+  - 
+  - [stderr]
+  - EOF
+  - 
+  - 
 
-- [x] Docker compose build
+- [ ] Docker compose build
 
 ## Summary
 - Overall: Failed âŒ
-- Fail count: 2
+- Fail count: 1
