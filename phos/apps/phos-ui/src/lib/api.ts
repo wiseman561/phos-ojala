@@ -1,10 +1,7 @@
 ﻿import axios from 'axios';
 import { LabInterpretRequest, LabInterpretResponse, NutritionAnalyzeRequest, NutritionAnalyzeResponse, RecommendationResponse, ServiceInfo } from './types';
 
-// Seed a fake token for now
-if (typeof window !== 'undefined' && !localStorage.getItem('token')) {
-	localStorage.setItem('token', 'dev-token');
-}
+// No dev-token seeding. Expect real IdP-issued JWT in localStorage.
 
 export const api = axios.create({
 	baseURL: '/api',

@@ -1,4 +1,6 @@
 ﻿import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import * as passport from 'passport';
 import { INestApplication } from '@nestjs/common';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
@@ -16,6 +18,20 @@ export class ProxyService {
 
     for (const { path, target } of mappings) {
       if (!target) continue;
+      // Allow public access to health/info and swagger; require JWT for others
+      app.use(path, (req, res, next) => {
+        const url = req.url;
+        if (
+          url === '/healthz' ||
+          url === '/info' ||
+          url === '/api/info' ||
+          url.startsWith('/swagger')
+        ) {
+          return next();
+        }
+        return passport.authenticate('jwt', { session: false })(req as any, res as any, next as any);
+      });
+
       app.use(
         path,
         createProxyMiddleware({

@@ -281,6 +281,46 @@ if ($haveApi -and $haveUi -and $npmAvailable) {
 $composePath = 'phos/docker-compose.dev.yml'
 if (Test-Path -LiteralPath $composePath) {
   $dockerResult = Invoke-DockerBuild -ComposeFile $composePath -ReportFile (Join-Path $reportsRoot 'docker_build.log')
+  try {
+    # Capture docker compose ps and logs for key services
+    $psOut = (cmd /c "docker compose -f $composePath ps")
+    Write-FileUtf8 -Path (Join-Path $reportsRoot 'docker_ps.txt') -Content ($psOut | Out-String)
+
+    $services = @('api-gateway','phos-core','lab-interpreter','nutrition-kit')
+    foreach ($svc in $services) {
+      try {
+        $log = (cmd /c "docker compose -f $composePath logs --no-color --timestamps --tail=200 $svc")
+        Write-FileUtf8 -Path (Join-Path $reportsRoot ("docker_" + $svc + "_logs.txt")) -Content ($log | Out-String)
+      } catch { }
+    }
+
+    # Optionally start containers and run health checks
+    $shouldStart = ($env:DOCTOR_START_CONTAINERS -and $env:DOCTOR_START_CONTAINERS.ToString().ToLower() -eq 'true')
+    if ($shouldStart) {
+      $up = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','docker','compose','-f',$composePath,'up','-d')
+      Write-FileUtf8 -Path (Join-Path $reportsRoot 'docker_up.txt') -Content ($up.StdOut + "`n`n[stderr]`n" + $up.StdErr)
+
+      function Test-HttpHealthy {
+        param([string]$Url,[int]$Retries=20,[int]$DelayMs=1500)
+        for ($i=0; $i -lt $Retries; $i++) {
+          try {
+            $r = Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 5
+            if ($r.StatusCode -ge 200 -and $r.StatusCode -lt 300) { return $true }
+          } catch {}
+          Start-Sleep -Milliseconds $DelayMs
+        }
+        return $false
+      }
+
+      $healthUrls = @('http://localhost:8080/health','http://localhost:5101/healthz','http://localhost:5102/healthz')
+      $healthReport = @()
+      foreach ($u in $healthUrls) {
+        $ok = Test-HttpHealthy -Url $u
+        $healthReport += ("$u => " + ($(if ($ok) { 'OK' } else { 'FAIL' })))
+      }
+      Write-FileUtf8 -Path (Join-Path $reportsRoot 'health_checks.txt') -Content (($healthReport -join "`r`n"))
+    }
+  } catch { }
 } else {
   Write-Warning "Skipping Docker build: docker-compose.yml not found."
   $dockerResult = [PSCustomObject]@{ passed = $true; errors = @() }

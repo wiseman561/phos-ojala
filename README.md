@@ -294,3 +294,13 @@ If you encounter issues:
 2. **Check ports**: Ensure ports 5501, 8080, 6379, 5432 are available
 3. **Restart services**: `./scripts/dev-start-backend.sh` to restart everything
 4. **View logs**: Check individual service logs for errors
+
+## Legacy Frontends
+
+The following legacy frontend apps have been deprecated in favor of `phos/apps/phos-ui` and are no longer referenced by PHOS services or infra:
+
+- `src/frontend/employer-dashboard`
+- `src/frontend/patient-app`
+- `src/frontend/rn-dashboard`
+
+These will be moved to `archive/` or removed in a future cleanup. Charts and k8s manifests under `charts/` and `infra/kubernetes/` referencing them are retained for historical context but are not used by PHOS.

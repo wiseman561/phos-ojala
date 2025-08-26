@@ -2,9 +2,9 @@ name: PHOS CI
 
 on:
   push:
-    branches: [ main, develop, rename-to-phos ]
+    branches: [ main, develop, chore/rename-to-phos ]
   pull_request:
-    branches: [ main, develop, rename-to-phos ]
+    branches: [ main, develop, chore/rename-to-phos ]
 
 jobs:
   doctor:
@@ -43,6 +43,9 @@ jobs:
       - name: TypeScript check
         working-directory: phos/apps/phos-ui
         run: npx tsc --noEmit
+      - name: Security audit (production)
+        working-directory: phos/apps/phos-ui
+        run: npm audit --production --audit-level=high || true
       - name: ESLint (if configured)
         working-directory: phos/apps/phos-ui
         run: |
@@ -84,6 +87,10 @@ jobs:
         run: |
           dotnet restore
           dotnet build -c Release --no-restore
+      - name: Vulnerable packages report
+        working-directory: phos/services/${{ matrix.service }}
+        run: |
+          dotnet list package --vulnerable || true
 
   test-dotnet:
     name: .NET Tests (placeholder)
@@ -197,3 +204,12 @@ jobs:
               -t ghcr.io/${{ github.repository }}/$svc:${{ github.sha }} \
               phos/services/$svc
           done
+      - name: Trivy scan images (summary)
+        if: always()
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/api-gateway:${{ github.sha }}
+          format: table
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true

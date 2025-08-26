@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Serilog;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,22 +15,60 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<NutritionAnalyzer>();
 
+// Serilog
+builder.Host.UseSerilog((ctx, lc) => lc
+  .ReadFrom.Configuration(ctx.Configuration)
+  .Enrich.FromLogContext()
+  .WriteTo.Console());
+
+// Authentication & Authorization
+var config = builder.Configuration;
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = config["JWT:ISSUER"] ?? "phos",
+            ValidateAudience = true,
+            ValidAudience = config["JWT:AUDIENCE"] ?? "phos",
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SECRET"] ?? "CHANGEME")),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromSeconds(30)
+        };
+    });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Provider", p => p.RequireRole("Provider", "Admin"));
+});
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseSerilogRequestLogging();
 
-var config = app.Configuration;
-_ = config["POSTGRES:CONNECTION"]; // maps from env POSTGRES__CONNECTION
-_ = config["REDIS:CONNECTION"];    // maps from env REDIS__CONNECTION
-_ = config["NATS:URL"];            // maps from env NATS__URL
+app.UseAuthentication();
+app.UseAuthorization();
+
+var appConfig = app.Configuration;
+_ = appConfig["POSTGRES:CONNECTION"]; // maps from env POSTGRES__CONNECTION
+_ = appConfig["REDIS:CONNECTION"];    // maps from env REDIS__CONNECTION
+_ = appConfig["NATS:URL"];            // maps from env NATS__URL
 
 app.MapGet("/api/info", () => Results.Ok(new {
     name = "Phos.NutritionKit",
     version = typeof(Program).Assembly.GetName().Version?.ToString() ?? "0.0.0"
 }));
+app.MapGet("/info", () => Results.Ok(new {
+    name = "Phos.NutritionKit",
+    version = typeof(Program).Assembly.GetName().Version?.ToString() ?? "0.0.0"
+}));
 
 app.MapHealthChecks("/healthz");
+app.UseHttpsRedirection();
 
 app.MapPost("/api/nutrition/analyze", (AnalyzeRequest req, NutritionAnalyzer analyzer) =>
 {
@@ -34,7 +76,7 @@ app.MapPost("/api/nutrition/analyze", (AnalyzeRequest req, NutritionAnalyzer ana
     if (errors.Count > 0) return Results.ValidationProblem(errors);
     var res = analyzer.Analyze(req);
     return Results.Ok(res);
-});
+}).RequireAuthorization("Provider");
 
 app.Run();
 

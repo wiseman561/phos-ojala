@@ -3,6 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+// Serilog
+builder.Host.UseSerilog((ctx, lc) => lc
+  .ReadFrom.Configuration(ctx.Configuration)
+  .Enrich.FromLogContext()
+  .WriteTo.Console());
+
+builder.Configuration.AddJsonFile("https.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -12,6 +19,8 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseSerilogRequestLogging();
+app.UseHttpsRedirection();
 
 var config = app.Configuration;
 _ = config["POSTGRES:CONNECTION"]; // maps from env POSTGRES__CONNECTION

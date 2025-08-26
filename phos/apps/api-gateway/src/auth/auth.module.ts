@@ -7,7 +7,7 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT__SECRET ?? 'dev',
+      secret: process.env.JWT__SECRET ?? 'CHANGEME',
       signOptions: {
         issuer: process.env.JWT__ISSUER ?? 'phos',
         audience: process.env.JWT__AUDIENCE ?? 'phos',
