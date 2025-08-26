@@ -25,9 +25,8 @@ Get-ChildItem -LiteralPath $root -Recurse -Filter '*.csproj' -File |
     foreach ($pr in $pkgNodes) {
       $include = $pr.GetAttribute('Include')
       if ($include -like 'Microsoft.AspNetCore.*') {
-        $current = $pr.GetAttribute('Version')
-        if (-not $current -or ($current -notlike '8.0*')) {
-          $pr.SetAttribute('Version','8.0.*')
+        if ($pr.HasAttribute('Version')) {
+          $pr.RemoveAttribute('Version')
           $changed = $true
         }
       }
