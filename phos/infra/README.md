@@ -23,7 +23,8 @@ cp phos/env.example phos/.env
 ```
 Key variables (defaults in `phos/env.example`):
 - GATEWAY__PORT: API Gateway listen port (default 8080)
-- JWT__SECRET / JWT__ISSUER / JWT__AUDIENCE: Gateway JWT config (dev defaults)
+- IDP__DOMAIN / IDP__ISSUER / IDP__AUDIENCE / IDP__CLIENT_ID: OIDC Identity Provider config
+- VITE_IDP_DOMAIN / VITE_IDP_CLIENT_ID / VITE_IDP_AUDIENCE: Frontend OIDC config
 - LAB_INTERPRETER__URL, NUTRITION_KIT__URL, GENOME_KIT__URL, MICROBIOME_KIT__URL, SLEEP_KIT__URL, PHOS_CORE__URL: internal service URLs the gateway proxies to
 - POSTGRES__CONNECTION: connection string used by services
 - REDIS__CONNECTION: Redis host/port
@@ -72,7 +73,17 @@ docker compose -f phos/docker-compose.dev.yml build lab-interpreter
 ### API Gateway routing
 Gateway base: `http://localhost:8080`
 - Swagger docs: `/docs`
-- JWT is optional in dev (seeded token in UI); configure via JWT__* envs
+- JWT validation is performed against the configured OIDC provider (JWKS).
+
+### Identity Provider (OIDC) Setup (Auth0 example)
+1. Create a Single Page Application and set Allowed Callback/Logout/Web Origins to `http://localhost:3000`.
+2. Create an API with Identifier `https://api.phos.local`.
+3. Set env vars in `phos/.env` (see `phos/env.example`):
+   - `IDP__DOMAIN=your-tenant.auth0.com`
+   - `IDP__ISSUER=https://your-tenant.auth0.com/`
+   - `IDP__AUDIENCE=https://api.phos.local`
+   - `IDP__CLIENT_ID=...`
+   - `VITE_IDP_DOMAIN`, `VITE_IDP_CLIENT_ID`, `VITE_IDP_AUDIENCE` for the UI.
 
 Proxy mappings (from env):
 - `/api/labs` -> `LAB_INTERPRETER__URL`
@@ -121,3 +132,9 @@ curl -sS -H "Authorization: Bearer $TOKEN" \
 - Check container logs: `docker compose -f phos/docker-compose.dev.yml logs -f api-gateway`
 - Verify NATS monitor: `http://localhost:8222/`
 - Verify Postgres reachable: `psql -h localhost -U phos -d phos` (password `phos` by default)
+
+### Documentation
+- Architecture: ../docs/architecture.md
+- Events: ../docs/events.md
+- Secrets & Vault: ../docs/secrets.md
+- Compliance checklist: ../docs/compliance_checklist.md

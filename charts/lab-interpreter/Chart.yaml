@@ -4,3 +4,8 @@ description: PHOS Lab Interpreter service Helm chart
 type: application
 version: 0.1.0
 appVersion: "0.1.0"
+keywords:
+  - dotnet
+  - phos
+annotations:
+  category: services

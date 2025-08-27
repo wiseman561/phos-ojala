@@ -2,11 +2,184 @@ name: PHOS CI
 
 on:
   push:
-    branches: [ main, develop, chore/rename-to-phos ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main, develop, chore/rename-to-phos ]
+    branches: [ main, master ]
 
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install UI deps
+        working-directory: phos/apps/phos-ui
+        run: npm ci || npm install --no-audit --no-fund
+
+      - name: Build UI
+        working-directory: phos/apps/phos-ui
+        run: npm run build
+
+      - name: Install Gateway deps
+        working-directory: phos/apps/api-gateway
+        run: npm ci || npm install --no-audit --no-fund && npm run build
+
+      - name: Restore .NET
+        run: |
+          dotnet restore phos/services/lab-interpreter/Phos.LabInterpreter.csproj
+          dotnet restore phos/services/nutrition-kit/Phos.NutritionKit.csproj
+          dotnet restore phos/services/phos-core/Phos.PhosCore.csproj
+          dotnet restore phos/services/phos-sync/Phos.Sync.csproj
+          dotnet restore phos/services/genome-kit/Phos.GenomeKit.csproj || true
+          dotnet restore phos/services/microbiome-kit/Phos.MicrobiomeKit.csproj || true
+          dotnet restore phos/services/sleep-kit/Phos.SleepKit.csproj || true
+          dotnet restore phos/services/audit-log/Phos.AuditLog.csproj || true
+
+      - name: Build .NET
+        run: |
+          dotnet build --no-restore -c Release phos/services/lab-interpreter/Phos.LabInterpreter.csproj
+          dotnet build --no-restore -c Release phos/services/nutrition-kit/Phos.NutritionKit.csproj
+          dotnet build --no-restore -c Release phos/services/phos-core/Phos.PhosCore.csproj
+          dotnet build --no-restore -c Release phos/services/phos-sync/Phos.Sync.csproj
+          dotnet build --no-restore -c Release phos/services/audit-log/Phos.AuditLog.csproj
+          dotnet build --no-restore -c Release phos/services/billing-gateway/BillingGateway.csproj
+          dotnet build --no-restore -c Release phos/services/phos-fhir-bridge/Phos.Fhir.Bridge.csproj
+          dotnet build --no-restore -c Release phos/services/digestion-score/Phos.DigestionScore.csproj
+
+      - name: Run unit tests (if present)
+        run: |
+          dotnet test --no-build -c Release || true
+
+      - name: Run integration tests
+        run: |
+          dotnet test --no-build -c Release phos/services/billing-gateway/Tests/Phos.BillingGateway.Tests.csproj
+          dotnet test --no-build -c Release phos/services/digestion-score/Tests/Phos.DigestionScore.Tests.csproj
+
+  docker-sbom:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build images with SBOM (no push)
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          docker build -f phos/services/lab-interpreter/Dockerfile --sbom=true -t sbom-lab-interpreter:ci . || true
+          docker build -f phos/services/nutrition-kit/Dockerfile --sbom=true -t sbom-nutrition-kit:ci . || true
+          docker build -f phos/services/phos-core/Dockerfile --sbom=true -t sbom-phos-core:ci . || true
+          docker build -f phos/services/phos-sync/Dockerfile --sbom=true -t sbom-phos-sync:ci . || true
+          docker build -f phos/apps/api-gateway/Dockerfile --sbom=true -t sbom-api-gateway:ci . || true
+          docker build -f phos/apps/phos-ui/Dockerfile --sbom=true -t sbom-phos-ui:ci . || true
+
+  helm-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.4
+      - name: Lint charts
+        run: |
+          helm lint charts/* || (echo "Helm lint failed" && exit 1)
+
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript, csharp
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  build-scan-matrix:
+    runs-on: ubuntu-latest
+    needs: [build-and-test]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: billing-gateway
+            context: phos/services/billing-gateway
+            dockerfile: phos/services/billing-gateway/Dockerfile
+            image: ghcr.io/${{ github.repository }}/billing-gateway:ci-${{ github.sha }}
+          - name: phos-fhir-bridge
+            context: phos/services/phos-fhir-bridge
+            dockerfile: phos/services/phos-fhir-bridge/Dockerfile
+            image: ghcr.io/${{ github.repository }}/phos-fhir-bridge:ci-${{ github.sha }}
+          - name: digestion-score
+            context: phos/services/digestion-score
+            dockerfile: phos/services/digestion-score/Dockerfile
+            image: ghcr.io/${{ github.repository }}/digestion-score:ci-${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image (with SBOM)
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
+          tags: ${{ matrix.image }}
+          sbom: true
+          load: true
+      - name: Trivy scan (image)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: ${{ matrix.image }}
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
   doctor:
     name: Repo Doctor
     runs-on: ubuntu-latest

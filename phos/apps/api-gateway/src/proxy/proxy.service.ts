@@ -1,4 +1,5 @@
 ﻿import { Injectable } from '@nestjs/common';
+import type { Request, Response, NextFunction } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import * as passport from 'passport';
 import { INestApplication } from '@nestjs/common';
@@ -14,12 +15,15 @@ export class ProxyService {
       { path: '/api/microbiome', target: process.env.MICROBIOME_KIT__URL },
       { path: '/api/sleep', target: process.env.SLEEP_KIT__URL },
       { path: '/api/core', target: process.env.PHOS_CORE__URL },
+      { path: '/api/audit-logs', target: process.env.AUDIT_LOG__URL },
+      { path: '/api/billing', target: process.env.BILLING_GATEWAY_URL },
+      { path: '/api/fhir', target: process.env.FHIR_BRIDGE_URL },
     ];
 
     for (const { path, target } of mappings) {
       if (!target) continue;
       // Allow public access to health/info and swagger; require JWT for others
-      app.use(path, (req, res, next) => {
+      app.use(path, (req: Request, res: Response, next: NextFunction) => {
         const url = req.url;
         if (
           url === '/healthz' ||

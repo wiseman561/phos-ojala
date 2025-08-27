@@ -10,3 +10,7 @@ service:
   port: 80
 
 resources: {}
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000

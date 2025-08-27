@@ -1,0 +1,7 @@
+apiVersion: v2
+name: digestion-score
+description: PHOS Digestion Score worker Helm chart
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+

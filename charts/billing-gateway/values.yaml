@@ -1,0 +1,45 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/example/billing-gateway
+  tag: ""
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+
+env:
+  - name: ASPNETCORE_URLS
+    value: http://+:8080
+  - name: IDP__ISSUER
+    value: ""
+  - name: IDP__AUDIENCE
+    value: ""
+  - name: NATS__URL
+    value: nats://nats:4222
+  - name: POSTGRES__CONNECTION
+    value: Host=postgres;Database=phos;Username=phos;Password=phos
+  - name: OTLP__ENDPOINT
+    value: http://tempo:4317
+  - name: VAULT__ADDR
+    value: ""
+  - name: VAULT__ROLE_ID
+    value: ""
+  - name: VAULT__SECRET_ID
+    value: ""
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+vault:
+  enabled: false
+  role: phos-app
+  path: secret/data/phos
+

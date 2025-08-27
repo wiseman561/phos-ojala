@@ -41,19 +41,19 @@ export default function Nutrition() {
       <h2>Nutrition Analyzer</h2>
       <form onSubmit={submit}>
         {items.map((it, idx) => (
-          <div key={idx} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+          <div key={idx} className="row gap mb">
             <input className="input" placeholder="item name" value={it.name} onChange={(e) => updateItem(idx, { name: e.target.value })} />
             <input className="input" type="number" placeholder="grams" value={it.grams} onChange={(e) => updateItem(idx, { grams: Number(e.target.value) })} />
           </div>
         ))}
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div className="row gap">
           <button type="button" className="button" onClick={addItem}>Add item</button>
           <button type="submit" className="button" disabled={loading}>{loading ? 'Analyzing...' : 'Analyze'}</button>
         </div>
       </form>
-      {error && <p style={{ color: '#ff6b6b' }}>Error: {error}</p>}
+      {error && <p className="error">Error: {error}</p>}
       {result && (
-        <div style={{ marginTop: 16 }}>
+        <div className="mt">
           <h3>Totals</h3>
           <div className="panel">
             <p>Calories: {result.kcal}</p>

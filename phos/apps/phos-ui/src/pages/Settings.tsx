@@ -36,7 +36,7 @@ export default function Settings() {
       <h2>Settings</h2>
       <p>Manage your profile and preferences.</p>
       <h3 className="mt">Service Versions</h3>
-      {error && <p style={{ color: '#ff6b6b' }}>Error: {error}</p>}
+      {error && <p className="error">Error: {error}</p>}
       <div className="panel">
         <table className="table">
           <thead>

@@ -44,7 +44,7 @@ export default function Labs() {
           <button type="submit" className="button" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
         </div>
       </form>
-      {error && <p style={{ color: '#ff6b6b' }}>Error: {error}</p>}
+      {error && <p className="error">Error: {error}</p>}
       {result && (
         <div className="mt">
           <h3>Results</h3>

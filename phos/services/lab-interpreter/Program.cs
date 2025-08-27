@@ -9,10 +9,24 @@ using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using NATS.Client;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
+using System.Net.Http;
+using System.Net.Http.Json;
+using FluentValidation;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("https.json", optional: true, reloadOnChange: true);
+
+// Vault (optional + enforce in non-dev)
+TryLoadVaultSecrets(builder.Configuration);
+EnsureRequired(builder.Configuration, new[] { "POSTGRES:CONNECTION", "NATS:URL", "IDP:ISSUER", "IDP:AUDIENCE" });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -21,6 +35,24 @@ builder.Services.AddSingleton<ReferenceRanges>();
 builder.Services.AddSingleton<UnitConverter>();
 builder.Services.AddSingleton<LabInterpreter>();
 builder.Services.AddSingleton<Phos.LabInterpreter.Services.IAuditLogger, Phos.LabInterpreter.Services.FileAuditLogger>();
+builder.Services.AddDbContext<LabInterpreterContext>(options =>
+{
+    var cs = builder.Configuration["POSTGRES:CONNECTION"] ?? builder.Configuration.GetConnectionString("Default");
+    if (string.IsNullOrWhiteSpace(cs)) cs = "Host=postgres;Database=phos;Username=phos;Password=phos";
+    options.UseNpgsql(cs);
+});
+builder.Services.AddSingleton<NatsPublisher>();
+builder.Services.AddValidatorsFromAssemblyContaining<InterpretationRequestValidator>();
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("labs-policy", httpContext => RateLimitPartition.GetFixedWindowLimiter("labs", _ => new FixedWindowRateLimiterOptions
+    {
+        PermitLimit = 60,
+        Window = TimeSpan.FromMinutes(1),
+        QueueLimit = 0,
+        AutoReplenishment = true
+    }));
+});
 
 // Serilog
 builder.Host.UseSerilog((ctx, lc) => lc
@@ -34,14 +66,14 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var authority = config["IDP:ISSUER"] ?? (config["IDP:DOMAIN"] != null ? $"https://{config["IDP:DOMAIN"]}/" : null);
+        options.Authority = authority;
+        options.Audience = config["IDP:AUDIENCE"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = config["JWT:ISSUER"] ?? "phos",
             ValidateAudience = true,
-            ValidAudience = config["JWT:AUDIENCE"] ?? "phos",
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SECRET"] ?? "CHANGEME")),
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromSeconds(30)
         };
@@ -51,6 +83,17 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Provider", p => p.RequireRole("Provider", "Admin"));
 });
 
+// OpenTelemetry
+builder.Services.AddOpenTelemetry()
+  .ConfigureResource(r => r.AddService(serviceName: "phos-lab-interpreter"))
+  .WithTracing(tracer => tracer
+    .AddAspNetCoreInstrumentation()
+    .AddHttpClientInstrumentation()
+    .AddOtlpExporter(o =>
+    {
+      o.Endpoint = new Uri(config["OTLP:ENDPOINT"] ?? "http://tempo:4317");
+    }));
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -59,6 +102,14 @@ app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
+
+// Ensure database exists
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<LabInterpreterContext>();
+    db.Database.EnsureCreated();
+}
 
 var appConfig = app.Configuration;
 _ = appConfig["POSTGRES:CONNECTION"]; // maps from env POSTGRES__CONNECTION
@@ -77,18 +128,42 @@ app.MapGet("/info", () => Results.Ok(new {
 app.MapHealthChecks("/healthz");
 app.UseHttpsRedirection();
 
-app.MapPost("/api/labs/interpret", async (InterpretationRequest request, LabInterpreter interpreter, Phos.LabInterpreter.Services.IAuditLogger audit) =>
+app.MapPost("/api/labs/interpret", async (HttpContext http, InterpretationRequest request, IValidator<InterpretationRequest> validator, LabInterpreter interpreter, Phos.LabInterpreter.Services.IAuditLogger audit, LabInterpreterContext db, NatsPublisher nats) =>
 {
-    var validationErrors = request.Validate();
-    if (validationErrors.Count > 0)
-    {
-        return Results.ValidationProblem(validationErrors);
-    }
+    var validation = await validator.ValidateAsync(request);
+    if (!validation.IsValid) return Results.ValidationProblem(validation.ToDictionary());
 
     var result = interpreter.Interpret(request);
     await audit.LogAsync(request.UserId, "POST", "/api/labs/interpret", "success");
+
+    var entity = new LabResult
+    {
+        UserId = request.UserId,
+        Timestamp = DateTimeOffset.UtcNow,
+        Payload = JsonSerializer.Serialize(result)
+    };
+    await db.LabResults.AddAsync(entity);
+    await db.SaveChangesAsync();
+
+    await nats.PublishAsync("labs.result.created", new
+    {
+        userId = request.UserId,
+        timestamp = DateTimeOffset.UtcNow,
+        results = result.Results
+    });
+
+    // Audit log
+    await nats.PublishAsync("audit.log.created", new
+    {
+        timestamp = DateTimeOffset.UtcNow,
+        source = "lab-interpreter",
+        userId = request.UserId,
+        action = "labs.interpret"
+    });
+
+    if (http.TraceIdentifier is string tid) http.Response.Headers.Append("x-trace-id", tid);
     return Results.Ok(result);
-}).RequireAuthorization("Provider");
+}).RequireAuthorization("Provider").RequireRateLimiting("labs-policy");
 
 app.Run();
 
@@ -145,6 +220,21 @@ public sealed class InterpretationRequest
             }
         }
         return errors;
+    }
+}
+
+public sealed class InterpretationRequestValidator : AbstractValidator<InterpretationRequest>
+{
+    public InterpretationRequestValidator()
+    {
+        RuleFor(x => x.UserId).NotEmpty();
+        RuleFor(x => x.Measurements).NotNull().NotEmpty();
+        RuleForEach(x => x.Measurements).ChildRules(m =>
+        {
+            m.RuleFor(v => v.Code).NotEmpty();
+            m.RuleFor(v => v.Value).NotNull();
+            m.RuleFor(v => v.Unit).NotEmpty();
+        });
     }
 }
 
@@ -265,5 +355,79 @@ public sealed class LabInterpreter
             return ("high", $"{code}: {value} {unit} is above reference ({range.low}-{range.high} {refUnit}).");
         }
         return ("normal", $"{code}: {value} {unit} within reference ({range.low}-{range.high} {refUnit}).");
+    }
+}
+
+public sealed class LabResult
+{
+    public long Id { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public DateTimeOffset Timestamp { get; set; }
+    public string Payload { get; set; } = string.Empty;
+}
+
+public sealed class LabInterpreterContext : DbContext
+{
+    public LabInterpreterContext(DbContextOptions<LabInterpreterContext> options) : base(options) { }
+    public DbSet<LabResult> LabResults => Set<LabResult>();
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<LabResult>(e =>
+        {
+            e.ToTable("lab_results");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.UserId).HasMaxLength(128).IsRequired();
+            e.Property(x => x.Timestamp).IsRequired();
+            e.Property(x => x.Payload).IsRequired();
+        });
+    }
+}
+
+public sealed class NatsPublisher
+{
+    private readonly IConfiguration _configuration;
+    public NatsPublisher(IConfiguration configuration) { _configuration = configuration; }
+    public Task PublishAsync(string subject, object payload, CancellationToken ct = default)
+    {
+        var url = _configuration["NATS:URL"] ?? "nats://nats:4222";
+        var cf = new ConnectionFactory();
+        using var conn = cf.CreateConnection(url);
+        var json = System.Text.Json.JsonSerializer.Serialize(payload);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        conn.Publish(subject, bytes);
+        return Task.CompletedTask;
+    }
+}
+
+static void TryLoadVaultSecrets(ConfigurationManager config)
+{
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+    var enabledRaw = config["VAULT:ENABLED"] ?? config["VAULT__ENABLED"] ?? (env == "Development" ? "false" : "true");
+    var enabled = enabledRaw.Equals("true", StringComparison.OrdinalIgnoreCase);
+    if (!enabled) return;
+    var addr = config["VAULT:ADDR"]; var roleId = config["VAULT:ROLE_ID"]; var secretId = config["VAULT:SECRET_ID"]; var kvPath = config["VAULT:KV_PATH"] ?? "secret/data/phos";
+    if (string.IsNullOrWhiteSpace(addr) || string.IsNullOrWhiteSpace(roleId) || string.IsNullOrWhiteSpace(secretId))
+        throw new InvalidOperationException("Vault is enabled but VAULT:ADDR/ROLE_ID/SECRET_ID are missing");
+    using var http = new HttpClient { BaseAddress = new Uri(addr) };
+    var loginRes = http.PostAsJsonAsync("/v1/auth/approle/login", new { role_id = roleId, secret_id = secretId }).Result; loginRes.EnsureSuccessStatusCode();
+    var loginJson = loginRes.Content.ReadFromJsonAsync<dynamic>().Result; string token = loginJson?.auth?.client_token ?? string.Empty;
+    if (string.IsNullOrWhiteSpace(token)) throw new InvalidOperationException("Vault login did not return a token");
+    http.DefaultRequestHeaders.Add("X-Vault-Token", token);
+    var kvRes = http.GetAsync($"/v1/{kvPath}").Result; kvRes.EnsureSuccessStatusCode();
+    var kvJson = kvRes.Content.ReadFromJsonAsync<dynamic>().Result; var data = kvJson?.data?.data;
+    if (data is null) throw new InvalidOperationException("Vault KV data is empty");
+    var dict = new Dictionary<string, string?>(); foreach (var prop in (IDictionary<string, object>)data) dict[prop.Key.Replace("__", ":")] = prop.Value?.ToString();
+    if (dict.Count > 0) config.AddInMemoryCollection(dict!);
+}
+
+static void EnsureRequired(IConfiguration config, string[] keys)
+{
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+    var enabledRaw = config["VAULT:ENABLED"] ?? config["VAULT__ENABLED"] ?? (env == "Development" ? "false" : "true");
+    var enforce = enabledRaw.Equals("true", StringComparison.OrdinalIgnoreCase);
+    if (!enforce) return;
+    foreach (var k in keys)
+    {
+        if (string.IsNullOrWhiteSpace(config[k])) throw new InvalidOperationException($"Missing required configuration key: {k}");
     }
 }

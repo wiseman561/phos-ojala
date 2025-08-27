@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phos.health/events/DigestionScoreGenerated.schema.json",
+  "title": "DigestionScoreGenerated",
+  "type": "object",
+  "required": ["userId", "timestamp", "score", "asOfDate"],
+  "properties": {
+    "userId": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "asOfDate": { "type": "string", "format": "date" }
+  },
+  "additionalProperties": false
+}
+
+

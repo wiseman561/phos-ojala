@@ -10,3 +10,17 @@ service:
   port: 80
 
 resources: {}
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+
+jwt:
+  issuer: ""
+  audience: ""
+
+env:
+  - name: IDP__ISSUER
+    value: ""
+  - name: IDP__AUDIENCE
+    value: ""

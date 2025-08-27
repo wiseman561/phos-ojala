@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/example/digestion-score
+  tag: ""
+  pullPolicy: IfNotPresent
+
+resources: {}
+
+env:
+  - name: ASPNETCORE_URLS
+    value: http://+:8080
+  - name: NATS__URL
+    value: nats://nats:4222
+  - name: POSTGRES__CONNECTION
+    value: Host=postgres;Database=phos;Username=phos;Password=phos
+  - name: DIGESTION_SCORE__INTERVAL_MIN
+    value: "1440"
+  - name: OTLP__ENDPOINT
+    value: http://tempo:4317
+  - name: VAULT__ADDR
+    value: ""
+  - name: VAULT__ROLE_ID
+    value: ""
+  - name: VAULT__SECRET_ID
+    value: ""
+

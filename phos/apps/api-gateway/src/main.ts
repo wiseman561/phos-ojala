@@ -31,14 +31,22 @@ async function bootstrap() {
   app.use(
     rateLimit({
       windowMs: 60 * 1000,
-      max: 300,
+      max: 100,
       standardHeaders: true,
       legacyHeaders: false,
+      handler: (req: any, res: any) => {
+        const reset = (req as any).rateLimit?.resetTime as Date | undefined;
+        if (reset) {
+          const retryAfter = Math.max(0, Math.ceil((reset.getTime() - Date.now()) / 1000));
+          res.set('Retry-After', String(retryAfter));
+        }
+        res.status(429).json({ error: 'Too Many Requests' });
+      },
     }) as any,
   );
 
   // Enforce HTTPS at the edge: trust proxy and redirect when X-Forwarded-Proto is http
-  app.enable('trust proxy' as any);
+  (app as any).set('trust proxy', 1);
   app.use((req: any, res: any, next: any) => {
     const enforceHttps = (process.env.ENFORCE_HTTPS ?? 'true').toLowerCase() === 'true';
     if (enforceHttps && req.headers['x-forwarded-proto'] === 'http') {

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phos.health/events/audit/AuditLogCreated.schema.json",
+  "title": "AuditLogCreated",
+  "type": "object",
+  "required": ["timestamp", "source", "userId", "action"],
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "userId": { "type": "string" },
+    "action": { "type": "string" },
+    "metadata": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": false
+}
+
+

@@ -16,6 +16,7 @@
     
     /* Linting */
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
@@ -42,7 +43,8 @@
     },
     
     /* Type definitions */
-    "types": ["vite/client", "node"]
+    "types": [],
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": [
     "src/**/*",
@@ -55,7 +57,5 @@
     "dist",
     "build"
   ],
-  "references": [
-    { "path": "./tsconfig.node.json" }
-  ]
+  "references": []
 } 

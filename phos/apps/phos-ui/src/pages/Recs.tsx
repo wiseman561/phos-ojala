@@ -34,7 +34,7 @@ export default function Recs() {
         <input className="input" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="user id" />
         <button className="button" onClick={load} disabled={loading}>{loading ? 'Loading...' : 'Reload'}</button>
       </div>
-      {error && <p style={{ color: '#ff6b6b' }}>Error: {error}</p>}
+      {error && <p className="error">Error: {error}</p>}
       <div className="panel">
         {recs.length === 0 ? (
           <p>No recommendations found.</p>

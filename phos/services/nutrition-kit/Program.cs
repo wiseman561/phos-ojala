@@ -7,13 +7,42 @@ using System.Text.Json.Serialization;
 using Serilog;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using NATS.Client;
+using System.Text.Json;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
+using System.Net.Http;
+using System.Net.Http.Json;
+using FluentValidation;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+TryLoadVaultSecrets(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<NutritionAnalyzer>();
+builder.Services.AddDbContext<NutritionContext>(options =>
+{
+    var cs = builder.Configuration["POSTGRES:CONNECTION"] ?? builder.Configuration.GetConnectionString("Default");
+    if (string.IsNullOrWhiteSpace(cs)) cs = "Host=postgres;Database=phos;Username=phos;Password=phos";
+    options.UseNpgsql(cs);
+});
+builder.Services.AddSingleton<NatsPublisher>();
+builder.Services.AddValidatorsFromAssemblyContaining<AnalyzeRequestValidator>();
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("nutrition-policy", httpContext => RateLimitPartition.GetFixedWindowLimiter("nutrition", _ => new FixedWindowRateLimiterOptions
+    {
+        PermitLimit = 60,
+        Window = TimeSpan.FromMinutes(1),
+        QueueLimit = 0,
+        AutoReplenishment = true
+    }));
+});
 
 // Serilog
 builder.Host.UseSerilog((ctx, lc) => lc
@@ -27,14 +56,14 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var authority = config["IDP:ISSUER"] ?? (config["IDP:DOMAIN"] != null ? $"https://{config["IDP:DOMAIN"]}/" : null);
+        options.Authority = authority;
+        options.Audience = config["IDP:AUDIENCE"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = config["JWT:ISSUER"] ?? "phos",
             ValidateAudience = true,
-            ValidAudience = config["JWT:AUDIENCE"] ?? "phos",
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SECRET"] ?? "CHANGEME")),
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromSeconds(30)
         };
@@ -44,6 +73,17 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Provider", p => p.RequireRole("Provider", "Admin"));
 });
 
+// OpenTelemetry
+builder.Services.AddOpenTelemetry()
+  .ConfigureResource(r => r.AddService(serviceName: "phos-nutrition-kit"))
+  .WithTracing(tracer => tracer
+    .AddAspNetCoreInstrumentation()
+    .AddHttpClientInstrumentation()
+    .AddOtlpExporter(o =>
+    {
+      o.Endpoint = new Uri(config["OTLP:ENDPOINT"] ?? "http://tempo:4317");
+    }));
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -52,6 +92,13 @@ app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<NutritionContext>();
+    db.Database.EnsureCreated();
+}
 
 var appConfig = app.Configuration;
 _ = appConfig["POSTGRES:CONNECTION"]; // maps from env POSTGRES__CONNECTION
@@ -70,13 +117,39 @@ app.MapGet("/info", () => Results.Ok(new {
 app.MapHealthChecks("/healthz");
 app.UseHttpsRedirection();
 
-app.MapPost("/api/nutrition/analyze", (AnalyzeRequest req, NutritionAnalyzer analyzer) =>
+app.MapPost("/api/nutrition/analyze", async (HttpContext http, AnalyzeRequest req, IValidator<AnalyzeRequest> validator, NutritionAnalyzer analyzer, NutritionContext db, NatsPublisher nats) =>
 {
-    var errors = req.Validate();
-    if (errors.Count > 0) return Results.ValidationProblem(errors);
+    var validation = await validator.ValidateAsync(req);
+    if (!validation.IsValid) return Results.ValidationProblem(validation.ToDictionary());
     var res = analyzer.Analyze(req);
+
+    var entity = new NutritionEvent
+    {
+        UserId = req.Meals.FirstOrDefault()?.Items.FirstOrDefault()?.Name ?? "unknown",
+        Timestamp = DateTimeOffset.UtcNow,
+        Payload = JsonSerializer.Serialize(res)
+    };
+    await db.NutritionEvents.AddAsync(entity);
+    await db.SaveChangesAsync();
+
+    await nats.PublishAsync("nutrition.analysis.completed", new
+    {
+        userId = entity.UserId,
+        timestamp = entity.Timestamp,
+        totals = new { kcal = res.Kcal, protein_g = res.ProteinG, fat_g = res.FatG, carbs_g = res.CarbsG }
+    });
+
+    await nats.PublishAsync("audit.log.created", new
+    {
+        timestamp = DateTimeOffset.UtcNow,
+        source = "nutrition-kit",
+        userId = entity.UserId,
+        action = "nutrition.analyze"
+    });
+
+    if (http.TraceIdentifier is string tid) http.Response.Headers.Append("x-trace-id", tid);
     return Results.Ok(res);
-}).RequireAuthorization("Provider");
+}).RequireAuthorization("Provider").RequireRateLimiting("nutrition-policy");
 
 app.Run();
 
@@ -113,6 +186,23 @@ public sealed class AnalyzeRequest
             }
         }
         return errors;
+    }
+}
+
+public sealed class AnalyzeRequestValidator : AbstractValidator<AnalyzeRequest>
+{
+    public AnalyzeRequestValidator()
+    {
+        RuleFor(x => x.Meals).NotNull().NotEmpty();
+        RuleForEach(x => x.Meals).ChildRules(m =>
+        {
+            m.RuleFor(mm => mm.Items).NotNull().NotEmpty();
+            m.RuleForEach(mm => mm.Items).ChildRules(i =>
+            {
+                i.RuleFor(ii => ii.Name).NotEmpty();
+                i.RuleFor(ii => ii.Grams).GreaterThan(0);
+            });
+        });
     }
 }
 
@@ -175,4 +265,79 @@ public sealed class NutritionAnalyzer
             _ => new Macros { Kcal = 200, ProteinG = 5, FatG = 5, CarbsG = 30 }
         };
     }
+}
+
+public sealed class NutritionEvent
+{
+    public long Id { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public DateTimeOffset Timestamp { get; set; }
+    public string Payload { get; set; } = string.Empty;
+}
+
+public sealed class NutritionContext : DbContext
+{
+    public NutritionContext(DbContextOptions<NutritionContext> options) : base(options) { }
+    public DbSet<NutritionEvent> NutritionEvents => Set<NutritionEvent>();
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<NutritionEvent>(e =>
+        {
+            e.ToTable("nutrition_events");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.UserId).HasMaxLength(128).IsRequired();
+            e.Property(x => x.Timestamp).IsRequired();
+            e.Property(x => x.Payload).IsRequired();
+        });
+    }
+}
+
+public sealed class NatsPublisher
+{
+    private readonly IConfiguration _configuration;
+    public NatsPublisher(IConfiguration configuration) { _configuration = configuration; }
+    public Task PublishAsync(string subject, object payload, CancellationToken ct = default)
+    {
+        var url = _configuration["NATS:URL"] ?? "nats://nats:4222";
+        var cf = new ConnectionFactory();
+        using var conn = cf.CreateConnection(url);
+        var json = System.Text.Json.JsonSerializer.Serialize(payload);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        conn.Publish(subject, bytes);
+        return Task.CompletedTask;
+    }
+}
+
+static void TryLoadVaultSecrets(ConfigurationManager config)
+{
+    try
+    {
+        var addr = config["VAULT:ADDR"];
+        var roleId = config["VAULT:ROLE_ID"];
+        var secretId = config["VAULT:SECRET_ID"];
+        var kvPath = config["VAULT:KV_PATH"] ?? "secret/data/phos";
+        if (string.IsNullOrWhiteSpace(addr) || string.IsNullOrWhiteSpace(roleId) || string.IsNullOrWhiteSpace(secretId)) return;
+        using var http = new HttpClient { BaseAddress = new Uri(addr) };
+        var loginRes = http.PostAsJsonAsync("/v1/auth/approle/login", new { role_id = roleId, secret_id = secretId }).Result;
+        loginRes.EnsureSuccessStatusCode();
+        var loginJson = loginRes.Content.ReadFromJsonAsync<dynamic>().Result;
+        string token = loginJson?.auth?.client_token ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(token)) return;
+        http.DefaultRequestHeaders.Add("X-Vault-Token", token);
+        var kvRes = http.GetAsync($"/v1/{kvPath}").Result;
+        kvRes.EnsureSuccessStatusCode();
+        var kvJson = kvRes.Content.ReadFromJsonAsync<dynamic>().Result;
+        var data = kvJson?.data?.data;
+        if (data is null) return;
+        var dict = new Dictionary<string, string?>();
+        foreach (var prop in (IDictionary<string, object>)data)
+        {
+            dict[prop.Key.Replace("__", ":")] = prop.Value?.ToString();
+        }
+        if (dict.Count > 0)
+        {
+            config.AddInMemoryCollection(dict!);
+        }
+    }
+    catch { }
 }

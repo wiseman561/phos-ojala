@@ -6,13 +6,7 @@ import { JwtStrategy } from './jwt.strategy';
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT__SECRET ?? 'CHANGEME',
-      signOptions: {
-        issuer: process.env.JWT__ISSUER ?? 'phos',
-        audience: process.env.JWT__AUDIENCE ?? 'phos',
-      },
-    }),
+    JwtModule.register({})
   ],
   providers: [JwtStrategy],
   exports: [JwtModule, PassportModule],
