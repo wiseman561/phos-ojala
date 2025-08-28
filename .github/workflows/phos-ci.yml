@@ -2,9 +2,10 @@ name: PHOS CI
 
 on:
   push:
-    branches: [ main, chore/rename-to-phos ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ main, chore/rename-to-phos ]
+    branches: [ '**' ]
+  workflow_dispatch:
 
 jobs:
   build-and-test:
