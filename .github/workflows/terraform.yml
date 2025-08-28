@@ -2,9 +2,9 @@ name: Terraform Plan & Apply
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, chore/rename-to-phos ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, chore/rename-to-phos ]
   workflow_dispatch:
     inputs:
       action:

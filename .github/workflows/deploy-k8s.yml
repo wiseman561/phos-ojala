@@ -2,7 +2,7 @@ name: Deploy to Kubernetes
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, chore/rename-to-phos ]
   workflow_dispatch:
     inputs:
       environment:
