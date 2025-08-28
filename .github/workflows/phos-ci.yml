@@ -2,9 +2,9 @@ name: PHOS CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, chore/rename-to-phos ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, chore/rename-to-phos ]
 
 jobs:
   build-and-test:
