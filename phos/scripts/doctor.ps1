@@ -264,8 +264,8 @@ Invoke-GitStatus -ReportFile (Join-Path $reportsRoot 'git_status.txt')
 # 2) Validate repository
 $validatorResult = Invoke-Validator -RawPath (Join-Path $reportsRoot 'validator_raw.txt') -SanitizedPath (Join-Path $reportsRoot 'validator_sanitized.txt')
 
-# 3) .NET builds
-$dotnetItems = Invoke-DotNetBuilds -ServicesRoot 'src/backend' -ReportsRoot (Join-Path $reportsRoot 'dotnet')
+# 3) .NET builds (PHOS services)
+$dotnetItems = Invoke-DotNetBuilds -ServicesRoot 'phos/services' -ReportsRoot (Join-Path $reportsRoot 'dotnet')
 
 # 4) Node builds (silent unless both apps exist and npm is available)
 $nodeItems = @()

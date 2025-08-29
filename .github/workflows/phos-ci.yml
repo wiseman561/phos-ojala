@@ -136,8 +136,20 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript, csharp
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Manual build for C#
+        shell: bash
+        run: |
+          set -e
+          mapfile -t projs < <(git ls-files "phos/services/**/*.csproj" | grep -v Tests) || true
+          for p in "${projs[@]}"; do
+            echo "Building $p"
+            dotnet restore "$p"
+            dotnet build -c Release --no-restore "$p"
+          done
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 

@@ -1,40 +1,28 @@
 # Repository Structure Validation Script
 Write-Host "=== Phos Healthcare Repository Structure Validation ===" -ForegroundColor Green
 
-# Define the expected repository structure
+# Define the expected repository structure (PHOS layout)
 $expectedStructure = @{
-    # Backend services (should be in src/backend)
-    "Backend Services" = @(
-        "src/backend/Phos.Api",
-        "src/backend/Phos.ApiGateway",
-        "src/backend/Phos.Identity",
-        "src/backend/Phos.Services",
-        "src/backend/Phos.Data",
-        "src/backend/Phos.HealthScore"
+    "PHOS Services" = @(
+        "phos/services",
+        "phos/services/phos-core",
+        "phos/services/phos-sync",
+        "phos/services/lab-interpreter",
+        "phos/services/nutrition-kit"
     )
 
-    # Shared libraries (should be in src/shared)
-    "Shared Libraries" = @(
-        "src/shared/Phos.Common",
-        "src/shared/Phos.Contracts"
-    )
-
-    # Frontend applications (should be in src/frontend)
-    "Frontend Applications" = @(
-        "src/frontend/phos-web",
-        "src/frontend/employer-dashboard",
-        "src/frontend/patient-app",
-        "src/frontend/rn-dashboard"
+    "PHOS Apps" = @(
+        "phos/apps/phos-ui",
+        "phos/apps/api-gateway"
     )
 }
 
-# Problematic duplicate locations that should NOT exist
+# Problematic duplicate locations that should NOT exist (legacy layout)
 $duplicateLocations = @(
-    "Phos.Data",           # Should only be in src/backend/Phos.Data
-    "Phos.Api",            # Should only be in src/backend/Phos.Api
-    "Phos.Services",       # Should only be in src/backend/Phos.Services
-    "backend",              # Should only be in src/backend
-            "phos-web"             # Should only be in src/frontend/phos-web
+    "src/backend",  # legacy layout should not be present anymore
+    "src/frontend", # legacy layout should not be present anymore
+    "backend",
+    "phos-web"
 )
 
 Write-Host "`n1. Checking for expected project structure..." -ForegroundColor Yellow
@@ -65,72 +53,7 @@ foreach ($duplicate in $duplicateLocations) {
     }
 }
 
-Write-Host "`n3. Checking project file references..." -ForegroundColor Yellow
-
-# Check Identity project references
-$identityProjectPath = "src/backend/Phos.Identity/Phos.Identity.csproj"
-if (Test-Path $identityProjectPath) {
-    $identityContent = Get-Content $identityProjectPath -Raw
-
-    # Check for correct references
-    $correctReferences = @(
-        "../../shared/Phos.Common/Phos.Common.csproj",
-        "../../shared/Phos.Contracts/Phos.Contracts.csproj",
-        "../Phos.Data/Phos.Data.csproj"
-    )
-
-    $incorrectReferences = @(
-        "../../libs/Phos.Common/Phos.Common.csproj",
-        "../../libs/Phos.Contracts/Phos.Contracts.csproj",
-        "../../Phos.Data/Phos.Data.csproj"
-    )
-
-    foreach ($ref in $correctReferences) {
-        if ($identityContent -match [regex]::Escape($ref)) {
-            Write-Host ("  [OK] Correct reference: " + $ref) -ForegroundColor Green
-        } else {
-            Write-Host ("  [X] Missing correct reference: " + $ref) -ForegroundColor Red
-            $allGood = $false
-        }
-    }
-
-    foreach ($ref in $incorrectReferences) {
-        if ($identityContent -match [regex]::Escape($ref)) {
-            Write-Host ("  [X] Incorrect reference found: " + $ref) -ForegroundColor Red
-            $allGood = $false
-        }
-    }
-} else {
-    Write-Host "  [X] Identity project not found" -ForegroundColor Red
-    $allGood = $false
-}
-
-Write-Host "`n4. Checking for .NET 8 compatibility..." -ForegroundColor Yellow
-
-$projectFiles = @(
-    "src/backend/Phos.Identity/Phos.Identity.csproj",
-    "src/shared/Phos.Common/Phos.Common.csproj",
-    "src/shared/Phos.Contracts/Phos.Contracts.csproj",
-    "src/backend/Phos.Data/Phos.Data.csproj"
-)
-
-foreach ($projectFile in $projectFiles) {
-    if (Test-Path $projectFile) {
-        $content = Get-Content $projectFile -Raw
-        if ($content -match "<TargetFramework>net8\.0</TargetFramework>") {
-            Write-Host ("  [OK] " + $projectFile + " targets .NET 8") -ForegroundColor Green
-        } else {
-            Write-Host ("  [X] " + $projectFile + " does not target .NET 8") -ForegroundColor Red
-            $allGood = $false
-        }
-
-        if ($content -match "DisableImplicitNuGetFallbackFolder") {
-            Write-Host ("  [OK] " + $projectFile + " has NuGet fallback folder disabled") -ForegroundColor Green
-        } else {
-            Write-Host ("  [!] " + $projectFile + " missing NuGet fallback folder setting") -ForegroundColor Yellow
-        }
-    }
-}
+Write-Host "`n3. Skipping legacy project reference checks (migrated to phos/*)." -ForegroundColor Yellow
 
 Write-Host "`n5. Summary" -ForegroundColor Yellow
 
