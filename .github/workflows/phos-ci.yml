@@ -2,9 +2,9 @@ name: PHOS CI
 
 on:
   push:
-    branches: [ '**' ]
+    branches: [ 'main' ]
   pull_request:
-    branches: [ '**' ]
+    branches: [ 'main' ]
   workflow_dispatch:
 
 jobs:
@@ -69,9 +69,19 @@ jobs:
           dotnet build --no-restore -c Release phos/services/phos-fhir-bridge/Phos.Fhir.Bridge.csproj
           dotnet build --no-restore -c Release phos/services/digestion-score/Phos.DigestionScore.csproj
 
-      - name: Run unit tests (if present)
+      - name: Run service tests (if present)
+        shell: bash
         run: |
-          dotnet test --no-build -c Release || true
+          set -e
+          mapfile -t tests < <(git ls-files "phos/services/**/Tests/*.csproj") || true
+          if [ ${#tests[@]} -eq 0 ]; then
+            echo "No service test projects found. Skipping."
+            exit 0
+          fi
+          for t in "${tests[@]}"; do
+            echo "Running tests for $t"
+            dotnet test --no-build -c Release "$t"
+          done
 
       - name: Run integration tests
         run: |
@@ -283,13 +293,13 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'Directory.Packages.props', 'global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-      - name: Discover and run tests if present
+      - name: Discover and run service tests
         shell: bash
         run: |
           set -e
-          mapfile -t tests < <(git ls-files "**/*.Tests.csproj") || true
+          mapfile -t tests < <(git ls-files "phos/services/**/Tests/*.csproj") || true
           if [ ${#tests[@]} -eq 0 ]; then
-            echo "No .NET test projects found. Skipping."
+            echo "No service test projects found. Skipping."
             exit 0
           fi
           for t in "${tests[@]}"; do
