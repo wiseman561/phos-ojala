@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-nurse-assistant
+  repository: registry.hub.docker.com/your-org/phos-nurse-assistant
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -34,7 +34,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
   hosts:
-    - host: nurse-assistant.dev.ojala.local
+    - host: nurse-assistant.dev.phos.local
       paths:
         - path: /
           pathType: Prefix
@@ -64,7 +64,7 @@ affinity: {}
 vault:
   enabled: true
   addr: "http://vault.dev:8200"
-  token: "ojala-dev-token"
+  token: "phos-dev-token"
 
 serviceMonitor:
   enabled: true

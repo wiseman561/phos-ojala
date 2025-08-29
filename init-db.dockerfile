@@ -10,7 +10,7 @@ RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Create a script to run migrations
-RUN echo '#!/bin/bash\necho "Running database migrations..."\ndotnet ef database update --project src/backend/Ojala.Data --startup-project src/backend/Ojala.Data -c OjalaDbContext\necho "Migrations completed!"' > /run-migrations.sh
+RUN echo '#!/bin/bash\necho "Running database migrations..."\ndotnet ef database update --project src/backend/Phos.Data --startup-project src/backend/Phos.Data -c PhosDbContext\necho "Migrations completed!"' > /run-migrations.sh
 RUN chmod +x /run-migrations.sh
 
 ENTRYPOINT ["/run-migrations.sh"]

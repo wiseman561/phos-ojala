@@ -54,15 +54,15 @@ try {
 }
 
 try {
-    $null = kubectl get namespace ojala-ns 2>$null
+    $null = kubectl get namespace phos-ns 2>$null
 } catch {
-    Write-Warning "Namespace 'ojala-ns' does not exist. Creating it..."
-    kubectl create namespace ojala-ns
+    Write-Warning "Namespace 'phos-ns' does not exist. Creating it..."
+    kubectl create namespace phos-ns
 }
 
 # Label namespaces
 kubectl label namespace demo name=demo --overwrite
-kubectl label namespace ojala-ns name=ojala-ns --overwrite
+kubectl label namespace phos-ns name=phos-ns --overwrite
 
 Write-Status "Namespaces labeled successfully"
 
@@ -100,7 +100,7 @@ kubectl get networkpolicies --all-namespaces
 # Check namespace labels
 Write-Host ""
 Write-Status "Namespace Labels:"
-kubectl get namespaces --show-labels | Select-String "(demo|ojala-ns)"
+kubectl get namespaces --show-labels | Select-String "(demo|phos-ns)"
 
 # Step 4: Verification instructions
 Write-Host ""
@@ -113,16 +113,16 @@ Write-Host "1. Check network policy status:" -ForegroundColor White
 Write-Host "   kubectl get networkpolicies --all-namespaces" -ForegroundColor Gray
 Write-Host ""
 Write-Host "2. Test nurse-assistant to API connectivity:" -ForegroundColor White
-Write-Host "   kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-api:80/healthz" -ForegroundColor Gray
+Write-Host "   kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-api:80/healthz" -ForegroundColor Gray
 Write-Host ""
 Write-Host "3. Test API to database connectivity:" -ForegroundColor White
-Write-Host "   kubectl exec -n demo deployment/ojala-api -- nc -zv ojala-db-service.ojala-ns.svc.cluster.local 5432" -ForegroundColor Gray
+Write-Host "   kubectl exec -n demo deployment/phos-api -- nc -zv phos-db-service.phos-ns.svc.cluster.local 5432" -ForegroundColor Gray
 Write-Host ""
 Write-Host "4. Test identity to API connectivity:" -ForegroundColor White
-Write-Host "   kubectl exec -n ojala-ns deployment/ojala-identity -- curl -v http://ojala-api.demo.svc.cluster.local:80/healthz" -ForegroundColor Gray
+Write-Host "   kubectl exec -n phos-ns deployment/phos-identity -- curl -v http://phos-api.demo.svc.cluster.local:80/healthz" -ForegroundColor Gray
 Write-Host ""
 Write-Host "5. Verify default deny (this should fail):" -ForegroundColor White
-Write-Host "   kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-identity-service.ojala-ns.svc.cluster.local:80/healthz" -ForegroundColor Gray
+Write-Host "   kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-identity-service.phos-ns.svc.cluster.local:80/healthz" -ForegroundColor Gray
 Write-Host ""
 
 Write-Status "✅ Network policies deployment completed successfully!"

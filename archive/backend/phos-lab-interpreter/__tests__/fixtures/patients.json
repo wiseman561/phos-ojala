@@ -1,0 +1,4 @@
+[
+  { "id": "p1", "age": 45, "sex": "male" },
+  { "id": "p2", "age": 62, "sex": "female" }
+]

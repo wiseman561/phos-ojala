@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: digestion-score
+spec:
+  type: ClusterIP
+  selector:
+    app: digestion-score
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+

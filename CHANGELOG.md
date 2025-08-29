@@ -10,7 +10,7 @@ All notable changes to the Ojalá Healthcare Platform will be documented in this
 
 ##### Backend Services
 
-- **Ojala.AlertsStreamer**
+- **Phos.AlertsStreamer**
   - Fixed 3 high severity vulnerabilities
   - Updated dependencies:
     - `semver` - Fixed Regular Expression Denial of Service vulnerability (GHSA-c2qf-rxjj-qqgw)
@@ -18,10 +18,10 @@ All notable changes to the Ojalá Healthcare Platform will be documented in this
 - **ai-engine**
   - No vulnerabilities found after audit
 
-- **Ojala.TelemetryProcessor**
+- **Phos.TelemetryProcessor**
   - Fixed 3 high severity vulnerabilities
 
-- **Ojala.DeviceGateway**
+- **Phos.DeviceGateway**
   - Fixed 3 high severity vulnerabilities
 
 ##### Frontend Applications
@@ -33,7 +33,7 @@ All notable changes to the Ojalá Healthcare Platform will be documented in this
     - `webpack-dev-middleware` - Fixing Path traversal vulnerability (GHSA-wr3j-pwj9-hqq6)
     - `serialize-javascript` - Fixing Cross-site Scripting (XSS) vulnerability (GHSA-76p7-773f-r4q5)
 
-- **Ojala.Web**
+- **phos-web**
   - Identified 152 vulnerabilities (106 moderate, 45 high, 1 critical)
   - Will update critical dependencies
 

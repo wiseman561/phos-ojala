@@ -12,8 +12,8 @@ services:
       - ./results:/results
     command: ["--out", "json=/results/result.json", "script.js"]
     networks:
-      - ojala-network
+      - phos-network
 
 networks:
-  ojala-network:
+  phos-network:
     external: true

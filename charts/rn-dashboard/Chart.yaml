@@ -1,6 +1,6 @@
 apiVersion: v2
 name: rn-dashboard
-description: A Helm chart for Ojala RN Dashboard
+description: A Helm chart for Phos RN Dashboard
 type: application
 version: 0.1.0
 appVersion: "1.0.0"

@@ -19,10 +19,10 @@ route:
 receivers:
   - name: 'email-notifications'
     email_configs:
-      - to: 'alerts@ojala-healthcare.com'
-        from: 'prometheus@ojala-healthcare.com'
+      - to: 'alerts@phos-healthcare.com'
+        from: 'prometheus@phos-healthcare.com'
         smarthost: 'smtp.example.com:587'
-        auth_username: 'prometheus@ojala-healthcare.com'
+        auth_username: 'prometheus@phos-healthcare.com'
         auth_password: '{{ .SMTP_PASSWORD }}'
         send_resolved: true
         headers:

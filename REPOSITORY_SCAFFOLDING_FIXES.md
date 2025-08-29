@@ -1,20 +1,20 @@
-# Ojala Healthcare Repository Scaffolding Fixes
+# Phos Healthcare Repository Scaffolding Fixes
 
 ## Overview
-This document summarizes the comprehensive scaffolding fixes applied to resolve duplicate folders, incorrect project references, and build issues in the Ojala Healthcare Platform repository.
+This document summarizes the comprehensive scaffolding fixes applied to resolve duplicate folders, incorrect project references, and build issues in the Phos Healthcare Platform repository.
 
 ## Issues Identified
 
 ### 1. Duplicate Folder Structure
 The repository had multiple copies of the same projects in different locations:
-- **Root level duplicates**: `Ojala.Data`, `Ojala.Api`, `Ojala.Services`, `backend`, `ojala.web`
+- **Root level duplicates**: `Phos.Data`, `Phos.Api`, `Phos.Services`, `backend`, `phos.web`
 - **Apps folder**: Complete duplicate of backend services in `apps/`
 - **Libs folder**: Old location for shared libraries, now moved to `src/shared/`
 
 ### 2. Incorrect Project References
 Many projects were referencing the wrong paths:
 - Projects referencing `../../libs/` instead of `../../shared/`
-- Projects referencing `../../Ojala.Data/` instead of `../Ojala.Data/`
+- Projects referencing `../../Phos.Data/` instead of `../Phos.Data/`
 - Inconsistent reference patterns across projects
 
 ### 3. Outdated Project Files
@@ -35,17 +35,17 @@ Many projects were referencing the wrong paths:
 ```
 src/
 ├── backend/           # All backend services
-│   ├── Ojala.Api/
-│   ├── Ojala.ApiGateway/
-│   ├── Ojala.Identity/
-│   ├── Ojala.Services/
-│   ├── Ojala.Data/
-│   └── Ojala.HealthScore/
+│   ├── Phos.Api/
+│   ├── Phos.ApiGateway/
+│   ├── Phos.Identity/
+│   ├── Phos.Services/
+│   ├── Phos.Data/
+│   └── Phos.HealthScore/
 ├── shared/            # Shared libraries
-│   ├── Ojala.Common/
-│   └── Ojala.Contracts/
+│   ├── Phos.Common/
+│   └── Phos.Contracts/
 └── frontend/          # Frontend applications
-    ├── ojala.web/
+    ├── phos.web/
     ├── employer-dashboard/
     ├── patient-app/
     └── rn-dashboard/
@@ -55,15 +55,15 @@ src/
 - `apps/` folder (complete duplicate)
 - `backend/` folder (root-level duplicate)
 - `libs/` folder (old shared libraries location)
-- `ojala.web` (root-level duplicate)
-- Root-level project folders: `Ojala.Data`, `Ojala.Api`, `Ojala.Services`
+- `phos.web` (root-level duplicate)
+- Root-level project folders: `Phos.Data`, `Phos.Api`, `Phos.Services`
 
 ### 2. Project Reference Updates
 
-**Ojala.Identity Project:**
-- ✅ Updated to reference `../../shared/Ojala.Common/`
-- ✅ Updated to reference `../../shared/Ojala.Contracts/`
-- ✅ Updated to reference `../Ojala.Data/`
+**Phos.Identity Project:**
+- ✅ Updated to reference `../../shared/Phos.Common/`
+- ✅ Updated to reference `../../shared/Phos.Contracts/`
+- ✅ Updated to reference `../Phos.Data/`
 
 **All Backend Projects:**
 - ✅ Standardized references to shared libraries
@@ -73,14 +73,14 @@ src/
 ### 3. .NET 8 Modernization
 
 **Updated Project Files:**
-- ✅ `src/backend/Ojala.Identity/Ojala.Identity.csproj`
-- ✅ `src/backend/Ojala.Api/Ojala.Api.csproj`
-- ✅ `src/backend/Ojala.Services/Ojala.Services.csproj`
-- ✅ `src/backend/Ojala.ApiGateway/Ojala.ApiGateway.csproj`
-- ✅ `src/backend/Ojala.HealthScore/Ojala.HealthScore.csproj`
-- ✅ `src/backend/Ojala.Data/Ojala.Data.csproj`
-- ✅ `src/shared/Ojala.Common/Ojala.Common.csproj`
-- ✅ `src/shared/Ojala.Contracts/Ojala.Contracts.csproj`
+- ✅ `src/backend/Phos.Identity/Phos.Identity.csproj`
+- ✅ `src/backend/Phos.Api/Phos.Api.csproj`
+- ✅ `src/backend/Phos.Services/Phos.Services.csproj`
+- ✅ `src/backend/Phos.ApiGateway/Phos.ApiGateway.csproj`
+- ✅ `src/backend/Phos.HealthScore/Phos.HealthScore.csproj`
+- ✅ `src/backend/Phos.Data/Phos.Data.csproj`
+- ✅ `src/shared/Phos.Common/Phos.Common.csproj`
+- ✅ `src/shared/Phos.Contracts/Phos.Contracts.csproj`
 
 **Standardized Features:**
 - Target Framework: `net8.0`
@@ -92,10 +92,10 @@ src/
 ### 4. Dockerfile Standardization
 
 **Updated Dockerfiles:**
-- ✅ `src/backend/Ojala.Identity/Dockerfile`
-- ✅ `src/backend/Ojala.Api/Dockerfile`
-- ✅ `src/backend/Ojala.ApiGateway/Dockerfile`
-- ✅ `src/backend/Ojala.HealthScore/Dockerfile`
+- ✅ `src/backend/Phos.Identity/Dockerfile`
+- ✅ `src/backend/Phos.Api/Dockerfile`
+- ✅ `src/backend/Phos.ApiGateway/Dockerfile`
+- ✅ `src/backend/Phos.HealthScore/Dockerfile`
 
 **Standardized Pattern:**
 ```dockerfile
@@ -105,8 +105,8 @@ WORKDIR /src
 
 # Copy project files for restore
 COPY src/backend/[PROJECT]/[PROJECT].csproj ./backend/[PROJECT]/
-COPY src/shared/Ojala.Common/Ojala.Common.csproj ./shared/Ojala.Common/
-COPY src/shared/Ojala.Contracts/Ojala.Contracts.csproj ./shared/Ojala.Contracts/
+COPY src/shared/Phos.Common/Phos.Common.csproj ./shared/Phos.Common/
+COPY src/shared/Phos.Contracts/Phos.Contracts.csproj ./shared/Phos.Contracts/
 # ... other dependencies
 
 # Restore dependencies
@@ -132,7 +132,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 ### 6. Database Context Fixes
 
-**Ojala.Data Project:**
+**Phos.Data Project:**
 - ✅ Complete entity model with all healthcare entities
 - ✅ Proper DbContext configuration
 - ✅ Repository pattern implementation
@@ -176,28 +176,28 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 The following build chain should now work correctly:
 
 1. **Shared Libraries** (no dependencies)
-   - `src/shared/Ojala.Common`
-   - `src/shared/Ojala.Contracts`
+   - `src/shared/Phos.Common`
+   - `src/shared/Phos.Contracts`
 
 2. **Data Layer** (depends on shared)
-   - `src/backend/Ojala.Data`
+   - `src/backend/Phos.Data`
 
 3. **Services Layer** (depends on shared + data)
-   - `src/backend/Ojala.Services`
+   - `src/backend/Phos.Services`
 
 4. **API Services** (depends on all above)
-   - `src/backend/Ojala.Identity`
-   - `src/backend/Ojala.Api`
-   - `src/backend/Ojala.ApiGateway`
-   - `src/backend/Ojala.HealthScore`
+   - `src/backend/Phos.Identity`
+   - `src/backend/Phos.Api`
+   - `src/backend/Phos.ApiGateway`
+   - `src/backend/Phos.HealthScore`
 
 ## Docker Compose Compatibility
 
 The `docker-compose.yml` file already uses the correct paths:
-- ✅ `src/backend/Ojala.Identity/Dockerfile`
-- ✅ `src/backend/Ojala.Api/Dockerfile`
-- ✅ `src/backend/Ojala.HealthScore`
-- ✅ `src/frontend/ojala.web`
+- ✅ `src/backend/Phos.Identity/Dockerfile`
+- ✅ `src/backend/Phos.Api/Dockerfile`
+- ✅ `src/backend/Phos.HealthScore`
+- ✅ `src/frontend/phos-web`
 
 ## Next Steps
 

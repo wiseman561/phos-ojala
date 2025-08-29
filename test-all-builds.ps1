@@ -1,5 +1,5 @@
-# Comprehensive Build Test Script for Ojala Healthcare Platform
-Write-Host "=== Ojala Healthcare Platform Build Test ===" -ForegroundColor Green
+# Comprehensive Build Test Script for Phos Healthcare Platform
+Write-Host "=== Phos Healthcare Platform Build Test ===" -ForegroundColor Green
 
 $ErrorActionPreference = "Stop"
 $buildSuccess = $true
@@ -7,43 +7,43 @@ $buildSuccess = $true
 # Define build order (dependencies first)
 $projects = @(
     @{
-        Name = "Ojala.Common"
-        Path = "src/shared/Ojala.Common"
+        Name = "Phos.Common"
+        Path = "src/shared/Phos.Common"
         Type = "Library"
     },
     @{
-        Name = "Ojala.Contracts"
-        Path = "src/shared/Ojala.Contracts"
+        Name = "Phos.Contracts"
+        Path = "src/shared/Phos.Contracts"
         Type = "Library"
     },
     @{
-        Name = "Ojala.Data"
-        Path = "src/backend/Ojala.Data"
+        Name = "Phos.Data"
+        Path = "src/backend/Phos.Data"
         Type = "Library"
     },
     @{
-        Name = "Ojala.Services"
-        Path = "src/backend/Ojala.Services"
+        Name = "Phos.Services"
+        Path = "src/backend/Phos.Services"
         Type = "Library"
     },
     @{
-        Name = "Ojala.Identity"
-        Path = "src/backend/Ojala.Identity"
+        Name = "Phos.Identity"
+        Path = "src/backend/Phos.Identity"
         Type = "WebApi"
     },
     @{
-        Name = "Ojala.Api"
-        Path = "src/backend/Ojala.Api"
+        Name = "Phos.Api"
+        Path = "src/backend/Phos.Api"
         Type = "WebApi"
     },
     @{
-        Name = "Ojala.ApiGateway"
-        Path = "src/backend/Ojala.ApiGateway"
+        Name = "Phos.ApiGateway"
+        Path = "src/backend/Phos.ApiGateway"
         Type = "WebApi"
     },
     @{
-        Name = "Ojala.HealthScore"
-        Path = "src/backend/Ojala.HealthScore"
+        Name = "Phos.HealthScore"
+        Path = "src/backend/Phos.HealthScore"
         Type = "WebApi"
     }
 )
@@ -137,17 +137,17 @@ if ($buildSuccess -and (Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Host "`n3. Testing Docker builds..." -ForegroundColor Yellow
 
     $dockerProjects = @(
-        @{ Name = "Identity"; Path = "src/backend/Ojala.Identity/Dockerfile" },
-        @{ Name = "Api"; Path = "src/backend/Ojala.Api/Dockerfile" },
-        @{ Name = "ApiGateway"; Path = "src/backend/Ojala.ApiGateway/Dockerfile" },
-        @{ Name = "HealthScore"; Path = "src/backend/Ojala.HealthScore/Dockerfile" }
+        @{ Name = "Identity"; Path = "src/backend/Phos.Identity/Dockerfile" },
+        @{ Name = "Api"; Path = "src/backend/Phos.Api/Dockerfile" },
+        @{ Name = "ApiGateway"; Path = "src/backend/Phos.ApiGateway/Dockerfile" },
+        @{ Name = "HealthScore"; Path = "src/backend/Phos.HealthScore/Dockerfile" }
     )
 
     foreach ($dockerProject in $dockerProjects) {
         if (Test-Path $dockerProject.Path) {
             Write-Host "Testing Docker build for $($dockerProject.Name)..." -ForegroundColor Yellow
             try {
-                $imageName = "ojala-$($dockerProject.Name.ToLower())-test"
+                $imageName = "phos-$($dockerProject.Name.ToLower())-test"
                 docker build -f $dockerProject.Path -t $imageName . --quiet
                 if ($LASTEXITCODE -eq 0) {
                     Write-Host "✓ Docker build succeeded for $($dockerProject.Name)" -ForegroundColor Green
@@ -173,7 +173,7 @@ Write-Host "`n=== Build Test Summary ===" -ForegroundColor Yellow
 
 if ($buildSuccess) {
     Write-Host "✓ All builds passed successfully!" -ForegroundColor Green
-    Write-Host "The Ojala Healthcare Platform is ready for deployment." -ForegroundColor Green
+    Write-Host "The Phos Healthcare Platform is ready for deployment." -ForegroundColor Green
 } else {
     Write-Host "✗ Some builds failed. Please check the errors above." -ForegroundColor Red
     exit 1

@@ -1,0 +1,142 @@
+﻿services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: phos
+      POSTGRES_PASSWORD: phos
+      POSTGRES_DB: phos
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  nats:
+    image: nats:2
+    ports: ["4222:4222","8222:8222"]
+
+  api-gateway:
+    build: ./apps/api-gateway
+    env_file: [.env]
+    ports: ["8080:8080"]
+    depends_on: [lab-interpreter, nutrition-kit, phos-core]
+
+  lab-interpreter:
+    build: ./services/lab-interpreter
+    env_file: [.env]
+    ports: ["5101:8080"]
+    depends_on: [postgres, redis]
+
+  nutrition-kit:
+    build: ./services/nutrition-kit
+    env_file: [.env]
+    ports: ["5102:8080"]
+    depends_on: [postgres, redis]
+
+  genome-kit:
+    build: ./services/genome-kit
+    env_file: [.env]
+    ports: ["5103:8080"]
+    depends_on: [postgres]
+
+  microbiome-kit:
+    build: ./services/microbiome-kit
+    env_file: [.env]
+    ports: ["5104:8080"]
+    depends_on: [postgres]
+
+  sleep-kit:
+    build: ./services/sleep-kit
+    env_file: [.env]
+    ports: ["5105:8080"]
+    depends_on: [postgres]
+
+  phos-core:
+    build: ./services/phos-core
+    env_file: [.env]
+    ports: ["5200:8080"]
+    depends_on: [nats, postgres, redis]
+
+  phos-ui:
+    build: ./apps/phos-ui
+    env_file: [.env]
+    ports: ["3000:3000"]
+    depends_on: [api-gateway]
+
+  phos-sync:
+    build: ./services/phos-sync
+    env_file: [.env]
+    ports: ["5201:8080"]
+    depends_on: [postgres, redis, nats]
+
+  audit-log:
+    build: ./services/audit-log
+    env_file: [.env]
+    ports: ["5202:8080"]
+    depends_on: [postgres, nats]
+
+  billing-gateway:
+    build: ./services/billing-gateway
+    env_file: [.env]
+    environment:
+      - NATS__URL=${NATS__URL}
+      - POSTGRES__CONNECTION=${POSTGRES__CONNECTION}
+      - IDP__ISSUER=${IDP__ISSUER}
+      - IDP__AUDIENCE=${IDP__AUDIENCE}
+      - VAULT__ADDR=${VAULT__ADDR}
+      - VAULT__ROLE_ID=${VAULT__ROLE_ID}
+      - VAULT__SECRET_ID=${VAULT__SECRET_ID}
+    ports: ["8087:8080"]
+    depends_on: [nats, postgres]
+
+  phos-fhir-bridge:
+    build: ./services/phos-fhir-bridge
+    env_file: [.env]
+    environment:
+      - IDP__ISSUER=${IDP__ISSUER}
+      - IDP__AUDIENCE=${IDP__AUDIENCE}
+      - OTLP__ENDPOINT=${OTLP__ENDPOINT}
+      - VAULT__ADDR=${VAULT__ADDR}
+      - VAULT__ROLE_ID=${VAULT__ROLE_ID}
+      - VAULT__SECRET_ID=${VAULT__SECRET_ID}
+    ports: ["8088:8080"]
+    depends_on: [nats]
+
+  digestion-score:
+    build: ./services/digestion-score
+    env_file: [.env]
+    environment:
+      - NATS__URL=${NATS__URL}
+      - POSTGRES__CONNECTION=${POSTGRES__CONNECTION}
+      - DIGESTION_SCORE__INTERVAL_MIN=${DIGESTION_SCORE_INTERVAL_MIN}
+      - OTLP__ENDPOINT=${OTLP__ENDPOINT}
+      - VAULT__ADDR=${VAULT__ADDR}
+      - VAULT__ROLE_ID=${VAULT__ROLE_ID}
+      - VAULT__SECRET_ID=${VAULT__SECRET_ID}
+    depends_on: [nats, postgres, lab-interpreter, nutrition-kit]
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.98.0
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./infra/observability/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports: ["4317:4317"]
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    volumes:
+      - ./infra/observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports: ["9090:9090"]
+
+  grafana:
+    image: grafana/grafana:10.4.6
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./infra/observability/grafana/provisioning:/etc/grafana/provisioning
+      - ./infra/observability/grafana/dashboards:/var/lib/grafana/dashboards
+    ports: ["3001:3000"]
+
+volumes:
+  pgdata:

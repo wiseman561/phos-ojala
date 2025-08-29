@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Initialize Vault with secrets for the Ojala Healthcare Platform
+# Initialize Vault with secrets for the Phos Healthcare Platform
 # This script is for development purposes only
 
 # Wait for Vault to be ready
@@ -21,32 +21,32 @@ vault write auth/kubernetes/config \
 
 # Create policies for original services
 vault policy write api-policy - <<EOF
-path "ojala-secrets/data/api" {
+path "phos-secrets/data/api" {
   capabilities = ["read"]
 }
 EOF
 
 vault policy write apigateway-policy - <<EOF
-path "ojala-secrets/data/apigateway" {
+path "phos-secrets/data/apigateway" {
   capabilities = ["read"]
 }
 EOF
 
 vault policy write identity-policy - <<EOF
-path "ojala-secrets/data/identity" {
+path "phos-secrets/data/identity" {
   capabilities = ["read"]
 }
 EOF
 
 # Create policies for new microservices
 vault policy write ai-engine-policy - <<EOF
-path "ojala-secrets/data/ai-engine" {
+path "phos-secrets/data/ai-engine" {
   capabilities = ["read"]
 }
 EOF
 
 vault policy write nurse-assistant-policy - <<EOF
-path "ojala-secrets/data/nurse-assistant" {
+path "phos-secrets/data/nurse-assistant" {
   capabilities = ["read"]
 }
 EOF
@@ -85,53 +85,53 @@ vault write auth/kubernetes/role/nurse-assistant-role \
 
 # Enable KV secrets engine
 vault secrets enable -version=2 kv
-vault secrets enable -path=ojala-secrets kv-v2
+vault secrets enable -path=phos-secrets kv-v2
 
 # Create secrets for original services
-vault kv put ojala-secrets/api \
-  connection_string="Server=sqlserver;Database=OjalaHealthcarePlatform;User Id=sa;Password=OjalaP@ssw0rd!;TrustServerCertificate=True" \
+vault kv put phos-secrets/api \
+  connection_string="Server=sqlserver;Database=PhosHealthcarePlatform;User Id=sa;Password=PhosP@ssw0rd!;TrustServerCertificate=True" \
   jwt_secret_key="YourSuperSecretKeyHere_AtLeast32Characters" \
-  jwt_issuer="OjalaHealthcarePlatform" \
-  jwt_audience="OjalaHealthcarePlatformClients" \
+  jwt_issuer="PhosHealthcarePlatform" \
+  jwt_audience="PhosHealthcarePlatformClients" \
   jwt_expiry_minutes=60 \
   smtp_server="smtp.example.com" \
   smtp_port=587 \
-  sender_email="notifications@ojalahealthcare.com" \
-  sender_name="Ojala Healthcare Platform"
+  sender_email="notifications@phoshealthcare.com" \
+  sender_name="Phos Healthcare Platform"
 
-vault kv put ojala-secrets/apigateway \
-  connection_string="Server=sqlserver;Database=OjalaHealthcarePlatform;User Id=sa;Password=OjalaP@ssw0rd!;TrustServerCertificate=True" \
+vault kv put phos-secrets/apigateway \
+  connection_string="Server=sqlserver;Database=PhosHealthcarePlatform;User Id=sa;Password=PhosP@ssw0rd!;TrustServerCertificate=True" \
   jwt_secret_key="YourSuperSecretKeyHere_AtLeast32Characters" \
-  jwt_issuer="OjalaHealthcarePlatform" \
-  jwt_audience="OjalaHealthcarePlatformClients" \
+  jwt_issuer="PhosHealthcarePlatform" \
+  jwt_audience="PhosHealthcarePlatformClients" \
   jwt_expiry_minutes=60 \
   api_base_url="http://api" \
   identity_base_url="http://identity"
 
-vault kv put ojala-secrets/identity \
-  connection_string="Server=sqlserver;Database=OjalaHealthcarePlatform;User Id=sa;Password=OjalaP@ssw0rd!;TrustServerCertificate=True" \
+vault kv put phos-secrets/identity \
+  connection_string="Server=sqlserver;Database=PhosHealthcarePlatform;User Id=sa;Password=PhosP@ssw0rd!;TrustServerCertificate=True" \
   jwt_secret_key="YourSuperSecretKeyHere_AtLeast32Characters" \
-  jwt_issuer="OjalaHealthcarePlatform" \
-  jwt_audience="OjalaHealthcarePlatformClients" \
+  jwt_issuer="PhosHealthcarePlatform" \
+  jwt_audience="PhosHealthcarePlatformClients" \
   jwt_expiry_minutes=60
 
 # Create secrets for new microservices
-vault kv put ojala-secrets/ai-engine \
-  connection_string="Server=sqlserver;Database=OjalaHealthcarePlatform;User Id=sa;Password=OjalaP@ssw0rd!;TrustServerCertificate=True" \
+vault kv put phos-secrets/ai-engine \
+  connection_string="Server=sqlserver;Database=PhosHealthcarePlatform;User Id=sa;Password=PhosP@ssw0rd!;TrustServerCertificate=True" \
   openai_api_key="sk-youropenaiapikeyhere" \
   huggingface_api_key="hf_yourhfapikeyhere" \
   default_model="gpt-4" \
   temperature_setting=0.7 \
   max_tokens=2048 \
-  data_lake_endpoint="http://datalake.ojala.internal" \
-  feature_store_endpoint="http://featurestore.ojala.internal"
+  data_lake_endpoint="http://datalake.phos.internal" \
+  feature_store_endpoint="http://featurestore.phos.internal"
 
-vault kv put ojala-secrets/nurse-assistant \
-  connection_string="Server=sqlserver;Database=OjalaHealthcarePlatform;User Id=sa;Password=OjalaP@ssw0rd!;TrustServerCertificate=True" \
+vault kv put phos-secrets/nurse-assistant \
+  connection_string="Server=sqlserver;Database=PhosHealthcarePlatform;User Id=sa;Password=PhosP@ssw0rd!;TrustServerCertificate=True" \
   notification_api_key="na_yourapikey" \
   ai_engine_endpoint="http://ai-engine" \
   patient_records_endpoint="http://api/patients" \
-  alert_system_endpoint="http://alerts.ojala.internal" \
+  alert_system_endpoint="http://alerts.phos.internal" \
   critical_alert_threshold=90 \
   warning_alert_threshold=70 \
   notification_interval=15

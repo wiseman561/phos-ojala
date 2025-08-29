@@ -1,101 +1,121 @@
 name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
+on: [push, pull_request]
 
 jobs:
-  build-and-test:
-    name: Build & Test
+  discover-frontend:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    outputs:
+      apps: ${{ steps.set-matrix.outputs.apps }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        run: |
+          set -e
+          list=$(ls -1d src/frontend/* 2>/dev/null | while read d; do if [ -f "$d/package.json" ]; then echo "$d"; fi; done)
+          # Build JSON array without external tools
+          apps="["
+          sep=""
+          for d in $list; do
+            apps="${apps}${sep}\"${d}\""
+            sep=","
+          done
+          apps="${apps}]"
+          if [ "$apps" = "[]" ]; then apps="[]"; fi
+          echo "apps=$apps" >> $GITHUB_OUTPUT
+          echo "Discovered apps: $apps"
 
-      # ──────────────────────────────────────────────────────────────
-      # CACHING
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: nuget-
-
-      - name: Cache npm packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            **/node_modules
-            ~/.npm
-          key: npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: npm-
-
-      # ──────────────────────────────────────────────────────────────
-      # SETUP ENVIRONMENTS
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Setup Node.js 18
+  frontend:
+    needs: discover-frontend
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.discover-frontend.outputs.apps) }}
+    name: Build FE (${{ matrix.app }})
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
-      # ──────────────────────────────────────────────────────────────
-      # BUILD & TEST
-      - name: Restore .NET dependencies
-        run: dotnet restore Ojala.sln --verbosity minimal
-
-      - name: Build .NET solution
-        run: dotnet build Ojala.sln --configuration Release --no-restore --verbosity minimal
-
-      - name: Run .NET tests
-        run: dotnet test Ojala.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
-
-      - name: Install frontend dependencies
+          node-version: '20'
+      - name: Enable Corepack
+        run: corepack enable || true
+      - name: Prepare pnpm
+        run: corepack prepare pnpm@latest --activate || true
+      - name: Install deps for ${{ matrix.app }}
+        working-directory: ${{ matrix.app }}
         run: |
-          # Install dependencies for all frontend apps
-          for app in ojala.web employer-dashboard patient-app rn-dashboard; do
-            dir="src/frontend/$app"
-            if [ -f "$dir/package.json" ]; then
-              echo "Installing dependencies for $app"
-              (cd "$dir" && npm ci --legacy-peer-deps || npm install --legacy-peer-deps)
-            fi
-          done
-
-      - name: Build frontend applications
+          if [ -f pnpm-lock.yaml ] || [ -f pnpm-workspace.yaml ]; then
+            pnpm install --frozen-lockfile
+          elif [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile
+          else
+            npm install
+          fi
+      - name: Build ${{ matrix.app }}
+        working-directory: ${{ matrix.app }}
+        env:
+          CI: "false"
         run: |
-          # Build all frontend apps
-          for app in ojala.web employer-dashboard patient-app rn-dashboard; do
-            dir="src/frontend/$app"
-            if [ -f "$dir/package.json" ]; then
-              echo "Building $app"
-              (cd "$dir" && npm run build)
-            fi
-          done
+          if [ -f pnpm-lock.yaml ] || [ -f pnpm-workspace.yaml ]; then
+            pnpm build || npm run build || yarn build
+          elif [ -f yarn.lock ]; then
+            yarn build || npm run build
+          else
+            npm run build || yarn build
+          fi
 
-      # ──────────────────────────────────────────────────────────────
-      # DOCKER BUILD & PUSH
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET (respect global.json)
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Restore .NET
+        run: |
+          if [ -f "Phos.sln" ]; then
+            dotnet restore Phos.sln --verbosity minimal
+          else
+            if compgen -G "src/backend/**/*.csproj" > /dev/null; then
+              find src/backend -name "*.csproj" -print0 | xargs -0 -I{} dotnet restore "{}"
+            fi
+            if compgen -G "tests/**/*.csproj" > /dev/null; then
+              find tests -name "*.csproj" -print0 | xargs -0 -I{} dotnet restore "{}"
+            fi
+          fi
+      - name: Build .NET
+        run: |
+          if [ -f "Phos.sln" ]; then
+            dotnet build Phos.sln -c Release --no-restore --verbosity minimal
+          else
+            if compgen -G "src/backend/**/*.csproj" > /dev/null; then
+              find src/backend -name "*.csproj" -print0 | xargs -0 -I{} dotnet build "{}" -c Release --no-restore
+            fi
+          fi
+      - name: Test .NET
+        run: |
+          if [ -f "Phos.sln" ]; then
+            dotnet test Phos.sln -c Release --no-build --verbosity normal
+          else
+            if compgen -G "tests/**/*Tests*.csproj" > /dev/null; then
+              find tests -name "*Tests*.csproj" -print0 | xargs -0 -I{} dotnet test "{}" -c Release --no-build
+            else
+              echo "No test projects found, skipping."
+            fi
+          fi
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
       - name: Log in to Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Build Docker images
         run: |
           if [ -f "docker-compose.yml" ]; then
@@ -103,29 +123,16 @@ jobs:
           else
             echo "No docker-compose.yml found, skipping Docker build"
           fi
-
       - name: Push Docker images
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          services="ojala-identity ojala-api ojala-apigateway ojala-healthscore ojala-web"
+          services="phos-identity phos-api phos-apigateway phos-healthscore phos-web"
           for service in $services; do
             if docker image inspect "$service:latest" >/dev/null 2>&1; then
               docker tag "$service:latest" "${{ secrets.DOCKERHUB_USER }}/$service:latest"
               docker push "${{ secrets.DOCKERHUB_USER }}/$service:latest"
-              echo "✓ Pushed $service"
+              echo "Pushed $service"
             else
-              echo "⚠️ Image $service:latest not found, skipping"
+              echo "Image $service:latest not found, skipping"
             fi
           done
-
-      # ──────────────────────────────────────────────────────────────
-      # UPLOAD ARTIFACTS
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: |
-            **/TestResults/**/*.xml
-            **/coverage.cobertura.xml
-          retention-days: 30

@@ -1,0 +1,24 @@
+ M _reports/FIXLIST.md
+ M _reports/STATUS.json
+ M _reports/STATUS.md
+ M _reports/git_status.txt
+ M phos/apps/api-gateway/package.json
+ M phos/apps/phos-ui/package.json
+ M phos/apps/phos-ui/postcss.config.cjs
+ M phos/scripts/doctor.ps1
+ M phos/scripts/downgrade-aspnetcore.ps1
+ M src/backend/AuthControllerManualTest/packages.lock.json
+ M src/backend/AuthControllerTestRunner/packages.lock.json
+ M src/backend/MigrationHelper/packages.lock.json
+ M src/backend/Phos.Api.Tests/packages.lock.json
+ M src/backend/Phos.Api/packages.lock.json
+ M src/backend/Phos.ApiGateway/packages.lock.json
+ M src/backend/Phos.Data/packages.lock.json
+ M src/backend/Phos.HealthScore/packages.lock.json
+ M src/backend/Phos.Identity/packages.lock.json
+ M src/backend/Phos.Services/packages.lock.json
+ M src/shared/Phos.Common/packages.lock.json
+ M src/shared/Phos.Contracts/packages.lock.json
+?? phos/apps/phos-ui/tsconfig.tsbuildinfo
+?? phos/scripts/generate-fixlist.ps1
+?? phos/scripts/node-build.ps1

@@ -1,0 +1,30 @@
+{
+  "title": "PHOS Overview",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "HTTP Requests (rate)",
+      "targets": [
+        { "expr": "sum(rate(http_server_request_duration_seconds_count[5m]))" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "HTTP Errors (rate)",
+      "targets": [
+        { "expr": "sum(rate(http_server_request_duration_seconds_count{http_response_status_code=~\"5..\"}[5m]))" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Digestion Scores Generated",
+      "targets": [
+        { "expr": "sum(increase(http_server_request_duration_seconds_count{job=\"digestion-score\",http_route=\"/api/info\"}[1d]))" }
+      ]
+    }
+  ],
+  "schemaVersion": 38,
+  "version": 1
+}
+
+

@@ -1,6 +1,6 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.19.0"
+  version = "~> 5.0"
 
   # Remove the deprecated ClassicLink arguments
   # All other arguments are passed through from the original module

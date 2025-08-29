@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-employer-dashboard
+  repository: registry.hub.docker.com/your-org/phos-employer-dashboard
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -30,7 +30,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
   hosts:
-    - host: employer-dashboard.ojala.local
+    - host: employer-dashboard.phos.local
       paths:
         - path: /
           pathType: Prefix

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- ───────────── Project references ───────────── -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\shared\Phos.Contracts\Phos.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\shared\Phos.Common\Phos.Common.csproj" />
+    <ProjectReference Include="..\..\src\backend\Phos.Data\Phos.Data.csproj" />
+    <ProjectReference Include="..\..\src\backend\Phos.Services\Phos.Services.csproj" />
+    <ProjectReference Include="..\..\src\backend\Phos.ApiGateway\Phos.ApiGateway.csproj" />
+    <ProjectReference Include="..\..\src\backend\Phos.Api\Phos.Api.csproj" />
+    <ProjectReference Include="..\..\src\backend\Phos.Identity\Phos.Identity.csproj" />
+    <ProjectReference Include="..\..\src\backend\Phos.HealthScore\Phos.HealthScore.csproj" />
+  </ItemGroup>
+
+  <!-- ───────────── Test + mocking frameworks ───────────── -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="FluentAssertions" />
+  </ItemGroup>
+
+  <!-- ───────────── Copy JSON fixtures to test output ───────────── -->
+  <ItemGroup>
+    <None Include="tests\TestData\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

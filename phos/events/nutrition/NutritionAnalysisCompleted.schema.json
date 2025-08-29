@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phos.health/events/nutrition/NutritionAnalysisCompleted.schema.json",
+  "title": "NutritionAnalysisCompleted",
+  "type": "object",
+  "required": ["userId", "timestamp", "totals"],
+  "properties": {
+    "userId": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "totals": {
+      "type": "object",
+      "required": ["kcal", "protein_g", "fat_g", "carbs_g"],
+      "properties": {
+        "kcal": { "type": "number" },
+        "protein_g": { "type": "number" },
+        "fat_g": { "type": "number" },
+        "carbs_g": { "type": "number" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+
+

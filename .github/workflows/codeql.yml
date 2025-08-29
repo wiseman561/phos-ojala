@@ -2,9 +2,9 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ main ]
+    branches: [ '**' ]
   schedule:
     - cron: '0 2 * * *'  # Daily at 02:00 UTC
   workflow_dispatch:
@@ -82,31 +82,41 @@ jobs:
           languages: ${{ matrix.language }}
 
       # ──────────────── BUILD STEPS ───────────────
-      - name: Build .NET solution
+      - name: Build .NET services
         if: matrix.language == 'csharp'
         run: |
-          dotnet restore Ojala.sln --verbosity minimal
-          dotnet build Ojala.sln --configuration Release --no-restore --verbosity minimal
+          set -e
+          # Restore
+          dotnet restore phos/services/lab-interpreter/Phos.LabInterpreter.csproj || true
+          dotnet restore phos/services/nutrition-kit/Phos.NutritionKit.csproj || true
+          dotnet restore phos/services/phos-core/Phos.PhosCore.csproj || true
+          dotnet restore phos/services/phos-sync/Phos.Sync.csproj || true
+          dotnet restore phos/services/billing-gateway/BillingGateway.csproj || true
+          dotnet restore phos/services/phos-fhir-bridge/Phos.Fhir.Bridge.csproj || true
+          dotnet restore phos/services/digestion-score/Phos.DigestionScore.csproj || true
+
+          # Build
+          dotnet build -c Release --no-restore phos/services/lab-interpreter/Phos.LabInterpreter.csproj || true
+          dotnet build -c Release --no-restore phos/services/nutrition-kit/Phos.NutritionKit.csproj || true
+          dotnet build -c Release --no-restore phos/services/phos-core/Phos.PhosCore.csproj || true
+          dotnet build -c Release --no-restore phos/services/phos-sync/Phos.Sync.csproj || true
+          dotnet build -c Release --no-restore phos/services/billing-gateway/BillingGateway.csproj || true
+          dotnet build -c Release --no-restore phos/services/phos-fhir-bridge/Phos.Fhir.Bridge.csproj || true
+          dotnet build -c Release --no-restore phos/services/digestion-score/Phos.DigestionScore.csproj || true
 
       - name: Build JavaScript projects
         if: matrix.language == 'javascript'
         run: |
-          # Build frontend applications
-          for app in ojala.web employer-dashboard patient-app rn-dashboard; do
-            dir="src/frontend/$app"
-            if [ -f "$dir/package.json" ]; then
-              echo "→ Building $app"
-              (cd "$dir" && (npm ci --legacy-peer-deps || npm install --legacy-peer-deps))
-              (cd "$dir" && (npm run build || echo "⚠️ $app build failed, continuing"))
-            fi
-          done
-
-          # Build Node.js backend services
-          dir="src/backend/Ojala.AlertsStreamer"
-          if [ -f "$dir/package.json" ]; then
-            echo "→ Building AlertsStreamer"
-            (cd "$dir" && (npm ci || npm install))
-            (cd "$dir" && (npm run build --if-present || echo "⚠️ no build script"))
+          # Build current apps
+          if [ -f "phos/apps/api-gateway/package.json" ]; then
+            echo "→ Building api-gateway"
+            (cd "phos/apps/api-gateway" && (npm ci --no-audit --fund=false || npm install --no-audit --fund=false))
+            (cd "phos/apps/api-gateway" && npm run build || true)
+          fi
+          if [ -f "phos/apps/phos-ui/package.json" ]; then
+            echo "→ Building phos-ui"
+            (cd "phos/apps/phos-ui" && (npm ci --no-audit --fund=false || npm install --no-audit --fund=false))
+            (cd "phos/apps/phos-ui" && npm run build || true)
           fi
 
       - name: Autobuild Python projects

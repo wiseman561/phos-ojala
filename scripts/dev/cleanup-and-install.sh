@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Cleanup and Installation Script for Ojala Healthcare Platform
+# Cleanup and Installation Script for Phos Healthcare Platform
 # This script frees up inodes and installs dependencies for frontend projects
 
 set -e
@@ -30,8 +30,8 @@ sudo find /var/log -type f -name "*.1" -delete 2>/dev/null || true
 echo "Step 2: Installing dependencies for frontend projects..."
 
 FRONTEND_PROJECTS=(
-  "apps/Ojala.Web"
-  "apps/Ojala.PatientPortal"
+  "apps/Phos.Web"
+  "apps/Phos.PatientPortal"
   "apps/rn-dashboard"
   "apps/employer-dashboard"
   "apps/patient-app"

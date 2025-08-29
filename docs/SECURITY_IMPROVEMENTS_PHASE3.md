@@ -1,8 +1,8 @@
 # Phase 3 Security Improvements Summary
 
-This document summarizes the security vulnerabilities identified and the improvements implemented during Phase 3 (Feature Module Security & Tests) of the Ojala Healthcare Platform project.
+This document summarizes the security vulnerabilities identified and the improvements implemented during Phase 3 (Feature Module Security & Tests) of the Phos Healthcare Platform project.
 
-## 1. Ojala.Api (Backend Service)
+## 1. Phos.Api (Backend Service)
 
 ### Vulnerabilities Identified:
 
@@ -28,7 +28,7 @@ This document summarizes the security vulnerabilities identified and the improve
     *   `Permissions-Policy` (restricts browser feature access, e.g., camera, microphone).
 *   **CORS Policy Restricted:** Modified the CORS policy in `Program.cs` to use `WithOrigins()` instead of `AllowAnyOrigin()`. The allowed origins should be configured properly in `appsettings.json` or environment variables for production.
 
-## 2. Ojala.Identity (Backend Service)
+## 2. Phos.Identity (Backend Service)
 
 ### Vulnerabilities Identified:
 
@@ -46,19 +46,19 @@ This document summarizes the security vulnerabilities identified and the improve
     *   Authentication logic in `AuthService` (e.g., user exists, password correct, token validation failures).
     *   Token generation and validation logic in `TokenService` (e.g., correct claims, expiry, signature, issuer, audience validation).
 
-## 3. Frontend Modules (Ojala.Web, md-dashboard, etc.)
+## 3. Frontend Modules (Phos.Web, md-dashboard, etc.)
 
 ### Vulnerabilities Identified:
 
-*   **Outdated Dependencies:** `Ojala.Web` used an old version of `react-scripts` (`^3.0.1`), which likely contains known vulnerabilities.
-*   **Insecure Token Storage:** Both `Ojala.Web` (`AuthContext.js`) and `md-dashboard` (`useAuth.ts`) stored JWT tokens in `localStorage`, making them vulnerable to theft via Cross-Site Scripting (XSS) attacks.
+*   **Outdated Dependencies:** `Phos.Web` used an old version of `react-scripts` (`^3.0.1`), which likely contains known vulnerabilities.
+*   **Insecure Token Storage:** Both `Phos.Web` (`AuthContext.js`) and `md-dashboard` (`useAuth.ts`) stored JWT tokens in `localStorage`, making them vulnerable to theft via Cross-Site Scripting (XSS) attacks.
 *   **Lack of CSRF Protection:** No explicit CSRF protection mechanisms were observed.
 *   **No Refresh Token Mechanism:** Frontend authentication relied solely on the access token stored in `localStorage`, with no mechanism for refreshing expired tokens without requiring the user to log in again.
 
 ### Improvements Implemented:
 
-*   **Updated Dependencies:** Updated `react-scripts` in `Ojala.Web/package.json` from `^3.0.1` to `^5.0.1`.
-*   **In-Memory Token Storage:** Modified `Ojala.Web/src/contexts/AuthContext.js` and `md-dashboard/src/hooks/useAuth.ts` to store the JWT token in an in-memory variable instead of `localStorage`. This significantly reduces the risk of token theft via XSS, although it means the token is lost on page refresh/tab close.
+*   **Updated Dependencies:** Updated `react-scripts` in `Phos.Web/package.json` from `^3.0.1` to `^5.0.1`.
+*   **In-Memory Token Storage:** Modified `Phos.Web/src/contexts/AuthContext.js` and `md-dashboard/src/hooks/useAuth.ts` to store the JWT token in an in-memory variable instead of `localStorage`. This significantly reduces the risk of token theft via XSS, although it means the token is lost on page refresh/tab close.
 
 ## Further Recommendations (Out of Scope for Phase 3 Implementation):
 
@@ -66,7 +66,7 @@ This document summarizes the security vulnerabilities identified and the improve
 *   **Implement CSRF Protection:** Add anti-CSRF tokens to frontend forms and backend validation, especially for state-changing requests.
 *   **Implement Rate Limiting:** Add rate limiting to backend API endpoints, particularly authentication endpoints.
 *   **Complete Object-Level Authorization:** Fully implement and test object-level authorization checks within all relevant backend controller actions.
-*   **Configure Authentication Middleware:** Properly configure and enable `app.UseAuthentication()` in `Ojala.Api`.
+*   **Configure Authentication Middleware:** Properly configure and enable `app.UseAuthentication()` in `Phos.Api`.
 *   **Secure JWT Secret:** Store the JWT secret key securely (e.g., in Vault) instead of configuration files.
 *   **Implement Email Confirmation:** Add a proper email confirmation flow for user registration.
 *   **Dependency Scanning:** Integrate automated dependency vulnerability scanning into the CI/CD pipeline (partially addressed in Phase 2, but ensure coverage for all projects).

@@ -7,7 +7,7 @@
 class NetworkUtils {
   constructor(config = {}) {
     this.config = {
-      speedTestEndpoint: 'https://speedtest.ojala-healthcare.com',
+      speedTestEndpoint: 'https://speedtest.phos-healthcare.com',
       minRequiredBandwidth: {
         download: 1.5, // Mbps
         upload: 1.0 // Mbps

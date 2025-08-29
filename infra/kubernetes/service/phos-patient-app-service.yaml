@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: phos-patient-app
+  namespace: demo
+  labels:
+    app: phos-patient-app
+    component: frontend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: phos-patient-app

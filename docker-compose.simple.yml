@@ -1,30 +1,30 @@
 services:
-  ojala-db:
+  phos-db:
     image: postgres:15
-    container_name: ojala-db
+    container_name: phos-db
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=ojala_user
+      - POSTGRES_USER=phos_user
       - POSTGRES_PASSWORD=superSecure123
-      - POSTGRES_DB=OjalaHealthcare
+      - POSTGRES_DB=PhosHealthcare
     volumes:
-      - ojala-db-data:/var/lib/postgresql/data
+      - phos-db-data:/var/lib/postgresql/data
     networks:
-      - ojala-network
+      - phos-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ojala_user -d OjalaHealthcare"]
+      test: ["CMD-SHELL", "pg_isready -U phos_user -d PhosHealthcare"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  ojala-redis:
+  phos-redis:
     image: redis:7-alpine
-    container_name: ojala-redis
+    container_name: phos-redis
     ports:
       - "6379:6379"
     networks:
-      - ojala-network
+      - phos-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -33,108 +33,108 @@ services:
 
   influxdb:
     image: influxdb:2.6
-    container_name: ojala-influxdb
+    container_name: phos-influxdb
     ports:
       - "8086:8086"
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=ojala
-      - DOCKER_INFLUXDB_INIT_PASSWORD=ojala-password
-      - DOCKER_INFLUXDB_INIT_ORG=ojala
-      - DOCKER_INFLUXDB_INIT_BUCKET=ojala_telemetry
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=ojala-influxdb-token
+      - DOCKER_INFLUXDB_INIT_USERNAME=phos
+      - DOCKER_INFLUXDB_INIT_PASSWORD=phos-password
+      - DOCKER_INFLUXDB_INIT_ORG=phos
+      - DOCKER_INFLUXDB_INIT_BUCKET=phos_telemetry
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=phos-influxdb-token
     volumes:
       - influxdb_data:/var/lib/influxdb2
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-identity:
+  phos-identity:
     build:
       context: .
-      dockerfile: src/backend/Ojala.Identity/Dockerfile
-    container_name: ojala-identity
+      dockerfile: src/backend/Phos.Identity/Dockerfile
+    container_name: phos-identity
     ports:
       - "5001:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Database=OjalaHealthcare;Username=ojala_user;Password=superSecure123
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Database=PhosHealthcare;Username=phos_user;Password=superSecure123
       - Jwt__Key=_32_byte_or_longer_random_string_for_production_use_
-      - Jwt__Issuer=OjalaHealthcarePlatform
-      - Jwt__Audience=OjalaHealthcareClients
+      - Jwt__Issuer=PhosHealthcarePlatform
+      - Jwt__Audience=PhosHealthcareClients
     depends_on:
-      ojala-db:
+      phos-db:
         condition: service_healthy
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-api:
+  phos-api:
     build:
       context: .
-      dockerfile: src/backend/Ojala.Api/Dockerfile
-    container_name: ojala-api
+      dockerfile: src/backend/Phos.Api/Dockerfile
+    container_name: phos-api
     ports:
       - "5000:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Database=OjalaHealthcare;Username=ojala_user;Password=superSecure123
-      - IdentityServer__Authority=http://ojala-identity
-      - Redis__ConnectionString=ojala-redis:6379
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Database=PhosHealthcare;Username=phos_user;Password=superSecure123
+      - IdentityServer__Authority=http://phos-identity
+      - Redis__ConnectionString=phos-redis:6379
       - Jwt__Key=_32_byte_or_longer_random_string_for_production_use_
-      - Jwt__Issuer=OjalaHealthcarePlatform
-      - Jwt__Audience=OjalaHealthcareClients
+      - Jwt__Issuer=PhosHealthcarePlatform
+      - Jwt__Audience=PhosHealthcareClients
     depends_on:
-      ojala-identity:
+      phos-identity:
         condition: service_started
-      ojala-db:
+      phos-db:
         condition: service_healthy
-      ojala-redis:
+      phos-redis:
         condition: service_healthy
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-apigateway:
+  phos-apigateway:
     build:
       context: .
-      dockerfile: src/backend/Ojala.ApiGateway/Dockerfile
-    container_name: ojala-apigateway
+      dockerfile: src/backend/Phos.ApiGateway/Dockerfile
+    container_name: phos-apigateway
     ports:
       - "5003:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Database=OjalaHealthcare;Username=ojala_user;Password=superSecure123
-      - JWT_SETTINGS__AUTHORITY=http://ojala-identity
-      - JWT_SETTINGS__AUDIENCE=OjalaHealthcareClients
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Database=PhosHealthcare;Username=phos_user;Password=superSecure123
+      - JWT_SETTINGS__AUTHORITY=http://phos-identity
+      - JWT_SETTINGS__AUDIENCE=PhosHealthcareClients
     depends_on:
-      - ojala-api
-      - ojala-identity
+      - phos-api
+      - phos-identity
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-healthscore:
+  phos-healthscore:
     build:
       context: .
-      dockerfile: src/backend/Ojala.HealthScore/Dockerfile
-    container_name: ojala-healthscore
+      dockerfile: src/backend/Phos.HealthScore/Dockerfile
+    container_name: phos-healthscore
     ports:
       - "8083:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - HEALTHSCORE_DB_CONN=Host=ojala-db;Database=OjalaHealthcare;Username=ojala_user;Password=superSecure123
+      - HEALTHSCORE_DB_CONN=Host=phos-db;Database=PhosHealthcare;Username=phos_user;Password=superSecure123
       - AI_MODEL_PATH=/app/models/health-score-model.pkl
     depends_on:
-      ojala-db:
+      phos-db:
         condition: service_healthy
     networks:
-      - ojala-network
+      - phos-network
 
 networks:
-  ojala-network:
+  phos-network:
     driver: bridge
 
 volumes:
-  ojala-db-data:
+  phos-db-data:
   influxdb_data:

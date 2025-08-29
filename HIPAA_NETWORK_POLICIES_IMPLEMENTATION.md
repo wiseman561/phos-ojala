@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document summarizes the implementation of Kubernetes NetworkPolicy resources to enforce HIPAA §164.312(a)(1) access control requirements for the Ojala healthcare platform.
+This document summarizes the implementation of Kubernetes NetworkPolicy resources to enforce HIPAA §164.312(a)(1) access control requirements for the Phos healthcare platform.
 
 ## HIPAA Compliance Achieved
 
@@ -29,10 +29,10 @@ This document summarizes the implementation of Kubernetes NetworkPolicy resource
 - `charts/nurse-assistant/values-prod.yaml` - Added `networkPolicy.enabled = true` and role labels
 
 ### Updated Kubernetes Deployments
-- `infra/kubernetes/ojala-api-deployment.yaml` - Added `role: api` labels
-- `infra/kubernetes/ojala-identity-deployment.yaml` - Added `role: identity` labels
-- `infra/kubernetes/ojala-healthscore-deployment.yaml` - Added `role: healthscore` labels
-- `infra/kubernetes/service/ojala-db-service.yaml` - Added `role: db` labels
+- `infra/kubernetes/phos-api-deployment.yaml` - Added `role: api` labels
+- `infra/kubernetes/phos-identity-deployment.yaml` - Added `role: identity` labels
+- `infra/kubernetes/phos-healthscore-deployment.yaml` - Added `role: healthscore` labels
+- `infra/kubernetes/service/phos-db-service.yaml` - Added `role: db` labels
 
 ## Network Policy Architecture
 
@@ -51,7 +51,7 @@ All Pods → DNS Services [Port 53]
 
 ### Namespace Isolation
 - `demo` namespace: API, Nurse Assistant, Health Score services
-- `ojala-ns` namespace: Database, Identity services
+- `phos-ns` namespace: Database, Identity services
 - Cross-namespace communication explicitly controlled
 
 ## Required Labels
@@ -60,25 +60,25 @@ All Pods → DNS Services [Port 53]
 ```yaml
 # API Service
 labels:
-  app: ojala-api
+  app: phos-api
   role: api
   component: backend
 
 # Nurse Assistant Service
 labels:
-  app: ojala-nurse-assistant
+  app: phos-nurse-assistant
   role: nurse-assistant
   component: backend
 
 # Identity Service
 labels:
-  app: ojala-identity
+  app: phos-identity
   role: identity
   component: backend
 
 # Database Service
 labels:
-  app: ojala-db
+  app: phos-db
   role: db
 ```
 
@@ -90,11 +90,11 @@ metadata:
   labels:
     name: demo
 
-# ojala-ns namespace
+# phos-ns namespace
 metadata:
-  name: ojala-ns
+  name: phos-ns
   labels:
-    name: ojala-ns
+    name: phos-ns
 ```
 
 ## Deployment Instructions
@@ -116,7 +116,7 @@ chmod +x deploy.sh
 ```bash
 # 1. Label namespaces
 kubectl label namespace demo name=demo --overwrite
-kubectl label namespace ojala-ns name=ojala-ns --overwrite
+kubectl label namespace phos-ns name=phos-ns --overwrite
 
 # 2. Apply network policies in order
 kubectl apply -f default-deny.yaml
@@ -136,19 +136,19 @@ kubectl get networkpolicies --all-namespaces
 ### Test Approved Communication Paths
 ```bash
 # Nurse Assistant → API
-kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-api:80/healthz
+kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-api:80/healthz
 
 # API → Database
-kubectl exec -n demo deployment/ojala-api -- nc -zv ojala-db-service.ojala-ns.svc.cluster.local 5432
+kubectl exec -n demo deployment/phos-api -- nc -zv phos-db-service.phos-ns.svc.cluster.local 5432
 
 # Identity → API
-kubectl exec -n ojala-ns deployment/ojala-identity -- curl -v http://ojala-api.demo.svc.cluster.local:80/healthz
+kubectl exec -n phos-ns deployment/phos-identity -- curl -v http://phos-api.demo.svc.cluster.local:80/healthz
 ```
 
 ### Verify Default Deny (Should Fail)
 ```bash
 # This should be blocked
-kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-identity-service.ojala-ns.svc.cluster.local:80/healthz
+kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-identity-service.phos-ns.svc.cluster.local:80/healthz
 ```
 
 ## Security Benefits

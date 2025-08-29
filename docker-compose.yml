@@ -1,7 +1,9 @@
+version: '3.8'
+
 services:
   vault:
     image: hashicorp/vault:1.13.3
-    container_name: ojala_platform_clean_scaffold_redo-vault-1
+    container_name: phos_platform_clean_scaffold_redo-vault-1
     ports:
       - "8200:8200"
     environment:
@@ -12,30 +14,30 @@ services:
       - IPC_LOCK
     command: vault server -dev
     networks:
-      - ojala-network
+      - phos-network
 
   influxdb:
     image: influxdb:2.6
-    container_name: ojala_platform_clean_scaffold_redo-influxdb-1
+    container_name: phos_platform_clean_scaffold_redo-influxdb-1
     ports:
       - "8086:8086"
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=ojala
-      - DOCKER_INFLUXDB_INIT_PASSWORD=ojala-password
-      - DOCKER_INFLUXDB_INIT_ORG=ojala
-      - DOCKER_INFLUXDB_INIT_BUCKET=ojala_telemetry
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=ojala-influxdb-token
+      - DOCKER_INFLUXDB_INIT_USERNAME=phos
+      - DOCKER_INFLUXDB_INIT_PASSWORD=phos-password
+      - DOCKER_INFLUXDB_INIT_ORG=phos
+      - DOCKER_INFLUXDB_INIT_BUCKET=phos_telemetry
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=phos-influxdb-token
     volumes:
       - influxdb_data:/var/lib/influxdb2
     networks:
-      - ojala-network
+      - phos-network
 
   device-gateway:
     build:
       context: .
-      dockerfile: src/backend/Ojala.DeviceGateway/Dockerfile
-    container_name: ojala_platform_clean_scaffold_redo-device-gateway-1
+      dockerfile: src/backend/Phos.DeviceGateway/Dockerfile
+    container_name: phos_platform_clean_scaffold_redo-device-gateway-1
     ports:
       - "5020:80"
     depends_on:
@@ -45,20 +47,25 @@ services:
       - NODE_ENV=production
       - PORT=80
       - INFLUX_URL=http://influxdb:8086
-      - INFLUX_TOKEN=ojala-influxdb-token
-      - INFLUX_ORG=ojala
-      - INFLUX_BUCKET=ojala_telemetry
+      - INFLUX_TOKEN=phos-influxdb-token
+      - INFLUX_ORG=phos
+      - INFLUX_BUCKET=phos_telemetry
       - JWT_SECRET=super-secret-jwt-key
       - VAULT_ADDR=http://vault:8200
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-identity:
+  phos-identity:
     build:
       context: .
-      dockerfile: src/backend/Ojala.Identity/Dockerfile
+      dockerfile: src/backend/Phos.Identity/Dockerfile
+    container_name: phos_platform_clean_scaffold_redo-identity-1
     ports:
-      - "5001:80"
+      - "5501:8080"
+    depends_on:
+      - phos-db
+    env_file:
+      - ./.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -66,61 +73,123 @@ services:
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=${JWT_ISSUER}
       - Jwt__Audience=${JWT_AUDIENCE}
-    depends_on:
-      - ojala-db
+    entrypoint: ["/bin/sh", "-c", "dotnet ef database update && dotnet Phos.Identity.dll"]
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-api:
+  phos-api:
     build:
       context: .
-      dockerfile: src/backend/Ojala.Api/Dockerfile
+      dockerfile: src/backend/Phos.Api/Dockerfile
+    container_name: phos_platform_clean_scaffold_redo-api-1
     ports:
-      - "5000:80"
+      - "8080:80"
+    depends_on:
+      - phos-identity
+      - phos-db
+      - phos-redis
+    env_file:
+      - ./.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - DEBUG_DOCKER=true
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
-      - IdentityServer__Authority=http://ojala-identity
-      - Redis__ConnectionString=ojala-redis:6379
-    depends_on:
-      - ojala-identity
-      - ojala-db
-      - ojala-redis
+      - ASPNETCORE_ENABLE_HTTPS_REDIRECTION=false
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=root
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
+      - IdentityServer__Authority=http://phos-identity:8080
+      - Redis__ConnectionString=phos-redis:6379
+    command: >
+      sh -c "
+        dotnet Phos.Api.dll
+      "
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-apigateway:
+  phos-apigateway:
     build:
       context: .
-      dockerfile: src/backend/Ojala.ApiGateway/Dockerfile
+      dockerfile: src/backend/Phos.ApiGateway/Dockerfile
+    container_name: phos_platform_clean_scaffold_redo-apigateway-1
     ports:
-      - "5002:80"
+      - "5002:5002"
+      - "5003:5003"
+    depends_on:
+      - phos-api
+      - phos-identity
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://+:5002;http://+:5003
       - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
-    depends_on:
-      - ojala-api
-      - ojala-identity
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-web:
+  phos-web:
     build:
-      context: ./src/frontend/ojala.web
-      dockerfile: Dockerfile
+      context: ./src/frontend/phos-web
+      dockerfile: Dockerfile.dev
+    container_name: phos_platform_clean_scaffold_redo-web-1
+    command: npm start
     ports:
-      - "3000:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:5000
+      - "3000:3000"
+    env_file:
+      - ./.env
     depends_on:
-      - ojala-api
+      - phos-api
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-db:
+  patient-app:
+    build:
+      context: ./src/frontend/patient-app
+    container_name: phos_platform_clean_scaffold_redo-patient-app-1
+    ports:
+      - "3001:80"
+    networks:
+      - phos-network
+
+  rn-dashboard:
+    build:
+      context: ./src/frontend/rn-dashboard
+    container_name: phos_platform_clean_scaffold_redo-rn-dashboard-1
+    ports:
+      - "3002:80"
+    networks:
+      - phos-network
+
+  phos-admin:
+    build:
+      context: ./src/frontend/phos-admin
+    container_name: phos_platform_clean_scaffold_redo-admin-1
+    ports:
+      - "3003:80"
+    networks:
+      - phos-network
+
+  md-dashboard:
+    build:
+      context: ./src/frontend/md-dashboard
+    container_name: phos_platform_clean_scaffold_redo-md-dashboard-1
+    ports:
+      - "3004:80"
+    networks:
+      - phos-network
+
+  phos-patient-portal:
+    build:
+      context: ./src/frontend/phos-patient-portal
+    container_name: phos_platform_clean_scaffold_redo-patientportal-1
+    ports:
+      - "3005:80"
+    networks:
+      - phos-network
+
+  phos-db:
     image: postgres:15
+    container_name: phos_platform_clean_scaffold_redo-db-1
     ports:
       - "5432:5432"
     environment:
@@ -128,48 +197,51 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-      - ojala-db-data:/var/lib/postgresql/data
+      - phos-db-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
     networks:
-      - ojala-network
+      - phos-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  ojala-redis:
+  phos-redis:
     image: redis:7-alpine
+    container_name: phos_platform_clean_scaffold_redo-redis-1
     ports:
       - "6379:6379"
     networks:
-      - ojala-network
+      - phos-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  ojala-healthscore:
+  phos-healthscore:
     build:
       context: .
-      dockerfile: src/backend/Ojala.HealthScore/Dockerfile
-    image: ojala-healthscore:dev
+      dockerfile: src/backend/Phos.HealthScore/Dockerfile
+    container_name: phos_platform_clean_scaffold_redo-healthscore-1
+    ports:
+      - "8083:8083"
+      - "8084:8084"
+    depends_on:
+      - phos-db
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://+:8083;http://+:8084
       - HEALTHSCORE_DB_CONN=${HEALTHSCORE_DB_CONN}
       - AI_MODEL_PATH=${AI_MODEL_PATH}
-    depends_on:
-      - ojala-db
-    ports:
-      - "8083:80"
     networks:
-      - ojala-network
+      - phos-network
 
 networks:
-  ojala-network:
+  phos-network:
     driver: bridge
 
 volumes:
   influxdb_data:
-  ojala-db-data:
+  phos-db-data:

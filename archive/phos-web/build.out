@@ -1,0 +1,72 @@
+
+> phos-web@0.1.0 build
+> craco build
+
+Creating an optimized production build...
+Compiled with warnings.
+
+TS2347: Untyped function calls may not accept type arguments.
+    181 |         setIsLoading(true);
+    182 |
+  > 183 |         const { data } = await authApi.post<LoginResponse>('/api/auth/login', {
+        |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 184 |           email,
+        | ^^^^^^^^^^^^^^^^
+  > 185 |           password,
+        | ^^^^^^^^^^^^^^^^
+  > 186 |           role: config.userRole
+        | ^^^^^^^^^^^^^^^^
+  > 187 |         });
+        | ^^^^^^^^^^^
+    188 |         let tokenPair: TokenPair;
+    189 |         let userData: User | undefined;
+    190 |
+
+TS2347: Untyped function calls may not accept type arguments.
+    269 |         setIsLoading(true);
+    270 |
+  > 271 |         const { data } = await authApi.post<LoginResponse>('/api/auth/register', {
+        |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 272 |           ...userData,
+        | ^^^^^^^^^^^^^^^^^^^^^^
+  > 273 |           role: config.userRole
+        | ^^^^^^^^^^^^^^^^^^^^^^
+  > 274 |         });
+        | ^^^^^^^^^^^
+    275 |         let tokenPair: TokenPair;
+    276 |
+    277 |         if (data.accessToken && data.refreshToken) {
+
+TS2347: Untyped function calls may not accept type arguments.
+    326 |
+    327 |       try {
+  > 328 |         const { data } = await authApi.post<LoginResponse>('/api/auth/refresh', {
+        |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 329 |           refreshToken: tokens.refreshToken
+        | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 330 |         });
+        | ^^^^^^^^^^^
+    331 |         if (data.accessToken) {
+    332 |           const newTokenPair: TokenPair = {
+    333 |             accessToken: data.accessToken,
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  336.18 kB (-1 B)  build/static/js/main.2cdb9184.js
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+

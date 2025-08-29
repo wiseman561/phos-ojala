@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Vault initialization script for Ojala API
+# Vault initialization script for Phos API
 # This script sets up Vault with JWT secrets and AppRole authentication
 
 set -e
 
 # Configuration
 VAULT_ADDR=${VAULT_ADDR:-"http://localhost:8200"}
-VAULT_TOKEN=${VAULT_TOKEN:-"ojala-dev-token"}
+VAULT_TOKEN=${VAULT_TOKEN:-"phos-dev-token"}
 SECRET_PATH="secret/jwt-secret"
-POLICY_NAME="ojala-api-policy"
-ROLE_NAME="ojala-api-role"
+POLICY_NAME="phos-api-policy"
+ROLE_NAME="phos-api-role"
 
-echo "🔐 Initializing Vault for Ojala API..."
+echo "🔐 Initializing Vault for Phos API..."
 
 # Wait for Vault to be ready
 echo "⏳ Waiting for Vault to be ready..."
@@ -31,15 +31,15 @@ vault secrets enable -path=secret kv-v2 2>/dev/null || echo "KV secrets engine a
 echo "🔑 Creating JWT secret..."
 vault kv put $SECRET_PATH \
     secret="Z4tccK0JGnd7MwnUVTstw4jl0MXeRcIyi50SQFnPh0E=" \
-    issuer="OjalaHealthcarePlatform" \
-    audience="OjalaHealthcarePlatformClients" \
+    issuer="PhosHealthcarePlatform" \
+    audience="PhosHealthcarePlatformClients" \
     expiry_minutes="60"
 
 echo "✅ JWT secret created at $SECRET_PATH"
 
 # Create policy
 echo "📋 Creating Vault policy..."
-vault policy write $POLICY_NAME vault/policies/ojala-api-policy.hcl
+vault policy write $POLICY_NAME vault/policies/phos-api-policy.hcl
 
 echo "✅ Policy '$POLICY_NAME' created"
 

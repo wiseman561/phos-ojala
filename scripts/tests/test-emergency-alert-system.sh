@@ -7,7 +7,7 @@ echo "Starting Emergency Alert Escalation System Integration Test"
 echo "==========================================================="
 
 # Set up variables
-API_URL="http://localhost:5000"
+API_URL="http://localhost:8080"
 NURSE_ASSISTANT_URL="http://localhost:5003"
 ALERTS_STREAMER_URL="http://localhost:5004"
 TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRlc3QgVXNlciIsInJvbGVzIjpbIm51cnNlIiwiZG9jdG9yIl0sImlhdCI6MTUxNjIzOTAyMn0.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o"
@@ -103,14 +103,14 @@ fi
 ALERT_ID=$(grep -o '"id":"[^"]*"' $OUTPUT_DIR/all-alerts.json | head -1 | cut -d'"' -f4)
 if [ -n "$ALERT_ID" ]; then
   echo "Using alert ID: $ALERT_ID for acknowledgment test"
-  
+
   # Acknowledge the alert
   echo "Acknowledging alert..."
   curl -s -X POST \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $TOKEN" \
     $API_URL/alerts/$ALERT_ID/acknowledge > $OUTPUT_DIR/acknowledge-response.json
-  
+
   # Check if acknowledgment was successful
   if grep -q '"success":true' $OUTPUT_DIR/acknowledge-response.json; then
     echo "✅ Alert acknowledged successfully"
@@ -140,7 +140,7 @@ console.log('Attempting to connect to WebSocket...');
 socket.on('connect', () => {
   console.log('Connected to WebSocket');
   fs.writeFileSync('$OUTPUT_DIR/websocket-connect.log', 'Connected to WebSocket');
-  
+
   // Wait for a few seconds to receive any messages
   setTimeout(() => {
     console.log('Disconnecting from WebSocket');

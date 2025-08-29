@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phos-api
+  namespace: demo
+  labels:
+    app: phos-api
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: phos-api
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: phos-api
+        component: backend
+    spec:
+      serviceAccountName: phos-api-sa
+      volumes:
+        - name: vault-secrets
+          emptyDir: {}
+        - name: vault-config
+          configMap:
+            name: vault-agent-api-config
+            items:
+              - key: agent.hcl
+                path: agent.hcl
+              - key: appsettings.tpl
+                path: appsettings.tpl
+      containers:
+        - name: phos-api
+          image: yourdockerhubuser/phos-api:latest    # ← update with your registry & tag
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: phos-api-configmap
+            - secretRef:
+                name: phos-api-secrets
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          volumeMounts:
+            - name: vault-secrets
+              mountPath: /vault/secrets
+              readOnly: true
+            - name: vault-config
+              mountPath: /vault/config
+              readOnly: true
+
+        - name: vault-agent
+          image: hashicorp/vault:1.19.2
+          args:
+            - agent
+            - -config=/vault/config/agent.hcl
+            - -log-level=info
+          env:
+            - name: VAULT_ADDR
+              value: "http://vault.default.svc.cluster.local:8200"
+          volumeMounts:
+            - name: vault-secrets
+              mountPath: /vault/secrets
+            - name: vault-config
+              mountPath: /vault/config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          securityContext:
+            runAsUser: 100
+            runAsGroup: 1000
+            readOnlyRootFilesystem: true
+            capabilities:
+              add:
+                - IPC_LOCK

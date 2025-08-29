@@ -1,0 +1,42 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Testing
+/coverage
+/test-results
+
+# Development
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+/dist
+/build
+
+# Logs
+logs/
+*.log
+
+**
+!Dockerfile
+!package*.json
+!**/*.js
+!**/*.ts
+!**/*.json
+!**/*.config

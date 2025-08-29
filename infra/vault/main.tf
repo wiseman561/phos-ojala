@@ -10,7 +10,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "ojala-healthcare-terraform-state"
+    bucket = "phos-healthcare-terraform-state"
     key    = "vault/terraform.tfstate"
     region = "us-east-1"
   }
@@ -220,22 +220,22 @@ resource "null_resource" "vault_init" {
       export VAULT_TOKEN=$(cat vault_init.json | jq -r '.root_token')
       
       # Enable secret engines
-      vault secrets enable -path=ojala/kv kv-v2
-      vault secrets enable -path=ojala/database database
-      vault secrets enable -path=ojala/aws aws
+      vault secrets enable -path=phos/kv kv-v2
+      vault secrets enable -path=phos/database database
+      vault secrets enable -path=phos/aws aws
       
       # Create policies
-      vault policy write ojala-api ${path.module}/policies/ojala-api-policy.hcl
-      vault policy write ojala-web ${path.module}/policies/ojala-web-policy.hcl
+      vault policy write phos-api ${path.module}/policies/phos-api-policy.hcl
+      vault policy write phos-web ${path.module}/policies/phos-web-policy.hcl
       
       # Store initial secrets
-      vault kv put ojala/kv/database/connection \
-        connection_string="Server=db.ojala.com;Database=OjalaHealthcare;User Id=app_user;Password=initial_password;"
+      vault kv put phos/kv/database/connection \
+        connection_string="Server=db.phos.com;Database=PhosHealthcare;User Id=app_user;Password=initial_password;"
       
-      vault kv put ojala/kv/jwt \
+      vault kv put phos/kv/jwt \
         secret="$(openssl rand -base64 32)" \
-        issuer="ojala-healthcare" \
-        audience="ojala-api" \
+        issuer="phos-healthcare" \
+        audience="phos-api" \
         expiration="60m"
       
       # Output important information

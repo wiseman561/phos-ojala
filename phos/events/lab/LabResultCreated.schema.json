@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phos.health/events/lab/LabResultCreated.schema.json",
+  "title": "LabResultCreated",
+  "type": "object",
+  "required": ["userId", "timestamp", "results"],
+  "properties": {
+    "userId": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "value", "unit", "severity"],
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": ["string", "null"] },
+          "value": { "type": "number" },
+          "unit": { "type": "string" },
+          "severity": { "type": "string", "enum": ["low", "normal", "high"] },
+          "summary": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
+
+

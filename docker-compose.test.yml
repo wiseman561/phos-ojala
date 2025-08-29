@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  tests:
+    image: mcr.microsoft.com/dotnet/sdk:9.0.203
+    container_name: phos-tests
+    working_dir: /app
+    volumes:
+      # Mount the WSL-native repo path
+      - ~/projects/Phos-healthcare_new:/app
+      # Cache NuGet packages
+      - nuget-cache:/root/.nuget/packages
+    environment:
+      - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+      - DOTNET_NOLOGO=1
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+    command: >
+      bash -c "
+        echo '🔍 Checking .NET SDK version...' &&
+        dotnet --version &&
+        echo '📦 Restoring packages...' &&
+        dotnet restore --verbosity normal &&
+        echo '🔨 Building solution...' &&
+        dotnet build --no-restore --verbosity normal &&
+        echo '🧪 Running tests...' &&
+        dotnet test --no-build --verbosity normal --logger 'console;verbosity=normal' &&
+        echo '✅ All tests completed!'
+      "
+    networks:
+      - phos-test-network
+
+volumes:
+  nuget-cache:
+
+networks:
+  phos-test-network:
+    driver: bridge

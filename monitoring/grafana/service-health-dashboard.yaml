@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: GrafanaDashboard
 metadata:
-  name: ojala-service-health
+  name: phos-service-health
   labels:
     grafana_dashboard: "true"
 spec:
@@ -1054,7 +1054,7 @@ spec:
         ]
       },
       "timezone": "",
-      "title": "Ojala Healthcare Service Health",
-      "uid": "ojala-service-health",
+      "title": "Phos Healthcare Service Health",
+      "uid": "phos-service-health",
       "version": 1
     }

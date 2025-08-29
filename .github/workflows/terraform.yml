@@ -2,9 +2,9 @@ name: Terraform Plan & Apply
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ main ]
+    branches: [ '**' ]
   workflow_dispatch:
     inputs:
       action:
@@ -56,11 +56,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Clean Terraform cache
+        run: rm -rf .terraform
         working-directory: infra/terraform
-        env:
-          TF_CLI_ARGS_init: "-upgrade"
+
+      - name: Terraform Init
+        run: terraform init -upgrade
+        working-directory: infra/terraform
 
       - name: Terraform Format (Auto-fix)
         run: terraform fmt -recursive
@@ -170,8 +172,12 @@ jobs:
           name: terraform-plan
           path: infra/terraform/
 
+      - name: Clean Terraform cache
+        run: rm -rf .terraform
+        working-directory: infra/terraform
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -upgrade
         working-directory: infra/terraform
 
       - name: Terraform Apply

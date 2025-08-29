@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-web
+  repository: registry.hub.docker.com/your-org/phos-web
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -30,7 +30,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
   hosts:
-    - host: web.ojala.local
+    - host: web.phos.local
       paths:
         - path: /
           pathType: Prefix

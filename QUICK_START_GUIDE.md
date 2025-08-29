@@ -1,7 +1,7 @@
-# 🚀 Ojala Healthcare Platform - Quick Start Guide
+# 🚀 Phos Healthcare Platform - Quick Start Guide
 
 ## Overview
-This guide will get your Ojala Healthcare Platform production-ready in under 30 minutes.
+This guide will get your Phos Healthcare Platform production-ready in under 30 minutes.
 
 ---
 
@@ -51,7 +51,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 **Linux/Mac (Bash):**
 ```bash
 # Manual cleanup
-rm -rf apps backend libs Ojala.Data Ojala.Api Ojala.Services integration ojala.web
+rm -rf apps backend libs Phos.Data Phos.Api Phos.Services integration phos.web
 rm -f create cd docker remote git error
 ```
 
@@ -66,20 +66,20 @@ bash create-env-file.sh
 **Option B: Manual**
 Create `.env` file in root directory:
 ```bash
-DB_CONNECTION_STRING=Host=ojala-db;Database=OjalaHealthcare;Username=ojala_user;Password=superSecure123
+DB_CONNECTION_STRING=Host=phos-db;Database=PhosHealthcare;Username=phos_user;Password=superSecure123
 JWT_KEY=_32_byte_or_longer_random_string_for_production_use_
-JWT_ISSUER=OjalaHealthcarePlatform
-JWT_AUDIENCE=OjalaHealthcareClients
-HEALTHSCORE_DB_CONN=Host=ojala-db;Database=OjalaHealthcare;Username=ojala_user;Password=superSecure123
+JWT_ISSUER=PhosHealthcarePlatform
+JWT_AUDIENCE=PhosHealthcareClients
+HEALTHSCORE_DB_CONN=Host=phos-db;Database=PhosHealthcare;Username=phos_user;Password=superSecure123
 AI_MODEL_PATH=/app/models/health-score-model.pkl
 ASPNETCORE_ENVIRONMENT=Development
-REDIS_CONNECTION_STRING=ojala-redis:6379
+REDIS_CONNECTION_STRING=phos-redis:6379
 INFLUX_URL=http://influxdb:8086
-INFLUX_TOKEN=ojala-influxdb-token
-INFLUX_ORG=ojala
-INFLUX_BUCKET=ojala_telemetry
+INFLUX_TOKEN=phos-influxdb-token
+INFLUX_ORG=phos
+INFLUX_BUCKET=phos_telemetry
 VAULT_ADDR=http://vault:8200
-VAULT_PATH=ojala-secrets
+VAULT_PATH=phos-secrets
 ```
 
 ### 3. Build & Test (4 minutes)
@@ -89,10 +89,10 @@ VAULT_PATH=ojala-secrets
 bash build-and-test.sh
 
 # OR Manual steps:
-dotnet clean OjalaHealthcarePlatform.sln
-dotnet restore OjalaHealthcarePlatform.sln
-dotnet build OjalaHealthcarePlatform.sln -c Release
-dotnet test OjalaHealthcarePlatform.sln
+dotnet clean PhosHealthcarePlatform.sln
+dotnet restore PhosHealthcarePlatform.sln
+dotnet build PhosHealthcarePlatform.sln -c Release
+dotnet test PhosHealthcarePlatform.sln
 ```
 
 ### 4. Container Deployment (5 minutes)
@@ -160,9 +160,9 @@ ls -la .env
 **3. Database Connection Errors**
 ```bash
 # Check if PostgreSQL container is running
-docker compose ps ojala-db
+docker compose ps phos-db
 # Check logs
-docker compose logs ojala-db
+docker compose logs phos-db
 ```
 
 **4. Port Conflicts**
@@ -177,8 +177,8 @@ netstat -tulpn | grep :5001
 # Check container status
 docker compose ps
 # Check specific service logs
-docker compose logs ojala-identity
-docker compose logs ojala-api
+docker compose logs phos-identity
+docker compose logs phos-api
 ```
 
 ### Debug Commands
@@ -191,10 +191,10 @@ docker compose ps
 docker compose logs
 
 # View logs for specific service
-docker compose logs ojala-identity
+docker compose logs phos-identity
 
 # Restart specific service
-docker compose restart ojala-identity
+docker compose restart phos-identity
 
 # Rebuild and restart everything
 docker compose down -v
@@ -271,7 +271,7 @@ docker compose up --build -d
 
 ---
 
-**🎉 Congratulations! Your Ojala Healthcare Platform is now production-ready!**
+**🎉 Congratulations! Your Phos Healthcare Platform is now production-ready!**
 
 For additional help, see:
 - `ENVIRONMENT_SETUP.md` - Detailed environment configuration

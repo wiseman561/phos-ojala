@@ -22,13 +22,13 @@ The existing CI/CD layer, primarily within `.github/workflows/`, was reviewed an
         *   Artifact Upload: Test results (TRX for .NET, JUnit XML for Jest) and coverage reports (OpenCover for .NET, LCOV/JSON/Clover for Jest) are uploaded for review and further processing.
     *   **Secrets Management:** Placeholders for Docker registry credentials (`${{ secrets.DOCKER_USERNAME }}`, `${{ secrets.DOCKER_PASSWORD }}`) were included in commented-out Docker build/push job examples, adhering to the no-hardcoded-secrets constraint.
 *   **Docker Image Optimization:**
-    *   Reviewed and updated Dockerfiles for key backend services (`src/backend/Ojala.Api/Dockerfile`, `src/backend/Ojala.Identity/Dockerfile`):
+    *   Reviewed and updated Dockerfiles for key backend services (`src/backend/Phos.Api/Dockerfile`, `src/backend/Phos.Identity/Dockerfile`):
         *   Upgraded base images to .NET 8 (e.g., `mcr.microsoft.com/dotnet/aspnet:8.0-bullseye-slim`, `mcr.microsoft.com/dotnet/sdk:8.0-bullseye-slim`).
         *   Enhanced multi-stage builds to optimize image size and build times, focusing on layer caching for dependencies.
         *   Implemented non-root user execution for improved security.
         *   Added publish flags (`-p:PublishTrimmed=true`) to reduce final image size, aiming for the <300MB target.
         *   Standardized health check paths to `/healthz`.
-    *   The frontend Dockerfile (`src/frontend/ojala.web/Dockerfile`) was reviewed and already employed a multi-stage build with Nginx; it was updated to use Node 20 for the build stage to align with CI.
+    *   The frontend Dockerfile (`src/frontend/phos.web/Dockerfile`) was reviewed and already employed a multi-stage build with Nginx; it was updated to use Node 20 for the build stage to align with CI.
 *   **Cleanup Workflow (`.github/workflows/cleanup.yml`):**
     *   Reviewed and updated for clarity, ensuring it uses Node.js 20.x and correctly targets the root `package-lock.json` for caching if applicable to the cleanup script dependencies.
 *   **Security Scanning Workflow (`.github/workflows/codeql.yml` merged into `ci.yml`):**
@@ -45,10 +45,10 @@ These changes establish a robust, automated CI pipeline that builds and tests th
 *   **Backend (.NET):**
     *   Initial `dotnet test` failures were due to the CI environment missing the .NET 8 SDK. After installing `dotnet-sdk-8.0` in the sandbox (and ensuring `setup-dotnet@v4` in CI), all 15 previously failing backend tests passed without requiring code modifications to the tests themselves. The original report of 15/49 failing tests indicated these were the backend ones.
 *   **Frontend (React/Jest):**
-    *   No pre-existing frontend unit tests were found under `src/frontend/ojala.web/src/`. The remaining (49-15 = 34) tests mentioned in the prompt were assumed to be frontend tests that were missing.
+    *   No pre-existing frontend unit tests were found under `src/frontend/phos.web/src/`. The remaining (49-15 = 34) tests mentioned in the prompt were assumed to be frontend tests that were missing.
     *   Two placeholder test files were created:
-        *   `src/frontend/ojala.web/src/components/ProtectedRoute.test.tsx`
-        *   `src/frontend/ojala.web/src/components/PrivateRoute.test.js`
+        *   `src/frontend/phos.web/src/components/ProtectedRoute.test.tsx`
+        *   `src/frontend/phos.web/src/components/PrivateRoute.test.js`
     *   These initially failed due to Jest configuration issues related to ESM, JSX, and module transforms, which were subsequently addressed in Goal 3.
 
 ### Rationale:
@@ -57,9 +57,9 @@ Ensuring a green test suite is fundamental. The backend tests were confirmed to 
 
 ## 3. Modernize Jest Configuration (Goal 3)
 
-The Jest configuration for the frontend application (`src/frontend/ojala.web`) was modernized to support current JavaScript features and improve the testing workflow.
+The Jest configuration for the frontend application (`src/frontend/phos.web`) was modernized to support current JavaScript features and improve the testing workflow.
 
-### Changes Made (`src/frontend/ojala.web/craco.config.js`):
+### Changes Made (`src/frontend/phos.web/craco.config.js`):
 
 *   **ESM & JSX Support:**
     *   Added `@babel/plugin-transform-react-jsx` to Babel plugins to correctly process JSX syntax outside of CRA default handling if needed, especially for `.js` files that might contain JSX.
@@ -83,12 +83,12 @@ Several quality gates were integrated into the CI pipeline to ensure code qualit
 ### Changes Made (`.github/workflows/ci.yml` and project configurations):
 
 *   **Code Coverage Enforcement (≥80%):**
-    *   **Frontend:** Enforced directly via `coverageThreshold` in `src/frontend/ojala.web/craco.config.js`. The `npm test -- --coverage` command in CI will fail if this threshold is not met.
+    *   **Frontend:** Enforced directly via `coverageThreshold` in `src/frontend/phos.web/craco.config.js`. The `npm test -- --coverage` command in CI will fail if this threshold is not met.
     *   **Backend:** `dotnet test` was configured to collect coverage data in OpenCover format (`/p:CollectCoverage=true /p:CoverletOutputFormat=opencover`). *TODO: A dedicated step/script to parse this report and enforce the 80% threshold in the CI workflow is still needed for the backend.*
 *   **Linting:**
     *   **Frontend (ESLint):**
-        *   Installed ESLint, `eslint-config-react-app`, and relevant plugins (`@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`, etc.) in `src/frontend/ojala.web`.
-        *   Added an `npm run lint` script to `src/frontend/ojala.web/package.json` (`eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --max-warnings 0`).
+        *   Installed ESLint, `eslint-config-react-app`, and relevant plugins (`@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`, etc.) in `src/frontend/phos.web`.
+        *   Added an `npm run lint` script to `src/frontend/phos.web/package.json` (`eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --max-warnings 0`).
         *   Integrated an "Lint (Frontend)" step in the `frontend-ci` job in `ci.yml` that runs `npm run lint`. This step will fail the build if linting errors (or warnings, due to `--max-warnings 0`) occur.
     *   **Backend (StyleCop/Equivalent):**
         *   *TODO: A .NET linter like StyleCop needs to be configured for the backend projects, and a corresponding linting step added to the `backend-ci` job in `ci.yml`.* The workflow contains a placeholder comment for this.
@@ -107,11 +107,11 @@ Several infrastructure files were generated to support local development and pre
 
 *   **`docker-compose.yml` (at project root):**
     *   Defines services for local development, including:
-        *   `ojala-identity` (backend .NET service)
-        *   `ojala-api` (backend .NET service)
-        *   `ojala-web` (frontend React app served via Nginx)
-        *   `ojala-db` (PostgreSQL database)
-        *   `ojala-redis` (Redis cache)
+        *   `phos-identity` (backend .NET service)
+        *   `phos-api` (backend .NET service)
+        *   `phos-web` (frontend React app served via Nginx)
+        *   `phos-db` (PostgreSQL database)
+        *   `phos-redis` (Redis cache)
     *   Uses Dockerfiles from the respective service directories.
     *   Sets up basic networking and port mappings.
     *   References environment variables that would be defined in a local `.env` file (based on `.env.example`).
@@ -120,13 +120,13 @@ Several infrastructure files were generated to support local development and pre
     *   Differentiates between variables for local/development and those that should be managed as secrets in production.
 *   **Kubernetes Manifests (`infrastructure/kubernetes/services/`):**
     *   Generated YAML manifests for deploying core services to Kubernetes:
-        *   `ojala-identity.yml` (Deployment, Service)
-        *   `ojala-api.yml` (Deployment, Service)
-        *   `ojala-web.yml` (Deployment, Service with LoadBalancer)
-        *   `ojala-db.yml` (StatefulSet for PostgreSQL, Service)
-        *   `ojala-redis.yml` (Deployment for Redis, Service)
+        *   `phos-identity.yml` (Deployment, Service)
+        *   `phos-api.yml` (Deployment, Service)
+        *   `phos-web.yml` (Deployment, Service with LoadBalancer)
+        *   `phos-db.yml` (StatefulSet for PostgreSQL, Service)
+        *   `phos-redis.yml` (Deployment for Redis, Service)
     *   Manifests include basic configurations for replicas, ports, environment variables (referencing ConfigMaps/Secrets), resource requests/limits, and liveness/readiness probes.
-    *   Assumes a namespace `ojala-ns` and references image names like `yourdockerhubuser/servicename:latest` which should be replaced by actual CI-built image URIs.
+    *   Assumes a namespace `phos-ns` and references image names like `yourdockerhubuser/servicename:latest` which should be replaced by actual CI-built image URIs.
 *   **Terraform IaC Stubs (`infrastructure/terraform/`):**
     *   Created a directory structure for `staging` and `production` environments.
     *   **Staging Environment (`infrastructure/terraform/staging/`):**
@@ -145,7 +145,7 @@ These files provide the scaffolding for consistent local development (`docker-co
 
 ## 6. Project Structure & Naming Conventions
 
-*   Existing naming conventions (`Ojala.*`, `PHOS.*`) were followed where applicable (e.g., in service names, Docker image placeholders).
+*   Existing naming conventions (`Phos.*`, `PHOS.*`) were followed where applicable (e.g., in service names, Docker image placeholders).
 *   No breaking changes were made to the existing project structure or namespaces.
 *   Generated infrastructure files were placed in a new top-level `infrastructure/` directory, with subdirectories for `kubernetes` and `terraform`.
 
@@ -162,7 +162,7 @@ While significant progress has been made, the following items remain as TODOs or
     *   Complete the Docker build-and-push job sections in `.github/workflows/ci.yml` (currently commented out placeholders).
     *   This requires setting up `DOCKER_USERNAME` and `DOCKER_PASSWORD` secrets in GitHub repository settings.
     *   Define actual Docker image names and tags (e.g., using commit SHA or semantic versioning).
-    *   Review and update *all* service Dockerfiles to .NET 8 and apply optimizations similar to `Ojala.Api` and `Ojala.Identity`.
+    *   Review and update *all* service Dockerfiles to .NET 8 and apply optimizations similar to `Phos.Api` and `Phos.Identity`.
 4.  **Kubernetes Manifests - ConfigMaps & Secrets:**
     *   While manifests reference ConfigMaps and Secrets, the actual YAML definitions for these were not generated. These should be created based on `.env.example` and managed securely (e.g., using a secrets manager like HashiCorp Vault, SOPS, or K8s native secrets populated via CI).
     *   Replace placeholder image names in K8s deployments with actual image URIs from the container registry.

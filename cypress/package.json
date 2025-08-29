@@ -1,17 +1,17 @@
 {
-  "name": "ojala-healthcare-e2e-tests",
+  "name": "phos-healthcare-e2e-tests",
   "version": "1.0.0",
-  "description": "End-to-end tests for Ojala Healthcare Platform",
+  "description": "End-to-end tests for Phos Healthcare Platform",
   "main": "index.js",
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "e2e": "cypress run",
-    "e2e:dev": "cypress run --config baseUrl=https://dev.ojala-healthcare.com",
-    "e2e:staging": "cypress run --config baseUrl=https://staging.ojala-healthcare.com",
-    "e2e:prod": "cypress run --config baseUrl=https://ojala-healthcare.com"
+    "e2e:dev": "cypress run --config baseUrl=https://dev.phos-healthcare.com",
+    "e2e:staging": "cypress run --config baseUrl=https://staging.phos-healthcare.com",
+    "e2e:prod": "cypress run --config baseUrl=https://phos-healthcare.com"
   },
-  "author": "Ojala Healthcare",
+  "author": "Phos Healthcare",
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {

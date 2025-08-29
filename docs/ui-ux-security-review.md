@@ -12,7 +12,7 @@ This review examined the frontend applications (RN Dashboard, Patient Portal, Em
     *   The `Login.js` component is a placeholder and does not implement any login logic.
     *   The main `App.js` sets up routes (`/`, `/rn`, `/md`, `/employer`, `/md/dashboard`) but does **not** implement any route protection. All routes appear publicly accessible without authentication.
     *   The `EscalatedAlertsPanel.js` component imports and uses a `useAuth` hook (`const { token } = useAuth();`) to get an authentication token for API calls and WebSocket connections.
-    *   However, a search revealed that **no `useAuth.js` hook or equivalent authentication context/provider exists** within the `rn-dashboard` source code. The `AuthContext.js` found belongs to the `Ojala.Web` project.
+    *   However, a search revealed that **no `useAuth.js` hook or equivalent authentication context/provider exists** within the `rn-dashboard` source code. The `AuthContext.js` found belongs to the `Phos.Web` project.
     *   **Conclusion**: This indicates a critical security flaw. The dashboard attempts to use authentication tokens but lacks the actual mechanism to obtain, manage, or validate them. Sensitive API endpoints and WebSocket connections might be accessed without proper authentication, or the application may be non-functional due to the missing hook.
 
 2.  **Input Validation**: No explicit client-side input validation logic was found in the reviewed components (e.g., `EscalatedAlertsPanel`). Reliance seems to be placed on backend validation, which is necessary but insufficient on its own.
@@ -23,7 +23,7 @@ This review examined the frontend applications (RN Dashboard, Patient Portal, Em
     *   No use of `dangerouslySetInnerHTML` was found, reducing direct XSS risks from React rendering.
     *   Standard fetch calls are used, which are generally protected from CSRF by browser same-origin policies, but explicit CSRF token protection (e.g., via custom headers checked by the backend) is not evident.
 
-### Patient Portal (`src/frontend/Ojala.PatientPortal`)
+### Patient Portal (`src/frontend/Phos.PatientPortal`)
 
 *   *(Review pending)*
 

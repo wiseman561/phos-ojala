@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../../../frontend/ojala.web/src/services/api';
+import { authApi } from '../../../../frontend/phos.web/src/services/api';
 import Register from '../../../../pages/Register';
 import { testA11y, mockRouter, mockAuthResponses } from '../../../../utils/test-utils';
 
@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn()
 }));
 
-jest.mock('../../../../frontend/ojala.web/src/services/api', () => ({
+jest.mock('../../../../frontend/phos.web/src/services/api', () => ({
   authApi: {
     register: jest.fn()
   }

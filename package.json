@@ -1,5 +1,5 @@
 {
-  "name": "ojala-platform",
+  "name": "phos-platform",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -11,7 +11,9 @@
     "cleanup": "node scripts/dist/cleanup-empty.js",
     "pretest": "npm run cleanup -- --dry-run",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "cd ./src/frontend/phos-web && npm install",
+    "dev": "concurrently -n API,WEB -c auto \"cross-env ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:5100 dotnet run --no-launch-profile --project ./src/backend/Phos.Api/Phos.Api.csproj --urls http://localhost:5100\" \"cd ./src/frontend/phos-web && npm install && npm start\""
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -46,6 +48,8 @@
     "@types/supertest": "^2.0.16",
     "axios": "^1.9.0",
     "chai": "^4.3.10",
+    "concurrently": "^9.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
@@ -60,5 +64,6 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.3.2",
     "typescript": "^5.8.3"
-  }
+  },
+  "packageManager": "pnpm@10.15.0+sha512.486ebc259d3e999a4e8691ce03b5cac4a71cbeca39372a9b762cb500cfdf0873e2cb16abe3d951b1ee2cf012503f027b98b6584e4df22524e0c7450d9ec7aa7b"
 }

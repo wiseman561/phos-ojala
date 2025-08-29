@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Integration Test Script for Ojala Healthcare Platform
+# Integration Test Script for Phos Healthcare Platform
 # This script tests the integration between all components
 
-echo "Starting integration tests for Ojala Healthcare Platform..."
+echo "Starting integration tests for Phos Healthcare Platform..."
 
 # Create test directory if it doesn't exist
-mkdir -p /home/ubuntu/OjalaHealthcarePlatform/integration-tests
+mkdir -p /home/ubuntu/PhosHealthcarePlatform/integration-tests
 
 # Create a sample omics file for testing
-cat > /home/ubuntu/OjalaHealthcarePlatform/integration-tests/sample-omics.json << EOL
+cat > /home/ubuntu/PhosHealthcarePlatform/integration-tests/sample-omics.json << EOL
 {
   "patientId": "test-patient-123",
   "dataType": "genomic",
@@ -35,7 +35,7 @@ echo "Test 1: Testing OpenAI Chat Endpoint..."
 curl -X POST http://localhost:8080/api/ai/chat \
   -H "Content-Type: application/json" \
   -d '{"prompt": "What is the role of genomics in personalized medicine?"}' \
-  -o /home/ubuntu/OjalaHealthcarePlatform/integration-tests/chat-response.json
+  -o /home/ubuntu/PhosHealthcarePlatform/integration-tests/chat-response.json
 
 if [ $? -eq 0 ]; then
   echo "✅ Chat endpoint test completed"
@@ -47,11 +47,11 @@ fi
 echo "Test 2: Testing Omics Upload Endpoint..."
 curl -X POST http://localhost:8080/api/omics/upload \
   -H "Content-Type: multipart/form-data" \
-  -F "file=@/home/ubuntu/OjalaHealthcarePlatform/integration-tests/sample-omics.json" \
+  -F "file=@/home/ubuntu/PhosHealthcarePlatform/integration-tests/sample-omics.json" \
   -F "patientId=test-patient-123" \
   -F "dataType=genomic" \
   -F "source=test-source" \
-  -o /home/ubuntu/OjalaHealthcarePlatform/integration-tests/upload-response.json
+  -o /home/ubuntu/PhosHealthcarePlatform/integration-tests/upload-response.json
 
 if [ $? -eq 0 ]; then
   echo "✅ Omics upload endpoint test completed"
@@ -64,7 +64,7 @@ echo "Test 3: Testing Omics Analyze Endpoint..."
 curl -X POST http://localhost:8080/api/omics/analyze \
   -H "Content-Type: application/json" \
   -d '{"patientId": "test-patient-123", "fileIds": ["test-file-id"], "analysisType": "risk_assessment"}' \
-  -o /home/ubuntu/OjalaHealthcarePlatform/integration-tests/analyze-response.json
+  -o /home/ubuntu/PhosHealthcarePlatform/integration-tests/analyze-response.json
 
 if [ $? -eq 0 ]; then
   echo "✅ Omics analyze endpoint test completed"
@@ -76,7 +76,7 @@ fi
 echo "Test 4: Testing Telehealth Sessions Endpoint..."
 curl -X GET http://localhost:8080/telehealth/sessions?role=patient \
   -H "Content-Type: application/json" \
-  -o /home/ubuntu/OjalaHealthcarePlatform/integration-tests/telehealth-sessions-response.json
+  -o /home/ubuntu/PhosHealthcarePlatform/integration-tests/telehealth-sessions-response.json
 
 if [ $? -eq 0 ]; then
   echo "✅ Telehealth sessions endpoint test completed"
@@ -89,7 +89,7 @@ echo "Test 5: Testing Telehealth Schedule Endpoint..."
 curl -X POST http://localhost:8080/telehealth/schedule \
   -H "Content-Type: application/json" \
   -d '{"scheduledAt": "2025-05-01T10:00:00Z", "reason": "Integration test appointment"}' \
-  -o /home/ubuntu/OjalaHealthcarePlatform/integration-tests/telehealth-schedule-response.json
+  -o /home/ubuntu/PhosHealthcarePlatform/integration-tests/telehealth-schedule-response.json
 
 if [ $? -eq 0 ]; then
   echo "✅ Telehealth schedule endpoint test completed"

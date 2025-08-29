@@ -5,7 +5,7 @@ auto_auth {
   method "token" {
     mount_path = "auth/token"
     config = {
-      token = "ojala-root-token"
+      token = "phos-root-token"
     }
   }
 

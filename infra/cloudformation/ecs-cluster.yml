@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'OjalaHealthcarePlatform - ECS Cluster'
+Description: 'PhosHealthcarePlatform - ECS Cluster'
 
 Parameters:
   EnvironmentName:
@@ -44,13 +44,13 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: !Sub ${EnvironmentName}-ojala-cluster
+      ClusterName: !Sub ${EnvironmentName}-phos-cluster
       ClusterSettings:
         - Name: containerInsights
           Value: enabled
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-cluster
+          Value: !Sub ${EnvironmentName}-phos-cluster
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -255,14 +255,14 @@ Resources:
   ApiTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Sub ${EnvironmentName}-ojala-api
+      Family: !Sub ${EnvironmentName}-phos-api
       NetworkMode: bridge
       RequiresCompatibilities:
         - EC2
       ExecutionRoleArn: !Ref ECSTaskExecutionRole
       ContainerDefinitions:
-        - Name: ojala-api
-          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/ojala-api:latest
+        - Name: phos-api
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/phos-api:latest
           Essential: true
           Memory: 512
           Cpu: 256
@@ -274,7 +274,7 @@ Resources:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: !Ref EnvironmentName
             - Name: VAULT_ADDR
-              Value: !Sub https://vault.${EnvironmentName}.ojala-healthcare.com
+              Value: !Sub https://vault.${EnvironmentName}.phos-healthcare.com
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -283,7 +283,7 @@ Resources:
               awslogs-stream-prefix: ecs
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-api-task
+          Value: !Sub ${EnvironmentName}-phos-api-task
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -291,7 +291,7 @@ Resources:
     Type: AWS::ECS::Service
     DependsOn: ApiLoadBalancerListener
     Properties:
-      ServiceName: !Sub ${EnvironmentName}-ojala-api
+      ServiceName: !Sub ${EnvironmentName}-phos-api
       Cluster: !Ref ECSCluster
       TaskDefinition: !Ref ApiTaskDefinition
       DesiredCount: 2
@@ -302,7 +302,7 @@ Resources:
         MaximumPercent: 200
         MinimumHealthyPercent: 50
       LoadBalancers:
-        - ContainerName: ojala-api
+        - ContainerName: phos-api
           ContainerPort: 80
           TargetGroupArn: !Ref ApiTargetGroup
       Role: !Ref ECSServiceRole
@@ -313,7 +313,7 @@ Resources:
           Field: instanceId
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-api-service
+          Value: !Sub ${EnvironmentName}-phos-api-service
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -321,14 +321,14 @@ Resources:
   WebTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Sub ${EnvironmentName}-ojala-web
+      Family: !Sub ${EnvironmentName}-phos-web
       NetworkMode: bridge
       RequiresCompatibilities:
         - EC2
       ExecutionRoleArn: !Ref ECSTaskExecutionRole
       ContainerDefinitions:
-        - Name: ojala-web
-          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/ojala-web:latest
+        - Name: phos-web
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/phos-web:latest
           Essential: true
           Memory: 512
           Cpu: 256
@@ -340,7 +340,7 @@ Resources:
             - Name: NODE_ENV
               Value: !Ref EnvironmentName
             - Name: API_URL
-              Value: !Sub https://api.${EnvironmentName}.ojala-healthcare.com
+              Value: !Sub https://api.${EnvironmentName}.phos-healthcare.com
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -349,7 +349,7 @@ Resources:
               awslogs-stream-prefix: ecs
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-web-task
+          Value: !Sub ${EnvironmentName}-phos-web-task
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -357,7 +357,7 @@ Resources:
     Type: AWS::ECS::Service
     DependsOn: WebLoadBalancerListener
     Properties:
-      ServiceName: !Sub ${EnvironmentName}-ojala-web
+      ServiceName: !Sub ${EnvironmentName}-phos-web
       Cluster: !Ref ECSCluster
       TaskDefinition: !Ref WebTaskDefinition
       DesiredCount: 2
@@ -368,7 +368,7 @@ Resources:
         MaximumPercent: 200
         MinimumHealthyPercent: 50
       LoadBalancers:
-        - ContainerName: ojala-web
+        - ContainerName: phos-web
           ContainerPort: 80
           TargetGroupArn: !Ref WebTargetGroup
       Role: !Ref ECSServiceRole
@@ -379,7 +379,7 @@ Resources:
           Field: instanceId
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-web-service
+          Value: !Sub ${EnvironmentName}-phos-web-service
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -387,7 +387,7 @@ Resources:
   ApiLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Sub ${EnvironmentName}-ojala-api-lb
+      Name: !Sub ${EnvironmentName}-phos-api-lb
       Scheme: internet-facing
       LoadBalancerAttributes:
         - Key: idle_timeout.timeout_seconds
@@ -399,14 +399,14 @@ Resources:
         - Fn::ImportValue: !Sub ${EnvironmentName}-ApiSecurityGroupId
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-api-lb
+          Value: !Sub ${EnvironmentName}-phos-api-lb
         - Key: Environment
           Value: !Ref EnvironmentName
 
   ApiTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: !Sub ${EnvironmentName}-ojala-api-tg
+      Name: !Sub ${EnvironmentName}-phos-api-tg
       Port: 80
       Protocol: HTTP
       VpcId:
@@ -419,7 +419,7 @@ Resources:
       TargetType: instance
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-api-tg
+          Value: !Sub ${EnvironmentName}-phos-api-tg
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -436,7 +436,7 @@ Resources:
   WebLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Sub ${EnvironmentName}-ojala-web-lb
+      Name: !Sub ${EnvironmentName}-phos-web-lb
       Scheme: internet-facing
       LoadBalancerAttributes:
         - Key: idle_timeout.timeout_seconds
@@ -448,14 +448,14 @@ Resources:
         - Fn::ImportValue: !Sub ${EnvironmentName}-WebSecurityGroupId
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-web-lb
+          Value: !Sub ${EnvironmentName}-phos-web-lb
         - Key: Environment
           Value: !Ref EnvironmentName
 
   WebTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: !Sub ${EnvironmentName}-ojala-web-tg
+      Name: !Sub ${EnvironmentName}-phos-web-tg
       Port: 80
       Protocol: HTTP
       VpcId:
@@ -468,7 +468,7 @@ Resources:
       TargetType: instance
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-web-tg
+          Value: !Sub ${EnvironmentName}-phos-web-tg
         - Key: Environment
           Value: !Ref EnvironmentName
 
@@ -486,22 +486,22 @@ Resources:
   ApiLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /ecs/${EnvironmentName}-ojala-api
+      LogGroupName: !Sub /ecs/${EnvironmentName}-phos-api
       RetentionInDays: 30
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-api-logs
+          Value: !Sub ${EnvironmentName}-phos-api-logs
         - Key: Environment
           Value: !Ref EnvironmentName
 
   WebLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /ecs/${EnvironmentName}-ojala-web
+      LogGroupName: !Sub /ecs/${EnvironmentName}-phos-web
       RetentionInDays: 30
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-ojala-web-logs
+          Value: !Sub ${EnvironmentName}-phos-web-logs
         - Key: Environment
           Value: !Ref EnvironmentName
 

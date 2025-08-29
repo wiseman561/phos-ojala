@@ -16,6 +16,6 @@ vault login $VAULT_DEV_ROOT_TOKEN_ID
 vault secrets enable -path=secret kv
 
 # Write a secret for the device gateway
-vault kv put secret/device-gateway VAULT_TOKEN=ojala-internal-token
+vault kv put secret/device-gateway VAULT_TOKEN=phos-internal-token
 
 echo "✅ Vault initialized successfully and secrets are in place."

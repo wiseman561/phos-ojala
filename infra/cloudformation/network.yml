@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'OjalaHealthcarePlatform - Network Infrastructure'
+Description: 'PhosHealthcarePlatform - Network Infrastructure'
 
 Parameters:
   EnvironmentName:

@@ -1,5 +1,5 @@
 /**
- * Jest configuration for the Ojala Healthcare Platform
+ * Jest configuration for the Phos Healthcare Platform
  * @type {import('@jest/types').Config.InitialOptions}
  */
 module.exports = {

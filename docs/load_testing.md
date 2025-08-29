@@ -1,11 +1,11 @@
-# Load Testing Guide for OjalaHealthcarePlatform
+# Load Testing Guide for PhosHealthcarePlatform
 
-This document provides instructions for running load tests against the OjalaHealthcarePlatform API services.
+This document provides instructions for running load tests against the PhosHealthcarePlatform API services.
 
 ## Prerequisites
 
 - Docker and Docker Compose installed
-- Access to the OjalaHealthcarePlatform API services
+- Access to the PhosHealthcarePlatform API services
 - Network connectivity to the API Gateway
 
 ## Test Scenarios
@@ -57,7 +57,7 @@ If you have k6 installed locally, you can run the tests directly:
 
 3. To specify the API endpoint:
    ```
-   k6 run -e BASE_URL=https://api.ojala-healthcare.com script.js
+   k6 run -e BASE_URL=https://api.phos-healthcare.com script.js
    ```
 
 ## Configuration Options
@@ -69,7 +69,7 @@ You can customize the load tests using environment variables:
 
 Example:
 ```
-docker-compose -f docker-compose.override.yml run -e BASE_URL=https://staging-api.ojala-healthcare.com -e API_VERSION=v2 loadtest
+docker-compose -f docker-compose.override.yml run -e BASE_URL=https://staging-api.phos-healthcare.com -e API_VERSION=v2 loadtest
 ```
 
 ## Performance Thresholds

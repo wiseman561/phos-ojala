@@ -1,17 +1,17 @@
 @echo off
-REM Vault initialization script for Ojala API (Windows)
+REM Vault initialization script for Phos API (Windows)
 REM This script sets up Vault with JWT secrets and AppRole authentication
 
 setlocal enabledelayedexpansion
 
 REM Configuration
 set VAULT_ADDR=http://localhost:8200
-set VAULT_TOKEN=ojala-dev-token
+set VAULT_TOKEN=phos-dev-token
 set SECRET_PATH=secret/jwt-secret
-set POLICY_NAME=ojala-api-policy
-set ROLE_NAME=ojala-api-role
+set POLICY_NAME=phos-api-policy
+set ROLE_NAME=phos-api-role
 
-echo 🔐 Initializing Vault for Ojala API...
+echo 🔐 Initializing Vault for Phos API...
 
 REM Wait for Vault to be ready
 echo ⏳ Waiting for Vault to be ready...
@@ -33,15 +33,15 @@ REM Create JWT secret
 echo 🔑 Creating JWT secret...
 vault kv put %SECRET_PATH% ^
     secret="Z4tccK0JGnd7MwnUVTstw4jl0MXeRcIyi50SQFnPh0E=" ^
-    issuer="OjalaHealthcarePlatform" ^
-    audience="OjalaHealthcarePlatformClients" ^
+    issuer="PhosHealthcarePlatform" ^
+    audience="PhosHealthcarePlatformClients" ^
     expiry_minutes="60"
 
 echo ✅ JWT secret created at %SECRET_PATH%
 
 REM Create policy
 echo 📋 Creating Vault policy...
-vault policy write %POLICY_NAME% vault/policies/ojala-api-policy.hcl
+vault policy write %POLICY_NAME% vault/policies/phos-api-policy.hcl
 
 echo ✅ Policy '%POLICY_NAME%' created
 

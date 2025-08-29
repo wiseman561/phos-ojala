@@ -1,0 +1,83 @@
+{
+  "patientDemographics": {
+    "age": 35,
+    "gender": "Male",
+    "isSmoker": false,
+    "hasDiabetes": false,
+    "hasHeartDisease": false,
+    "hasHypertension": false,
+    "previousHospitalizations": 0
+  },
+  "vitalSigns": [
+    {
+      "name": "Systolic Blood Pressure",
+      "value": 120,
+      "unit": "mmHg",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "Diastolic Blood Pressure",
+      "value": 80,
+      "unit": "mmHg",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "Heart Rate",
+      "value": 75,
+      "unit": "bpm",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "SpO2",
+      "value": 98,
+      "unit": "%",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    },
+    {
+      "name": "Temperature",
+      "value": 37,
+      "unit": "C",
+      "recordedAt": "2025-05-14T10:30:00Z"
+    }
+  ],
+  "labResults": [
+    {
+      "testName": "Blood Glucose",
+      "value": 100,
+      "unit": "mg/dL",
+      "minNormalValue": 70,
+      "maxNormalValue": 140,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    },
+    {
+      "testName": "Hemoglobin A1c",
+      "value": 5.2,
+      "unit": "%",
+      "minNormalValue": 4.0,
+      "maxNormalValue": 5.7,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    },
+    {
+      "testName": "Creatinine",
+      "value": 0.9,
+      "unit": "mg/dL",
+      "minNormalValue": 0.6,
+      "maxNormalValue": 1.2,
+      "recordedAt": "2025-05-14T08:00:00Z"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Vitamin D",
+      "dosage": "1000 IU",
+      "frequency": "Daily",
+      "isHighRisk": false
+    },
+    {
+      "name": "Multivitamin",
+      "dosage": "1 tablet",
+      "frequency": "Daily",
+      "isHighRisk": false
+    }
+  ]
+}

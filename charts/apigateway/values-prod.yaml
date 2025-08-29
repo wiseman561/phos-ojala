@@ -4,7 +4,7 @@
 replicaCount: 3
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-apigateway
+  repository: registry.hub.docker.com/your-org/phos-apigateway
   tag: stable
   pullPolicy: Always
 
@@ -42,14 +42,14 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
   hosts:
-    - host: apigateway.ojala.com
+    - host: apigateway.phos.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: apigateway-prod-tls
       hosts:
-        - apigateway.ojala.com
+        - apigateway.phos.com
 
 resources:
   limits:
@@ -99,7 +99,7 @@ affinity:
 vault:
   enabled: true
   addr: "http://vault.production:8200"
-  token: "ojala-prod-token"
+  token: "phos-prod-token"
 
 serviceMonitor:
   enabled: true

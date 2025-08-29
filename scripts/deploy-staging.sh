@@ -7,12 +7,12 @@ echo "Starting deployment to staging environment"
 echo "==========================================================="
 
 # Set variables
-STAGING_SERVER="staging.ojala-healthcare.com"
+STAGING_SERVER="staging.phos-healthcare.com"
 STAGING_USER="deploy"
-SSH_KEY="~/.ssh/ojala_staging_key"
-REPO_URL="https://github.com/wiseman561/ojala-healthcare-platform.git"
+SSH_KEY="~/.ssh/phos_staging_key"
+REPO_URL="https://github.com/wiseman561/phos-healthcare-platform.git"
 BRANCH="feature/emergency-alert-system"
-DEPLOY_DIR="/opt/ojala-healthcare"
+DEPLOY_DIR="/opt/phos-healthcare"
 
 # Create deployment script to run on staging server
 cat > deploy-staging.sh << 'EOF'
@@ -37,7 +37,7 @@ echo "Building and deploying services..."
 docker-compose down
 
 # Build new services including alerts-streamer
-docker-compose build nurse-assistant ojala-api alerts-streamer
+docker-compose build nurse-assistant phos-api alerts-streamer
 
 # Start all services with Redis
 docker-compose up -d
@@ -48,14 +48,14 @@ sleep 30
 
 # Run database migrations if needed
 echo "Running database migrations..."
-docker-compose exec -T ojala-api dotnet ef database update
+docker-compose exec -T phos-api dotnet ef database update
 
 # Run integration tests
 echo "Running integration tests..."
 ./scripts/test-emergency-alert-system.sh
 
 echo "Deployment to staging complete!"
-echo "The system is now available at https://staging.ojala-healthcare.com"
+echo "The system is now available at https://staging.phos-healthcare.com"
 EOF
 
 # Make the script executable
@@ -75,7 +75,7 @@ rm deploy-staging.sh
 echo "==========================================================="
 echo "Staging deployment initiated. Check the staging server for deployment status."
 echo "Once deployment is complete, the system will be available at:"
-echo "https://staging.ojala-healthcare.com"
+echo "https://staging.phos-healthcare.com"
 echo ""
 echo "You can monitor the deployment with:"
-echo "ssh -i $SSH_KEY $STAGING_USER@$STAGING_SERVER 'tail -f /var/log/ojala/deployment.log'"
+echo "ssh -i $SSH_KEY $STAGING_USER@$STAGING_SERVER 'tail -f /var/log/phos/deployment.log'"

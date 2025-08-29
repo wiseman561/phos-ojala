@@ -50,14 +50,14 @@ if ! kubectl get namespace demo &> /dev/null; then
     kubectl create namespace demo
 fi
 
-if ! kubectl get namespace ojala-ns &> /dev/null; then
-    print_warning "Namespace 'ojala-ns' does not exist. Creating it..."
-    kubectl create namespace ojala-ns
+if ! kubectl get namespace phos-ns &> /dev/null; then
+    print_warning "Namespace 'phos-ns' does not exist. Creating it..."
+    kubectl create namespace phos-ns
 fi
 
 # Label namespaces
 kubectl label namespace demo name=demo --overwrite
-kubectl label namespace ojala-ns name=ojala-ns --overwrite
+kubectl label namespace phos-ns name=phos-ns --overwrite
 
 print_status "Namespaces labeled successfully"
 
@@ -95,7 +95,7 @@ kubectl get networkpolicies --all-namespaces
 # Check namespace labels
 echo ""
 print_status "Namespace Labels:"
-kubectl get namespaces --show-labels | grep -E "(demo|ojala-ns)"
+kubectl get namespaces --show-labels | grep -E "(demo|phos-ns)"
 
 # Step 4: Verification instructions
 echo ""
@@ -108,16 +108,16 @@ echo "1. Check network policy status:"
 echo "   kubectl get networkpolicies --all-namespaces"
 echo ""
 echo "2. Test nurse-assistant to API connectivity:"
-echo "   kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-api:80/healthz"
+echo "   kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-api:80/healthz"
 echo ""
 echo "3. Test API to database connectivity:"
-echo "   kubectl exec -n demo deployment/ojala-api -- nc -zv ojala-db-service.ojala-ns.svc.cluster.local 5432"
+echo "   kubectl exec -n demo deployment/phos-api -- nc -zv phos-db-service.phos-ns.svc.cluster.local 5432"
 echo ""
 echo "4. Test identity to API connectivity:"
-echo "   kubectl exec -n ojala-ns deployment/ojala-identity -- curl -v http://ojala-api.demo.svc.cluster.local:80/healthz"
+echo "   kubectl exec -n phos-ns deployment/phos-identity -- curl -v http://phos-api.demo.svc.cluster.local:80/healthz"
 echo ""
 echo "5. Verify default deny (this should fail):"
-echo "   kubectl exec -n demo deployment/ojala-nurse-assistant -- curl -v http://ojala-identity-service.ojala-ns.svc.cluster.local:80/healthz"
+echo "   kubectl exec -n demo deployment/phos-nurse-assistant -- curl -v http://phos-identity-service.phos-ns.svc.cluster.local:80/healthz"
 echo ""
 
 print_status "✅ Network policies deployment completed successfully!"

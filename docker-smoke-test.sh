@@ -1,9 +1,9 @@
 #!/bin/bash
-# Ojala Healthcare Platform - Docker Smoke Test Script
+# Phos Healthcare Platform - Docker Smoke Test Script
 
 set -e
 
-echo "🐳 Starting Docker Smoke Test for Ojala Healthcare Platform..."
+echo "🐳 Starting Docker Smoke Test for Phos Healthcare Platform..."
 
 # Step 1: Clean up any existing containers
 echo "🧹 Cleaning up existing containers..."

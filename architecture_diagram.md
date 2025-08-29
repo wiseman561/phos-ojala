@@ -1,4 +1,4 @@
-# Healthcare SaaS Platform Architecture
+# PHOS Architecture (High-level)
 
 ## System Overview
 
@@ -9,29 +9,27 @@
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                            API Gateway Layer                             │
+│                            API Gateway (NestJS)                          │
 └─────────────────────────────────────────────────────────────────────────┘
           │                 │                │                 │
           ▼                 ▼                ▼                 ▼
 ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│  Ojala.Api   │   │Legacy Backend│   │GraphQL Layer │   │ Auth Service │
-│  ASP.NET Core│   │   Services   │   │              │   │              │
+│ lab-interpr. │   │ nutrition    │   │ genome-kit   │   │ microbiome   │
+│ (.NET 8)     │   │ (.NET 8)     │   │ (.NET 8)     │   │ (.NET 8)     │
 └──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
-          │                 │                │                 │
-          └─────────────────┴────────┬──────┴─────────────────┘
-                                     │
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           Service Layer                                  │
-├─────────────┬─────────────┬─────────────┬─────────────┬─────────────────┤
-│ User Service│Patient Svc  │ Alert Svc   │ AI Engine   │ Telehealth Svc  │
-└─────────────┴─────────────┴─────────────┴─────────────┴─────────────────┘
+          │                                  │                 │
+          ▼                                  ▼                 ▼
+┌──────────────┐                                              
+│ sleep-kit    │        ┌──────────────┐         ┌──────────────┐
+│ (.NET 8)     │◀──────▶│ phos-core    │◀────────▶│ phos-sync    │
+└──────────────┘        │ (.NET 8)     │         │ (.NET 8)     │
+                        └──────────────┘         └──────────────┘
                                      │
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                           Data Layer                                     │
 ├─────────────┬─────────────┬─────────────┬─────────────┬─────────────────┤
-│  SQL Server │    Redis    │ File Storage│ Time Series │   Audit Logs    │
+│ Postgres    │    Redis    │    NATS     │   S3/FS     │   Audit Logs    │
 └─────────────┴─────────────┴─────────────┴─────────────┴─────────────────┘
 ```
 
@@ -41,7 +39,7 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         Frontend Applications                            │
 ├─────────────┬─────────────┬─────────────┬─────────────┬─────────────────┤
-│ Ojala.Web   │ RN Dashboard│MD Dashboard │ Employer    │ Patient App     │
+│ phos-web   │ RN Dashboard│MD Dashboard │ Employer    │ Patient App     │
 │ (React)     │             │             │ Dashboard   │ (React Native)  │
 └─────────────┴─────────────┴─────────────┴─────────────┴─────────────────┘
                                      │
@@ -96,7 +94,7 @@
 ```
 ┌──────────────────────┐                      ┌──────────────────────┐
 │                      │                      │                      │
-│   Existing System    │                      │   New Ojala System   │
+│   Existing System    │                      │   New Phos System   │
 │                      │                      │                      │
 └──────────┬───────────┘                      └──────────┬───────────┘
            │                                             │
@@ -104,7 +102,7 @@
            ▼                                             ▼
 ┌──────────────────────┐                      ┌──────────────────────┐
 │                      │      ┌─────────┐     │                      │
-│   Legacy API         │◀────▶│ API     │◀───▶│   Ojala.Api          │
+│   Legacy API         │◀────▶│ API     │◀───▶│   Phos.Api          │
 │                      │      │ Gateway │     │                      │
 └──────────┬───────────┘      └─────────┘     └──────────┬───────────┘
            │                                             │
@@ -147,4 +145,4 @@
 └─────────────┴─────────────┴─────────────┴─────────────┴─────────────────┘
 ```
 
-This architecture diagram provides a high-level overview of the integrated healthcare SaaS platform, showing how the existing components will be combined with the new OjalaHealthcarePlatform requirements. The diagrams illustrate the system layers, component relationships, data flow, integration points, security architecture, and feature implementation approach.
+This architecture diagram provides a high-level overview of the integrated healthcare SaaS platform, showing how the existing components will be combined with the new PhosHealthcarePlatform requirements. The diagrams illustrate the system layers, component relationships, data flow, integration points, security architecture, and feature implementation approach.

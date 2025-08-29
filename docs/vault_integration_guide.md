@@ -1,8 +1,8 @@
-# Vault Integration Guide for OjalaHealthcarePlatform
+# Vault Integration Guide for PhosHealthcarePlatform
 
 ## Overview
 
-This document provides guidance on integrating HashiCorp Vault with the OjalaHealthcarePlatform for secure secrets management. Vault will be used to store and manage sensitive information such as database credentials, API keys, and JWT tokens.
+This document provides guidance on integrating HashiCorp Vault with the PhosHealthcarePlatform for secure secrets management. Vault will be used to store and manage sensitive information such as database credentials, API keys, and JWT tokens.
 
 ## Architecture
 
@@ -53,9 +53,9 @@ terraform apply
 
 5. After deployment, retrieve the initial root token and unseal keys from the `vault_init.json` file generated on the Terraform machine.
 
-## Integration with OjalaHealthcarePlatform
+## Integration with PhosHealthcarePlatform
 
-### Backend Integration (Ojala.Api)
+### Backend Integration (Phos.Api)
 
 1. Install the Vault client package:
 ```bash
@@ -66,15 +66,15 @@ dotnet add package VaultSharp
 ```json
 {
   "Vault": {
-    "Address": "https://vault.ojala-healthcare.com",
-    "Role": "ojala-api",
-    "MountPath": "ojala/kv",
+    "Address": "https://vault.phos-healthcare.com",
+    "Role": "phos-api",
+    "MountPath": "phos/kv",
     "SecretPath": "database/connection"
   }
 }
 ```
 
-3. Create a Vault service in `Ojala.Services`:
+3. Create a Vault service in `Phos.Services`:
 ```csharp
 public interface IVaultService
 {
@@ -143,7 +143,7 @@ public class DatabaseService
 }
 ```
 
-### Frontend Integration (Ojala.Web)
+### Frontend Integration (Phos.Web)
 
 1. Create a Vault API endpoint in the backend:
 ```csharp

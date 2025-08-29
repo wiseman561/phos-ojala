@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phos-apigateway
+  namespace: demo
+  labels:
+    app: phos-apigateway
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: phos-apigateway
+  template:
+    metadata:
+      labels:
+        app: phos-apigateway
+        component: backend
+    spec:
+      containers:
+      - name: phos-apigateway
+        image: phos/apigateway:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5001
+        resources:
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Staging"
+        - name: ASPNETCORE_URLS
+          value: "http://+:5001"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 15
+          periodSeconds: 5

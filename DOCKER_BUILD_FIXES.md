@@ -1,4 +1,4 @@
-# Docker Build Fixes for Ojala Healthcare Platform
+# Docker Build Fixes for Phos Healthcare Platform
 
 ## Problem Summary
 
@@ -11,12 +11,12 @@ The Docker builds for the .NET backend services were failing due to missing inte
 ## Root Cause
 
 The issues occurred because:
-1. Each service's `docker-compose.yml` build context was set to the individual service directory (e.g., `./src/backend/Ojala.Api`)
+1. Each service's `docker-compose.yml` build context was set to the individual service directory (e.g., `./src/backend/Phos.Api`)
 2. The .NET projects had `ProjectReference` dependencies to other internal projects outside their build context
 3. Docker couldn't access the referenced projects during the build process, causing compilation errors
 4. Windows-generated `obj` directories contained NuGet configuration files (`.nuget.dgspec.json`) with Windows-specific fallback package folders like `C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages`
 5. **CRITICAL**: The `.dockerignore` file had `!src/**` which overrode `bin` and `obj` exclusions, causing local build artifacts to overwrite Docker's restore artifacts
-6. **CRITICAL**: Copying entire directories with `COPY src/backend/Ojala.Api/ ./src/backend/Ojala.Api/` could overwrite the `obj/project.assets.json` file created by `dotnet restore`
+6. **CRITICAL**: Copying entire directories with `COPY src/backend/Phos.Api/ ./src/backend/Phos.Api/` could overwrite the `obj/project.assets.json` file created by `dotnet restore`
 
 ## Solution Overview
 
@@ -49,30 +49,30 @@ Changed the build context and dockerfile paths for all .NET services to use the 
 
 ## Services Updated
 
-### Ojala.Api
-- **Dependencies**: `Ojala.Services`, `Ojala.Identity`, `Ojala.Data`, `Ojala.Common`, `Ojala.Contracts`
+### Phos.Api
+- **Dependencies**: `Phos.Services`, `Phos.Identity`, `Phos.Data`, `Phos.Common`, `Phos.Contracts`
 - **Port**: 5000
-- **Dockerfile**: `src/backend/Ojala.Api/Dockerfile`
+- **Dockerfile**: `src/backend/Phos.Api/Dockerfile`
 
-### Ojala.Identity
-- **Dependencies**: `Ojala.Data`, `Ojala.Common`, `Ojala.Contracts`
+### Phos.Identity
+- **Dependencies**: `Phos.Data`, `Phos.Common`, `Phos.Contracts`
 - **Port**: 5001
-- **Dockerfile**: `src/backend/Ojala.Identity/Dockerfile`
+- **Dockerfile**: `src/backend/Phos.Identity/Dockerfile`
 
-### Ojala.Services
-- **Dependencies**: `Ojala.Data`, `Ojala.Common`, `Ojala.Contracts`
+### Phos.Services
+- **Dependencies**: `Phos.Data`, `Phos.Common`, `Phos.Contracts`
 - **Note**: This is a library project, not a standalone service
-- **Dockerfile**: `src/backend/Ojala.Services/Dockerfile`
+- **Dockerfile**: `src/backend/Phos.Services/Dockerfile`
 
-### Ojala.HealthScore
-- **Dependencies**: `Ojala.Common`, `Ojala.Contracts`
+### Phos.HealthScore
+- **Dependencies**: `Phos.Common`, `Phos.Contracts`
 - **Port**: 8083
-- **Dockerfile**: `src/backend/Ojala.HealthScore/Dockerfile`
+- **Dockerfile**: `src/backend/Phos.HealthScore/Dockerfile`
 
-### Ojala.ApiGateway
-- **Dependencies**: `Ojala.Data`, `Ojala.Common`, `Ojala.Contracts`
+### Phos.ApiGateway
+- **Dependencies**: `Phos.Data`, `Phos.Common`, `Phos.Contracts`
 - **Port**: 5002 (newly added to docker-compose)
-- **Dockerfile**: `src/backend/Ojala.ApiGateway/Dockerfile`
+- **Dockerfile**: `src/backend/Phos.ApiGateway/Dockerfile`
 
 ## Key Changes Made
 
@@ -142,21 +142,21 @@ ENTRYPOINT ["dotnet", "[ServiceName].dll"]
 
 ```yaml
 # Before (example)
-ojala-api:
+phos-api:
   build:
-    context: ./src/backend/Ojala.Api
+    context: ./src/backend/Phos.Api
     dockerfile: Dockerfile
 
 # After
-ojala-api:
+phos-api:
   build:
     context: .
-    dockerfile: ./src/backend/Ojala.Api/Dockerfile
+    dockerfile: ./src/backend/Phos.Api/Dockerfile
 ```
 
 ### 4. Added Missing Service
 
-Added `ojala-apigateway` service to docker-compose.yml as it was a standalone service but not included in the compose file.
+Added `phos-apigateway` service to docker-compose.yml as it was a standalone service but not included in the compose file.
 
 ### 5. NuGet Configuration (`nuget.config`)
 
@@ -216,16 +216,16 @@ docker-compose ps
 
 ### Modified Files:
 - `.dockerignore` - **CRITICAL** improvements to prevent bin/obj copying
-- `src/backend/Ojala.Api/Dockerfile`
-- `src/backend/Ojala.Services/Dockerfile`
-- `src/backend/Ojala.Identity/Dockerfile`
-- `src/backend/Ojala.HealthScore/Dockerfile`
-- `src/backend/Ojala.ApiGateway/Dockerfile`
+- `src/backend/Phos.Api/Dockerfile`
+- `src/backend/Phos.Services/Dockerfile`
+- `src/backend/Phos.Identity/Dockerfile`
+- `src/backend/Phos.HealthScore/Dockerfile`
+- `src/backend/Phos.ApiGateway/Dockerfile`
 - `docker-compose.yml`
 
 ## Notes
 
-- `Ojala.Services` is a library project (no Program.cs) and is consumed by other services
+- `Phos.Services` is a library project (no Program.cs) and is consumed by other services
 - All services maintain their individual published outputs in the runtime stage
 - The build context change doesn't affect the final image size as only published outputs are copied to the runtime stage
 - Environment variables and configuration remain unchanged
@@ -246,11 +246,11 @@ docker-compose ps
 ### To verify restore artifacts are preserved:
 ```bash
 # Build with verbose output to see what's being copied
-docker-compose build --progress=plain ojala-api
+docker-compose build --progress=plain phos-api
 
 # Or check the obj directory exists after restore in a test build
-docker build -f src/backend/Ojala.Api/Dockerfile --target build -t test-build .
-docker run --rm test-build ls -la /src/src/backend/Ojala.Api/obj/
+docker build -f src/backend/Phos.Api/Dockerfile --target build -t test-build .
+docker run --rm test-build ls -la /src/src/backend/Phos.Api/obj/
 ```
 
 ## Future Considerations

@@ -8,7 +8,7 @@ This guide provides step-by-step instructions for validating the Emergency Alert
 
 ```bash
 # Connect to the staging server
-ssh -i ~/.ssh/ojala_staging_key deploy@staging.ojala-healthcare.com
+ssh -i ~/.ssh/phos_staging_key deploy@staging.phos-healthcare.com
 
 # Check Redis status
 docker-compose exec redis redis-cli ping
@@ -23,7 +23,7 @@ Expected result: `PONG`
 docker-compose ps
 
 # Verify health endpoints
-curl http://localhost:5000/health  # Ojala.Api
+curl http://localhost:5000/health  # Phos.Api
 curl http://localhost:5003/health  # Nurse Assistant
 curl http://localhost:5004/health  # Alerts Streamer
 ```
@@ -54,11 +54,11 @@ Expected result: Response should include `"severity": "Emergency"` and `"escalat
 
 ```bash
 # Check if the alert was stored in the database
-docker-compose exec ojala-api dotnet ef dbcontext-info
-docker-compose exec ojala-api dotnet ef dbcontext-info --context OjalaDbContext
+docker-compose exec phos-api dotnet ef dbcontext-info
+docker-compose exec phos-api dotnet ef dbcontext-info --context PhosDbContext
 
 # Query the database for the alert
-docker-compose exec ojala-api dotnet ef database-drop
+docker-compose exec phos-api dotnet ef database-drop
 ```
 
 Expected result: The alert should be present in the EscalatedAlerts table
@@ -77,7 +77,7 @@ Expected result: Successful connection and any new alerts should appear in real-
 
 ### 6. Verify UI Components
 
-1. Open the RN Dashboard at https://staging.ojala-healthcare.com/rn-dashboard
+1. Open the RN Dashboard at https://staging.phos-healthcare.com/rn-dashboard
 2. Log in with test credentials
 3. Verify the Emergency Alert banner is visible
 4. Click on the banner to expand the panel
@@ -114,8 +114,8 @@ Expected result: UI should display alerts correctly and respond to user interact
 **Symptoms**: Alerts not being stored or notifications not sent
 
 **Solutions**:
-1. Check API logs: `docker-compose logs ojala-api`
-2. Verify database connection: `docker-compose exec ojala-api dotnet ef dbcontext-info`
+1. Check API logs: `docker-compose logs phos-api`
+2. Verify database connection: `docker-compose exec phos-api dotnet ef dbcontext-info`
 3. Check notification service: `docker-compose logs notification-service`
 4. Ensure Redis publishing is working: `docker-compose exec redis redis-cli monitor`
 
@@ -145,10 +145,10 @@ If critical issues are found that cannot be resolved quickly:
 
 ```bash
 # Connect to the staging server
-ssh -i ~/.ssh/ojala_staging_key deploy@staging.ojala-healthcare.com
+ssh -i ~/.ssh/phos_staging_key deploy@staging.phos-healthcare.com
 
 # Switch back to the main branch
-cd /opt/ojala-healthcare
+cd /opt/phos-healthcare
 git checkout main
 git pull origin main
 
@@ -162,6 +162,6 @@ docker-compose up -d
 
 For urgent issues during validation, contact:
 
-- DevOps Team: devops@ojala-healthcare.com
-- Backend Team Lead: backend-lead@ojala-healthcare.com
-- Frontend Team Lead: frontend-lead@ojala-healthcare.com
+- DevOps Team: devops@phos-healthcare.com
+- Backend Team Lead: backend-lead@phos-healthcare.com
+- Frontend Team Lead: frontend-lead@phos-healthcare.com

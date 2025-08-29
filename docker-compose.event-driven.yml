@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  # Redis for event bus
+  phos-redis:
+    image: redis:7-alpine
+    container_name: phos-redis-event-driven
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - phos-event-network
+
+  # PostgreSQL database
+  phos-db:
+    image: postgres:15-alpine
+    container_name: phos-db-event-driven
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=phos
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - phos-event-network
+
+  # Identity Service (simplified build)
+  phos-identity:
+    build:
+      context: ./src/backend/Phos.Identity
+      dockerfile: Dockerfile
+    container_name: phos-identity-event-driven
+    ports:
+      - "5501:8080"
+    depends_on:
+      phos-db:
+        condition: service_healthy
+      phos-redis:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=phos-redis:6379
+      - Jwt__Key=super-secret-jwt-key-for-development
+      - Jwt__Issuer=phos-identity
+      - Jwt__Audience=phos-api
+    networks:
+      - phos-event-network
+
+  # API Service (simplified build)
+  phos-api:
+    build:
+      context: ./src/backend/Phos.Api
+      dockerfile: Dockerfile
+    container_name: phos-api-event-driven
+    ports:
+      - "8080:8080"
+    depends_on:
+      phos-db:
+        condition: service_healthy
+      phos-redis:
+        condition: service_healthy
+      phos-identity:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=phos-redis:6379
+      - IdentityServer__Authority=http://phos-identity:8080
+    networks:
+      - phos-event-network
+
+volumes:
+  redis-data:
+  postgres-data:
+
+networks:
+  phos-event-network:
+    driver: bridge

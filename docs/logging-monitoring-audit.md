@@ -6,7 +6,7 @@ This audit reviewed the logging and monitoring practices within the Ojalá Healt
 
 ## Findings
 
-1. **Basic Logging Configuration Only**: All services (Ojala.Api, Ojala.ApiGateway, Ojala.Identity, ai-engine, nurse-assistant) use only the default ASP.NET Core or Node.js logging configuration with basic log levels:
+1. **Basic Logging Configuration Only**: All services (Phos.Api, Phos.ApiGateway, Phos.Identity, ai-engine, nurse-assistant) use only the default ASP.NET Core or Node.js logging configuration with basic log levels:
    ```json
    "Logging": {
      "LogLevel": {

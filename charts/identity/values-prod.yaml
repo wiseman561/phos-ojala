@@ -4,7 +4,7 @@
 replicaCount: 3
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-identity
+  repository: registry.hub.docker.com/your-org/phos-identity
   tag: stable
   pullPolicy: Always
 
@@ -42,14 +42,14 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
   hosts:
-    - host: identity.ojala.com
+    - host: identity.phos.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: identity-prod-tls
       hosts:
-        - identity.ojala.com
+        - identity.phos.com
 
 resources:
   limits:
@@ -99,7 +99,7 @@ affinity:
 vault:
   enabled: true
   addr: "http://vault.production:8200"
-  token: "ojala-prod-token"
+  token: "phos-prod-token"
 
 serviceMonitor:
   enabled: true

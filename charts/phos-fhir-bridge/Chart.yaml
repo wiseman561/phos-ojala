@@ -1,0 +1,7 @@
+apiVersion: v2
+name: phos-fhir-bridge
+description: PHOS FHIR Bridge Helm chart
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+

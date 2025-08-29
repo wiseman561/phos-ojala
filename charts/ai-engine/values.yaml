@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.hub.docker.com/your-org/ojala-ai-engine
+  repository: registry.hub.docker.com/your-org/phos-ai-engine
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -40,4 +40,4 @@ affinity: {}
 vault:
   enabled: true
   addr: "http://vault:8200"
-  token: "ojala-root-token"
+  token: "phos-root-token"

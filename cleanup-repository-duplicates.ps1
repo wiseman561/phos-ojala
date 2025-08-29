@@ -1,19 +1,19 @@
 # Repository Cleanup Script - Remove Duplicate Folders and Files
-Write-Host "=== Ojala Healthcare Repository Cleanup ===" -ForegroundColor Green
+Write-Host "=== Phos Healthcare Repository Cleanup ===" -ForegroundColor Green
 Write-Host "This script will remove duplicate folders that are causing scaffolding issues." -ForegroundColor Yellow
 
 # Define folders/files to remove (duplicates of what exists in src/)
 $duplicatesToRemove = @(
     "apps",                 # Duplicate of src/backend projects
     "backend",              # Duplicate of src/backend
-    "ojala.web",           # Duplicate of src/frontend/ojala.web
+    "phos-web",           # Duplicate of src/frontend/phos-web
     "libs",                # Old location, now in src/shared
-    "Ojala.Data",          # Duplicate of src/backend/Ojala.Data
-    "Ojala.Api",           # Duplicate of src/backend/Ojala.Api
-    "Ojala.Services",      # Duplicate of src/backend/Ojala.Services
+    "Phos.Data",          # Duplicate of src/backend/Phos.Data
+    "Phos.Api",           # Duplicate of src/backend/Phos.Api
+    "Phos.Services",      # Duplicate of src/backend/Phos.Services
     "integration",         # Old integration folder
-    "Ojala.Common",        # If it exists at root
-    "Ojala.Contracts"      # If it exists at root
+    "Phos.Common",        # If it exists at root
+    "Phos.Contracts"      # If it exists at root
 )
 
 # Files to remove (empty or temporary files)
@@ -59,14 +59,14 @@ Write-Host "`nStep 3: Verifying proper structure remains..." -ForegroundColor Ye
 
 # Verify the correct structure still exists
 $requiredPaths = @(
-    "src/backend/Ojala.Identity",
-    "src/backend/Ojala.Api",
-    "src/backend/Ojala.Services",
-    "src/backend/Ojala.Data",
-    "src/backend/Ojala.ApiGateway",
-    "src/backend/Ojala.HealthScore",
-    "src/shared/Ojala.Common",
-    "src/shared/Ojala.Contracts"
+    "src/backend/Phos.Identity",
+    "src/backend/Phos.Api",
+    "src/backend/Phos.Services",
+    "src/backend/Phos.Data",
+    "src/backend/Phos.ApiGateway",
+    "src/backend/Phos.HealthScore",
+    "src/shared/Phos.Common",
+    "src/shared/Phos.Contracts"
 )
 
 $allGood = $true

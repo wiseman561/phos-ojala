@@ -28,16 +28,16 @@ module.exports = defineConfig({
     },
   },
   env: {
-    apiUrl: 'http://localhost:5000',
-    adminUsername: 'admin@ojala-healthcare.com',
+    apiUrl: 'http://localhost:8080',
+    adminUsername: 'admin@phos-healthcare.com',
     adminPassword: 'admin-password',
-    rnUsername: 'nurse@ojala-healthcare.com',
+    rnUsername: 'nurse@phos-healthcare.com',
     rnPassword: 'nurse-password',
-    mdUsername: 'doctor@ojala-healthcare.com',
+    mdUsername: 'doctor@phos-healthcare.com',
     mdPassword: 'doctor-password',
-    employerUsername: 'employer@ojala-healthcare.com',
+    employerUsername: 'employer@phos-healthcare.com',
     employerPassword: 'employer-password',
-    patientUsername: 'patient@ojala-healthcare.com',
+    patientUsername: 'patient@phos-healthcare.com',
     patientPassword: 'patient-password'
   }
 })

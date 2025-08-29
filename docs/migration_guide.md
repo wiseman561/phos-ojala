@@ -1,6 +1,6 @@
-# OjalaHealthcarePlatform Migration Guide
+# PhosHealthcarePlatform Migration Guide
 
-This document provides a comprehensive guide for migrating from the existing healthcare platform to the new OjalaHealthcarePlatform, ensuring a smooth transition with minimal disruption to users and operations.
+This document provides a comprehensive guide for migrating from the existing healthcare platform to the new PhosHealthcarePlatform, ensuring a smooth transition with minimal disruption to users and operations.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ This document provides a comprehensive guide for migrating from the existing hea
 
 ## Migration Overview
 
-The migration to OjalaHealthcarePlatform follows a carefully planned, phased approach designed to minimize risk and ensure continuity of service. The migration encompasses:
+The migration to PhosHealthcarePlatform follows a carefully planned, phased approach designed to minimize risk and ensure continuity of service. The migration encompasses:
 
 - Data migration from legacy databases to new data stores
 - User account transition with seamless authentication

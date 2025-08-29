@@ -1,7 +1,9 @@
-﻿services:
+﻿version: "3.9"
+
+services:
   vault:
     image: hashicorp/vault:1.15.2
-    container_name: ojala-vault
+    container_name: phos-vault
     ports:
       - "8200:8200"
     environment:
@@ -18,13 +20,13 @@
       retries: 5
       start_period: 10s
     networks:
-      - ojala-network
+      - phos-network
 
-  vault-agent-ojala-api:
+  vault-agent-phos-api:
     build:
       context: ./vault
       dockerfile: Dockerfile
-    container_name: ojala-vault-agent-api
+    container_name: phos-vault-agent-api
     depends_on:
       vault:
         condition: service_healthy
@@ -32,24 +34,20 @@
       - VAULT_ADDR=http://vault:8200
       - VAULT_TOKEN=root
     volumes:
-      - ojala-secrets:/vault/secrets
+      - phos-secrets:/vault/secrets
       - ./vault/role-id:/vault/config/role-id:ro
       - ./vault/secret-id:/vault/config/secret-id:ro
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "test", "-f", "/vault/secrets/appsettings.json"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
+      disable: true    # disable dev-time Vault health probes
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-db:
+  phos-db:
     image: postgres:15
-    container_name: ojala-db
+    container_name: phos-db
     environment:
-      - POSTGRES_DB=ojala
+      - POSTGRES_DB=phos
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=yourpassword
     ports:
@@ -57,133 +55,159 @@
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-api:
+  phos-api:
     build:
       context: .
-      dockerfile: src/backend/Ojala.Api/Dockerfile
-    container_name: ojala-api
-    ports:
-      - "5000:80"
-    depends_on:
-      vault-agent-ojala-api:
-        condition: service_healthy
-      ojala-db:
-        condition: service_started
+      dockerfile: src/backend/Phos.Api/Dockerfile
+    container_name: phos-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - VAULT_ADDR=http://vault:8200
-    volumes:
-      - ojala-secrets:/vault/secrets:ro
-    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - phos-db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost/healthz"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 10s
     networks:
-      - ojala-network
-    command: >
-      sh -c "
-        echo 'Waiting for Vault secrets file...' &&
-        while [ ! -f /vault/secrets/appsettings.json ]; do
-          sleep 2;
-        done &&
-        echo 'Vault secrets file found, starting application...' &&
-        dotnet Ojala.Api.dll
-      "
+      - phos-network
 
-  ojala-identity:
-    build:
-      context: .
-      dockerfile: src/backend/Ojala.Identity/Dockerfile
-    container_name: ojala-identity
-    ports:
-      - "5001:80"
-    depends_on:
-      ojala-db:
-        condition: service_started
+  # ───────── EF-Core migrator (runs once) ─────────
+  phos-identity-migrator:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /src
+    volumes:
+      - ./:/src
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - JwtSettings__SecretKey=YOUR_SUPER_SECRET_KEY_HERE_THAT_IS_AT_LEAST_32_CHARACTERS_LONG
-      - JwtSettings__Issuer=Ojala.Identity
-      - JwtSettings__Audience=Ojala.Client
-      - JwtSettings__ExpiryInMinutes=60
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=yourpassword
-    restart: unless-stopped
-    networks:
-      - ojala-network
+      - ConnectionStrings__Default=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=yourpassword
+    entrypoint: ["/bin/sh","-c"]
+    command: |
+      set -e
+      echo "Installing EF Core tools..."
+      dotnet tool install --global dotnet-ef --version 8.0.* || true
+      echo "Adding tools to PATH..."
+      export PATH="$PATH:/root/.dotnet/tools"
+      echo "Restoring project..."
+      dotnet restore src/backend/Phos.Identity/Phos.Identity.csproj -p:ManagePackageVersionsCentrally=false
+      echo "Running migrations..."
+      dotnet ef database update \
+        --project src/backend/Phos.Identity/Phos.Identity.csproj \
+        --startup-project src/backend/Phos.Identity/Phos.Identity.csproj \
+        --no-build \
+        --verbose
+    depends_on:
+      phos-db:
+        condition: service_healthy
+    restart: "no"
 
-  ojala-healthscore:
+  # ───────── API (runtime image, slim) ─────────
+  phos-identity:
     build:
       context: .
-      dockerfile: src/backend/Ojala.HealthScore/Dockerfile
-    container_name: ojala-healthscore
+      dockerfile: src/backend/Phos.Identity/Dockerfile
+    ports:
+      - "5501:8080"          # host 5501 → container 8080
+    depends_on:
+      phos-identity-migrator:
+        condition: service_completed_successfully
+      phos-db:
+        condition: service_healthy
+
+  phos-healthscore:
+    build:
+      context: .
+      dockerfile: src/backend/Phos.HealthScore/Dockerfile
+    container_name: phos-healthscore
     ports:
       - "5004:80"
     depends_on:
-      ojala-db:
+      phos-db:
         condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - JwtSettings__SecretKey=YOUR_SUPER_SECRET_KEY_HERE_THAT_IS_AT_LEAST_32_CHARACTERS_LONG
-      - JwtSettings__Issuer=Ojala.Identity
-      - JwtSettings__Audience=Ojala.Client
+      - JwtSettings__Issuer=Phos.Identity
+      - JwtSettings__Audience=Phos.Client
       - JwtSettings__ExpiryInMinutes=60
-      - ConnectionStrings__DefaultConnection=Host=ojala-db;Port=5432;Database=ojala;Username=postgres;Password=yourpassword
+      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=yourpassword
     restart: unless-stopped
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-apigateway:
+  phos-apigateway:
     build:
       context: .
-      dockerfile: src/backend/Ojala.ApiGateway/Dockerfile
-    container_name: ojala-apigateway
+      dockerfile: src/backend/Phos.ApiGateway/Dockerfile
+    container_name: phos-apigateway
     ports:
-      - "5002:80"
+      - "5050:80"
     depends_on:
-      - ojala-api
-      - ojala-identity
-      - ojala-healthscore
+      - phos-api
+      - phos-identity
+      - phos-healthscore
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - JwtSettings__Authority=http://localhost:5001
-      - JwtSettings__Issuer=Ojala.Identity
-      - JwtSettings__Audience=Ojala.Client
+      - JwtSettings__Authority=http://localhost:5501
+      - JwtSettings__Issuer=Phos.Identity
+      - JwtSettings__Audience=Phos.Client
       - JwtSettings__SecretKey=YOUR_SUPER_SECRET_KEY_HERE_THAT_IS_AT_LEAST_32_CHARACTERS_LONG
       - JwtSettings__ExpiryInMinutes=60
     restart: unless-stopped
     networks:
-      - ojala-network
+      - phos-network
 
-  ojala-web:
+  phos-web:
     build:
-      context: ./src/frontend/ojala.web
-      dockerfile: Dockerfile
-    container_name: ojala-web
-    ports:
-      - "3000:80"
-    depends_on:
-      - ojala-apigateway
+      context: ./src/frontend/phos-web
     environment:
-      - REACT_APP_API_URL=http://localhost:5002
+      - NODE_ENV=development
+    ports:
+      - "${PHOS_WEB_PORT:-3000}:3000"
+    volumes:
+      - ./src/frontend/phos-web:/app
+      - /app/node_modules
+    depends_on:
+      - phos-apigateway
     restart: unless-stopped
     networks:
-      - ojala-network
+      - phos-network
+
+  phos-web-dev:
+    image: node:20
+    container_name: phos-web-dev
+    working_dir: /app
+    command: >
+      sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    volumes:
+      - ./src/frontend/phos-web:/app
+    ports:
+      - "3001:3000"
+    environment:
+      - VITE_API_BASE=http://localhost:8080
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - phos-network
 
 volumes:
-  ojala-secrets:
+  phos-secrets:
     driver: local
   postgres_data:
     driver: local
 
 networks:
-  ojala-network:
+  phos-network:
     driver: bridge

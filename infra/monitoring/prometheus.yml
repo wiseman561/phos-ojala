@@ -20,7 +20,7 @@ scrape_configs:
     metrics_path: '/metrics'
     scrape_interval: 10s
     static_configs:
-      - targets: ['ojala-api-gateway:80']
+      - targets: ['phos-api-gateway:80']
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
@@ -44,11 +44,11 @@ scrape_configs:
         target_label: service
         replacement: 'legacy-api'
 
-  - job_name: 'ojala-api'
+  - job_name: 'phos-api'
     metrics_path: '/metrics'
     scrape_interval: 10s
     static_configs:
-      - targets: ['ojala-api:80']
+      - targets: ['phos-api:80']
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
@@ -56,7 +56,7 @@ scrape_configs:
         replacement: '$1'
       - source_labels: [__address__]
         target_label: service
-        replacement: 'ojala-api'
+        replacement: 'phos-api'
 
   - job_name: 'ai-integration'
     metrics_path: '/metrics'
@@ -72,11 +72,11 @@ scrape_configs:
         target_label: service
         replacement: 'ai-engine'
 
-  - job_name: 'ojala-web'
+  - job_name: 'phos-web'
     metrics_path: '/metrics'
     scrape_interval: 10s
     static_configs:
-      - targets: ['ojala-web:80']
+      - targets: ['phos-web:80']
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance

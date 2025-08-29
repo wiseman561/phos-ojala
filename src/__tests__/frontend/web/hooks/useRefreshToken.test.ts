@@ -1,10 +1,10 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useRefreshToken } from '../../../../hooks/useRefreshToken';
-import { authApi } from '../../../../frontend/ojala.web/src/services/api';
+import { authApi } from '../../../../frontend/phos.web/src/services/api';
 import { mockAuthResponses } from '../../../../utils/test-utils';
 
 // Mock the API
-jest.mock('../../../../frontend/ojala.web/src/services/api', () => ({
+jest.mock('../../../../frontend/phos.web/src/services/api', () => ({
   authApi: {
     refresh: jest.fn()
   }

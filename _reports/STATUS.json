@@ -1,0 +1,98 @@
+﻿{
+    "validator":  {
+                      "passed":  true,
+                      "notes":  "Validator succeeded"
+                  },
+    "dotnet":  [
+                   {
+                       "name":  "AuthControllerTests.Simple",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "MigrationHelper",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Api",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.ApiGateway",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Data",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.HealthScore",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Identity",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   },
+                   {
+                       "name":  "Phos.Services",
+                       "passed":  true,
+                       "errors":  [
+
+                                  ]
+                   }
+               ],
+    "node":  [
+                 {
+                     "name":  "api-gateway",
+                     "passed":  true,
+                     "errors":  [
+
+                                ]
+                 },
+                 {
+                     "name":  "phos-ui",
+                     "passed":  true,
+                     "errors":  [
+
+                                ]
+                 }
+             ],
+    "docker":  {
+                   "passed":  false,
+                   "errors":  [
+                                  "#1 [internal] load local bake definitions",
+                                  "#1 reading from stdin 4.56kB 0.0s done",
+                                  "#1 DONE 0.0s",
+                                  "",
+                                  "",
+                                  "[stderr]",
+                                  "EOF",
+                                  "",
+                                  ""
+                              ]
+               },
+    "summary":  {
+                    "passed":  false,
+                    "failCount":  1
+                }
+}
