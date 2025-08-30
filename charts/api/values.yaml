@@ -41,3 +41,6 @@ vault:
   enabled: true
   addr: "http://vault:8200"
   token: "phos-root-token"
+
+serviceMonitor:
+  labels: {}

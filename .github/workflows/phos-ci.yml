@@ -121,7 +121,7 @@ jobs:
           version: v3.14.4
       - name: Lint charts
         run: |
-          helm lint charts/* || (echo "Helm lint failed" && exit 1)
+          helm lint charts/*/ || (echo "Helm lint failed" && exit 1)
 
   codeql:
     runs-on: ubuntu-latest
