@@ -145,39 +145,3 @@ jobs:
           echo "Largest directories:"
           du -sh * 2>/dev/null | sort -hr | head -10 || true
 
-  cleanup-phos-ci-runs:
-    name: Cleanup PHOS CI workflow runs (older than 30 days)
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: read
-    steps:
-      - name: Install GitHub CLI
-        run: |
-          if ! command -v gh >/dev/null 2>&1; then
-            type -p unzip >/dev/null || (sudo apt-get update -y && sudo apt-get install -y unzip)
-            curl -fsSL https://github.com/cli/cli/releases/download/v2.55.0/gh_2.55.0_linux_amd64.tar.gz -o /tmp/gh.tar.gz
-            sudo tar -C /usr/local -xzf /tmp/gh.tar.gz --strip-components=1 gh_2.55.0_linux_amd64/bin/gh
-          fi
-      - name: Delete old runs for phos-ci.yml
-        id: delete_runs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          cutoff=$(date -u -d '30 days ago' +%s)
-          runs=$(gh run list --workflow phos-ci.yml --limit 1000 --json databaseId,createdAt --jq '.[] | [.databaseId, .createdAt] | @tsv')
-          deleted=0
-          while IFS=$'\t' read -r id created; do
-            [[ -z "${id:-}" ]] && continue
-            created_epoch=$(date -u -d "$created" +%s)
-            if [ "$created_epoch" -lt "$cutoff" ]; then
-              echo "Deleting run $id (created $created)"
-              gh run delete "$id" --yes || true
-              deleted=$((deleted+1))
-            fi
-          done <<< "$runs"
-          echo "deleted=$deleted" >> "$GITHUB_OUTPUT"
-      - name: Output number of deleted runs
-        run: echo "Deleted ${{ steps.delete_runs.outputs.deleted }} workflow runs older than 30 days"

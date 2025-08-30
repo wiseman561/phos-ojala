@@ -4,7 +4,9 @@ on:
   push:
     branches: [ 'main' ]
   pull_request:
-    branches: [ 'main' ]
+    branches:
+      - main
+      - chore/infra-disable-legacy-web-patient-app
   workflow_dispatch:
 
 jobs:
@@ -115,10 +117,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: v3.14.4
+      - name: Install Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - name: Lint charts
         run: |
           helm lint charts/* || (echo "Helm lint failed" && exit 1)
