@@ -15,6 +15,9 @@ serviceAccount:
   create: true
   name: ""
 
+rbac:
+  create: true
+
 podSecurityContext: {}
 
 securityContext: {}

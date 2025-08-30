@@ -86,20 +86,6 @@ scrape_configs:
   #     - source_labels: [__address__]
   #       target_label: service
   #       replacement: 'web-frontend'
-  # === BEGIN DISABLED: legacy FE scrape targets (phos-web, patient-app) ===
-  # - job_name: 'phos-web'
-  #   metrics_path: '/metrics'
-  #   scrape_interval: 10s
-  #   static_configs:
-  #     - targets: ['phos-web:80']
-  #   relabel_configs:
-  #     - source_labels: [__address__]
-  #       target_label: instance
-  #       regex: '(.*):.*'
-  #       replacement: '$1'
-  #     - source_labels: [__address__]
-  #       target_label: service
-  #       replacement: 'web-frontend'
 
   # - job_name: 'patient-app'
   #   metrics_path: '/metrics'
