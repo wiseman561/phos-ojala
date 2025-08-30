@@ -13,6 +13,7 @@ env:
   ECR_REPOSITORY_API: phos-api
   ECR_REPOSITORY_WEB: phos-web
   ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+  DEPLOY_PHOS_WEB: false
 
 jobs:
   build-and-test:
@@ -56,22 +57,27 @@ jobs:
         directory: ./coverage
         fail_ci_if_error: true
         
+    # phos-web disabled: legacy front-end removed; re-enable when a new web app is ready
     - name: Install frontend dependencies
+      if: env.DEPLOY_PHOS_WEB == 'true'
       run: |
         cd Phos.Web
         npm ci
         
     - name: Lint frontend code
+      if: env.DEPLOY_PHOS_WEB == 'true'
       run: |
         cd Phos.Web
         npm run lint
         
     - name: Build frontend
+      if: env.DEPLOY_PHOS_WEB == 'true'
       run: |
         cd Phos.Web
         npm run build
         
     - name: Run frontend tests
+      if: env.DEPLOY_PHOS_WEB == 'true'
       run: |
         cd Phos.Web
         npm test -- --coverage
@@ -131,6 +137,7 @@ jobs:
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY_API:$IMAGE_TAG"
         
     - name: Build, tag, and push Web image to Amazon ECR
+      if: env.DEPLOY_PHOS_WEB == 'true'
       id: build-web-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -215,9 +222,10 @@ jobs:
         aws ecs describe-task-definition \
           --task-definition ${{ env.ENVIRONMENT }}-phos-api \
           --query taskDefinition > task-definition-api.json
-        aws ecs describe-task-definition \
-          --task-definition ${{ env.ENVIRONMENT }}-phos-web \
-          --query taskDefinition > task-definition-web.json
+        # phos-web disabled
+        # aws ecs describe-task-definition \
+        #   --task-definition ${{ env.ENVIRONMENT }}-phos-web \
+        #   --query taskDefinition > task-definition-web.json
           
     - name: Fill in the new API image ID in the Amazon ECS task definition
       id: task-def-api
@@ -228,6 +236,7 @@ jobs:
         image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_API }}:${{ github.sha }}
         
     - name: Fill in the new Web image ID in the Amazon ECS task definition
+      if: env.DEPLOY_PHOS_WEB == 'true'
       id: task-def-web
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
@@ -244,6 +253,7 @@ jobs:
         wait-for-service-stability: true
         
     - name: Deploy Web Amazon ECS task definition
+      if: env.DEPLOY_PHOS_WEB == 'true'
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def-web.outputs.task-definition }}

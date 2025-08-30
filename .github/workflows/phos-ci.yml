@@ -24,10 +24,16 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
       - name: Cache NuGet
         uses: actions/cache@v4
@@ -121,7 +127,7 @@ jobs:
         run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - name: Lint charts
         run: |
-          helm lint charts/* || (echo "Helm lint failed" && exit 1)
+          helm lint charts/*/ || (echo "Helm lint failed" && exit 1)
 
   codeql:
     runs-on: ubuntu-latest
@@ -132,14 +138,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript-typescript, csharp
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript, csharp
       - name: Manual build for C#
         shell: bash
         run: |
@@ -212,10 +224,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
       - name: Run doctor
         shell: pwsh
         run: |
@@ -267,10 +285,16 @@ jobs:
           - phos-sync
     steps:
       - uses: actions/checkout@v4
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
@@ -294,10 +318,16 @@ jobs:
     needs: build-services
     steps:
       - uses: actions/checkout@v4
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
       - name: Cache NuGet
         uses: actions/cache@v4
         with:

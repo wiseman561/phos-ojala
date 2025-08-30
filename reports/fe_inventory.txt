@@ -1,0 +1,8 @@
+﻿--- Inventory src/frontend ---
+
+Name   FullName                                                                    
+----   --------                                                                    
+shared C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\frontend\shared
+
+
+

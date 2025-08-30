@@ -317,71 +317,75 @@ Resources:
         - Key: Environment
           Value: !Ref EnvironmentName
 
-  # Web Service
-  WebTaskDefinition:
-    Type: AWS::ECS::TaskDefinition
-    Properties:
-      Family: !Sub ${EnvironmentName}-phos-web
-      NetworkMode: bridge
-      RequiresCompatibilities:
-        - EC2
-      ExecutionRoleArn: !Ref ECSTaskExecutionRole
-      ContainerDefinitions:
-        - Name: phos-web
-          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/phos-web:latest
-          Essential: true
-          Memory: 512
-          Cpu: 256
-          PortMappings:
-            - ContainerPort: 80
-              HostPort: 0
-              Protocol: tcp
-          Environment:
-            - Name: NODE_ENV
-              Value: !Ref EnvironmentName
-            - Name: API_URL
-              Value: !Sub https://api.${EnvironmentName}.phos-healthcare.com
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref WebLogGroup
-              awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: ecs
-      Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName}-phos-web-task
-        - Key: Environment
-          Value: !Ref EnvironmentName
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # # Web Service
+  # WebTaskDefinition:
+  #   Type: AWS::ECS::TaskDefinition
+  #   Properties:
+  #     Family: !Sub ${EnvironmentName}-phos-web
+  #     NetworkMode: bridge
+  #     RequiresCompatibilities:
+  #       - EC2
+  #     ExecutionRoleArn: !Ref ECSTaskExecutionRole
+  #     ContainerDefinitions:
+  #       - Name: phos-web
+  #         Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/phos-web:latest
+  #         Essential: true
+  #         Memory: 512
+  #         Cpu: 256
+  #         PortMappings:
+  #           - ContainerPort: 80
+  #             HostPort: 0
+  #             Protocol: tcp
+  #         Environment:
+  #           - Name: NODE_ENV
+  #             Value: !Ref EnvironmentName
+  #           - Name: API_URL
+  #             Value: !Sub https://api.${EnvironmentName}.phos-healthcare.com
+  #         LogConfiguration:
+  #           LogDriver: awslogs
+  #           Options:
+  #             awslogs-group: !Ref WebLogGroup
+  #             awslogs-region: !Ref AWS::Region
+  #             awslogs-stream-prefix: ecs
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub ${EnvironmentName}-phos-web-task
+  #       - Key: Environment
+  #         Value: !Ref EnvironmentName
+  # === END DISABLED: phos-web legacy ECS resources ===
 
-  WebService:
-    Type: AWS::ECS::Service
-    DependsOn: WebLoadBalancerListener
-    Properties:
-      ServiceName: !Sub ${EnvironmentName}-phos-web
-      Cluster: !Ref ECSCluster
-      TaskDefinition: !Ref WebTaskDefinition
-      DesiredCount: 2
-      DeploymentConfiguration:
-        DeploymentCircuitBreaker:
-          Enable: true
-          Rollback: true
-        MaximumPercent: 200
-        MinimumHealthyPercent: 50
-      LoadBalancers:
-        - ContainerName: phos-web
-          ContainerPort: 80
-          TargetGroupArn: !Ref WebTargetGroup
-      Role: !Ref ECSServiceRole
-      PlacementStrategies:
-        - Type: spread
-          Field: attribute:ecs.availability-zone
-        - Type: spread
-          Field: instanceId
-      Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName}-phos-web-service
-        - Key: Environment
-          Value: !Ref EnvironmentName
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # WebService:
+  #   Type: AWS::ECS::Service
+  #   DependsOn: WebLoadBalancerListener
+  #   Properties:
+  #     ServiceName: !Sub ${EnvironmentName}-phos-web
+  #     Cluster: !Ref ECSCluster
+  #     TaskDefinition: !Ref WebTaskDefinition
+  #     DesiredCount: 2
+  #     DeploymentConfiguration:
+  #       DeploymentCircuitBreaker:
+  #         Enable: true
+  #         Rollback: true
+  #       MaximumPercent: 200
+  #       MinimumHealthyPercent: 50
+  #     LoadBalancers:
+  #       - ContainerName: phos-web
+  #         ContainerPort: 80
+  #         TargetGroupArn: !Ref WebTargetGroup
+  #     Role: !Ref ECSServiceRole
+  #     PlacementStrategies:
+  #       - Type: spread
+  #         Field: attribute:ecs.availability-zone
+  #       - Type: spread
+  #         Field: instanceId
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub ${EnvironmentName}-phos-web-service
+  #       - Key: Environment
+  #         Value: !Ref EnvironmentName
+  # === END DISABLED: phos-web legacy ECS resources ===
 
   # Load Balancers
   ApiLoadBalancer:
@@ -433,54 +437,60 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref ApiTargetGroup
 
-  WebLoadBalancer:
-    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties:
-      Name: !Sub ${EnvironmentName}-phos-web-lb
-      Scheme: internet-facing
-      LoadBalancerAttributes:
-        - Key: idle_timeout.timeout_seconds
-          Value: '60'
-      Subnets:
-        - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet1
-        - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet2
-      SecurityGroups:
-        - Fn::ImportValue: !Sub ${EnvironmentName}-WebSecurityGroupId
-      Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName}-phos-web-lb
-        - Key: Environment
-          Value: !Ref EnvironmentName
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # WebLoadBalancer:
+  #   Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+  #   Properties:
+  #     Name: !Sub ${EnvironmentName}-phos-web-lb
+  #     Scheme: internet-facing
+  #     LoadBalancerAttributes:
+  #       - Key: idle_timeout.timeout_seconds
+  #         Value: '60'
+  #     Subnets:
+  #       - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet1
+  #       - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet2
+  #     SecurityGroups:
+  #       - Fn::ImportValue: !Sub ${EnvironmentName}-WebSecurityGroupId
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub ${EnvironmentName}-phos-web-lb
+  #       - Key: Environment
+  #         Value: !Ref EnvironmentName
+  # === END DISABLED: phos-web legacy ECS resources ===
 
-  WebTargetGroup:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      Name: !Sub ${EnvironmentName}-phos-web-tg
-      Port: 80
-      Protocol: HTTP
-      VpcId:
-        Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
-      HealthCheckPath: /
-      HealthCheckIntervalSeconds: 30
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 2
-      UnhealthyThresholdCount: 3
-      TargetType: instance
-      Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName}-phos-web-tg
-        - Key: Environment
-          Value: !Ref EnvironmentName
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # WebTargetGroup:
+  #   Type: AWS::ElasticLoadBalancingV2::TargetGroup
+  #   Properties:
+  #     Name: !Sub ${EnvironmentName}-phos-web-tg
+  #     Port: 80
+  #     Protocol: HTTP
+  #     VpcId:
+  #       Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
+  #     HealthCheckPath: /
+  #     HealthCheckIntervalSeconds: 30
+  #     HealthCheckTimeoutSeconds: 5
+  #     HealthyThresholdCount: 2
+  #     UnhealthyThresholdCount: 3
+  #     TargetType: instance
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub ${EnvironmentName}-phos-web-tg
+  #       - Key: Environment
+  #         Value: !Ref EnvironmentName
+  # === END DISABLED: phos-web legacy ECS resources ===
 
-  WebLoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      LoadBalancerArn: !Ref WebLoadBalancer
-      Port: 80
-      Protocol: HTTP
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref WebTargetGroup
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # WebLoadBalancerListener:
+  #   Type: AWS::ElasticLoadBalancingV2::Listener
+  #   Properties:
+  #     LoadBalancerArn: !Ref WebLoadBalancer
+  #     Port: 80
+  #     Protocol: HTTP
+  #     DefaultActions:
+  #       - Type: forward
+  #         TargetGroupArn: !Ref WebTargetGroup
+  # === END DISABLED: phos-web legacy ECS resources ===
 
   # CloudWatch Logs
   ApiLogGroup:
@@ -494,16 +504,18 @@ Resources:
         - Key: Environment
           Value: !Ref EnvironmentName
 
-  WebLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub /ecs/${EnvironmentName}-phos-web
-      RetentionInDays: 30
-      Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName}-phos-web-logs
-        - Key: Environment
-          Value: !Ref EnvironmentName
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # WebLogGroup:
+  #   Type: AWS::Logs::LogGroup
+  #   Properties:
+  #     LogGroupName: !Sub /ecs/${EnvironmentName}-phos-web
+  #     RetentionInDays: 30
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub ${EnvironmentName}-phos-web-logs
+  #       - Key: Environment
+  #         Value: !Ref EnvironmentName
+  # === END DISABLED: phos-web legacy ECS resources ===
 
 Outputs:
   ClusterName:
@@ -518,11 +530,13 @@ Outputs:
     Export:
       Name: !Sub ${EnvironmentName}-ApiLoadBalancerDNS
 
-  WebLoadBalancerDNS:
-    Description: DNS name of the Web load balancer
-    Value: !GetAtt WebLoadBalancer.DNSName
-    Export:
-      Name: !Sub ${EnvironmentName}-WebLoadBalancerDNS
+  # === BEGIN DISABLED: phos-web legacy ECS resources ===
+  # WebLoadBalancerDNS:
+  #   Description: DNS name of the Web load balancer
+  #   Value: !GetAtt WebLoadBalancer.DNSName
+  #   Export:
+  #     Name: !Sub ${EnvironmentName}-WebLoadBalancerDNS
+  # === END DISABLED: phos-web legacy ECS resources ===
 
   ECSServiceRole:
     Description: ARN of the ECS service role

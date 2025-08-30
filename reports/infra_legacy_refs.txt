@@ -1,0 +1,28 @@
+﻿--- Infra/chart legacy reference scan ---
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\charts\web\values-dev.yaml:7: repository: registry.hub.docker.com/your-org/phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\charts\web\values-prod.yaml:7: repository: registry.hub.docker.com/your-org/phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\charts\web\values-staging.yaml:7: repository: registry.hub.docker.com/your-org/phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\charts\web\values.yaml:7: repository: registry.hub.docker.com/your-org/phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:324: Family: !Sub ${EnvironmentName}-phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:330: - Name: phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:331: Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/phos-web:latest
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:352: Value: !Sub ${EnvironmentName}-phos-web-task
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:360: ServiceName: !Sub ${EnvironmentName}-phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:371: - ContainerName: phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:382: Value: !Sub ${EnvironmentName}-phos-web-service
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:439: Name: !Sub ${EnvironmentName}-phos-web-lb
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:451: Value: !Sub ${EnvironmentName}-phos-web-lb
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:458: Name: !Sub ${EnvironmentName}-phos-web-tg
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:471: Value: !Sub ${EnvironmentName}-phos-web-tg
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:500: LogGroupName: !Sub /ecs/${EnvironmentName}-phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\cloudformation\ecs-cluster.yml:504: Value: !Sub ${EnvironmentName}-phos-web-logs
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\github-workflows\ci-cd.yml:14: ECR_REPOSITORY_WEB: phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\github-workflows\ci-cd.yml:219: --task-definition ${{ env.ENVIRONMENT }}-phos-web \
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\github-workflows\ci-cd.yml:235: container-name: phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\github-workflows\ci-cd.yml:250: service: ${{ env.ENVIRONMENT }}-phos-web
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\monitoring\prometheus.yml:75: - job_name: 'phos-web'
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\monitoring\prometheus.yml:79: - targets: ['phos-web:80']
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\monitoring\prometheus.yml:89: - job_name: 'patient-app'
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\monitoring\prometheus.yml:93: - targets: ['patient-app:80']
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\monitoring\prometheus.yml:101: replacement: 'patient-app'
+C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\infra\vault\main.tf:229: vault policy write phos-web ${path.module}/policies/phos-web-policy.hcl

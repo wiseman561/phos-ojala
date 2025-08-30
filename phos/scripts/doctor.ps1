@@ -101,7 +101,7 @@ function Invoke-Validator {
   $validatorExe = 'powershell'
   $validatorArgs = @('-NoProfile','-ExecutionPolicy','Bypass','-File','./validate-repository-structure.ps1')
 
-  $res = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs
+  $res = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs -WorkingDirectory "$PSScriptRoot"
   $combined1 = $res.StdOut
   if ($res.StdErr) { $combined1 += "`n`n[stderr]`n" + $res.StdErr }
   Write-FileUtf8 -Path $RawPath -Content $combined1
@@ -112,7 +112,7 @@ function Invoke-Validator {
 
   # If failed and raw output contains non-ASCII, retry once to see if sanitization resolves issues
   if (-not $passed -and (($res.StdOut + $res.StdErr) -match '[^\u0009\u000A\u000D\u0020-\u007E]')) {
-    $res2 = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs
+    $res2 = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs -WorkingDirectory "$PSScriptRoot"
     $combined2 = $res2.StdOut
     if ($res2.StdErr) { $combined2 += "`n`n[stderr]`n" + $res2.StdErr }
     $san2 = ConvertTo-SanitizedText $combined2
