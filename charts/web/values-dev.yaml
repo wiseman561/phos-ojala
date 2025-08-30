@@ -1,10 +1,14 @@
+# === DISABLED: Legacy web image ===
+# This values file referenced the legacy 'phos-web' image.
+# The FE apps have been archived; disable deployment until a new web app is ready.
+enabled: false
 # Default values for web chart - Development Environment
 # This is a YAML-formatted file.
 
-replicaCount: 1
+replicaCount: 0 # disabled
 
 image:
-  repository: registry.hub.docker.com/your-org/phos-web
+  repository: registry.invalid/DO-NOT-DEPLOY/phos-web # disabled legacy image
   tag: latest
   pullPolicy: IfNotPresent
 

@@ -226,7 +226,10 @@ resource "null_resource" "vault_init" {
       
       # Create policies
       vault policy write phos-api ${path.module}/policies/phos-api-policy.hcl
-      vault policy write phos-web ${path.module}/policies/phos-web-policy.hcl
+      # TODO: reintroduce a web policy when a new front-end is defined
+      # === BEGIN DISABLED: phos-web Vault policy (legacy) ===
+      # vault policy write phos-web ${path.module}/policies/phos-web-policy.hcl
+      # === END DISABLED: phos-web Vault policy ===
       
       # Store initial secrets
       vault kv put phos/kv/database/connection \
