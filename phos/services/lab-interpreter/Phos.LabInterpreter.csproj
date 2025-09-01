@@ -22,6 +22,11 @@
     <PackageReference Include="Microsoft.AspNetCore.RateLimiting" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Prevent test sources from compiling in the service project -->
+    <Compile Remove="Tests/**/*.cs" />
+    <None Include="Tests/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
 </Project>
