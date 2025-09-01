@@ -98,8 +98,26 @@ function Invoke-Validator {
     [Parameter(Mandatory=$true)][string]$RawPath,
     [Parameter(Mandatory=$true)][string]$SanitizedPath
   )
-  $validatorExe = 'powershell'
-  $validatorArgs = @('-NoProfile','-ExecutionPolicy','Bypass','-File','./validate-repository-structure.ps1')
+  $validatorPath = Join-Path $PSScriptRoot 'validate-repository-structure.ps1'
+  if (-not (Test-Path -LiteralPath $validatorPath)) {
+    Write-FileUtf8 -Path $RawPath -Content "Validator script not found: $validatorPath"
+    Write-FileUtf8 -Path $SanitizedPath -Content "Validator script not found: $validatorPath"
+    return [PSCustomObject]@{ Passed = $true; Notes = 'Validator skipped (script missing)' }
+  }
+
+  $pwsh = (Get-Command pwsh -ErrorAction SilentlyContinue)
+  $powershell = (Get-Command powershell -ErrorAction SilentlyContinue)
+  if ($pwsh) {
+    $validatorExe = $pwsh.Path
+    $validatorArgs = @('-NoLogo','-NoProfile','-File', $validatorPath)
+  } elseif ($powershell) {
+    $validatorExe = $powershell.Path
+    $validatorArgs = @('-NoLogo','-NoProfile','-ExecutionPolicy','Bypass','-File', $validatorPath)
+  } else {
+    Write-FileUtf8 -Path $RawPath -Content 'Neither pwsh nor powershell found on PATH'
+    Write-FileUtf8 -Path $SanitizedPath -Content 'Neither pwsh nor powershell found on PATH'
+    return [PSCustomObject]@{ Passed = $false; Notes = 'No PowerShell executable found' }
+  }
 
   $res = Start-CommandCapture -FilePath $validatorExe -ArgumentList $validatorArgs -WorkingDirectory "$PSScriptRoot"
   $combined1 = $res.StdOut
@@ -186,14 +204,14 @@ function Invoke-NodeBuild {
     $passed = $false
   } else {
     try {
-      $resCi = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','npm','ci') -WorkingDirectory $AppPath
+      $resCi = Start-CommandCapture -FilePath $npmPath -ArgumentList @('ci') -WorkingDirectory $AppPath
       $combinedCi = $resCi.StdOut
       if ($resCi.StdErr) { $combinedCi += "`n[stderr]`n" + $resCi.StdErr }
       $combinedLog += "# npm ci`n" + $combinedCi + "`n`n"
       if ($resCi.ExitCode -ne 0) { $passed = $false }
 
       if ($passed) {
-        $resBuild = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','npm','run','build') -WorkingDirectory $AppPath
+        $resBuild = Start-CommandCapture -FilePath $npmPath -ArgumentList @('run','build') -WorkingDirectory $AppPath
         $combinedBuild = $resBuild.StdOut
         if ($resBuild.StdErr) { $combinedBuild += "`n[stderr]`n" + $resBuild.StdErr }
         $combinedLog += "# npm run build`n" + $combinedBuild
@@ -233,7 +251,13 @@ function Invoke-DockerBuild {
     return [PSCustomObject]@{ passed = $false; errors = @($msg) }
   }
 
-  $res = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','docker','compose','-f',$ComposeFile,'build')
+  $docker = (Get-Command docker -ErrorAction SilentlyContinue)
+  if (-not $docker) {
+    $msg = 'docker CLI not found on PATH'
+    Write-FileUtf8 -Path $ReportFile -Content $msg
+    return [PSCustomObject]@{ passed = $false; errors = @($msg) }
+  }
+  $res = Start-CommandCapture -FilePath $docker.Path -ArgumentList @('compose','-f',$ComposeFile,'build')
   $combined = $res.StdOut
   if ($res.StdErr) { $combined += "`n`n[stderr]`n" + $res.StdErr }
   Write-FileUtf8 -Path $ReportFile -Content $combined
@@ -283,21 +307,21 @@ if (Test-Path -LiteralPath $composePath) {
   $dockerResult = Invoke-DockerBuild -ComposeFile $composePath -ReportFile (Join-Path $reportsRoot 'docker_build.log')
   try {
     # Capture docker compose ps and logs for key services
-    $psOut = (cmd /c "docker compose -f $composePath ps")
-    Write-FileUtf8 -Path (Join-Path $reportsRoot 'docker_ps.txt') -Content ($psOut | Out-String)
+    $psRes = Start-CommandCapture -FilePath $docker.Path -ArgumentList @('compose','-f',$composePath,'ps')
+    Write-FileUtf8 -Path (Join-Path $reportsRoot 'docker_ps.txt') -Content ($psRes.StdOut + (if ($psRes.StdErr) { "`n`n[stderr]`n$($psRes.StdErr)" } else { '' }))
 
     $services = @('api-gateway','phos-core','lab-interpreter','nutrition-kit')
     foreach ($svc in $services) {
       try {
-        $log = (cmd /c "docker compose -f $composePath logs --no-color --timestamps --tail=200 $svc")
-        Write-FileUtf8 -Path (Join-Path $reportsRoot ("docker_" + $svc + "_logs.txt")) -Content ($log | Out-String)
+        $logRes = Start-CommandCapture -FilePath $docker.Path -ArgumentList @('compose','-f',$composePath,'logs','--no-color','--timestamps','--tail=200',$svc)
+        Write-FileUtf8 -Path (Join-Path $reportsRoot ("docker_" + $svc + "_logs.txt")) -Content ($logRes.StdOut + (if ($logRes.StdErr) { "`n`n[stderr]`n$($logRes.StdErr)" } else { '' }))
       } catch { }
     }
 
     # Optionally start containers and run health checks
     $shouldStart = ($env:DOCTOR_START_CONTAINERS -and $env:DOCTOR_START_CONTAINERS.ToString().ToLower() -eq 'true')
     if ($shouldStart) {
-      $up = Start-CommandCapture -FilePath 'cmd' -ArgumentList @('/c','docker','compose','-f',$composePath,'up','-d')
+      $up = Start-CommandCapture -FilePath $docker.Path -ArgumentList @('compose','-f',$composePath,'up','-d')
       Write-FileUtf8 -Path (Join-Path $reportsRoot 'docker_up.txt') -Content ($up.StdOut + "`n`n[stderr]`n" + $up.StdErr)
 
       function Test-HttpHealthy {
