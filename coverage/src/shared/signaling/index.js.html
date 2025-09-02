@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/frontend/shared/contexts/AuthContext.tsx</title>
+    <title>Code coverage report for src/shared/signaling/index.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../sort-arrow-sprite.png);
+            background-image: url(../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/frontend/shared/contexts</a> AuthContext.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/shared/signaling</a> index.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/166</span>
+                <span class='fraction'>0/205</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/143</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/28</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/153</span>
+                <span class='fraction'>0/203</span>
             </div>
         
             
@@ -579,9 +579,101 @@
 <a name='L514'></a><a href='#L514'>514</a>
 <a name='L515'></a><a href='#L515'>515</a>
 <a name='L516'></a><a href='#L516'>516</a>
-<a name='L517'></a><a href='#L517'>517</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -590,6 +682,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -613,7 +706,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -636,19 +737,42 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -659,19 +783,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -680,14 +813,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -695,85 +834,78 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -784,26 +916,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -811,6 +935,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -820,22 +946,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -844,18 +970,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -868,16 +1000,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -885,12 +1025,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -899,11 +1043,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -911,30 +1052,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -942,91 +1082,107 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1036,12 +1192,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1049,25 +1208,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1076,541 +1243,653 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';</span>
-<span class="cstat-no" title="statement not covered" >import axios from 'axios';</span>
-<span class="cstat-no" title="statement not covered" >import jwtDecode from 'jwt-decode';</span>
-&nbsp;
-// Generic User interface that can be extended
-export interface BaseUser {
-  id: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  role: string;
-  roles?: string[];
-}
-&nbsp;
-// Extended user interfaces for different apps
-export interface NurseUser extends BaseUser {
-  nurseId?: string;
-  department?: string;
-  licenseNumber?: string;
-}
-&nbsp;
-export interface EmployerUser extends BaseUser {
-  organizationId?: string;
-  organizationName?: string;
-  employerTitle?: string;
-  department?: string;
-}
-&nbsp;
-export interface PatientUser extends BaseUser {
-  patientId?: string;
-  dateOfBirth?: string;
-  phone?: string;
-}
-&nbsp;
-export type User = NurseUser | EmployerUser | PatientUser | BaseUser;
-&nbsp;
-export interface AuthContextType {
-  isAuthenticated: boolean;
-  user: User | null;
-  isLoading: boolean;
-  login: (email: string, password: string) =&gt; Promise&lt;{ success: boolean; message?: string }&gt;;
-  register?: (userData: RegisterData) =&gt; Promise&lt;{ success: boolean; message?: string }&gt;;
-  logout: () =&gt; void;
-  refreshToken: () =&gt; Promise&lt;void&gt;;
-  hasRole: (requiredRoles: string | string[]) =&gt; boolean;
-}
-&nbsp;
-export interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth?: string;
-  phone?: string;
-}
-&nbsp;
-interface TokenPair {
-  accessToken: string;
-  refreshToken: string;
-  expiresAt: string;
-}
-&nbsp;
-interface LoginResponse {
-  accessToken?: string;
-  refreshToken?: string;
-  expiresAt?: string;
-  token?: string; // For backward compatibility
-  user?: User;
-}
-&nbsp;
-// Configuration interface for different apps
-export interface AuthConfig {
-  appName: string;
-  storageKey: string;
-  baseURL: string;
-  userRole: string;
-  allowedRoles: string[];
-  enableRegistration?: boolean;
-  roleValidator?: (role: string) =&gt; boolean;
-  apiClient?: any; // For apps that have their own API client
-}
-&nbsp;
-// Predefined role constants
-export const <span class="cstat-no" title="statement not covered" >NURSE_ROLES = {</span>
-  RN: 'RN',
-  LPN: 'LPN',
-  NURSE_MANAGER: 'NURSE_MANAGER',
-  CHARGE_NURSE: 'CHARGE_NURSE',
-  STAFF_NURSE: 'STAFF_NURSE',
-  PROVIDER: 'PROVIDER'
-} as const;
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >EMPLOYER_ROLES = {</span>
-  EMPLOYER: 'EMPLOYER',
-  HR_MANAGER: 'HR_MANAGER',
-  BENEFITS_ADMIN: 'BENEFITS_ADMIN',
-  EXECUTIVE: 'EXECUTIVE',
-  ORGANIZATION_ADMIN: 'ORGANIZATION_ADMIN',
-  COMPLIANCE_OFFICER: 'COMPLIANCE_OFFICER'
-} as const;
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >PATIENT_ROLES = {</span>
-  PATIENT: 'patient'
-} as const;
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >ADMIN_ROLES = {</span>
-  ADMIN: 'admin',
-  SUPER_ADMIN: 'super_admin',
-  SYSTEM_ADMIN: 'system_admin'
-} as const;
-&nbsp;
-export type NurseRole = typeof NURSE_ROLES[keyof typeof NURSE_ROLES];
-export type EmployerRole = typeof EMPLOYER_ROLES[keyof typeof EMPLOYER_ROLES];
-export type PatientRole = typeof PATIENT_ROLES[keyof typeof PATIENT_ROLES];
-export type AdminRole = typeof ADMIN_ROLES[keyof typeof ADMIN_ROLES];
-&nbsp;
-const AuthContext = <span class="cstat-no" title="statement not covered" >createContext&lt;AuthContextType | undefined&gt;(undefined);</span>
-&nbsp;
-// Default role validators
-const isNurseRole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>ole: string): boolean =&gt; <span class="cstat-no" title="statement not covered" >Object.values(NURSE_ROLES).includes(role as NurseRole);</span></span>
-const isEmployerRole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>ole: string): boolean =&gt; <span class="cstat-no" title="statement not covered" >Object.values(EMPLOYER_ROLES).includes(role as EmployerRole);</span></span>
-const isPatientRole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>ole: string): boolean =&gt; <span class="cstat-no" title="statement not covered" >role === 'patient';</span></span>
-const isAdminRole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>ole: string): boolean =&gt; <span class="cstat-no" title="statement not covered" >Object.values(ADMIN_ROLES).includes(role as AdminRole);</span></span>
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >createAuthProvider = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>c</span>onfig: AuthConfig) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >({</span> children }: { children: ReactNode }) =&gt; {</span>
-    const [tokens, setTokens] = <span class="cstat-no" title="statement not covered" >useState&lt;TokenPair | null&gt;(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-      const savedTokens = <span class="cstat-no" title="statement not covered" >localStorage.getItem(config.storageKey);</span>
-<span class="cstat-no" title="statement not covered" >      return savedTokens ? JSON.parse(savedTokens) : null;</span>
-    });
-&nbsp;
-    const [user, setUser] = <span class="cstat-no" title="statement not covered" >useState&lt;User | null&gt;(null);</span>
-    const [isLoading, setIsLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-&nbsp;
-    const isAuthenticated = <span class="cstat-no" title="statement not covered" >!!tokens?.accessToken &amp;&amp; !!user;</span>
-&nbsp;
-    // Create axios instance for auth calls (use provided client or create new one)
-    const authApi = <span class="cstat-no" title="statement not covered" >config.apiClient || axios.create({</span>
-      baseURL: config.baseURL,
-      headers: {
-        'Content-Type': 'application/json',
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Signaling Service for WebRTC connections
+ *
+ * Handles the WebRTC signaling process including:
+ * - SDP offer/answer exchange
+ * - ICE candidate exchange
+ * - Connection state management
+ */
+class SignalingService {
+<span class="fstat-no" title="function not covered" >  constructor(c</span>onfig = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+<span class="cstat-no" title="statement not covered" >    this.config = {</span>
+      signalServerUrl: 'wss://signal.phos-healthcare.com',
+      reconnectAttempts: 5,
+      reconnectInterval: 2000,
+      peerConnectionConfig: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+          { urls: 'stun:stun2.l.google.com:19302' },
+          {
+            urls: 'turn:turn.phos-healthcare.com:3478',
+            username: 'phos',
+            credential: 'placeholder-credential-to-be-replaced'
+          }
+        ],
+        iceCandidatePoolSize: 10,
+        bundlePolicy: 'max-bundle',
+        rtcpMuxPolicy: 'require',
+        iceTransportPolicy: 'all',
+        ...config.peerConnectionConfig
       },
+      ...config
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.socket = null;</span>
+<span class="cstat-no" title="statement not covered" >    this.sessionId = null;</span>
+<span class="cstat-no" title="statement not covered" >    this.participantId = null;</span>
+<span class="cstat-no" title="statement not covered" >    this.peerConnections = new Map();</span>
+<span class="cstat-no" title="statement not covered" >    this.localStream = null;</span>
+<span class="cstat-no" title="statement not covered" >    this.reconnectCount = 0;</span>
+<span class="cstat-no" title="statement not covered" >    this.isReconnecting = false;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.eventListeners = {</span>
+      connected: [],
+      disconnected: [],
+      participantJoined: [],
+      participantLeft: [],
+      streamAdded: [],
+      streamRemoved: [],
+      messageReceived: [],
+      connectionStateChanged: [],
+      error: []
+    };
+  }
+&nbsp;
+  /**
+   * Connect to the signaling server
+   *
+   * @param {Object} options - Connection options
+   * @param {string} options.sessionId - ID of the session
+   * @param {string} options.participantId - ID of the participant
+   * @param {string} options.token - Authentication token
+   * @returns {Promise} Connection promise
+   */
+<span class="fstat-no" title="function not covered" >  connect(o</span>ptions) {
+    const { sessionId, participantId, token } = <span class="cstat-no" title="statement not covered" >options;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!sessionId || !participantId || !token) {</span>
+<span class="cstat-no" title="statement not covered" >      return Promise.reject(new Error('Session ID, Participant ID, and Token are required'));</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.sessionId = sessionId;</span>
+<span class="cstat-no" title="statement not covered" >    this.participantId = participantId;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      try {</span>
+        const url = <span class="cstat-no" title="statement not covered" >`${this.config.signalServerUrl}?sessionId=${sessionId}&amp;participantId=${participantId}&amp;token=${token}`;</span>
+<span class="cstat-no" title="statement not covered" >        this.socket = new WebSocket(url);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.socket.onopen = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          this._emitEvent('connected', { sessionId, participantId });</span>
+<span class="cstat-no" title="statement not covered" >          this.reconnectCount = 0;</span>
+<span class="cstat-no" title="statement not covered" >          this.isReconnecting = false;</span>
+<span class="cstat-no" title="statement not covered" >          resolve({ sessionId, participantId, status: 'connected' });</span>
+        };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.socket.onclose = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          this._handleDisconnect(event);</span>
+        };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.socket.onerror = <span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          this._emitEvent('error', { type: 'socket', error });</span>
+<span class="cstat-no" title="statement not covered" >          reject(error);</span>
+        };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.socket.onmessage = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          this._handleSignalingMessage(event);</span>
+        };
+      } catch (error) {
+<span class="cstat-no" title="statement not covered" >        this._emitEvent('error', { type: 'connection', error });</span>
+<span class="cstat-no" title="statement not covered" >        reject(error);</span>
+      }
     });
+  }
 &nbsp;
-    // Set tokens and update localStorage
-    const setAuthTokens = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>okenPair: TokenPair) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      localStorage.setItem(config.storageKey, JSON.stringify(tokenPair));</span>
-<span class="cstat-no" title="statement not covered" >      setTokens(tokenPair);</span>
-<span class="cstat-no" title="statement not covered" >      authApi.defaults.headers.common.Authorization = `Bearer ${tokenPair.accessToken}`;</span>
-    };
-&nbsp;
-    // Clear tokens and localStorage
-    const clearAuthTokens = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      localStorage.removeItem(config.storageKey);</span>
-<span class="cstat-no" title="statement not covered" >      setTokens(null);</span>
-<span class="cstat-no" title="statement not covered" >      setUser(null);</span>
-<span class="cstat-no" title="statement not covered" >      delete authApi.defaults.headers.common.Authorization;</span>
-    };
-&nbsp;
-    // Role validation function
-    const validateRole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>ole: string, roles?: string[]): boolean =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (config.roleValidator) {</span>
-<span class="cstat-no" title="statement not covered" >        return config.roleValidator(role);</span>
+  /**
+   * Disconnect from the signaling server
+   *
+   * @returns {Promise} Disconnection promise
+   */
+<span class="fstat-no" title="function not covered" >  disconnect() {</span>
+<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.socket || this.socket.readyState === WebSocket.CLOSED) {</span>
+<span class="cstat-no" title="statement not covered" >        resolve({ status: 'already_disconnected' });</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
       }
 &nbsp;
-      // Check if role or any of the roles array matches allowed roles
-      const rolesToCheck = <span class="cstat-no" title="statement not covered" >roles ? [role, ...roles] : [role];</span>
-<span class="cstat-no" title="statement not covered" >      return rolesToCheck.some(<span class="fstat-no" title="function not covered" >r </span>=&gt; <span class="cstat-no" title="statement not covered" >config.allowedRoles.includes(r))</span>;</span>
-    };
+      // Close all peer connections
+<span class="cstat-no" title="statement not covered" >      this.peerConnections.forEach(<span class="fstat-no" title="function not covered" >(p</span>c, peerId) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        this._closePeerConnection(peerId);</span>
+      });
 &nbsp;
-    // Login function
-    const login = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>mail: string, password: string): Promise&lt;{ success: boolean; message?: string }&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-<span class="cstat-no" title="statement not covered" >        setIsLoading(true);</span>
+      // Stop local stream if exists
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.localStream) {</span>
+<span class="cstat-no" title="statement not covered" >        this.localStream.getTracks().forEach(<span class="fstat-no" title="function not covered" >track =&gt; <span class="cstat-no" title="statement not covered" >t</span>rack.stop());</span></span>
+<span class="cstat-no" title="statement not covered" >        this.localStream = null;</span>
+      }
 &nbsp;
-        const response = <span class="cstat-no" title="statement not covered" >await authApi.post&lt;LoginResponse&gt;('/api/auth/login', {</span>
-          email,
-          password,
-          role: config.userRole
+      // Close socket
+<span class="cstat-no" title="statement not covered" >      this.socket.close(1000, 'User disconnected');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('disconnected', { sessionId: this.sessionId, participantId: this.participantId });</span>
+<span class="cstat-no" title="statement not covered" >      resolve({ status: 'disconnected' });</span>
+    });
+  }
+&nbsp;
+  /**
+   * Initialize local media stream
+   *
+   * @param {Object} constraints - Media constraints
+   * @returns {Promise&lt;MediaStream&gt;} Local media stream
+   */
+<span class="fstat-no" title="function not covered" >  async i</span>nitializeLocalMedia(constraints = <span class="branch-0 cbranch-no" title="branch not covered" >{ audio: true, video: true })</span> {
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      // Stop any existing tracks
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.localStream) {</span>
+<span class="cstat-no" title="statement not covered" >        this.localStream.getTracks().forEach(<span class="fstat-no" title="function not covered" >track =&gt; <span class="cstat-no" title="statement not covered" >t</span>rack.stop());</span></span>
+      }
+&nbsp;
+      // Get new media stream
+<span class="cstat-no" title="statement not covered" >      this.localStream = await navigator.mediaDevices.getUserMedia(constraints);</span>
+<span class="cstat-no" title="statement not covered" >      return this.localStream;</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'media', error });</span>
+<span class="cstat-no" title="statement not covered" >      throw error;</span>
+    }
+  }
+&nbsp;
+  /**
+   * Create peer connection with a remote participant
+   *
+   * @param {string} peerId - ID of the remote participant
+   * @returns {RTCPeerConnection} Peer connection
+   */
+<span class="fstat-no" title="function not covered" >  createPeerConnection(p</span>eerId) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.peerConnections.has(peerId)) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.peerConnections.get(peerId);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const peerConnection = <span class="cstat-no" title="statement not covered" >new RTCPeerConnection(this.config.peerConnectionConfig);</span>
+&nbsp;
+      // Add local tracks to the connection
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.localStream) {</span>
+<span class="cstat-no" title="statement not covered" >        this.localStream.getTracks().forEach(<span class="fstat-no" title="function not covered" >track =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          peerConnection.addTrack(track, this.localStream);</span>
         });
-&nbsp;
-        const data = <span class="cstat-no" title="statement not covered" >response.data;</span>
-        let tokenPair: TokenPair;
-        let userData: User | undefined;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (data.accessToken &amp;&amp; data.refreshToken) {</span>
-          // New format
-<span class="cstat-no" title="statement not covered" >          tokenPair = {</span>
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-            expiresAt: data.expiresAt || new Date(Date.now() + 3600000).toISOString()
-          };
-<span class="cstat-no" title="statement not covered" >          userData = data.user;</span>
-        } else <span class="cstat-no" title="statement not covered" >if (data.token) {</span>
-          // Legacy format
-<span class="cstat-no" title="statement not covered" >          tokenPair = {</span>
-            accessToken: data.token,
-            refreshToken: data.token,
-            expiresAt: new Date(Date.now() + 3600000).toISOString()
-          };
-<span class="cstat-no" title="statement not covered" >          userData = data.user;</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >          throw new Error('Invalid response format from server');</span>
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        setAuthTokens(tokenPair);</span>
-&nbsp;
-        // Set user data or decode from token
-<span class="cstat-no" title="statement not covered" >        if (userData) {</span>
-          // Validate user role
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!validateRole(userData.role, userData.roles)) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new Error(`Access denied: ${config.appName} credentials required`);</span>
-          }
-<span class="cstat-no" title="statement not covered" >          setUser(userData);</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >          try {</span>
-            const decoded: any = <span class="cstat-no" title="statement not covered" >jwtDecode(tokenPair.accessToken);</span>
-            const userRole = <span class="cstat-no" title="statement not covered" >decoded.role || decoded.roles?.[0];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!validateRole(userRole, decoded.roles)) {</span>
-<span class="cstat-no" title="statement not covered" >              throw new Error(`Access denied: ${config.appName} credentials required`);</span>
-            }
-&nbsp;
-            // Create user object based on role type
-            const baseUser = <span class="cstat-no" title="statement not covered" >{</span>
-              id: decoded.sub || decoded.userId || decoded.id,
-              email: decoded.email,
-              firstName: decoded.firstName || decoded.given_name,
-              lastName: decoded.lastName || decoded.family_name,
-              role: userRole,
-              roles: Array.isArray(decoded.roles) ? decoded.roles : [userRole],
-            };
-&nbsp;
-            // Add role-specific fields
-<span class="cstat-no" title="statement not covered" >            if (config.userRole === 'nurse') {</span>
-<span class="cstat-no" title="statement not covered" >              setUser({</span>
-                ...baseUser,
-                nurseId: decoded.nurseId,
-                department: decoded.department,
-                licenseNumber: decoded.licenseNumber
-              } as NurseUser);
-            } else <span class="cstat-no" title="statement not covered" >if (config.userRole === 'employer') {</span>
-<span class="cstat-no" title="statement not covered" >              setUser({</span>
-                ...baseUser,
-                organizationId: decoded.organizationId || decoded.orgId,
-                organizationName: decoded.organizationName || decoded.orgName,
-                employerTitle: decoded.title || decoded.employerTitle,
-                department: decoded.department
-              } as EmployerUser);
-            } else <span class="cstat-no" title="statement not covered" >if (config.userRole === 'patient') {</span>
-<span class="cstat-no" title="statement not covered" >              setUser({</span>
-                ...baseUser,
-                patientId: decoded.patientId,
-                dateOfBirth: decoded.dateOfBirth,
-                phone: decoded.phone
-              } as PatientUser);
-            } else {
-<span class="cstat-no" title="statement not covered" >              setUser(baseUser);</span>
-            }
-          } catch (err) {
-<span class="cstat-no" title="statement not covered" >            console.error('Could not decode user info from token:', err);</span>
-<span class="cstat-no" title="statement not covered" >            throw new Error('Invalid token or insufficient permissions');</span>
-          }
-        }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        return { success: true };</span>
-      } catch (error: any) {
-<span class="cstat-no" title="statement not covered" >        console.error('Login failed:', error);</span>
-<span class="cstat-no" title="statement not covered" >        clearAuthTokens();</span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
-          success: false,
-          message: error.response?.data?.message || error.message || 'Login failed. Please check your credentials.'
-        };
-      } finally {
-<span class="cstat-no" title="statement not covered" >        setIsLoading(false);</span>
-      }
-    };
-&nbsp;
-    // Register function (optional)
-    const register = <span class="cstat-no" title="statement not covered" >config.enableRegistration ? <span class="fstat-no" title="function not covered" >async (u</span>serData: RegisterData): Promise&lt;{ success: boolean; message?: string }&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-<span class="cstat-no" title="statement not covered" >        setIsLoading(true);</span>
-&nbsp;
-        const response = <span class="cstat-no" title="statement not covered" >await authApi.post('/api/auth/register', {</span>
-          ...userData,
-          role: config.userRole
-        });
-&nbsp;
-        // After successful registration, attempt to login
-        const loginResult = <span class="cstat-no" title="statement not covered" >await login(userData.email, userData.password);</span>
-<span class="cstat-no" title="statement not covered" >        return loginResult;</span>
-      } catch (error: any) {
-<span class="cstat-no" title="statement not covered" >        console.error('Registration failed:', error);</span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
-          success: false,
-          message: error.response?.data?.message || error.message || 'Registration failed. Please try again.'
-        };
-      } finally {
-<span class="cstat-no" title="statement not covered" >        setIsLoading(false);</span>
-      }
-    } : undefined;
-&nbsp;
-    // Refresh token function
-    const refreshToken = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (): Promise&lt;void&gt; =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!tokens?.refreshToken) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new Error('No refresh token available');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        const response = <span class="cstat-no" title="statement not covered" >await authApi.post&lt;LoginResponse&gt;('/api/auth/refresh', {</span>
-          refreshToken: tokens.refreshToken
-        });
-&nbsp;
-        const data = <span class="cstat-no" title="statement not covered" >response.data;</span>
-        const newTokenPair: TokenPair = <span class="cstat-no" title="statement not covered" >{</span>
-          accessToken: data.accessToken || data.token || '',
-          refreshToken: data.refreshToken || tokens.refreshToken,
-          expiresAt: data.expiresAt || new Date(Date.now() + 3600000).toISOString()
-        };
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        setAuthTokens(newTokenPair);</span>
-      } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error('Token refresh failed:', error);</span>
-<span class="cstat-no" title="statement not covered" >        logout();</span>
-<span class="cstat-no" title="statement not covered" >        throw error;</span>
-      }
-    };
-&nbsp;
-    // Logout function
-    const logout = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        // Attempt to notify server of logout
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (tokens?.accessToken) {</span>
-<span class="cstat-no" title="statement not covered" >          authApi.post('/api/auth/logout', {</span>
-            refreshToken: tokens.refreshToken
-          }).catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; {
-<span class="cstat-no" title="statement not covered" >            console.warn('Logout notification failed:', err);</span>
+      // Set up event handlers
+<span class="cstat-no" title="statement not covered" >      peerConnection.onicecandidate = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (event.candidate) {</span>
+<span class="cstat-no" title="statement not covered" >          this._sendSignalingMessage({</span>
+            type: 'ice-candidate',
+            candidate: event.candidate,
+            to: peerId,
+            from: this.participantId
           });
-        }
-      } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.warn('Logout error:', error);</span>
-      } finally {
-<span class="cstat-no" title="statement not covered" >        clearAuthTokens();</span>
-      }
-    };
-&nbsp;
-    // Schedule token refresh
-    const scheduleRefresh = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>okenPair: TokenPair) =&gt; {</span>
-      const expiresAt = <span class="cstat-no" title="statement not covered" >new Date(tokenPair.expiresAt).getTime();</span>
-      const now = <span class="cstat-no" title="statement not covered" >Date.now();</span>
-      const refreshTime = <span class="cstat-no" title="statement not covered" >expiresAt - now - 300000;</span> // Refresh 5 minutes before expiry
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (refreshTime &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          refreshToken().catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            console.error('Scheduled token refresh failed:', err);</span>
-<span class="cstat-no" title="statement not covered" >            logout();</span>
-          });
-        }, refreshTime);
-      }
-    };
-&nbsp;
-    // Role checking function
-    const hasRole = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(r</span>equiredRoles: string | string[]): boolean =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) <span class="cstat-no" title="statement not covered" >return false;</span></span>
-&nbsp;
-      const roles = <span class="cstat-no" title="statement not covered" >Array.isArray(requiredRoles) ? requiredRoles : [requiredRoles];</span>
-      const userRoles = <span class="cstat-no" title="statement not covered" >user.roles || [user.role];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      return roles.some(<span class="fstat-no" title="function not covered" >role </span>=&gt; <span class="cstat-no" title="statement not covered" >userRoles.includes(role))</span>;</span>
-    };
-&nbsp;
-    // Initialize authentication on mount
-<span class="cstat-no" title="statement not covered" >    useEffect(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-      const initializeAuth = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
-<span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (tokens?.accessToken) {</span>
-            // Set axios header
-<span class="cstat-no" title="statement not covered" >            authApi.defaults.headers.common.Authorization = `Bearer ${tokens.accessToken}`;</span>
-&nbsp;
-            // Check if token is expired
-            const decoded: any = <span class="cstat-no" title="statement not covered" >jwtDecode(tokens.accessToken);</span>
-            const isExpired = <span class="cstat-no" title="statement not covered" >decoded.exp * 1000 &lt; Date.now();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            if (isExpired) {</span>
-              // Try to refresh token
-<span class="cstat-no" title="statement not covered" >              await refreshToken();</span>
-            } else {
-              // Token is valid, extract user info
-              const userRole = <span class="cstat-no" title="statement not covered" >decoded.role || decoded.roles?.[0];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              <span class="missing-if-branch" title="if path not taken" >I</span>if (!validateRole(userRole, decoded.roles)) {</span>
-<span class="cstat-no" title="statement not covered" >                throw new Error(`Access denied: ${config.appName} credentials required`);</span>
-              }
-&nbsp;
-              const baseUser = <span class="cstat-no" title="statement not covered" >{</span>
-                id: decoded.sub || decoded.userId || decoded.id,
-                email: decoded.email,
-                firstName: decoded.firstName || decoded.given_name,
-                lastName: decoded.lastName || decoded.family_name,
-                role: userRole,
-                roles: Array.isArray(decoded.roles) ? decoded.roles : [userRole],
-              };
-&nbsp;
-              // Add role-specific fields
-<span class="cstat-no" title="statement not covered" >              if (config.userRole === 'nurse') {</span>
-<span class="cstat-no" title="statement not covered" >                setUser({</span>
-                  ...baseUser,
-                  nurseId: decoded.nurseId,
-                  department: decoded.department,
-                  licenseNumber: decoded.licenseNumber
-                } as NurseUser);
-              } else <span class="cstat-no" title="statement not covered" >if (config.userRole === 'employer') {</span>
-<span class="cstat-no" title="statement not covered" >                setUser({</span>
-                  ...baseUser,
-                  organizationId: decoded.organizationId || decoded.orgId,
-                  organizationName: decoded.organizationName || decoded.orgName,
-                  employerTitle: decoded.title || decoded.employerTitle,
-                  department: decoded.department
-                } as EmployerUser);
-              } else <span class="cstat-no" title="statement not covered" >if (config.userRole === 'patient') {</span>
-<span class="cstat-no" title="statement not covered" >                setUser({</span>
-                  ...baseUser,
-                  patientId: decoded.patientId,
-                  dateOfBirth: decoded.dateOfBirth,
-                  phone: decoded.phone
-                } as PatientUser);
-              } else {
-<span class="cstat-no" title="statement not covered" >                setUser(baseUser);</span>
-              }
-&nbsp;
-              // Schedule next refresh
-<span class="cstat-no" title="statement not covered" >              scheduleRefresh(tokens);</span>
-            }
-          }
-        } catch (error) {
-<span class="cstat-no" title="statement not covered" >          console.error('Auth initialization failed:', error);</span>
-<span class="cstat-no" title="statement not covered" >          clearAuthTokens();</span>
-        } finally {
-<span class="cstat-no" title="statement not covered" >          setIsLoading(false);</span>
         }
       };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      initializeAuth();</span>
-    }, []);
+<span class="cstat-no" title="statement not covered" >      peerConnection.ontrack = <span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        this._emitEvent('streamAdded', {</span>
+          peerId,
+          stream: event.streams[0]
+        });
+      };
 &nbsp;
-    const value: AuthContextType = <span class="cstat-no" title="statement not covered" >{</span>
-      isAuthenticated,
-      user,
-      isLoading,
-      login,
-      register,
-      logout,
-      refreshToken,
-      hasRole
+<span class="cstat-no" title="statement not covered" >      peerConnection.oniceconnectionstatechange = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        this._emitEvent('connectionStateChanged', {</span>
+          peerId,
+          state: peerConnection.iceConnectionState
+        });
+&nbsp;
+        // Handle connection failures
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (peerConnection.iceConnectionState === 'failed' ||</span>
+            peerConnection.iceConnectionState === 'disconnected') {
+<span class="cstat-no" title="statement not covered" >          this._handleConnectionFailure(peerId);</span>
+        }
+      };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.peerConnections.set(peerId, peerConnection);</span>
+<span class="cstat-no" title="statement not covered" >      return peerConnection;</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'peerConnection', peerId, error });</span>
+<span class="cstat-no" title="statement not covered" >      throw error;</span>
+    }
+  }
+&nbsp;
+  /**
+   * Initiate call to a remote participant
+   *
+   * @param {string} peerId - ID of the remote participant
+   * @returns {Promise} Call initiation promise
+   */
+<span class="fstat-no" title="function not covered" >  async c</span>all(peerId) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Not connected to signaling server');</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const peerConnection = <span class="cstat-no" title="statement not covered" >this.createPeerConnection(peerId);</span>
+&nbsp;
+      // Create and send offer
+      const offer = <span class="cstat-no" title="statement not covered" >await peerConnection.createOffer({</span>
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      await peerConnection.setLocalDescription(offer);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this._sendSignalingMessage({</span>
+        type: 'offer',
+        sdp: peerConnection.localDescription,
+        to: peerId,
+        from: this.participantId
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return { peerId, status: 'offer_sent' };</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'call', peerId, error });</span>
+<span class="cstat-no" title="statement not covered" >      throw error;</span>
+    }
+  }
+&nbsp;
+  /**
+   * Send a message to a remote participant
+   *
+   * @param {string} peerId - ID of the remote participant
+   * @param {*} message - Message to send
+   * @returns {boolean} Success status
+   */
+<span class="fstat-no" title="function not covered" >  sendMessage(p</span>eerId, message) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      this._sendSignalingMessage({</span>
+        type: 'message',
+        content: message,
+        to: peerId,
+        from: this.participantId
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'message', peerId, error });</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+  }
+&nbsp;
+  /**
+   * Broadcast a message to all participants
+   *
+   * @param {*} message - Message to broadcast
+   * @returns {boolean} Success status
+   */
+<span class="fstat-no" title="function not covered" >  broadcast(m</span>essage) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      this._sendSignalingMessage({</span>
+        type: 'broadcast',
+        content: message,
+        from: this.participantId
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'broadcast', error });</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+  }
+&nbsp;
+  /**
+   * Get connection statistics
+   *
+   * @param {string} peerId - ID of the remote participant
+   * @returns {Promise&lt;Object&gt;} Connection statistics
+   */
+<span class="fstat-no" title="function not covered" >  async g</span>etStats(peerId) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.peerConnections.has(peerId)) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(`No peer connection with ${peerId}`);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const peerConnection = <span class="cstat-no" title="statement not covered" >this.peerConnections.get(peerId);</span>
+      const stats = <span class="cstat-no" title="statement not covered" >await peerConnection.getStats();</span>
+&nbsp;
+      const result = <span class="cstat-no" title="statement not covered" >{</span>
+        timestamp: new Date(),
+        audio: {},
+        video: {},
+        connection: {}
+      };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      stats.forEach(<span class="fstat-no" title="function not covered" >report =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (report.type === 'inbound-rtp' &amp;&amp; report.kind === 'audio') {</span>
+<span class="cstat-no" title="statement not covered" >          result.audio.packetsReceived = report.packetsReceived;</span>
+<span class="cstat-no" title="statement not covered" >          result.audio.packetsLost = report.packetsLost;</span>
+<span class="cstat-no" title="statement not covered" >          result.audio.jitter = report.jitter;</span>
+<span class="cstat-no" title="statement not covered" >          result.audio.bytesReceived = report.bytesReceived;</span>
+        } else <span class="cstat-no" title="statement not covered" >if (report.type === 'inbound-rtp' &amp;&amp; report.kind === 'video') {</span>
+<span class="cstat-no" title="statement not covered" >          result.video.packetsReceived = report.packetsReceived;</span>
+<span class="cstat-no" title="statement not covered" >          result.video.packetsLost = report.packetsLost;</span>
+<span class="cstat-no" title="statement not covered" >          result.video.jitter = report.jitter;</span>
+<span class="cstat-no" title="statement not covered" >          result.video.bytesReceived = report.bytesReceived;</span>
+<span class="cstat-no" title="statement not covered" >          result.video.framesReceived = report.framesReceived;</span>
+<span class="cstat-no" title="statement not covered" >          result.video.framesDropped = report.framesDropped;</span>
+        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (report.type === 'candidate-pair' &amp;&amp; report.state === 'succeeded') {</span>
+<span class="cstat-no" title="statement not covered" >          result.connection.rtt = report.currentRoundTripTime;</span>
+<span class="cstat-no" title="statement not covered" >          result.connection.availableOutgoingBitrate = report.availableOutgoingBitrate;</span>
+<span class="cstat-no" title="statement not covered" >          result.connection.availableIncomingBitrate = report.availableIncomingBitrate;</span>
+        }
+      });
+&nbsp;
+      // Calculate packet loss percentage
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.audio.packetsReceived) {</span>
+        const totalAudioPackets = <span class="cstat-no" title="statement not covered" >result.audio.packetsReceived + (result.audio.packetsLost || 0);</span>
+<span class="cstat-no" title="statement not covered" >        result.audio.packetLossRate = totalAudioPackets &gt; 0 ?</span>
+          (result.audio.packetsLost || 0) / totalAudioPackets * 100 : 0;
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.video.packetsReceived) {</span>
+        const totalVideoPackets = <span class="cstat-no" title="statement not covered" >result.video.packetsReceived + (result.video.packetsLost || 0);</span>
+<span class="cstat-no" title="statement not covered" >        result.video.packetLossRate = totalVideoPackets &gt; 0 ?</span>
+          (result.video.packetsLost || 0) / totalVideoPackets * 100 : 0;
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return result;</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'stats', peerId, error });</span>
+<span class="cstat-no" title="statement not covered" >      throw error;</span>
+    }
+  }
+&nbsp;
+  /**
+   * Register event listener
+   *
+   * @param {string} event - Event name
+   * @param {Function} callback - Callback function
+   * @returns {boolean} Success status
+   */
+<span class="fstat-no" title="function not covered" >  on(e</span>vent, callback) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.eventListeners[event]) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.eventListeners[event].push(callback);</span>
+<span class="cstat-no" title="statement not covered" >    return true;</span>
+  }
+&nbsp;
+  /**
+   * Remove event listener
+   *
+   * @param {string} event - Event name
+   * @param {Function} callback - Callback function
+   * @returns {boolean} Success status
+   */
+<span class="fstat-no" title="function not covered" >  off(e</span>vent, callback) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.eventListeners[event]) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+    const index = <span class="cstat-no" title="statement not covered" >this.eventListeners[event].indexOf(callback);</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (index !== -1) {</span>
+<span class="cstat-no" title="statement not covered" >      this.eventListeners[event].splice(index, 1);</span>
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  }
+&nbsp;
+  // Private methods
+&nbsp;
+  /**
+   * Send a signaling message
+   *
+   * @private
+   * @param {Object} message - Message to send
+   */
+<span class="fstat-no" title="function not covered" >  _sendSignalingMessage(m</span>essage) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Not connected to signaling server');</span>
+    }
+&nbsp;
+    const fullMessage = <span class="cstat-no" title="statement not covered" >{</span>
+      ...message,
+      sessionId: this.sessionId,
+      timestamp: new Date().toISOString()
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return &lt;AuthContext.Provider value={value}&gt;{children}&lt;/AuthContext.Provider&gt;;</span>
-  };
-};
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >useAuth = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>): AuthContextType =</span>&gt; {</span>
-  const context = <span class="cstat-no" title="statement not covered" >useContext(AuthContext);</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (context === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('useAuth must be used within an AuthProvider');</span>
+<span class="cstat-no" title="statement not covered" >    this.socket.send(JSON.stringify(fullMessage));</span>
   }
-<span class="cstat-no" title="statement not covered" >  return context;</span>
+&nbsp;
+  /**
+   * Handle incoming signaling message
+   *
+   * @private
+   * @param {MessageEvent} event - WebSocket message event
+   */
+<span class="fstat-no" title="function not covered" >  _handleSignalingMessage(e</span>vent) {
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const message = <span class="cstat-no" title="statement not covered" >JSON.parse(event.data);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      switch (message.type) {</span>
+        case 'participant-joined':
+<span class="cstat-no" title="statement not covered" >          this._handleParticipantJoined(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'participant-left':
+<span class="cstat-no" title="statement not covered" >          this._handleParticipantLeft(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'offer':
+<span class="cstat-no" title="statement not covered" >          this._handleOffer(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'answer':
+<span class="cstat-no" title="statement not covered" >          this._handleAnswer(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'ice-candidate':
+<span class="cstat-no" title="statement not covered" >          this._handleIceCandidate(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'message':
+<span class="cstat-no" title="statement not covered" >          this._handleMessage(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'broadcast':
+<span class="cstat-no" title="statement not covered" >          this._handleBroadcast(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        case 'error':
+<span class="cstat-no" title="statement not covered" >          this._handleError(message);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+&nbsp;
+        default:
+<span class="cstat-no" title="statement not covered" >          console.warn('Unknown message type:', message.type);</span>
+      }
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'parse', error });</span>
+    }
+  }
+&nbsp;
+  /**
+   * Handle participant joined message
+   *
+   * @private
+   * @param {Object} message - Participant joined message
+   */
+<span class="fstat-no" title="function not covered" >  _handleParticipantJoined(m</span>essage) {
+    const { participantId, role } = <span class="cstat-no" title="statement not covered" >message;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this._emitEvent('participantJoined', {</span>
+      participantId,
+      role
+    });
+&nbsp;
+    // Automatically initiate call to new participant
+<span class="cstat-no" title="statement not covered" >    this.call(participantId).catch(<span class="fstat-no" title="function not covered" >error =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'call', participantId, error });</span>
+    });
+  }
+&nbsp;
+  /**
+   * Handle participant left message
+   *
+   * @private
+   * @param {Object} message - Participant left message
+   */
+<span class="fstat-no" title="function not covered" >  _handleParticipantLeft(m</span>essage) {
+    const { participantId } = <span class="cstat-no" title="statement not covered" >message;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this._closePeerConnection(participantId);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this._emitEvent('participantLeft', {</span>
+      participantId
+    });
+  }
+&nbsp;
+  /**
+   * Handle offer message
+   *
+   * @private
+   * @param {Object} message - Offer message
+   */
+<span class="fstat-no" title="function not covered" >  async _</span>handleOffer(message) {
+    const { from: peerId, sdp } = <span class="cstat-no" title="statement not covered" >message;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const peerConnection = <span class="cstat-no" title="statement not covered" >this.createPeerConnection(peerId);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));</span>
+&nbsp;
+      const answer = <span class="cstat-no" title="statement not covered" >await peerConnection.createAnswer();</span>
+<span class="cstat-no" title="statement not covered" >      await peerConnection.setLocalDescription(answer);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this._sendSignalingMessage({</span>
+        type: 'answer',
+        sdp: peerConnection.localDescription,
+        to: peerId,
+        from: this.participantId
+      });
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'offer', peerId, error });</span>
+    }
+  }
+&nbsp;
+  /**
+   * Handle answer message
+   *
+   * @private
+   * @param {Object} message - Answer message
+   */
+<span class="fstat-no" title="function not covered" >  async _</span>handleAnswer(message) {
+    const { from: peerId, sdp } = <span class="cstat-no" title="statement not covered" >message;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.peerConnections.has(peerId)) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const peerConnection = <span class="cstat-no" title="statement not covered" >this.peerConnections.get(peerId);</span>
+<span class="cstat-no" title="statement not covered" >      await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      this._emitEvent('error', { type: 'answer', peerId, error });</span>
+    }
+  }
+&nbsp;
+  /**
+   * Handle ICE candidate message
+   *
+   * @private
+   * @param {Object} message - ICE candidate message
+   */
+<span class="fstat-no" title="function not covered" >    async _</span>handleIceCandidate(message) {
+    const { from: peerId, candidate } = <span class="cstat-no" title="statement not covered" >message;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.peerConnections.has(peerId)) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const peerConnection = <span class="cstat-no" title="statement not covered" >this.peerConnections.get(peerId);</span>
+<span class="cstat-no" title="statement not covered" >      await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));</span>
+<span class="cstat-no" title="statement not covered" >      console.log(`Added ICE candidate from ${peerId}`);</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.error('Failed to add ICE candidate:', error);</span>
+    }
+  }
+}
+&nbsp;
+// Clean up function
+const cleanup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (heartbeatTimer) {</span>
+<span class="cstat-no" title="statement not covered" >    clearInterval(heartbeatTimer);</span>
+<span class="cstat-no" title="statement not covered" >    heartbeatTimer = null;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (signalingSocket) {</span>
+<span class="cstat-no" title="statement not covered" >    signalingSocket.disconnect();</span>
+<span class="cstat-no" title="statement not covered" >    signalingSocket = null;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  console.log('Signaling client cleaned up');</span>
 };
 &nbsp;
-// Predefined configurations for different apps
-export const <span class="cstat-no" title="statement not covered" >nurseAuthConfig: AuthConfig = {</span>
-  appName: 'Nurse Dashboard',
-  storageKey: 'rn-dashboard-tokens',
-  baseURL: process.env.REACT_APP_API_URL || 'https://localhost:5001',
-  userRole: 'nurse',
-  allowedRoles: Object.values(NURSE_ROLES),
-  roleValidator: isNurseRole,
+<span class="cstat-no" title="statement not covered" >module.exports = {</span>
+  initializeSignaling,
+  sendSignal,
+  startHeartbeat,
+  cleanup,
+  getSignalingSocket: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>ignalingSocket</span>
 };
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >employerAuthConfig: AuthConfig = {</span>
-  appName: 'Employer Dashboard',
-  storageKey: 'employer-dashboard-tokens',
-  baseURL: process.env.REACT_APP_API_URL || 'https://localhost:5001',
-  userRole: 'employer',
-  allowedRoles: Object.values(EMPLOYER_ROLES),
-  roleValidator: isEmployerRole,
-};
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >patientAuthConfig: AuthConfig = {</span>
-  appName: 'Patient Portal',
-  storageKey: 'patient-portal-tokens',
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5010',
-  userRole: 'patient',
-  allowedRoles: ['patient'],
-  enableRegistration: true,
-  roleValidator: isPatientRole,
-};
-&nbsp;
-export const <span class="cstat-no" title="statement not covered" >adminAuthConfig: AuthConfig = {</span>
-  appName: 'Admin Portal',
-  storageKey: 'admin-tokens',
-  baseURL: process.env.REACT_APP_API_URL || 'https://localhost:5001',
-  userRole: 'admin',
-  allowedRoles: Object.values(ADMIN_ROLES),
-  roleValidator: isAdminRole,
-};
-&nbsp;
-// Create AuthProvider components for each app
-export const <span class="cstat-no" title="statement not covered" >NurseAuthProvider = createAuthProvider(nurseAuthConfig);</span>
-export const <span class="cstat-no" title="statement not covered" >EmployerAuthProvider = createAuthProvider(employerAuthConfig);</span>
-export const <span class="cstat-no" title="statement not covered" >PatientAuthProvider = createAuthProvider(patientAuthConfig);</span>
-export const <span class="cstat-no" title="statement not covered" >AdminAuthProvider = createAuthProvider(adminAuthConfig);</span>
-&nbsp;
-// Export individual role constants for backward compatibility
-export { NURSE_ROLES, EMPLOYER_ROLES, PATIENT_ROLES, ADMIN_ROLES };
-export type { NurseRole, EmployerRole, PatientRole, AdminRole };
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -1618,16 +1897,16 @@ export type { NurseRole, EmployerRole, PatientRole, AdminRole };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-02T12:14:19.313Z
+                at 2025-09-02T12:14:19.530Z
             </div>
-        <script src="../../../../prettify.js"></script>
+        <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../sorter.js"></script>
-        <script src="../../../../block-navigation.js"></script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
     </body>
 </html>
     
