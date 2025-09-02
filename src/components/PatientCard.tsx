@@ -31,8 +31,15 @@ export const PatientCard: React.FC<PatientCardProps> = ({
     <div
       className={`patient-card ${className}`}
       onClick={handleClick}
-      role={onClick ? 'button' : undefined}
+      role={onClick ? 'button' : 'article'}
       tabIndex={onClick ? 0 : undefined}
+      aria-label={onClick ? `View details for ${patient.firstName} ${patient.lastName}` : undefined}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
+      } : undefined}
     >
       <div className="patient-card__header">
         <h3 className="patient-card__name">

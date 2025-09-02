@@ -27,10 +27,13 @@ jest.mock('../components/QuickNotesBox', () => ({
   __esModule: true,
   default: ({ value, onChange, onSubmit }: any) => (
     <div data-testid="quick-notes-box">
+      <label htmlFor="quick-notes-input">Quick Notes</label>
       <input
+        id="quick-notes-input"
         data-testid="quick-notes-input"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        aria-label="Quick notes input"
       />
       <button data-testid="quick-notes-submit" onClick={() => onSubmit(value)}>Submit</button>
     </div>
