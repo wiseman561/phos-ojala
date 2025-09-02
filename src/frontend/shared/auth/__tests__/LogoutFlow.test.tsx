@@ -42,7 +42,7 @@ describe('LogoutFlow', () => {
     it('should call logout and redirect on click', async () => {
       render(<LogoutButton />);
       
-      const button = screen.getByRole('button', { name: /logout/i });
+      const button = screen.getByRole('button', { name: /log out/i });
       button.click();
 
       await waitFor(() => {
@@ -56,7 +56,7 @@ describe('LogoutFlow', () => {
       
       render(<LogoutButton />);
       
-      const button = screen.getByRole('button', { name: /logout/i });
+      const button = screen.getByRole('button', { name: /log out/i });
       button.click();
 
       expect(button).toBeDisabled();

@@ -584,9 +584,27 @@ class NetworkUtils {
     console.error('Jitter test error:', error);
     throw error;
   }
+  }
+}
+
+// Export standalone functions for convenience
+const testNetworkConnectivity = async () => {
+  const networkUtils = new NetworkUtils();
+  return networkUtils.testNetworkQuality();
+};
+
+const measureLatency = async () => {
+  const networkUtils = new NetworkUtils();
+  return networkUtils._testLatency();
+};
+
+const measureJitter = async () => {
+  const networkUtils = new NetworkUtils();
+  return networkUtils._testJitter();
 };
 
 module.exports = {
+  NetworkUtils,
   testNetworkConnectivity,
   measureLatency,
   measureJitter
