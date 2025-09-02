@@ -19,7 +19,6 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
     <PackageReference Include="FluentValidation.AspNetCore" />
-    <PackageReference Include="Microsoft.AspNetCore.RateLimiting" />
   </ItemGroup>
   <ItemGroup>
     <!-- Prevent test sources from compiling in the service project -->
