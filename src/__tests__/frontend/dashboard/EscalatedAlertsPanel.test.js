@@ -10,7 +10,7 @@ jest.mock('socket.io-client');
 
 // Import and mock auth
 const { mockAuthContext } = jest.requireActual('../../__mocks__/auth');
-jest.mock('../../../hooks/useAuth', () => ({
+jest.mock('../../../../hooks/useAuth', () => ({
   __esModule: true,
   default: () => mockAuthContext
 }));

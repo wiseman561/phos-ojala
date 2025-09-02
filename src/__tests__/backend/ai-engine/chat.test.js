@@ -13,21 +13,32 @@ describe('Chat API Endpoint Tests', () => {
     app = express();
     app.use(express.json());
     
-    // Stub OpenAI client
-    openaiStub = sinon.stub(OpenAI.prototype, 'chat');
-    openaiStub.returns({
-      completions: {
-        create: sinon.stub().resolves({
-          choices: [
-            {
-              message: {
-                content: 'This is a test response from the OpenAI API'
-              }
-            }
-          ]
-        })
-      }
+    // Mock OpenAI completely
+    const mockChatCompletions = sinon.stub().resolves({
+      choices: [
+        {
+          message: {
+            content: 'This is a test response from the OpenAI API'
+          }
+        }
+      ]
     });
+    
+    // Create a mock OpenAI instance
+    const mockOpenAI = {
+      chat: {
+        completions: {
+          create: mockChatCompletions
+        }
+      }
+    };
+    
+    // Stub the OpenAI constructor to return our mock
+    openaiStub = sinon.stub().returns(mockOpenAI);
+    
+    // Replace the original constructor
+    const originalOpenAI = OpenAI;
+    global.OpenAI = openaiStub;
     
     // Mount the chat router
     app.use('/api/ai', chatRouter);
@@ -35,7 +46,9 @@ describe('Chat API Endpoint Tests', () => {
 
   afterEach(() => {
     // Restore stubs
-    openaiStub.restore();
+    if (openaiStub && openaiStub.restore) {
+      openaiStub.restore();
+    }
   });
 
   describe('POST /api/ai/chat', () => {

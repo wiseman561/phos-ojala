@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn()
 }));
 
-jest.mock('../../../frontend/shared/api/authApi', () => ({
+jest.mock('../../../../frontend/shared/api/authApi', () => ({
   authApi: {
     register: jest.fn()
   }

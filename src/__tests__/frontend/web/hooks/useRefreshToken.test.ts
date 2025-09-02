@@ -1,10 +1,10 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useRefreshToken } from '../../../hooks/useRefreshToken';
-import { authApi } from '../../../frontend/shared/api/authApi';
+import { useRefreshToken } from '../../../../hooks/useRefreshToken';
+import { authApi } from '../../../../frontend/shared/api/authApi';
 import { mockAuthResponses } from '../../../../utils/test-utils';
 
 // Mock the API
-jest.mock('../../../frontend/shared/api/authApi', () => ({
+jest.mock('../../../../frontend/shared/api/authApi', () => ({
   authApi: {
     refresh: jest.fn()
   }

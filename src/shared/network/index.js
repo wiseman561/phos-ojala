@@ -563,9 +563,8 @@ class NetworkUtils {
         const endTime = Date.now();
         pings.push(endTime - startTime);
       }
-    }
 
-    // Calculate statistics
+      // Calculate statistics
     if (pings.length === 0) {
       throw new Error('No successful jitter measurements');
     }

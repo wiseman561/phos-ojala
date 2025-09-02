@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="73" failures="20" errors="0" time="28.468">
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:13:49" time="6.39" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.035">
+<testsuites name="jest tests" tests="73" failures="20" errors="0" time="30.739">
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:33:57" time="9.167" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.041">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.011">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.003">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.008">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.001">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.001">
     </testcase>
@@ -27,7 +27,57 @@
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.006">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.003">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:33:57" time="9.164" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.041">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.003">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.008">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.001">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
     </testcase>
@@ -45,63 +95,13 @@
     </testcase>
     <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.003">
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:13:49" time="6.756" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.038">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.012">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.004">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.006">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.006">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.001">
+    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Telemetry Processor" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:13:49" time="8.095" tests="4">
-    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0.051">
+  <testsuite name="Telemetry Processor" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:33:57" time="11.201" tests="4">
+    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0.047">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -109,7 +109,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:67:49)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0.051">
+    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0.009">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -117,7 +117,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:132:49)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should handle errors gracefully" name="Telemetry Processor processNewTelemetry should handle errors gracefully" time="0.006">
+    <testcase classname="Telemetry Processor processNewTelemetry should handle errors gracefully" name="Telemetry Processor processNewTelemetry should handle errors gracefully" time="0.025">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -125,7 +125,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:154:43)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0.024">
+    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0.021">
       <failure>Error: expect(received).toEqual(expected) // deep equality
 
 - Expected  - 2
@@ -141,8 +141,8 @@ Received: false
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Chat API Endpoint Tests" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:13:49" time="10.71" tests="4">
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0.025">
+  <testsuite name="Chat API Endpoint Tests" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:33:57" time="13.115" tests="4">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0.031">
       <failure>TypeError: Cannot stub non-existent property chat
     at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
     at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
@@ -180,7 +180,7 @@ Received: false
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0.002">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0.003">
       <failure>TypeError: Cannot stub non-existent property chat
     at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
     at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
@@ -218,7 +218,7 @@ Received: false
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0.002">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0.003">
       <failure>TypeError: Cannot stub non-existent property chat
     at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
     at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
@@ -256,7 +256,7 @@ Received: false
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0.004">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0.003">
       <failure>TypeError: Cannot stub non-existent property chat
     at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
     at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
@@ -295,12 +295,12 @@ Received: false
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Test Utilities" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:13:49" time="12.665" tests="4">
-    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="0.826">
+  <testsuite name="Test Utilities" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:33:57" time="15.443" tests="4">
+    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="0.909">
     </testcase>
-    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0.315">
+    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0.312">
     </testcase>
-    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0.003">
+    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0.004">
       <failure>TypeError: expect(...).toBeWithinRange is not a function
     at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\utils\test-utils.test.tsx:82:16)
     at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
@@ -317,11 +317,11 @@ Received: false
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0.038">
+    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0.008">
     </testcase>
   </testsuite>
-  <testsuite name="useAuth Hook" errors="0" failures="7" skipped="0" timestamp="2025-09-02T12:14:00" time="8.851" tests="7">
-    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0.405">
+  <testsuite name="useAuth Hook" errors="0" failures="7" skipped="0" timestamp="2025-09-02T12:33:57" time="15.437" tests="7">
+    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0.523">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -342,7 +342,7 @@ Received: undefined
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0.014">
+    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0.03">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -372,7 +372,7 @@ Received: undefined
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0.4">
+    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0.379">
       <failure>AxiosError: Network Error
     at XMLHttpRequest.handleError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\adapters\xhr.js:110:14)
     at XMLHttpRequest.invokeTheCallbackFunction (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\generated\EventHandlerNonNull.js:14:28)
@@ -396,23 +396,23 @@ Received: undefined
     at Axios.request (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\core\Axios.js:45:41)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="1.069">
+    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="1.071">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="1.05">
+    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="1.045">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="1.082">
+    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="1.1">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="LogoutFlow" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:13:49" time="21.346" tests="6">
-    <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0.453">
+  <testsuite name="LogoutFlow" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:33:57" time="21.647" tests="6">
+    <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0.219">
     </testcase>
-    <testcase classname="LogoutFlow LogoutButton should call logout and redirect on click" name="LogoutFlow LogoutButton should call logout and redirect on click" time="0.065">
+    <testcase classname="LogoutFlow LogoutButton should call logout and redirect on click" name="LogoutFlow LogoutButton should call logout and redirect on click" time="0.072">
       <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/logout/i`
 
 Here are the accessible roles:
@@ -467,7 +467,7 @@ Ignored nodes: comments, script, style
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="LogoutFlow LogoutButton should show loading state while logging out" name="LogoutFlow LogoutButton should show loading state while logging out" time="0.031">
+    <testcase classname="LogoutFlow LogoutButton should show loading state while logging out" name="LogoutFlow LogoutButton should show loading state while logging out" time="0.042">
       <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/logout/i`
 
 Here are the accessible roles:
@@ -522,7 +522,7 @@ Ignored nodes: comments, script, style
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" name="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" time="1.011">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" name="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" time="1.012">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
 
 Expected number of calls: 1
@@ -546,7 +546,7 @@ Ignored nodes: comments, script, style
     at listOnTimeout (node:internal/timers:581:17)
     at processTimers (node:internal/timers:519:7)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" name="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" time="1.005">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" name="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" time="1.018">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
 
 Expected number of calls: 1
