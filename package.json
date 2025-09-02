@@ -9,7 +9,7 @@
     "test:ci": "jest --ci --coverage",
     "build:scripts": "cd scripts && tsc",
     "cleanup": "node scripts/dist/cleanup-empty.js",
-    "pretest": "npm run cleanup -- --dry-run",
+
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky",
     "postinstall": "cd ./src/frontend/phos-web && npm install",

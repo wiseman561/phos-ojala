@@ -189,14 +189,15 @@ describe('Auth API Service', () => {
     });
 
     it('handles timeout errors', async () => {
-      mockedAxios.post.mockRejectedValueOnce({
+      const timeoutError = {
         code: 'ECONNABORTED',
         message: 'Request timeout'
-      });
+      };
+      mockedAxios.post.mockRejectedValueOnce(timeoutError);
 
       await expect(
         authApi.login('test@example.com', 'password123')
-      ).rejects.toThrow('Request timeout');
+      ).rejects.toEqual(timeoutError);
     });
   });
 });

@@ -6,6 +6,9 @@ const { TextEncoder, TextDecoder } = require('util');
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
+// Fetch polyfill for OpenAI
+global.fetch = jest.fn();
+
 // Custom Jest matchers
 expect.extend({
   toBeWithinRange(received: number, min: number, max: number) {

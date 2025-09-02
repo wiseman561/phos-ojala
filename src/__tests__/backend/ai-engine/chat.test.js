@@ -94,11 +94,28 @@ describe('Chat API Endpoint Tests', () => {
     });
 
     it('should handle OpenAI API errors gracefully', async () => {
-      // Restore the original stub and create a new one that throws an error
-      openaiStub.restore();
-      openaiStub = sinon.stub(OpenAI.prototype, 'chat').throws(new Error('OpenAI API Error'));
+      // Create a new app with failing OpenAI mock
+      const failingApp = express();
+      failingApp.use(express.json());
+      
+      // Mock OpenAI to throw an error
+      const mockChatCompletions = sinon.stub().rejects(new Error('OpenAI API Error'));
+      
+      const mockOpenAI = {
+        chat: {
+          completions: {
+            create: mockChatCompletions
+          }
+        }
+      };
+      
+      // Create failing OpenAI stub
+      const failingOpenaiStub = sinon.stub().returns(mockOpenAI);
+      global.OpenAI = failingOpenaiStub;
+      
+      failingApp.use('/api/ai', chatRouter);
 
-      const response = await request(app)
+      const response = await request(failingApp)
         .post('/api/ai/chat')
         .send({
           prompt: 'Test prompt'

@@ -74,7 +74,6 @@ export default {
       'ts-jest',
       {
         tsconfig: '<rootDir>/tsconfig.json',
-        isolatedModules: true,
         diagnostics: {
           ignoreCodes: [151001],
           warnOnly: true
