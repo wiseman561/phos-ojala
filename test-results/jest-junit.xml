@@ -1,6 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="116" failures="1" errors="0" time="32.435">
-  <testsuite name="Auth API Service" errors="0" failures="1" skipped="10" timestamp="2025-09-02T13:54:57" time="11.217" tests="11">
+<testsuites name="jest tests" tests="130" failures="0" errors="0" time="28.696">
+  <testsuite name="useAuth Hook" errors="0" failures="0" skipped="7" timestamp="2025-09-02T13:58:18" time="10.632" tests="7">
+    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useAuth Hook handles invalid token on mount" name="useAuth Hook handles invalid token on mount" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Chat API Endpoint Tests" errors="0" failures="0" skipped="4" timestamp="2025-09-02T13:58:18" time="14.421" tests="4">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="useRefreshToken Hook" errors="0" failures="0" skipped="7" timestamp="2025-09-02T13:58:18" time="14.637" tests="7">
+    <testcase classname="useRefreshToken Hook does nothing when no refresh token exists" name="useRefreshToken Hook does nothing when no refresh token exists" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useRefreshToken Hook attempts to refresh token when one exists" name="useRefreshToken Hook attempts to refresh token when one exists" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles refresh token failure" name="useRefreshToken Hook handles refresh token failure" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles network errors during refresh" name="useRefreshToken Hook handles network errors during refresh" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles malformed refresh token response" name="useRefreshToken Hook handles malformed refresh token response" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useRefreshToken Hook cleans up on unmount" name="useRefreshToken Hook cleans up on unmount" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles concurrent refresh attempts" name="useRefreshToken Hook handles concurrent refresh attempts" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="ProtectedRoute Component" errors="0" failures="0" skipped="6" timestamp="2025-09-02T13:58:29" time="4.983" tests="6">
+    <testcase classname="ProtectedRoute Component renders without accessibility violations" name="ProtectedRoute Component renders without accessibility violations" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="ProtectedRoute Component redirects to login when not authenticated" name="ProtectedRoute Component redirects to login when not authenticated" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="ProtectedRoute Component renders children when authenticated" name="ProtectedRoute Component renders children when authenticated" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="ProtectedRoute Component preserves the original location in state" name="ProtectedRoute Component preserves the original location in state" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="ProtectedRoute Component shows loading state while checking authentication" name="ProtectedRoute Component shows loading state while checking authentication" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="ProtectedRoute Component handles error state" name="ProtectedRoute Component handles error state" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Telemetry Processor" errors="0" failures="0" skipped="4" timestamp="2025-09-02T13:58:33" time="1.517" tests="4">
+    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Telemetry Processor processNewTelemetry should handle errors gracefully" name="Telemetry Processor processNewTelemetry should handle errors gracefully" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Test Utilities" errors="0" failures="0" skipped="4" timestamp="2025-09-02T13:58:33" time="2.163" tests="4">
+    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="24" timestamp="2025-09-02T13:58:34" time="1.115" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Auth API Service" errors="0" failures="0" skipped="10" timestamp="2025-09-02T13:58:34" time="1.374" tests="11">
     <testcase classname="Auth API Service login successfully logs in user" name="Auth API Service login successfully logs in user" time="0">
       <skipped/>
     </testcase>
@@ -31,74 +213,10 @@
     <testcase classname="Auth API Service error handling handles server errors" name="Auth API Service error handling handles server errors" time="0">
       <skipped/>
     </testcase>
-    <testcase classname="Auth API Service error handling handles timeout errors" name="Auth API Service error handling handles timeout errors" time="0.102">
-      <failure>Error: expect(received).rejects.toThrow(expected)
-
-Expected message: &quot;Request timeout&quot;
-
-Received function did not throw
-    at Object.toThrow (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\expect\build\index.js:218:22)
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:200:17
-    at Generator.next (&lt;anonymous&gt;)
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:8:71
-    at new Promise (&lt;anonymous&gt;)
-    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:4:12)
-    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:191:45)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    <testcase classname="Auth API Service error handling handles timeout errors" name="Auth API Service error handling handles timeout errors" time="0.057">
     </testcase>
   </testsuite>
-  <testsuite name="useAuth Hook" errors="0" failures="0" skipped="7" timestamp="2025-09-02T13:54:57" time="11.88" tests="7">
-    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useAuth Hook handles invalid token on mount" name="useAuth Hook handles invalid token on mount" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="0">
-      <skipped/>
-    </testcase>
-  </testsuite>
-  <testsuite name="Telemetry Processor" errors="0" failures="0" skipped="4" timestamp="2025-09-02T13:54:57" time="12.574" tests="4">
-    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should handle errors gracefully" name="Telemetry Processor processNewTelemetry should handle errors gracefully" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0">
-      <skipped/>
-    </testcase>
-  </testsuite>
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="24" timestamp="2025-09-02T13:55:11" time="1.245" tests="24">
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="24" timestamp="2025-09-02T13:58:35" time="1.214" tests="24">
     <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0">
       <skipped/>
     </testcase>
@@ -172,152 +290,27 @@ Received function did not throw
       <skipped/>
     </testcase>
   </testsuite>
-  <testsuite name="Chat API Endpoint Tests" errors="0" failures="0" skipped="4" timestamp="2025-09-02T13:54:57" time="15.789" tests="4">
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0">
+  <testsuite name="Login Component" errors="0" failures="0" skipped="6" timestamp="2025-09-02T13:58:18" time="20.099" tests="6">
+    <testcase classname="Login Component renders login form correctly" name="Login Component renders login form correctly" time="0">
       <skipped/>
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0">
+    <testcase classname="Login Component handles successful login" name="Login Component handles successful login" time="0">
       <skipped/>
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0">
+    <testcase classname="Login Component handles login error" name="Login Component handles login error" time="0">
       <skipped/>
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0">
+    <testcase classname="Login Component shows loading state during login" name="Login Component shows loading state during login" time="0">
       <skipped/>
     </testcase>
-  </testsuite>
-  <testsuite name="ProtectedRoute Component" errors="0" failures="0" skipped="6" timestamp="2025-09-02T13:54:57" time="16.512" tests="6">
-    <testcase classname="ProtectedRoute Component renders without accessibility violations" name="ProtectedRoute Component renders without accessibility violations" time="0">
+    <testcase classname="Login Component validates required fields" name="Login Component validates required fields" time="0">
       <skipped/>
     </testcase>
-    <testcase classname="ProtectedRoute Component redirects to login when not authenticated" name="ProtectedRoute Component redirects to login when not authenticated" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="ProtectedRoute Component renders children when authenticated" name="ProtectedRoute Component renders children when authenticated" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="ProtectedRoute Component preserves the original location in state" name="ProtectedRoute Component preserves the original location in state" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="ProtectedRoute Component shows loading state while checking authentication" name="ProtectedRoute Component shows loading state while checking authentication" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="ProtectedRoute Component handles error state" name="ProtectedRoute Component handles error state" time="0">
+    <testcase classname="Login Component validates email format" name="Login Component validates email format" time="0">
       <skipped/>
     </testcase>
   </testsuite>
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="24" timestamp="2025-09-02T13:55:12" time="1.131" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0">
-      <skipped/>
-    </testcase>
-  </testsuite>
-  <testsuite name="useRefreshToken Hook" errors="0" failures="0" skipped="7" timestamp="2025-09-02T13:54:57" time="16.663" tests="7">
-    <testcase classname="useRefreshToken Hook does nothing when no refresh token exists" name="useRefreshToken Hook does nothing when no refresh token exists" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useRefreshToken Hook attempts to refresh token when one exists" name="useRefreshToken Hook attempts to refresh token when one exists" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles refresh token failure" name="useRefreshToken Hook handles refresh token failure" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles network errors during refresh" name="useRefreshToken Hook handles network errors during refresh" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles malformed refresh token response" name="useRefreshToken Hook handles malformed refresh token response" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useRefreshToken Hook cleans up on unmount" name="useRefreshToken Hook cleans up on unmount" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles concurrent refresh attempts" name="useRefreshToken Hook handles concurrent refresh attempts" time="0">
-      <skipped/>
-    </testcase>
-  </testsuite>
-  <testsuite name="Test Utilities" errors="0" failures="0" skipped="4" timestamp="2025-09-02T13:55:10" time="5.732" tests="4">
-    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0">
-      <skipped/>
-    </testcase>
-    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0">
-      <skipped/>
-    </testcase>
-  </testsuite>
-  <testsuite name="ProgramEffectivenessCard" errors="0" failures="0" skipped="19" timestamp="2025-09-02T13:54:57" time="23.125" tests="19">
+  <testsuite name="ProgramEffectivenessCard" errors="0" failures="0" skipped="19" timestamp="2025-09-02T13:58:18" time="20.122" tests="19">
     <testcase classname="ProgramEffectivenessCard Loading State should show loading spinner when no data is provided" name="ProgramEffectivenessCard Loading State should show loading spinner when no data is provided" time="0">
       <skipped/>
     </testcase>
@@ -376,7 +369,7 @@ Received function did not throw
       <skipped/>
     </testcase>
   </testsuite>
-  <testsuite name="LogoutFlow" errors="0" failures="0" skipped="6" timestamp="2025-09-02T13:55:09" time="11.399" tests="6">
+  <testsuite name="LogoutFlow" errors="0" failures="0" skipped="6" timestamp="2025-09-02T13:58:18" time="20.805" tests="6">
     <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0">
       <skipped/>
     </testcase>
@@ -393,6 +386,32 @@ Received function did not throw
       <skipped/>
     </testcase>
     <testcase classname="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" name="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Register Component" errors="0" failures="0" skipped="8" timestamp="2025-09-02T13:58:18" time="21.23" tests="8">
+    <testcase classname="Register Component renders without accessibility violations" name="Register Component renders without accessibility violations" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component renders all form fields" name="Register Component renders all form fields" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component handles successful registration" name="Register Component handles successful registration" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component validates matching passwords" name="Register Component validates matching passwords" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component validates email format" name="Register Component validates email format" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component handles registration error" name="Register Component handles registration error" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component shows loading state during registration" name="Register Component shows loading state during registration" time="0">
+      <skipped/>
+    </testcase>
+    <testcase classname="Register Component validates required fields" name="Register Component validates required fields" time="0">
       <skipped/>
     </testcase>
   </testsuite>

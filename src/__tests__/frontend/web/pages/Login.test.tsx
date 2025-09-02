@@ -64,7 +64,7 @@ describe('Login Component', () => {
     fireEvent.change(screen.getByLabelText(/password/i), {
       target: { value: 'password123' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
     await waitFor(() => {
       expect(mockLogin).toHaveBeenCalledWith(mockToken);
@@ -91,7 +91,7 @@ describe('Login Component', () => {
     fireEvent.change(screen.getByLabelText(/password/i), {
       target: { value: 'wrongpassword' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
     await waitFor(() => {
       expect(screen.getByText(errorMessage)).toBeInTheDocument();
@@ -115,9 +115,9 @@ describe('Login Component', () => {
     fireEvent.change(screen.getByLabelText(/password/i), {
       target: { value: 'password123' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
-    expect(screen.getByRole('button', { name: /login/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /sign in/i })).toBeDisabled();
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
@@ -128,7 +128,7 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
     expect(screen.getByText(/email is required/i)).toBeInTheDocument();
     expect(screen.getByText(/password is required/i)).toBeInTheDocument();
@@ -144,7 +144,7 @@ describe('Login Component', () => {
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'invalid-email' }
     });
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
     expect(screen.getByText(/invalid email format/i)).toBeInTheDocument();
   });
