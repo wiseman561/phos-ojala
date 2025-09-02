@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../../../theme';
-import ProgramEffectivenessCard from './ProgramEffectivenessCard';
+import ProgramEffectivenessCard from '../../../../../components/ProgramEffectivenessCard';
 
 // Define types for the component data
 interface ProgramComparison {

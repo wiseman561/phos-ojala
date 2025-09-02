@@ -45,7 +45,7 @@ const ProgramEffectivenessCard: React.FC<ProgramEffectivenessCardProps> = ({
         </Typography>
 
         <Grid container spacing={3}>
-          {programs.map((program, index) => (
+          {programs && programs.map((program, index) => (
             <Grid item xs={12} md={6} lg={4} key={index}>
               <Box 
                 sx={{ 
@@ -122,7 +122,7 @@ const ProgramEffectivenessCard: React.FC<ProgramEffectivenessCardProps> = ({
           ))}
         </Grid>
 
-        {programs.length === 0 && (
+        {(!programs || programs.length === 0) && (
           <Box sx={{ textAlign: 'center', py: 4 }}>
             <Typography variant="body1" color="text.secondary">
               No program data available at this time.

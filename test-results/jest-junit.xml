@@ -1,107 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="86" failures="25" errors="0" time="36.974">
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:41:12" time="10.606" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.037">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.011">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.008">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:41:23" time="2.524" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.029">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.02">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.016">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.009">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Telemetry Processor" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:41:12" time="13.511" tests="4">
-    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0.052">
+<testsuites name="jest tests" tests="116" failures="44" errors="0" time="43.518">
+  <testsuite name="Telemetry Processor" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:44:53" time="15.183" tests="4">
+    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0.08">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -109,7 +9,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:67:49)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0.011">
+    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0.009">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -125,7 +25,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:154:43)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0.029">
+    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0.021">
       <failure>Error: expect(received).toEqual(expected) // deep equality
 
 - Expected  - 2
@@ -141,14 +41,64 @@ Received: false
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Chat API Endpoint Tests" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:41:12" time="16.47" tests="4">
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0.31">
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:45:09" time="1.9" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.004">
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0.036">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.002">
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0.027">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0.008">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.004">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.004">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.022">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.004">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Chat API Endpoint Tests" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:44:53" time="18.399" tests="4">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0.222">
+    </testcase>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0.026">
+    </testcase>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0.026">
+    </testcase>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0.004">
       <failure>TypeError: openaiStub.restore is not a function
     at Object.restore (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:98:18)
     at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
@@ -168,109 +118,70 @@ Received: false
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="useAuth Hook" errors="0" failures="7" skipped="0" timestamp="2025-09-02T12:41:12" time="18.651" tests="7">
-    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0.92">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: true
-Received: undefined
-    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useAuth.test.ts:17:36)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:45:11" time="1.021" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.004">
     </testcase>
-    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0.062">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: true
-Received: undefined
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useAuth.test.ts:42:36
-    at Generator.next (&lt;anonymous&gt;)
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useAuth.test.ts:8:71
-    at new Promise (&lt;anonymous&gt;)
-    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useAuth.test.ts:4:12)
-    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useAuth.test.ts:21:57)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.002">
     </testcase>
-    <testcase classname="useAuth Hook handles invalid token on mount" name="useAuth Hook handles invalid token on mount" time="1.05">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
     </testcase>
-    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0.844">
-      <failure>AxiosError: Network Error
-    at XMLHttpRequest.handleError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\adapters\xhr.js:110:14)
-    at XMLHttpRequest.invokeTheCallbackFunction (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\generated\EventHandlerNonNull.js:14:28)
-    at XMLHttpRequest.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\helpers\create-event-accessor.js:35:32)
-    at innerInvokeEventListeners (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:350:25)
-    at invokeEventListeners (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:286:3)
-    at XMLHttpRequestImpl._dispatch (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:233:9)
-    at fireAnEvent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\helpers\events.js:18:36)
-    at requestErrorSteps (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\xhr\xhr-utils.js:131:3)
-    at Object.dispatchError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\xhr\xhr-utils.js:60:3)
-    at Request.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\xhr\XMLHttpRequest-impl.js:655:18)
-    at Request.emit (node:events:536:35)
-    at ClientRequest.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\helpers\http-request.js:121:14)
-    at ClientRequest.emit (node:events:524:28)
-    at emitErrorEvent (node:_http_client:101:11)
-    at Socket.socketErrorListener (node:_http_client:504:5)
-    at Socket.emit (node:events:524:28)
-    at emitErrorNT (node:internal/streams/destroy:169:8)
-    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
-    at processTicksAndRejections (node:internal/process/task_queues:82:21)
-    at Axios.request (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\core\Axios.js:45:41)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.001">
     </testcase>
-    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="1.094">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.002">
     </testcase>
-    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="1.067">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.002">
     </testcase>
-    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="1.239">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.007">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Test Utilities" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:41:12" time="19.178" tests="4">
-    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="1.522">
+  <testsuite name="Test Utilities" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:44:53" time="20.498" tests="4">
+    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="0.908">
     </testcase>
-    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0.448">
+    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0.28">
     </testcase>
-    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0.008">
+    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0.01">
     </testcase>
-    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0.008">
+    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0.01">
     </testcase>
   </testsuite>
-  <testsuite name="ProtectedRoute Component" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:41:32" time="6.554" tests="6">
-    <testcase classname="ProtectedRoute Component renders without accessibility violations" name="ProtectedRoute Component renders without accessibility violations" time="0.219">
+  <testsuite name="ProtectedRoute Component" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:44:53" time="20.717" tests="6">
+    <testcase classname="ProtectedRoute Component renders without accessibility violations" name="ProtectedRoute Component renders without accessibility violations" time="0.459">
     </testcase>
-    <testcase classname="ProtectedRoute Component redirects to login when not authenticated" name="ProtectedRoute Component redirects to login when not authenticated" time="0.368">
+    <testcase classname="ProtectedRoute Component redirects to login when not authenticated" name="ProtectedRoute Component redirects to login when not authenticated" time="0.507">
       <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
     at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
     at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
@@ -308,9 +219,9 @@ Received: undefined
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ProtectedRoute Component renders children when authenticated" name="ProtectedRoute Component renders children when authenticated" time="0.028">
+    <testcase classname="ProtectedRoute Component renders children when authenticated" name="ProtectedRoute Component renders children when authenticated" time="0.035">
     </testcase>
-    <testcase classname="ProtectedRoute Component preserves the original location in state" name="ProtectedRoute Component preserves the original location in state" time="0.058">
+    <testcase classname="ProtectedRoute Component preserves the original location in state" name="ProtectedRoute Component preserves the original location in state" time="0.129">
       <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
     at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
     at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
@@ -348,7 +259,7 @@ Received: undefined
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ProtectedRoute Component shows loading state while checking authentication" name="ProtectedRoute Component shows loading state while checking authentication" time="0.072">
+    <testcase classname="ProtectedRoute Component shows loading state while checking authentication" name="ProtectedRoute Component shows loading state while checking authentication" time="0.111">
       <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
     at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
     at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
@@ -381,7 +292,7 @@ Received: undefined
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="ProtectedRoute Component handles error state" name="ProtectedRoute Component handles error state" time="0.056">
+    <testcase classname="ProtectedRoute Component handles error state" name="ProtectedRoute Component handles error state" time="0.104">
       <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
     at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
     at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
@@ -415,10 +326,156 @@ Received: undefined
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="LogoutFlow" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:41:12" time="28.409" tests="6">
-    <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0.365">
+  <testsuite name="useAuth Hook" errors="0" failures="6" skipped="0" timestamp="2025-09-02T12:44:53" time="22.785" tests="7">
+    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0.515">
     </testcase>
-    <testcase classname="LogoutFlow LogoutButton should call logout and redirect on click" name="LogoutFlow LogoutButton should call logout and redirect on click" time="0.14">
+    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="1.046">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useAuth Hook handles invalid token on mount" name="useAuth Hook handles invalid token on mount" time="1.051">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0.501">
+      <failure>AxiosError: Network Error
+    at XMLHttpRequest.handleError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\adapters\xhr.js:110:14)
+    at XMLHttpRequest.invokeTheCallbackFunction (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\generated\EventHandlerNonNull.js:14:28)
+    at XMLHttpRequest.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\helpers\create-event-accessor.js:35:32)
+    at innerInvokeEventListeners (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:350:25)
+    at invokeEventListeners (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:286:3)
+    at XMLHttpRequestImpl._dispatch (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:233:9)
+    at fireAnEvent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\helpers\events.js:18:36)
+    at requestErrorSteps (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\xhr\xhr-utils.js:131:3)
+    at Object.dispatchError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\xhr\xhr-utils.js:60:3)
+    at Request.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\xhr\XMLHttpRequest-impl.js:655:18)
+    at Request.emit (node:events:536:35)
+    at ClientRequest.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\helpers\http-request.js:121:14)
+    at ClientRequest.emit (node:events:524:28)
+    at emitErrorEvent (node:_http_client:101:11)
+    at Socket.socketErrorListener (node:_http_client:504:5)
+    at Socket.emit (node:events:524:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at Axios.request (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\core\Axios.js:45:41)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
+    </testcase>
+    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="1.08">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="1.047">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="1.11">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="useRefreshToken Hook" errors="0" failures="5" skipped="0" timestamp="2025-09-02T12:44:53" time="24.281" tests="7">
+    <testcase classname="useRefreshToken Hook does nothing when no refresh token exists" name="useRefreshToken Hook does nothing when no refresh token exists" time="0.474">
+    </testcase>
+    <testcase classname="useRefreshToken Hook attempts to refresh token when one exists" name="useRefreshToken Hook attempts to refresh token when one exists" time="1.07">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles refresh token failure" name="useRefreshToken Hook handles refresh token failure" time="1.048">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles network errors during refresh" name="useRefreshToken Hook handles network errors during refresh" time="1.038">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles malformed refresh token response" name="useRefreshToken Hook handles malformed refresh token response" time="1.055">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook cleans up on unmount" name="useRefreshToken Hook cleans up on unmount" time="0.02">
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles concurrent refresh attempts" name="useRefreshToken Hook handles concurrent refresh attempts" time="0.083">
+      <failure>TypeError: result.current.refresh is not a function
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:140:22
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2512:16)
+    at actWithWarning (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom-test-utils.development.js:1740:10)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:139:8
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:126:56)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Auth API Service" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:45:17" time="2.339" tests="11">
+    <testcase classname="Auth API Service login successfully logs in user" name="Auth API Service login successfully logs in user" time="0.026">
+    </testcase>
+    <testcase classname="Auth API Service login handles login error" name="Auth API Service login handles login error" time="0.024">
+    </testcase>
+    <testcase classname="Auth API Service register successfully registers new user" name="Auth API Service register successfully registers new user" time="0.003">
+    </testcase>
+    <testcase classname="Auth API Service register handles registration error" name="Auth API Service register handles registration error" time="0.004">
+    </testcase>
+    <testcase classname="Auth API Service logout successfully logs out user" name="Auth API Service logout successfully logs out user" time="0.009">
+    </testcase>
+    <testcase classname="Auth API Service logout handles logout error" name="Auth API Service logout handles logout error" time="0.002">
+    </testcase>
+    <testcase classname="Auth API Service getProfile successfully fetches user profile" name="Auth API Service getProfile successfully fetches user profile" time="0.003">
+    </testcase>
+    <testcase classname="Auth API Service getProfile handles profile fetch error" name="Auth API Service getProfile handles profile fetch error" time="0.024">
+    </testcase>
+    <testcase classname="Auth API Service error handling handles network errors" name="Auth API Service error handling handles network errors" time="0.025">
+    </testcase>
+    <testcase classname="Auth API Service error handling handles server errors" name="Auth API Service error handling handles server errors" time="0.003">
+    </testcase>
+    <testcase classname="Auth API Service error handling handles timeout errors" name="Auth API Service error handling handles timeout errors" time="0.03">
+      <failure>Error: expect(received).rejects.toThrow(expected)
+
+Expected substring: &quot;Request timeout&quot;
+
+Received function did not throw
+    at Object.toThrow (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\expect\build\index.js:218:22)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:199:17
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\services\authApi.test.ts:191:45)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="LogoutFlow" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:44:53" time="32.474" tests="6">
+    <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0.415">
+    </testcase>
+    <testcase classname="LogoutFlow LogoutButton should call logout and redirect on click" name="LogoutFlow LogoutButton should call logout and redirect on click" time="0.149">
       <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/logout/i`
 
 Here are the accessible roles:
@@ -473,7 +530,7 @@ Ignored nodes: comments, script, style
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="LogoutFlow LogoutButton should show loading state while logging out" name="LogoutFlow LogoutButton should show loading state while logging out" time="0.085">
+    <testcase classname="LogoutFlow LogoutButton should show loading state while logging out" name="LogoutFlow LogoutButton should show loading state while logging out" time="0.053">
       <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/logout/i`
 
 Here are the accessible roles:
@@ -528,7 +585,7 @@ Ignored nodes: comments, script, style
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" name="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" time="1.008">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" name="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" time="1.018">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
 
 Expected number of calls: 1
@@ -552,7 +609,7 @@ Ignored nodes: comments, script, style
     at listOnTimeout (node:internal/timers:581:17)
     at processTimers (node:internal/timers:519:7)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" name="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" time="1.008">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" name="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" time="1.013">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
 
 Expected number of calls: 1
@@ -576,47 +633,696 @@ Ignored nodes: comments, script, style
     at listOnTimeout (node:internal/timers:581:17)
     at processTimers (node:internal/timers:519:7)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" name="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" time="0.002">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" name="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="useRefreshToken Hook" errors="0" failures="5" skipped="0" timestamp="2025-09-02T12:41:32" time="9.369" tests="7">
-    <testcase classname="useRefreshToken Hook does nothing when no refresh token exists" name="useRefreshToken Hook does nothing when no refresh token exists" time="0.116">
-    </testcase>
-    <testcase classname="useRefreshToken Hook attempts to refresh token when one exists" name="useRefreshToken Hook attempts to refresh token when one exists" time="1.028">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles refresh token failure" name="useRefreshToken Hook handles refresh token failure" time="1.031">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles network errors during refresh" name="useRefreshToken Hook handles network errors during refresh" time="1.018">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles malformed refresh token response" name="useRefreshToken Hook handles malformed refresh token response" time="1.019">
-      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
-    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
-    </testcase>
-    <testcase classname="useRefreshToken Hook cleans up on unmount" name="useRefreshToken Hook cleans up on unmount" time="0.013">
-    </testcase>
-    <testcase classname="useRefreshToken Hook handles concurrent refresh attempts" name="useRefreshToken Hook handles concurrent refresh attempts" time="0.016">
-      <failure>TypeError: result.current.refresh is not a function
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:140:22
-    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2512:16)
-    at actWithWarning (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom-test-utils.development.js:1740:10)
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:139:8
-    at Generator.next (&lt;anonymous&gt;)
-    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:8:71
-    at new Promise (&lt;anonymous&gt;)
-    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:4:12)
-    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:126:56)
+  <testsuite name="ProgramEffectivenessCard" errors="0" failures="19" skipped="0" timestamp="2025-09-02T12:45:12" time="13.54" tests="19">
+    <testcase classname="ProgramEffectivenessCard Loading State should show loading spinner when no data is provided" name="ProgramEffectivenessCard Loading State should show loading spinner when no data is provided" time="0.286">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:161:7)
     at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
     at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
     at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
     at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Rendering with Data should render the card title" name="ProgramEffectivenessCard Rendering with Data should render the card title" time="0.079">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:168:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Rendering with Data should render analysis period correctly" name="ProgramEffectivenessCard Rendering with Data should render analysis period correctly" time="0.092">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:173:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Rendering with Data should render last updated date" name="ProgramEffectivenessCard Rendering with Data should render last updated date" time="0.077">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:179:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render enrollment rate with trend" name="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render enrollment rate with trend" time="0.078">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:187:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render active participation rate" name="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render active participation rate" time="0.059">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:194:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render weekly engagement metric" name="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render weekly engagement metric" time="0.073">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:200:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render completion rate" name="ProgramEffectivenessCard Enrollment &amp; Engagement Section should render completion rate" time="0.065">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:206:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Health Outcomes Section should render health metrics correctly" name="ProgramEffectivenessCard Health Outcomes Section should render health metrics correctly" time="0.062">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:214:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Health Outcomes Section should render risk reduction rate" name="ProgramEffectivenessCard Health Outcomes Section should render risk reduction rate" time="0.058">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:220:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Health Outcomes Section should render biometric improvements" name="ProgramEffectivenessCard Health Outcomes Section should render biometric improvements" time="0.053">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:226:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Program Comparison Section should render program comparison row" name="ProgramEffectivenessCard Program Comparison Section should render program comparison row" time="0.05">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:234:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Program Comparison Section should render program metrics with ranks" name="ProgramEffectivenessCard Program Comparison Section should render program metrics with ranks" time="0.048">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:240:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Recommendations Section should render recommendation cards" name="ProgramEffectivenessCard Recommendations Section should render recommendation cards" time="0.047">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:248:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Button Interactions should handle download button click" name="ProgramEffectivenessCard Button Interactions should handle download button click" time="0.043">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:257:7
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:256:58)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Button Interactions should handle more options button click" name="ProgramEffectivenessCard Button Interactions should handle more options button click" time="0.053">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:264:7
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:263:62)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Edge Cases should handle missing program comparison data" name="ProgramEffectivenessCard Edge Cases should handle missing program comparison data" time="0.052">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:277:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Edge Cases should handle missing recommendations" name="ProgramEffectivenessCard Edge Cases should handle missing recommendations" time="0.043">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:286:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProgramEffectivenessCard Edge Cases should handle zero values in metrics" name="ProgramEffectivenessCard Edge Cases should handle zero values in metrics" time="0.05">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;map&apos;)
+    at ProgramEffectivenessCard (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.tsx:48:21)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at renderWithTheme (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:132:16)
+    at renderComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:150:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\employer-dashboard\components\program\ProgramEffectivenessCard.test.tsx:297:7)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
     at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
     at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
     at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
