@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../../../frontend/phos.web/src/services/api';
+import { authApi } from '../../../../frontend/shared/api/authApi';
 import Register from '../../../../pages/Register';
 import { testA11y, mockRouter, mockAuthResponses } from '../../../../utils/test-utils';
 

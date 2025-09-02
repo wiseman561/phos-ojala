@@ -6,6 +6,7 @@ export interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  loading: boolean; // Add for backward compatibility
   error: string | null;
 }
 
@@ -21,7 +22,8 @@ export const useAuth = (): UseAuthReturn => {
     user: null,
     token: localStorage.getItem('authToken'),
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
+    loading: true, // Add for backward compatibility
     error: null
   });
 
@@ -32,7 +34,9 @@ export const useAuth = (): UseAuthReturn => {
       setAuthState(prev => ({
         ...prev,
         token,
-        isAuthenticated: true
+        isAuthenticated: true,
+        isLoading: false,
+        loading: false
       }));
 
       // Optionally verify token with server

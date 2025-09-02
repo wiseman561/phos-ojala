@@ -1,83 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="73" failures="20" errors="0" time="30.739">
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:33:57" time="9.167" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.041">
+<testsuites name="jest tests" tests="86" failures="25" errors="0" time="36.974">
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:41:12" time="10.606" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.037">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.001">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.002">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.008">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.006">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:33:57" time="9.164" tests="24">
-    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.041">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.002">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.003">
-    </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.002">
-    </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.002">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.003">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.002">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.008">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.011">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0.008">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
     </testcase>
@@ -85,23 +35,73 @@
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.001">
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.002">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.001">
     </testcase>
     <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.003">
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.002">
     </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.001">
     </testcase>
-    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.002">
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.003">
     </testcase>
     <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Telemetry Processor" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:33:57" time="11.201" tests="4">
-    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0.047">
+  <testsuite name="Alert Severity Classification" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:41:23" time="2.524" tests="24">
+    <testcase classname="Alert Severity Classification AlertSeverity enum should have the correct severity levels" name="Alert Severity Classification AlertSeverity enum should have the correct severity levels" time="0.003">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" name="Alert Severity Classification classifySeverity function should classify heart rate 105 as Info" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" name="Alert Severity Classification classifySeverity function should classify heart rate 115 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" name="Alert Severity Classification classifySeverity function should classify heart rate 125 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" name="Alert Severity Classification classifySeverity function should classify heart rate 95 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 92 as Info" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 87 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 83 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" name="Alert Severity Classification classifySeverity function should classify oxygen saturation 96 as null (normal)" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 135 as Info" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 150 as Warning" time="0.029">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 165 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure systolic 120 as null (normal)" time="0.02">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 85 as Info" time="0">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 95 as Warning" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 105 as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" name="Alert Severity Classification classifySeverity function should classify blood pressure diastolic 75 as null (normal)" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with arrhythmia as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" name="Alert Severity Classification classifySeverity function should classify any metric with panic event as Emergency" time="0.001">
+    </testcase>
+    <testcase classname="Alert Severity Classification classifySeverity function should return null for unknown metrics" name="Alert Severity Classification classifySeverity function should return null for unknown metrics" time="0.016">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Info message" name="Alert Severity Classification generateAlertMessage function should generate correct Info message" time="0.009">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Warning message" name="Alert Severity Classification generateAlertMessage function should generate correct Warning message" time="0.002">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" name="Alert Severity Classification generateAlertMessage function should generate correct Emergency message" time="0.003">
+    </testcase>
+    <testcase classname="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" name="Alert Severity Classification generateAlertMessage function should handle unknown metrics gracefully" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Telemetry Processor" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:41:12" time="13.511" tests="4">
+    <testcase classname="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" name="Telemetry Processor processNewTelemetry should query InfluxDB for new telemetry data" time="0.052">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -109,7 +109,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:67:49)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0.009">
+    <testcase classname="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" name="Telemetry Processor processNewTelemetry should not send alerts for values within normal range" time="0.011">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -117,7 +117,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:132:49)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor processNewTelemetry should handle errors gracefully" name="Telemetry Processor processNewTelemetry should handle errors gracefully" time="0.025">
+    <testcase classname="Telemetry Processor processNewTelemetry should handle errors gracefully" name="Telemetry Processor processNewTelemetry should handle errors gracefully" time="0.008">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -125,7 +125,7 @@ Received: false
     at Object.toBe (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\telemetry-processor\processor.test.js:154:43)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0.021">
+    <testcase classname="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" name="Telemetry Processor getPatientThresholds should retrieve patient-specific thresholds" time="0.029">
       <failure>Error: expect(received).toEqual(expected) // deep equality
 
 - Expected  - 2
@@ -141,174 +141,24 @@ Received: false
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Chat API Endpoint Tests" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:33:57" time="13.115" tests="4">
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0.031">
-      <failure>TypeError: Cannot stub non-existent property chat
-    at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
-    at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
-    at Object.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:17:24)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:246:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;restore&apos;)
-    at Object.restore (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:38:16)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:254:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+  <testsuite name="Chat API Endpoint Tests" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:41:12" time="16.47" tests="4">
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 200 and a valid response for a valid prompt" time="0.31">
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0.003">
-      <failure>TypeError: Cannot stub non-existent property chat
-    at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
-    at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
-    at Object.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:17:24)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:246:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;restore&apos;)
-    at Object.restore (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:38:16)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:254:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" name="Chat API Endpoint Tests POST /api/ai/chat should return 400 for a request without a prompt" time="0.036">
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0.003">
-      <failure>TypeError: Cannot stub non-existent property chat
-    at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
-    at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
-    at Object.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:17:24)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:246:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;restore&apos;)
-    at Object.restore (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:38:16)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:254:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" name="Chat API Endpoint Tests POST /api/ai/chat should use default options when none are provided" time="0.027">
     </testcase>
-    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0.003">
-      <failure>TypeError: Cannot stub non-existent property chat
-    at Function.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\stub.js:82:15)
-    at Sandbox.apply [as stub] (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\sinon\lib\sinon\sandbox.js:454:39)
-    at Object.stub (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:17:24)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:246:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;restore&apos;)
-    at Object.restore (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:38:16)
-    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
-    at _callCircusHook (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:281:40)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:254:5)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
-    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
-    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
-    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
-    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
-    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
-    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="Test Utilities" errors="0" failures="1" skipped="0" timestamp="2025-09-02T12:33:57" time="15.443" tests="4">
-    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="0.909">
-    </testcase>
-    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0.312">
-    </testcase>
-    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0.004">
-      <failure>TypeError: expect(...).toBeWithinRange is not a function
-    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\utils\test-utils.test.tsx:82:16)
+    <testcase classname="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" name="Chat API Endpoint Tests POST /api/ai/chat should handle OpenAI API errors gracefully" time="0.008">
+      <failure>TypeError: openaiStub.restore is not a function
+    at Object.restore (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\backend\ai-engine\chat.test.js:98:18)
     at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
     at new Promise (&lt;anonymous&gt;)
     at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
     at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
     at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
     at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
     at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
     at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
     at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
@@ -317,11 +167,9 @@ Received: false
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0.008">
-    </testcase>
   </testsuite>
-  <testsuite name="useAuth Hook" errors="0" failures="7" skipped="0" timestamp="2025-09-02T12:33:57" time="15.437" tests="7">
-    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0.523">
+  <testsuite name="useAuth Hook" errors="0" failures="7" skipped="0" timestamp="2025-09-02T12:41:12" time="18.651" tests="7">
+    <testcase classname="useAuth Hook initializes with default values" name="useAuth Hook initializes with default values" time="0.92">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -342,7 +190,7 @@ Received: undefined
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0.03">
+    <testcase classname="useAuth Hook checks for existing session on mount" name="useAuth Hook checks for existing session on mount" time="0.062">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: true
@@ -368,11 +216,11 @@ Received: undefined
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles invalid token on mount" name="useAuth Hook handles invalid token on mount" time="1.036">
+    <testcase classname="useAuth Hook handles invalid token on mount" name="useAuth Hook handles invalid token on mount" time="1.05">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0.379">
+    <testcase classname="useAuth Hook handles successful login" name="useAuth Hook handles successful login" time="0.844">
       <failure>AxiosError: Network Error
     at XMLHttpRequest.handleError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\adapters\xhr.js:110:14)
     at XMLHttpRequest.invokeTheCallbackFunction (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jsdom\lib\jsdom\living\generated\EventHandlerNonNull.js:14:28)
@@ -396,23 +244,181 @@ Received: undefined
     at Axios.request (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\axios\lib\core\Axios.js:45:41)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="1.071">
+    <testcase classname="useAuth Hook handles login failure" name="useAuth Hook handles login failure" time="1.094">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="1.045">
+    <testcase classname="useAuth Hook handles logout" name="useAuth Hook handles logout" time="1.067">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
-    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="1.1">
+    <testcase classname="useAuth Hook handles network errors during login" name="useAuth Hook handles network errors during login" time="1.239">
       <failure>Error: Timed out in waitForNextUpdate after 1000ms.
     at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="LogoutFlow" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:33:57" time="21.647" tests="6">
-    <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0.219">
+  <testsuite name="Test Utilities" errors="0" failures="0" skipped="0" timestamp="2025-09-02T12:41:12" time="19.178" tests="4">
+    <testcase classname="Test Utilities renders component and handles clicks" name="Test Utilities renders component and handles clicks" time="1.522">
     </testcase>
-    <testcase classname="LogoutFlow LogoutButton should call logout and redirect on click" name="LogoutFlow LogoutButton should call logout and redirect on click" time="0.072">
+    <testcase classname="Test Utilities handles async operations with waitFor" name="Test Utilities handles async operations with waitFor" time="0.448">
+    </testcase>
+    <testcase classname="Test Utilities uses custom matchers" name="Test Utilities uses custom matchers" time="0.008">
+    </testcase>
+    <testcase classname="Test Utilities mocks API responses" name="Test Utilities mocks API responses" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="ProtectedRoute Component" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:41:32" time="6.554" tests="6">
+    <testcase classname="ProtectedRoute Component renders without accessibility violations" name="ProtectedRoute Component renders without accessibility violations" time="0.219">
+    </testcase>
+    <testcase classname="ProtectedRoute Component redirects to login when not authenticated" name="ProtectedRoute Component redirects to login when not authenticated" time="0.368">
+      <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
+    at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
+    at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:45:11
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:39:62)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProtectedRoute Component renders children when authenticated" name="ProtectedRoute Component renders children when authenticated" time="0.028">
+    </testcase>
+    <testcase classname="ProtectedRoute Component preserves the original location in state" name="ProtectedRoute Component preserves the original location in state" time="0.058">
+      <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
+    at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
+    at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:85:11
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:73:61)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProtectedRoute Component shows loading state while checking authentication" name="ProtectedRoute Component shows loading state while checking authentication" time="0.072">
+      <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
+    at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
+    at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:104:11)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="ProtectedRoute Component handles error state" name="ProtectedRoute Component handles error state" time="0.056">
+      <failure>Error: &lt;Navigate&gt; may be used only in the context of a &lt;Router&gt; component.
+    at invariant (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:338:11)
+    at Navigate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-router\dist\development\index.js:5847:3)
+    at renderWithHooks (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:20103:13)
+    at beginWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:21626:16)
+    at beginWork$1 (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2667:24)
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2582:11)
+    at actImplementation (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\act-compat.js:47:25)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:180:24)
+    at renderRoot (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react\dist\pure.js:271:10)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\components\ProtectedRoute.test.tsx:120:11)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="LogoutFlow" errors="0" failures="4" skipped="0" timestamp="2025-09-02T12:41:12" time="28.409" tests="6">
+    <testcase classname="LogoutFlow LogoutButton should be accessible" name="LogoutFlow LogoutButton should be accessible" time="0.365">
+    </testcase>
+    <testcase classname="LogoutFlow LogoutButton should call logout and redirect on click" name="LogoutFlow LogoutButton should call logout and redirect on click" time="0.14">
       <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/logout/i`
 
 Here are the accessible roles:
@@ -467,7 +473,7 @@ Ignored nodes: comments, script, style
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="LogoutFlow LogoutButton should show loading state while logging out" name="LogoutFlow LogoutButton should show loading state while logging out" time="0.042">
+    <testcase classname="LogoutFlow LogoutButton should show loading state while logging out" name="LogoutFlow LogoutButton should show loading state while logging out" time="0.085">
       <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/logout/i`
 
 Here are the accessible roles:
@@ -522,7 +528,7 @@ Ignored nodes: comments, script, style
     at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
     at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" name="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" time="1.012">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" name="LogoutFlow Auto-Logout on 401 should trigger logout on 401 response" time="1.008">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
 
 Expected number of calls: 1
@@ -546,7 +552,7 @@ Ignored nodes: comments, script, style
     at listOnTimeout (node:internal/timers:581:17)
     at processTimers (node:internal/timers:519:7)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" name="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" time="1.018">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" name="LogoutFlow Auto-Logout on 401 should clear storage on 401 response" time="1.008">
       <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
 
 Expected number of calls: 1
@@ -570,7 +576,54 @@ Ignored nodes: comments, script, style
     at listOnTimeout (node:internal/timers:581:17)
     at processTimers (node:internal/timers:519:7)</failure>
     </testcase>
-    <testcase classname="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" name="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" time="0.001">
+    <testcase classname="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" name="LogoutFlow Auto-Logout on 401 should handle network errors without triggering logout" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="useRefreshToken Hook" errors="0" failures="5" skipped="0" timestamp="2025-09-02T12:41:32" time="9.369" tests="7">
+    <testcase classname="useRefreshToken Hook does nothing when no refresh token exists" name="useRefreshToken Hook does nothing when no refresh token exists" time="0.116">
+    </testcase>
+    <testcase classname="useRefreshToken Hook attempts to refresh token when one exists" name="useRefreshToken Hook attempts to refresh token when one exists" time="1.028">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles refresh token failure" name="useRefreshToken Hook handles refresh token failure" time="1.031">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles network errors during refresh" name="useRefreshToken Hook handles network errors during refresh" time="1.018">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles malformed refresh token response" name="useRefreshToken Hook handles malformed refresh token response" time="1.019">
+      <failure>Error: Timed out in waitForNextUpdate after 1000ms.
+    at waitForNextUpdate (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\@testing-library\react-hooks\lib\core\asyncUtils.js:96:13)</failure>
+    </testcase>
+    <testcase classname="useRefreshToken Hook cleans up on unmount" name="useRefreshToken Hook cleans up on unmount" time="0.013">
+    </testcase>
+    <testcase classname="useRefreshToken Hook handles concurrent refresh attempts" name="useRefreshToken Hook handles concurrent refresh attempts" time="0.016">
+      <failure>TypeError: result.current.refresh is not a function
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:140:22
+    at act (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react\cjs\react.development.js:2512:16)
+    at actWithWarning (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\react-dom\cjs\react-dom-test-utils.development.js:1740:10)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:139:8
+    at Generator.next (&lt;anonymous&gt;)
+    at C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:8:71
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt;.__awaiter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:4:12)
+    at Object.&lt;anonymous&gt; (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\src\__tests__\frontend\web\hooks\useRefreshToken.test.ts:126:56)
+    at Promise.then.completed (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:316:40)
+    at _runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\15612\Desktop\Repositories\Ojala-healthcare_new\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
     </testcase>
   </testsuite>
 </testsuites>

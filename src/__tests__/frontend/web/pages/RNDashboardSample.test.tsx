@@ -8,7 +8,7 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Mock child components
-jest.mock('../../../components/PatientCard', () => ({
+jest.mock('../../../../components/PatientCard', () => ({
   __esModule: true,
   default: ({ patient }: any) => <div data-testid="patient-card">{patient.firstName} {patient.lastName}</div>
 }));

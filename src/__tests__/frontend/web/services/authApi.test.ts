@@ -1,4 +1,4 @@
-import { authApi } from '../../../frontend/shared/api/authApi';
+import { authApi } from '../../../../frontend/shared/api/authApi';
 import axios from 'axios';
 
 // Mock axios

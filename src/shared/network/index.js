@@ -565,21 +565,21 @@ class NetworkUtils {
       }
 
       // Calculate statistics
-    if (pings.length === 0) {
-      throw new Error('No successful jitter measurements');
-    }
+      if (pings.length === 0) {
+        throw new Error('No successful jitter measurements');
+      }
 
-    const avgJitter = pings.reduce((sum, ping) => sum + ping, 0) / pings.length;
-    const minJitter = Math.min(...pings);
-    const maxJitter = Math.max(...pings);
+      const avgJitter = pings.reduce((sum, ping) => sum + ping, 0) / pings.length;
+      const minJitter = Math.min(...pings);
+      const maxJitter = Math.max(...pings);
 
-    return {
-      average: avgJitter,
-      minimum: minJitter,
-      maximum: maxJitter,
-      samples: pings.length,
-      measurements: pings
-    };
+      return {
+        average: avgJitter,
+        minimum: minJitter,
+        maximum: maxJitter,
+        samples: pings.length,
+        measurements: pings
+      };
   } catch (error) {
     console.error('Jitter test error:', error);
     throw error;

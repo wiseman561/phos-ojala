@@ -3,7 +3,8 @@ const { OpenAI } = require('openai');
 const router = express.Router();
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'test-key'
+  apiKey: process.env.OPENAI_API_KEY || 'test-key',
+  dangerouslyAllowBrowser: true // Only for testing
 });
 
 router.post('/chat', async (req, res) => {
