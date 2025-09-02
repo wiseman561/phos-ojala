@@ -8,7 +8,7 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Mock child components
-jest.mock('../components/PatientCard', () => ({
+jest.mock('../../../components/PatientCard', () => ({
   __esModule: true,
   default: ({ patient }: any) => <div data-testid="patient-card">{patient.firstName} {patient.lastName}</div>
 }));
@@ -27,10 +27,10 @@ jest.mock('../components/QuickNotesBox', () => ({
   __esModule: true,
   default: ({ value, onChange, onSubmit }: any) => (
     <div data-testid="quick-notes-box">
-      <input 
-        data-testid="quick-notes-input" 
-        value={value} 
-        onChange={(e) => onChange(e.target.value)} 
+      <input
+        data-testid="quick-notes-input"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
       <button data-testid="quick-notes-submit" onClick={() => onSubmit(value)}>Submit</button>
     </div>
@@ -116,54 +116,54 @@ describe('RNDashboardSample', () => {
 
   test('renders loading state initially', () => {
     mockedAxios.get.mockImplementation(() => new Promise(() => {})); // Never resolves
-    
+
     render(<RNDashboardSample />);
-    
+
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
   test('renders dashboard data when API call succeeds', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: mockDashboardData });
-    
+
     render(<RNDashboardSample />);
-    
+
     // Wait for data to load
     await waitFor(() => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
     });
-    
+
     // Check if patient cards are rendered
     expect(screen.getAllByTestId('patient-card')).toHaveLength(2);
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Jane Smith')).toBeInTheDocument();
-    
+
     // Check if alert cards are rendered
     expect(screen.getAllByTestId('alert-card')).toHaveLength(2);
     expect(screen.getByText('Blood pressure reading above threshold')).toBeInTheDocument();
     expect(screen.getByText('Medication refill due in 3 days')).toBeInTheDocument();
-    
+
     // Check if health score cards are rendered
     expect(screen.getAllByTestId('health-score-card')).toHaveLength(2);
-    
+
     // Check if condition filter bar is rendered with correct conditions
     expect(screen.getByTestId('condition-filter-bar')).toBeInTheDocument();
     expect(screen.getAllByTestId('condition-option')).toHaveLength(3); // Diabetes, Hypertension, Asthma
-    
+
     // Check if quick notes box is rendered
     expect(screen.getByTestId('quick-notes-box')).toBeInTheDocument();
   });
 
   test('renders error state when API call fails', async () => {
     mockedAxios.get.mockRejectedValueOnce(new Error('API Error'));
-    
+
     render(<RNDashboardSample />);
-    
+
     // Wait for error to be displayed
     await waitFor(() => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });
-    
+
     expect(screen.getByText(/Error!/i)).toBeInTheDocument();
     expect(screen.getByText(/Failed to load dashboard data/i)).toBeInTheDocument();
   });
@@ -171,25 +171,25 @@ describe('RNDashboardSample', () => {
   test('handles quick note submission', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: mockDashboardData });
     mockedAxios.post.mockResolvedValueOnce({ data: { success: true } });
-    
+
     render(<RNDashboardSample />);
-    
+
     // Wait for data to load
     await waitFor(() => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
     });
-    
+
     // Submit a quick note
     const input = screen.getByTestId('quick-notes-input');
     const submitButton = screen.getByTestId('quick-notes-submit');
-    
+
     // Type in the input
     input.value = 'Test note';
     input.dispatchEvent(new Event('change'));
-    
+
     // Click submit button
     submitButton.click();
-    
+
     // Verify API was called with correct data
     expect(mockedAxios.post).toHaveBeenCalledWith('/api/rn/notes', { content: 'Test note' });
   });

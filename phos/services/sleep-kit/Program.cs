@@ -3,8 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog; // ← Added missing import
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Serilog
 builder.Host.UseSerilog((ctx, lc) => lc
   .ReadFrom.Configuration(ctx.Configuration)
@@ -14,10 +16,8 @@ builder.Host.UseSerilog((ctx, lc) => lc
 builder.Configuration.AddJsonFile("https.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(); // ← Removed duplicate
 builder.Services.AddHealthChecks();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Auth
 var cfg = builder.Configuration;
@@ -42,11 +42,9 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(); // ← Removed duplicate
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
-app.UseSwagger();
-app.UseSwaggerUI();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -79,8 +77,9 @@ app.MapPost("/api/sleep/analyze", (SleepAnalyzeRequest req) =>
     return Results.Ok(new SleepAnalyzeResponse { Nights = nights, AverageHours = avg, Quality = quality });
 }).RequireAuthorization();
 
-app.Run();
+app.Run(); // ← Only one app.Run() needed
 
+// Classes must come after all top-level statements
 public sealed class SleepAnalyzeRequest
 {
     public List<double>? DurationsHours { get; set; }
@@ -92,5 +91,3 @@ public sealed class SleepAnalyzeResponse
     public double AverageHours { get; set; }
     public string Quality { get; set; } = "poor";
 }
-
-app.Run();

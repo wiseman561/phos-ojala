@@ -11,8 +11,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn()
 }));
 
-jest.mock('../../../../frontend/phos.web/src/services/api', () => ({
-  authApi: {
+: {
     register: jest.fn()
   }
 }));
@@ -119,7 +118,7 @@ describe('Register Component', () => {
   });
 
   it('shows loading state during registration', async () => {
-    (authApi.register as jest.Mock).mockImplementation(() => 
+    (authApi.register as jest.Mock).mockImplementation(() =>
       new Promise(resolve => setTimeout(resolve, 100))
     );
 
@@ -149,4 +148,4 @@ describe('Register Component', () => {
     expect(screen.getByText(/password is required/i)).toBeInTheDocument();
     expect(screen.getByText(/confirm password is required/i)).toBeInTheDocument();
   });
-}); 
+});

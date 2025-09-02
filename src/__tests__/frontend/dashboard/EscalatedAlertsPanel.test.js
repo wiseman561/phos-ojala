@@ -9,8 +9,8 @@ import { useAuth } from '../hooks/useAuth';
 jest.mock('socket.io-client');
 
 // Import and mock auth
-const { mockAuthContext } = jest.requireActual('../../../../../__mocks__/auth');
-jest.mock('../../../employer-dashboard/src/hooks/useAuth', () => ({
+const { mockAuthContext } = jest.requireActual('../../__mocks__/auth');
+jest.mock('../../../hooks/useAuth', () => ({
   __esModule: true,
   default: () => mockAuthContext
 }));
@@ -86,9 +86,9 @@ beforeEach(() => {
       };
     }
     if (url.includes('/alerts/1/acknowledge') && options.method === 'POST') {
-      return { 
-        ok: true, 
-        json: async () => ({ success: true }) 
+      return {
+        ok: true,
+        json: async () => ({ success: true })
       };
     }
     if (url.includes('/alerts')) {
@@ -121,7 +121,7 @@ describe('<EscalatedAlertsPanel />', () => {
 
     const alertDetails = await screen.findByRole('region', { name: /Alert Details/i });
     const activeAlerts = await screen.findByRole('region', { name: /Active Alerts/i });
-    
+
     expect(alertDetails).toBeInTheDocument();
     expect(activeAlerts).toBeInTheDocument();
   });
@@ -133,7 +133,7 @@ describe('<EscalatedAlertsPanel />', () => {
 
     const alertMessage = await screen.findByText(/EMERGENCY: Heart rate reading of 125 bpm/i);
     const patientId = await screen.findByText(/Patient ID: P12345/i);
-    
+
     expect(alertMessage).toBeInTheDocument();
     expect(patientId).toBeInTheDocument();
   });
@@ -142,13 +142,13 @@ describe('<EscalatedAlertsPanel />', () => {
     render(<EscalatedAlertsPanel />);
     const alertBanner = await screen.findByRole('button', { name: /1 Emergency Alert/i });
     fireEvent.click(alertBanner);
-    
+
     const showAllToggle = await screen.findByRole('checkbox', { name: /Show Active Only/i });
     fireEvent.click(showAllToggle);
 
     const acknowledgedSection = await screen.findByRole('region', { name: /Acknowledged Alerts/i });
     const acknowledgedAlert = await screen.findByText(/Oxygen saturation reading of 83%/i);
-    
+
     expect(acknowledgedSection).toBeInTheDocument();
     expect(acknowledgedAlert).toBeInTheDocument();
   });

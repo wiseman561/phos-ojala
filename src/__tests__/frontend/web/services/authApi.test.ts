@@ -1,4 +1,4 @@
-import { authApi } from '../../../../frontend/phos.web/src/services/api';
+import { authApi } from '../../../frontend/shared/api/authApi';
 import axios from 'axios';
 
 // Mock axios
@@ -199,4 +199,4 @@ describe('Auth API Service', () => {
       ).rejects.toThrow('Request timeout');
     });
   });
-}); 
+});

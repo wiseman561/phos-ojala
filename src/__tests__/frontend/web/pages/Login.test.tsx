@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import Login from '../../../../phos.web/Login';
 
 // Mock the useAuth hook
-jest.mock('../../../../hooks/useAuth');
+jest.mock('../../../hooks/useAuth');
 
 describe('Login Component', () => {
   const mockLogin = jest.fn();
@@ -17,7 +17,7 @@ describe('Login Component', () => {
   beforeEach(() => {
     // Reset all mocks before each test
     jest.clearAllMocks();
-    
+
     // Setup default mock implementations
     (useAuth as jest.Mock).mockReturnValue({
       login: mockLogin,
@@ -99,7 +99,7 @@ describe('Login Component', () => {
   });
 
   it('shows loading state during login', async () => {
-    global.fetch = jest.fn().mockImplementation(() => 
+    global.fetch = jest.fn().mockImplementation(() =>
       new Promise(resolve => setTimeout(resolve, 100))
     );
 
@@ -148,4 +148,4 @@ describe('Login Component', () => {
 
     expect(screen.getByText(/invalid email format/i)).toBeInTheDocument();
   });
-}); 
+});

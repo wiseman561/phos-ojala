@@ -178,4 +178,4 @@ describe('useAuth Hook', () => {
     expect(result.current.error).toBe('Network error');
     expect(localStorage.getItem('token')).toBeNull();
   });
-}); 
+});

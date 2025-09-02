@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
-import ProtectedRoute from '../../../../components/ProtectedRoute';
+import ProtectedRoute from '../../../components/ProtectedRoute';
 import { testA11y, mockAuthContext, mockRouter } from '../../../../utils/test-utils';
 
 // Mock the hooks
-jest.mock('../../../../hooks/useAuth');
+jest.mock('../../../hooks/useAuth');
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),
@@ -125,4 +125,4 @@ describe('ProtectedRoute Component', () => {
 
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
-}); 
+});

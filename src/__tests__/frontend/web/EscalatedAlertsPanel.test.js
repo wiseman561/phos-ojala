@@ -9,7 +9,7 @@ jest.mock('socket.io-client');
 
 // Import and mock auth
 const { mockAuthContext } = jest.requireActual('../../__mocks__/auth');
-jest.mock('../../frontend/employer-dashboard/src/hooks/useAuth', () => ({
+jest.mock('../../../hooks/useAuth', () => ({
   __esModule: true,
   default: () => mockAuthContext
 }));
@@ -31,7 +31,7 @@ describe('EscalatedAlertsPanel', () => {
       isAcknowledged: false
     }
   ];
-  
+
   const mockAcknowledgedAlerts = [
     {
       id: '2',
@@ -57,10 +57,10 @@ describe('EscalatedAlertsPanel', () => {
   beforeEach(() => {
     // Reset all mocks
     jest.clearAllMocks();
-    
+
     // Setup socket mock
     io.mockReturnValue(mockSocket);
-    
+
     // Setup fetch mock for active alerts
     global.fetch.mockImplementation(async (url, options = {}) => {
       if (url.includes('/alerts/active')) {
@@ -92,13 +92,13 @@ describe('EscalatedAlertsPanel', () => {
   test('expands panel when banner is clicked', async () => {
     render(<EscalatedAlertsPanel />);
     const alertBanner = await screen.findByRole('button', { name: /1 Emergency Alert/i });
-    
+
     // Panel should be collapsed initially
     expect(screen.queryByRole('region', { name: /Alert Details/i })).not.toBeInTheDocument();
-    
+
     // Click the banner
     fireEvent.click(alertBanner);
-    
+
     // Panel should be expanded
     const alertDetails = await screen.findByRole('region', { name: /Alert Details/i });
     const activeAlerts = await screen.findByRole('region', { name: /Active Alerts/i });
@@ -110,13 +110,13 @@ describe('EscalatedAlertsPanel', () => {
     render(<EscalatedAlertsPanel />);
     const alertBanner = await screen.findByRole('button', { name: /1 Emergency Alert/i });
     fireEvent.click(alertBanner);
-    
+
     // Should show active alert details
     const alertMessage = await screen.findByText(/Heart rate reading of 125 bpm/i);
     const patientId = await screen.findByText(/Patient ID: P12345/i);
     const metric = await screen.findByText(/Metric: heartRate/i);
     const value = await screen.findByText(/Value: 125/i);
-    
+
     expect(alertMessage).toBeInTheDocument();
     expect(patientId).toBeInTheDocument();
     expect(metric).toBeInTheDocument();
@@ -127,19 +127,19 @@ describe('EscalatedAlertsPanel', () => {
     render(<EscalatedAlertsPanel />);
     const alertBanner = await screen.findByRole('button', { name: /1 Emergency Alert/i });
     fireEvent.click(alertBanner);
-    
+
     // Should only show active alerts initially
     expect(screen.queryByRole('region', { name: /Acknowledged Alerts/i })).not.toBeInTheDocument();
-    
+
     // Toggle to show all alerts
     const showAllToggle = await screen.findByRole('checkbox', { name: /Show Active Only/i });
     fireEvent.click(showAllToggle);
-    
+
     // Should now show acknowledged alerts section
     const acknowledgedSection = await screen.findByRole('region', { name: /Acknowledged Alerts/i });
     const acknowledgedAlert = await screen.findByText(/Oxygen saturation reading of 83%/i);
     const acknowledgedStatus = await screen.findByText(/Acknowledged/i);
-    
+
     expect(acknowledgedSection).toBeInTheDocument();
     expect(acknowledgedAlert).toBeInTheDocument();
     expect(acknowledgedStatus).toBeInTheDocument();
@@ -149,10 +149,10 @@ describe('EscalatedAlertsPanel', () => {
     render(<EscalatedAlertsPanel />);
     const alertBanner = await screen.findByRole('button', { name: /1 Emergency Alert/i });
     fireEvent.click(alertBanner);
-    
+
     const acknowledgeButton = await screen.findByRole('button', { name: /Acknowledge/i });
     fireEvent.click(acknowledgeButton);
-    
+
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/alerts/1/acknowledge'),
       expect.objectContaining({
@@ -168,7 +168,7 @@ describe('EscalatedAlertsPanel', () => {
   test('connects to WebSocket with token', async () => {
     render(<EscalatedAlertsPanel />);
     await screen.findByRole('button', { name: /1 Emergency Alert/i });
-    
+
     expect(io).toHaveBeenCalledWith(
       expect.stringContaining('/ws/alerts'),
       expect.objectContaining({
@@ -176,7 +176,7 @@ describe('EscalatedAlertsPanel', () => {
         transports: ['websocket']
       })
     );
-    
+
     // Verify event listeners were registered
     expect(mockSocket.on).toHaveBeenCalledWith('connect', expect.any(Function));
     expect(mockSocket.on).toHaveBeenCalledWith('emergency-alert', expect.any(Function));
@@ -188,14 +188,14 @@ describe('EscalatedAlertsPanel', () => {
   test('handles new emergency alert from WebSocket', async () => {
     render(<EscalatedAlertsPanel />);
     await screen.findByRole('button', { name: /1 Emergency Alert/i });
-    
+
     // Find the emergency-alert handler
     const connectHandler = mockSocket.on.mock.calls.find(call => call[0] === 'connect')[1];
     const emergencyAlertHandler = mockSocket.on.mock.calls.find(call => call[0] === 'emergency-alert')[1];
-    
+
     // Simulate connection
     connectHandler();
-    
+
     // Simulate receiving a new emergency alert
     const newAlert = {
       id: '3',
@@ -208,9 +208,9 @@ describe('EscalatedAlertsPanel', () => {
       message: 'EMERGENCY: Blood pressure systolic reading of 180 mmHg is outside normal range',
       isAcknowledged: false
     };
-    
+
     emergencyAlertHandler(newAlert);
-    
+
     // Panel should auto-expand and show the new alert
     const newAlertMessage = await screen.findByText(/Blood pressure systolic reading of 180 mmHg/i);
     expect(newAlertMessage).toBeInTheDocument();
@@ -220,27 +220,27 @@ describe('EscalatedAlertsPanel', () => {
     render(<EscalatedAlertsPanel />);
     const alertBanner = await screen.findByRole('button', { name: /1 Emergency Alert/i });
     fireEvent.click(alertBanner);
-    
+
     // Find the alert-acknowledged handler
     const alertAcknowledgedHandler = mockSocket.on.mock.calls.find(call => call[0] === 'alert-acknowledged')[1];
-    
+
     // Simulate receiving an acknowledgment
     const acknowledgment = {
       id: '1',
       acknowledgedAt: '2025-04-27T12:20:00Z',
       acknowledgedBy: 'Dr. Johnson'
     };
-    
+
     alertAcknowledgedHandler(acknowledgment);
-    
+
     // Toggle to show all alerts
     const showAllToggle = await screen.findByRole('checkbox', { name: /Show Active Only/i });
     fireEvent.click(showAllToggle);
-    
+
     // Should now show the acknowledged alert
     const acknowledgedSection = await screen.findByRole('region', { name: /Acknowledged Alerts/i });
     const acknowledgedStatus = await screen.findByText(/Acknowledged/i);
-    
+
     expect(acknowledgedSection).toBeInTheDocument();
     expect(acknowledgedStatus).toBeInTheDocument();
   });

@@ -1,10 +1,10 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useRefreshToken } from '../../../../hooks/useRefreshToken';
-import { authApi } from '../../../../frontend/phos.web/src/services/api';
+import { useRefreshToken } from '../../../hooks/useRefreshToken';
+import { authApi } from '../../../frontend/shared/api/authApi';
 import { mockAuthResponses } from '../../../../utils/test-utils';
 
 // Mock the API
-jest.mock('../../../../frontend/phos.web/src/services/api', () => ({
+jest.mock('../../../frontend/shared/api/authApi', () => ({
   authApi: {
     refresh: jest.fn()
   }
@@ -33,7 +33,7 @@ describe('useRefreshToken Hook', () => {
 
     (authApi.refresh as jest.Mock).mockResolvedValueOnce(mockAuthResponses.refresh.success);
 
-    const { waitForNextUpdate } = renderHook(() => 
+    const { waitForNextUpdate } = renderHook(() =>
       useRefreshToken(mockSetAuthState, mockRedirect)
     );
 
@@ -57,7 +57,7 @@ describe('useRefreshToken Hook', () => {
       }
     });
 
-    const { waitForNextUpdate } = renderHook(() => 
+    const { waitForNextUpdate } = renderHook(() =>
       useRefreshToken(mockSetAuthState, mockRedirect)
     );
 
@@ -75,7 +75,7 @@ describe('useRefreshToken Hook', () => {
 
     (authApi.refresh as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
 
-    const { waitForNextUpdate } = renderHook(() => 
+    const { waitForNextUpdate } = renderHook(() =>
       useRefreshToken(mockSetAuthState, mockRedirect)
     );
 
@@ -95,7 +95,7 @@ describe('useRefreshToken Hook', () => {
       data: { invalid: 'response' }
     });
 
-    const { waitForNextUpdate } = renderHook(() => 
+    const { waitForNextUpdate } = renderHook(() =>
       useRefreshToken(mockSetAuthState, mockRedirect)
     );
 
@@ -111,7 +111,7 @@ describe('useRefreshToken Hook', () => {
     const refreshToken = 'mock.refresh.token';
     localStorage.setItem('refreshToken', refreshToken);
 
-    const { unmount } = renderHook(() => 
+    const { unmount } = renderHook(() =>
       useRefreshToken(mockSetAuthState, mockRedirect)
     );
 
@@ -127,11 +127,11 @@ describe('useRefreshToken Hook', () => {
     const refreshToken = 'mock.refresh.token';
     localStorage.setItem('refreshToken', refreshToken);
 
-    (authApi.refresh as jest.Mock).mockImplementation(() => 
+    (authApi.refresh as jest.Mock).mockImplementation(() =>
       new Promise(resolve => setTimeout(() => resolve(mockAuthResponses.refresh.success), 100))
     );
 
-    const { result, waitForNextUpdate } = renderHook(() => 
+    const { result, waitForNextUpdate } = renderHook(() =>
       useRefreshToken(mockSetAuthState, mockRedirect)
     );
 
@@ -148,4 +148,4 @@ describe('useRefreshToken Hook', () => {
     expect(authApi.refresh).toHaveBeenCalledTimes(1);
     expect(mockSetAuthState).toHaveBeenCalledTimes(1);
   });
-}); 
+});
