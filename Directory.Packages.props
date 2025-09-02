@@ -91,6 +91,18 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.0" />
 
+    <!-- OpenTelemetry -->
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.7.1" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
+
+    <!-- Validation -->
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+
+    <!-- Rate Limiting -->
+    <PackageVersion Include="Microsoft.AspNetCore.RateLimiting" Version="8.0.8" />
+
     <!-- SignalR -->
     <!-- Microsoft.AspNetCore.SignalR is part of the framework in .NET 9, no separate package needed -->
   </ItemGroup>
