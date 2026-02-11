@@ -18,5 +18,5 @@ jobs:
       - name: Build Frontend (No Tests)
         run: |
           cd archive/phos-web
-          npm install --legacy-peer-deps
+          npm ci --legacy-peer-deps
           npm run build

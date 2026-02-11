@@ -1,5 +1,5 @@
 name: Integration Tests
-on: [push]
+on: [push, pull_request]
 jobs:
   integration:
     runs-on: ubuntu-latest
@@ -12,21 +12,22 @@ jobs:
           POSTGRES_PASSWORD: phos_secret
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.0.403"
-
+      - name: Wait for PostgreSQL
+        run: |
+          attempt=0
+          until [ $attempt -ge 24 ] || pg_isready -h localhost -p 5432 -U phos_admin; do
+            echo "Waiting for PostgreSQL... ($attempt/24)"
+            sleep 5
+            attempt=$((attempt+1))
+          done
+          if [ $attempt -eq 24 ]; then echo "Postgres timeout"; exit 1; fi
       - name: Run Integration Tests
         env:
           ConnectionStrings__DefaultConnection: "Host=localhost;Database=phos_platform;Username=phos_admin;Password=phos_secret"
-        run: |
-          dotnet test tests/Phos.Tests.Integration/Phos.Tests.Integration.csproj --configuration Release
+        run: dotnet test tests/Phos.Tests.Integration/Phos.Tests.Integration.csproj --configuration Release
