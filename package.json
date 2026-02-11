@@ -11,9 +11,8 @@
     "cleanup": "node scripts/dist/cleanup-empty.js",
 
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prepare": "husky",
-    "postinstall": "cd ./src/frontend/phos-web && npm install",
-    "dev": "concurrently -n API,WEB -c auto \"cross-env ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:5100 dotnet run --no-launch-profile --project ./src/backend/Phos.Api/Phos.Api.csproj --urls http://localhost:5100\" \"cd ./src/frontend/phos-web && npm install && npm start\""
+    "postinstall": "cd ./archive/phos-web && npm install",
+    "dev": "concurrently -n API,WEB -c auto \"cross-env ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:5100 dotnet run --no-launch-profile --project ./phos/apps/api-gateway/Phos.ApiGateway.csproj --urls http://localhost:5100\" \"cd ./archive/phos-web && npm install && npm start\""
   },
   "dependencies": {
     "dotenv": "^16.3.1",
