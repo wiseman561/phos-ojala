@@ -1,7 +1,7 @@
 name: Deploy Phos Platform
 on: [push]
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,9 +13,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - name: Install Root Dependencies
-        run: npm install --legacy-peer-deps
-      - name: Build Backend
-        run: dotnet build phos/apps/api-gateway/Phos.ApiGateway.csproj
-      - name: Build Frontend
-        run: cd archive/phos-web && npm install --legacy-peer-deps && npm run build
+      - name: Build Backend (No Tests)
+        run: dotnet build phos/apps/api-gateway/Phos.ApiGateway.csproj -c Release
+      - name: Build Frontend (No Tests)
+        run: |
+          cd archive/phos-web
+          npm install --legacy-peer-deps
+          npm run build
