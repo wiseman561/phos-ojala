@@ -1,0 +1,30 @@
+# Control Plane
+/.github/workflows/   @wiseman561
+/.github/actions/     @wiseman561
+/CODEOWNERS           @wiseman561
+
+# Infrastructure & Deployment
+/infra/               @wiseman561
+/scripts/deploy/      @wiseman561
+
+# Supply Chain
+**/package-lock.json    @wiseman561
+**/pnpm-lock.yaml       @wiseman561
+**/yarn.lock            @wiseman561
+**/poetry.lock          @wiseman561
+**/Pipfile.lock         @wiseman561
+**/requirements*.txt    @wiseman561
+**/go.sum               @wiseman561
+**/Cargo.lock           @wiseman561
+**/Gemfile.lock         @wiseman561
+
+# Security Perimeter
+**/.env*                @wiseman561 @wiseman561
+**/*.pem                @wiseman561 @wiseman561
+**/*.pfx                @wiseman561 @wiseman561
+**/*.key                @wiseman561 @wiseman561
+**/*.crt                @wiseman561 @wiseman561
+/vault/                 @wiseman561 @wiseman561
+/infra/secrets/         @wiseman561 @wiseman561
+**/appsettings.json     @wiseman561 @wiseman561
+**/docker-compose.override.yml @wiseman561 @wiseman561
