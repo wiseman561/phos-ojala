@@ -304,3 +304,30 @@ The following legacy frontend apps have been deprecated in favor of `phos/apps/p
 - `src/frontend/rn-dashboard`
 
 These will be moved to `archive/` or removed in a future cleanup. Charts and k8s manifests under `charts/` and `infra/kubernetes/` referencing them are retained for historical context but are not used by PHOS.
+
+## Governance Controls
+This repository implements automated governance tripwires to ensure the integrity of the control plane and supply chain.
+
+### Protected Assets
+- **Control Plane:** .github/workflows/**, .github/actions/**, and CODEOWNERS
+- **Supply Chain:** All dependency lockfiles (package-lock.json, go.sum, etc.) and Action uses: versions
+- **Security Perimeter:** Infra secrets, .env templates, vault/ configurations, and appsettings.json
+
+### Active Tripwires
+- **Governance Tripwire (governance-approved):** Blocks unconfirmed changes to execution logic and ownership rules.
+- **Dependency Tripwire (deps-approved):** Gates lockfile drift and third-party action version changes.
+- **Secret Tripwire (security-approved):** Prevents modification of sensitive folders or the introduction of high-signal secret patterns.
+
+### Enforcement Model
+- **Least Privilege:** Bot accounts utilize fine-grained Personal Access Tokens restricted to "Contents: Write" and no "Workflows" access.
+- **Pinned Actions:** All GitHub Actions must be referenced by an immutable 40-character commit SHA hex-string.
+- **PR-Only Policy:** Direct pushes to protected branches are disabled; all logic and infrastructure changes require pull requests.
+- **Human-Only Overrides:** Bypass labels are restricted to Maintainer/Security roles and are never applied by automated scripts or bots.
+
+### How to Request an Exception
+1. **Isolate Changes:** Place control plane or dependency updates in a dedicated PR separate from application logic or feature code.
+2. **Provide Rationale:** Include a "Compliance Rationale" section in the PR description and a link to a verified internal ticket.
+3. **Verify Evidence:** Acknowledge that security-approved labels require the resulting diff to be checked for plaintext credentials.
+4. **Acquire Approvals:** Request review from authorized personnel based on the following threshold requirements:
+    - governance-approved / deps-approved: 1 Repository Maintainer.
+    - security-approved: 2 Repository Maintainers or 1 Security Officer + 1 Maintainer.
