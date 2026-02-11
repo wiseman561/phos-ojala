@@ -8,7 +8,7 @@ jobs:
 
       - name: Build and Start Containers
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
 
       - name: Wait for Healthchecks
         run: |
@@ -24,7 +24,7 @@ jobs:
           
           if [ $attempt -eq $max_attempts ]; then
             echo "Error: API Gateway failed to become healthy in time."
-            docker-compose logs
+            docker compose logs
             exit 1
           fi
 
@@ -33,7 +33,7 @@ jobs:
              # Relaxing check slightly if SPA has different root ID or structure
              if ! curl -s http://localhost:3000 | grep -q "<!DOCTYPE html>"; then
                echo "Error: Frontend failed to serve HTML."
-               docker-compose logs phos-ui
+               docker compose logs phos-ui
                exit 1
              fi
           fi
@@ -42,4 +42,4 @@ jobs:
 
       - name: Stop Containers
         run: |
-          docker-compose down
+          docker compose down

@@ -15,8 +15,8 @@ jobs:
           node-version: "22.22.0"
       - name: Install dependencies
         run: |
-          npm install --legacy-peer-deps
-          cd archive/phos-web && npm install --legacy-peer-deps
+          npm ci --legacy-peer-deps
+          cd archive/phos-web && npm ci --legacy-peer-deps
       - name: Run Backend Unit Tests
         run: |
           dotnet test phos/services/billing-gateway/Tests/Phos.BillingGateway.Tests.csproj --configuration Release --no-restore || true

@@ -45,7 +45,7 @@ jobs:
 
       - name: Install UI deps
         working-directory: phos/apps/phos-ui
-        run: npm ci || npm install --no-audit --no-fund
+        run: npm ci || npm ci --no-audit --no-fund
 
       - name: Build UI
         working-directory: phos/apps/phos-ui
@@ -53,7 +53,7 @@ jobs:
 
       - name: Install Gateway deps
         working-directory: phos/apps/api-gateway
-        run: npm ci || npm install --no-audit --no-fund && npm run build
+        run: npm ci || npm ci --no-audit --no-fund && npm run build
 
       - name: Restore .NET
         run: |
