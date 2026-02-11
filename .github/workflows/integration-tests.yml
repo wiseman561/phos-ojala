@@ -1,0 +1,32 @@
+name: Integration Tests
+on: [push]
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: phos_platform
+          POSTGRES_USER: phos_admin
+          POSTGRES_PASSWORD: phos_secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Run Integration Tests
+        env:
+          ConnectionStrings__DefaultConnection: "Host=localhost;Database=phos_platform;Username=phos_admin;Password=phos_secret"
+        run: |
+          dotnet test tests/Phos.Tests.Integration/Phos.Tests.Integration.csproj --configuration Release
