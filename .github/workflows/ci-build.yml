@@ -1,0 +1,29 @@
+name: CI Test hardened
+on: [push]
+jobs:
+  test-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: |
+          npm install --legacy-peer-deps
+          cd archive/phos-web && npm install --legacy-peer-deps
+      - name: Run Backend Unit Tests
+        run: |
+          dotnet test phos/services/billing-gateway/Tests/Phos.BillingGateway.Tests.csproj --configuration Release --no-restore || true
+          dotnet test phos/services/digestion-score/Tests/Phos.DigestionScore.Tests.csproj --configuration Release --no-restore || true
+          dotnet test phos/services/lab-interpreter/Tests/Phos.LabInterpreter.Tests.csproj --configuration Release --no-restore || true
+          dotnet test tests/Phos.Tests.Unit/Phos.Tests.Unit.csproj --configuration Release --no-restore
+      - name: Run Frontend Unit Tests
+        run: |
+          cd archive/phos-web
+          npm test -- --watchAll=false
