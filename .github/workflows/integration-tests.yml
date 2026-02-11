@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:15
+        image: postgres:15.8-alpine
         env:
           POSTGRES_DB: phos_platform
           POSTGRES_USER: phos_admin
@@ -23,7 +23,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.x'
+          dotnet-version: "8.0.403"
 
       - name: Run Integration Tests
         env:
