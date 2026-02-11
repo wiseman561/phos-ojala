@@ -1,247 +1,63 @@
 version: '3.8'
 
 services:
-  vault:
-    image: hashicorp/vault:1.13.3
-    container_name: phos_platform_clean_scaffold_redo-vault-1
-    ports:
-      - "8200:8200"
+  # Databases
+  postgres:
+    image: postgres:15-alpine
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: ojaIa-root-token
-      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
-      VAULT_UI: "true"
-    cap_add:
-      - IPC_LOCK
-    command: vault server -dev
-    networks:
-      - phos-network
-
-  influxdb:
-    image: influxdb:2.6
-    container_name: phos_platform_clean_scaffold_redo-influxdb-1
-    ports:
-      - "8086:8086"
-    environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=phos
-      - DOCKER_INFLUXDB_INIT_PASSWORD=phos-password
-      - DOCKER_INFLUXDB_INIT_ORG=phos
-      - DOCKER_INFLUXDB_INIT_BUCKET=phos_telemetry
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=phos-influxdb-token
-    volumes:
-      - influxdb_data:/var/lib/influxdb2
-    networks:
-      - phos-network
-
-  device-gateway:
-    build:
-      context: .
-      dockerfile: src/backend/Phos.DeviceGateway/Dockerfile
-    container_name: phos_platform_clean_scaffold_redo-device-gateway-1
-    ports:
-      - "5020:80"
-    depends_on:
-      - influxdb
-      - vault
-    environment:
-      - NODE_ENV=production
-      - PORT=80
-      - INFLUX_URL=http://influxdb:8086
-      - INFLUX_TOKEN=phos-influxdb-token
-      - INFLUX_ORG=phos
-      - INFLUX_BUCKET=phos_telemetry
-      - JWT_SECRET=super-secret-jwt-key
-      - VAULT_ADDR=http://vault:8200
-    networks:
-      - phos-network
-
-  phos-identity:
-    build:
-      context: .
-      dockerfile: src/backend/Phos.Identity/Dockerfile
-    container_name: phos_platform_clean_scaffold_redo-identity-1
-    ports:
-      - "5501:8080"
-    depends_on:
-      - phos-db
-    env_file:
-      - ./.env
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
-      - Jwt__Key=${JWT_KEY}
-      - Jwt__Issuer=${JWT_ISSUER}
-      - Jwt__Audience=${JWT_AUDIENCE}
-    entrypoint: ["/bin/sh", "-c", "dotnet ef database update && dotnet Phos.Identity.dll"]
-    networks:
-      - phos-network
-
-  phos-api:
-    build:
-      context: .
-      dockerfile: src/backend/Phos.Api/Dockerfile
-    container_name: phos_platform_clean_scaffold_redo-api-1
-    ports:
-      - "8080:80"
-    depends_on:
-      - phos-identity
-      - phos-db
-      - phos-redis
-    env_file:
-      - ./.env
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - DEBUG_DOCKER=true
-      - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_ENABLE_HTTPS_REDIRECTION=false
-      - VAULT_ADDR=http://vault:8200
-      - VAULT_TOKEN=root
-      - ConnectionStrings__DefaultConnection=Host=phos-db;Port=5432;Database=phos;Username=postgres;Password=postgres
-      - IdentityServer__Authority=http://phos-identity:8080
-      - Redis__ConnectionString=phos-redis:6379
-    command: >
-      sh -c "
-        dotnet Phos.Api.dll
-      "
-    networks:
-      - phos-network
-
-  phos-apigateway:
-    build:
-      context: .
-      dockerfile: src/backend/Phos.ApiGateway/Dockerfile
-    container_name: phos_platform_clean_scaffold_redo-apigateway-1
-    ports:
-      - "5002:5002"
-      - "5003:5003"
-    depends_on:
-      - phos-api
-      - phos-identity
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5002;http://+:5003
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
-    networks:
-      - phos-network
-
-  phos-web:
-    build:
-      context: ./src/frontend/phos-web
-      dockerfile: Dockerfile.dev
-    container_name: phos_platform_clean_scaffold_redo-web-1
-    command: npm start
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./.env
-    depends_on:
-      - phos-api
-    environment:
-      - REACT_APP_API_URL=http://localhost:8080
-    networks:
-      - phos-network
-
-  patient-app:
-    build:
-      context: ./src/frontend/patient-app
-    container_name: phos_platform_clean_scaffold_redo-patient-app-1
-    ports:
-      - "3001:80"
-    networks:
-      - phos-network
-
-  rn-dashboard:
-    build:
-      context: ./src/frontend/rn-dashboard
-    container_name: phos_platform_clean_scaffold_redo-rn-dashboard-1
-    ports:
-      - "3002:80"
-    networks:
-      - phos-network
-
-  phos-admin:
-    build:
-      context: ./src/frontend/phos-admin
-    container_name: phos_platform_clean_scaffold_redo-admin-1
-    ports:
-      - "3003:80"
-    networks:
-      - phos-network
-
-  md-dashboard:
-    build:
-      context: ./src/frontend/md-dashboard
-    container_name: phos_platform_clean_scaffold_redo-md-dashboard-1
-    ports:
-      - "3004:80"
-    networks:
-      - phos-network
-
-  phos-patient-portal:
-    build:
-      context: ./src/frontend/phos-patient-portal
-    container_name: phos_platform_clean_scaffold_redo-patientportal-1
-    ports:
-      - "3005:80"
-    networks:
-      - phos-network
-
-  phos-db:
-    image: postgres:15
-    container_name: phos_platform_clean_scaffold_redo-db-1
+      - POSTGRES_DB=phos_platform
+      - POSTGRES_USER=phos_admin
+      - POSTGRES_PASSWORD=phos_secret
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
     volumes:
-      - phos-db-data:/var/lib/postgresql/data
-      - ./db/init:/docker-entrypoint-initdb.d
-    networks:
-      - phos-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - postgres_data:/var/lib/postgresql/data
 
-  phos-redis:
+  influxdb:
+    image: influxdb:2.7-alpine
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=phos_admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=phos_secret_token_123
+      - DOCKER_INFLUXDB_INIT_ORG=phos_health
+      - DOCKER_INFLUXDB_INIT_BUCKET=telemetry
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+  redis:
     image: redis:7-alpine
-    container_name: phos_platform_clean_scaffold_redo-redis-1
     ports:
       - "6379:6379"
-    networks:
-      - phos-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  phos-healthscore:
+  # Core Services
+  api-gateway:
     build:
       context: .
-      dockerfile: src/backend/Phos.HealthScore/Dockerfile
-    container_name: phos_platform_clean_scaffold_redo-healthscore-1
-    ports:
-      - "8083:8083"
-      - "8084:8084"
-    depends_on:
-      - phos-db
+      dockerfile: phos/apps/api-gateway/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8083;http://+:8084
-      - HEALTHSCORE_DB_CONN=${HEALTHSCORE_DB_CONN}
-      - AI_MODEL_PATH=${AI_MODEL_PATH}
-    networks:
-      - phos-network
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=phos_platform;Username=phos_admin;Password=phos_secret
+      - InfluxDB__Url=http://influxdb:8086
+      - InfluxDB__Token=phos_secret_token_123
+    ports:
+      - "5100:5100"
+    depends_on:
+      - postgres
+      - influxdb
 
-networks:
-  phos-network:
-    driver: bridge
+  phos-ui:
+    build:
+      context: .
+      dockerfile: phos/apps/phos-ui/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5100
+    depends_on:
+      - api-gateway
 
 volumes:
+  postgres_data:
   influxdb_data:
-  phos-db-data:
