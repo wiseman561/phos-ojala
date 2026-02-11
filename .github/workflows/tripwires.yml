@@ -1,0 +1,158 @@
+name: Governance Tripwires
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  governance-tripwire:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify Governance Authorization
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          PROTECTED_REGEX='^(\.github/workflows/|\.github/actions/|CODEOWNERS$|infra/|global\.json$|package-lock\.json$|docker-compose\.yml$|scripts/deploy/)'
+          VIOLATIONS=$(git diff --name-only "$BASE_SHA...$HEAD_SHA" | grep -E "$PROTECTED_REGEX" || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "!! GOVERNANCE TRIPWIRE TRIGGERED !!"
+            echo "The following protected control plane files were modified:"
+            echo "$VIOLATIONS"
+            
+            LABELS=$(curl -f -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/issues/$PR_NUMBER/labels")
+            
+            if echo "$LABELS" | grep -E '"name"[[:space:]]*:[[:space:]]*"governance-approved"'; then
+              echo "Governance authorization verified via 'governance-approved' label."
+            else
+              echo "ERROR: Manual override required. Add 'governance-approved' label to PR to allow these changes."
+              exit 1
+            fi
+          else
+            echo "No control plane files modified. Tripwire disarmed."
+          fi
+
+  dependency-tripwire:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify Dependency Authorization
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          LOCK_REGEX='(package-lock\.json$|pnpm-lock\.yaml$|yarn\.lock$|poetry\.lock$|Pipfile\.lock$|requirements.*\.txt$|go\.sum$|Cargo\.lock$|Gemfile\.lock$)'
+          DIFF_FILES=$(git diff --name-only "$BASE_SHA...$HEAD_SHA")
+          VIOLATIONS=""
+
+          LOCK_CHANGES=$(echo "$DIFF_FILES" | grep -E "$LOCK_REGEX" || true)
+          if [ -n "$LOCK_CHANGES" ]; then
+            VIOLATIONS="$LOCK_CHANGES"
+          fi
+
+          mapfile -t WORKFLOW_FILES < <(echo "$DIFF_FILES" | grep -E '^\.github/workflows/.*\.ya?ml$' || true)
+          if [ ${#WORKFLOW_FILES[@]} -gt 0 ]; then
+            USES_CHANGES=$(git diff -U0 "$BASE_SHA...$HEAD_SHA" -- "${WORKFLOW_FILES[@]}" | grep -E "^[+-][[:space:]]*uses:" || true)
+            if [ -n "$USES_CHANGES" ]; then
+              VIOLATIONS="${VIOLATIONS:+$VIOLATIONS\n}$USES_CHANGES"
+            fi
+          fi
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "!! DEPENDENCY TRIPWIRE TRIGGERED !!"
+            echo "$VIOLATIONS"
+            
+            LABELS=$(curl -f -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/issues/$PR_NUMBER/labels")
+            
+            if echo "$LABELS" | grep -E '"name"[[:space:]]*:[[:space:]]*"deps-approved"'; then
+              echo "Dependency authorization verified via 'deps-approved' label."
+            else
+              echo "ERROR: Manual override required. Add 'deps-approved' label to PR to allow these changes."
+              exit 1
+            fi
+          else
+            echo "No dependency or action references modified. Tripwire disarmed."
+          fi
+
+  secret-tripwire:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify Secret Governance
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          SENSITIVE_REGEX='(\.env.*|\.pem$|\.pfx$|\.key$|\.crt$|vault/.*|infra/secrets/.*|docker-compose\.override\.yml$|appsettings\.json$)'
+          SECRET_PATTERNS='AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z\-_]{35}|ghp_[0-9A-Za-z]{36}|xox[bpgr]-[0-9A-Za-z-]{10,}|sk_live_[0-9A-Za-z]{24}|-----BEGIN[ A-Z]+PRIVATE KEY-----'
+          
+          VIOLATIONS=""
+          
+          SENSITIVE_MATCHES=$(git diff --name-only "$BASE_SHA...$HEAD_SHA" | grep -Ei "$SENSITIVE_REGEX" || true)
+          if [ -n "$SENSITIVE_MATCHES" ]; then
+            VIOLATIONS="Sensitive files modified:\n$SENSITIVE_MATCHES"
+          fi
+
+          RAW_TOKENS=$(git diff -U0 "$BASE_SHA...$HEAD_SHA" | grep -vE "^(\+\+\+|@@)" | grep -E "^\+" | grep -Eo "$SECRET_PATTERNS" || true)
+          
+          if [ -n "$RAW_TOKENS" ]; then
+            REDACTED_LIST=""
+            count=0
+            while IFS= read -r token; do
+              if [ "$count" -lt 3 ]; then
+                if [ ${#token} -le 8 ]; then
+                  redacted="****"
+                else
+                  redacted="${token:0:4}****${token: -4}"
+                fi
+                REDACTED_LIST="${REDACTED_LIST}${redacted} "
+                count=$((count + 1))
+              fi
+            done <<< "$RAW_TOKENS"
+            VIOLATIONS="${VIOLATIONS:+$VIOLATIONS\n}Credential patterns detected (first 3): $REDACTED_LIST"
+          fi
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "!! GOVERNANCE TRIPWIRE TRIGGERED !!"
+            echo "$VIOLATIONS"
+            
+            LABELS=$(curl -f -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/issues/$PR_NUMBER/labels")
+            
+            if echo "$LABELS" | grep -E '"name"[[:space:]]*:[[:space:]]*"security-approved"'; then
+              echo "Security authorization verified via 'security-approved' label."
+            else
+              echo "ERROR: Credential risk or sensitive file modification detected. Add 'security-approved' label to PR to override."
+              exit 1
+            fi
+          else
+            echo "No sensitive changes detected. Tripwire disarmed."
+          fi
