@@ -19,12 +19,12 @@
 **/Gemfile.lock         @wiseman561
 
 # Security Perimeter
-**/.env*                @wiseman561 @wiseman561
-**/*.pem                @wiseman561 @wiseman561
-**/*.pfx                @wiseman561 @wiseman561
-**/*.key                @wiseman561 @wiseman561
-**/*.crt                @wiseman561 @wiseman561
-/vault/                 @wiseman561 @wiseman561
-/infra/secrets/         @wiseman561 @wiseman561
-**/appsettings.json     @wiseman561 @wiseman561
-**/docker-compose.override.yml @wiseman561 @wiseman561
+**/.env*                @wiseman561
+**/*.pem                @wiseman561
+**/*.pfx                @wiseman561
+**/*.key                @wiseman561
+**/*.crt                @wiseman561
+/vault/                 @wiseman561
+/infra/secrets/         @wiseman561
+**/appsettings.json     @wiseman561
+**/docker-compose.override.yml @wiseman561
