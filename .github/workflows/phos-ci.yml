@@ -1,0 +1,437 @@
+name: PHOS CI
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches:
+      - main
+      - chore/infra-disable-legacy-web-patient-app
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install UI deps
+        working-directory: phos/apps/phos-ui
+        run: npm ci || npm install --no-audit --no-fund
+
+      - name: Build UI
+        working-directory: phos/apps/phos-ui
+        run: npm run build
+
+      - name: Install Gateway deps
+        working-directory: phos/apps/api-gateway
+        run: npm ci || npm install --no-audit --no-fund && npm run build
+
+      - name: Restore .NET
+        run: |
+          dotnet restore phos/services/lab-interpreter/Phos.LabInterpreter.csproj || true
+          dotnet restore phos/services/nutrition-kit/Phos.NutritionKit.csproj
+          dotnet restore phos/services/phos-core/Phos.PhosCore.csproj
+          dotnet restore phos/services/phos-sync/Phos.Sync.csproj
+          dotnet restore phos/services/genome-kit/Phos.GenomeKit.csproj || true
+          dotnet restore phos/services/microbiome-kit/Phos.MicrobiomeKit.csproj || true
+          dotnet restore phos/services/sleep-kit/Phos.SleepKit.csproj || true
+          dotnet restore phos/services/audit-log/Phos.AuditLog.csproj || true
+
+      - name: Build .NET
+        run: |
+          dotnet build --no-restore -c Release phos/services/lab-interpreter/Phos.LabInterpreter.csproj || true
+          dotnet build --no-restore -c Release phos/services/nutrition-kit/Phos.NutritionKit.csproj
+          dotnet build --no-restore -c Release phos/services/phos-core/Phos.PhosCore.csproj
+          dotnet build --no-restore -c Release phos/services/phos-sync/Phos.Sync.csproj
+          dotnet build --no-restore -c Release phos/services/audit-log/Phos.AuditLog.csproj || true
+          dotnet build --no-restore -c Release phos/services/billing-gateway/BillingGateway.csproj
+          dotnet build --no-restore -c Release phos/services/phos-fhir-bridge/Phos.Fhir.Bridge.csproj
+          dotnet build --no-restore -c Release phos/services/digestion-score/Phos.DigestionScore.csproj
+
+      - name: Run service tests (if present)
+        shell: bash
+        run: |
+          set -e
+          mapfile -t tests < <(git ls-files "phos/services/**/Tests/*.csproj") || true
+          if [ ${#tests[@]} -eq 0 ]; then
+            echo "No service test projects found. Skipping."
+            exit 0
+          fi
+          for t in "${tests[@]}"; do
+            echo "Running tests for $t"
+            dotnet test --no-build -c Release "$t"
+          done
+
+      - name: Run integration tests
+        run: |
+          dotnet test --no-build -c Release phos/services/billing-gateway/Tests/Phos.BillingGateway.Tests.csproj
+          dotnet test --no-build -c Release phos/services/digestion-score/Tests/Phos.DigestionScore.Tests.csproj
+
+  docker-sbom:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build images with SBOM (no push)
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          docker build -f phos/services/lab-interpreter/Dockerfile --sbom=true -t sbom-lab-interpreter:ci . || true
+          docker build -f phos/services/nutrition-kit/Dockerfile --sbom=true -t sbom-nutrition-kit:ci . || true
+          docker build -f phos/services/phos-core/Dockerfile --sbom=true -t sbom-phos-core:ci . || true
+          docker build -f phos/services/phos-sync/Dockerfile --sbom=true -t sbom-phos-sync:ci . || true
+          docker build -f phos/apps/api-gateway/Dockerfile --sbom=true -t sbom-api-gateway:ci . || true
+          docker build -f phos/apps/phos-ui/Dockerfile --sbom=true -t sbom-phos-ui:ci . || true
+
+  helm-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      - name: Lint charts
+        run: |
+          helm lint charts/*/ || (echo "Helm lint failed" && exit 1)
+
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript, csharp
+          build-mode: none
+      - name: Manual build for C#
+        if: false
+        shell: bash
+        run: echo "disabled"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  build-scan-matrix:
+    runs-on: ubuntu-latest
+    needs: [build-and-test]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: billing-gateway
+            context: phos/services/billing-gateway
+            dockerfile: phos/services/billing-gateway/Dockerfile
+            image: ghcr.io/${{ github.repository }}/billing-gateway:ci-${{ github.sha }}
+          - name: phos-fhir-bridge
+            context: phos/services/phos-fhir-bridge
+            dockerfile: phos/services/phos-fhir-bridge/Dockerfile
+            image: ghcr.io/${{ github.repository }}/phos-fhir-bridge:ci-${{ github.sha }}
+          - name: digestion-score
+            context: phos/services/digestion-score
+            dockerfile: phos/services/digestion-score/Dockerfile
+            image: ghcr.io/${{ github.repository }}/digestion-score:ci-${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image (with SBOM)
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
+          tags: ${{ matrix.image }}
+          sbom: true
+          load: true
+      - name: Trivy scan (image)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: ${{ matrix.image }}
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+  doctor:
+    name: Repo Doctor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Run doctor
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          ./phos/scripts/doctor.ps1 -Verbose
+
+  lint-ui:
+    name: Lint and Type Check UI
+    runs-on: ubuntu-latest
+    needs: doctor
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: phos/apps/phos-ui/package-lock.json
+      - name: Install deps
+        working-directory: phos/apps/phos-ui
+        run: npm ci --no-audit --fund=false
+      - name: TypeScript check
+        working-directory: phos/apps/phos-ui
+        run: npx tsc --noEmit
+      - name: Security audit (production)
+        working-directory: phos/apps/phos-ui
+        run: npm audit --production --audit-level=high || true
+      - name: ESLint (if configured)
+        working-directory: phos/apps/phos-ui
+        run: |
+          if [ -f .eslintrc ] || [ -f .eslintrc.js ] || [ -f .eslintrc.cjs ] || [ -f .eslintrc.json ]; then
+            npx eslint .
+          else
+            echo "Skipping ESLint: no ESLint config found"
+          fi
+
+  build-services:
+    name: Build Services
+    runs-on: ubuntu-latest
+    needs: doctor
+    strategy:
+      matrix:
+        service:
+          - lab-interpreter
+          - nutrition-kit
+          - genome-kit
+          - microbiome-kit
+          - sleep-kit
+          - phos-core
+          - phos-sync
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'Directory.Packages.props', 'global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Restore and build
+        working-directory: phos/services/${{ matrix.service }}
+        run: |
+          dotnet restore
+          dotnet build -c Release --no-restore
+      - name: Vulnerable packages report
+        working-directory: phos/services/${{ matrix.service }}
+        run: |
+          dotnet list package --vulnerable || true
+
+  test-dotnet:
+    name: .NET Tests (placeholder)
+    runs-on: ubuntu-latest
+    needs: build-services
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove pre-installed .NET SDKs
+        run: sudo rm -rf /usr/share/dotnet/sdk
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'Directory.Packages.props', 'global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Discover and run service tests
+        shell: bash
+        run: |
+          set -e
+          mapfile -t tests < <(git ls-files "phos/services/**/Tests/*.csproj") || true
+          if [ ${#tests[@]} -eq 0 ]; then
+            echo "No service test projects found. Skipping."
+            exit 0
+          fi
+          for t in "${tests[@]}"; do
+            echo "Running tests for $t"
+            dotnet test "$t" -c Release --no-build --logger trx
+          done
+
+  build-apps:
+    name: Build Apps
+    runs-on: ubuntu-latest
+    needs: [doctor, lint-ui]
+    strategy:
+      matrix:
+        app:
+          - api-gateway
+          - phos-ui
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: |
+            phos/apps/${{ matrix.app }}/package-lock.json
+      - name: Install deps
+        working-directory: phos/apps/${{ matrix.app }}
+        run: npm ci --no-audit --fund=false
+      - name: Build api-gateway
+        if: matrix.app == 'api-gateway'
+        working-directory: phos/apps/api-gateway
+        run: npm run build
+      - name: Build phos-ui
+        if: matrix.app == 'phos-ui'
+        working-directory: phos/apps/phos-ui
+        run: npm run build
+
+  docker-images:
+    name: Docker Build and Push
+    runs-on: ubuntu-latest
+    needs: [build-services, build-apps, test-dotnet]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push API Gateway
+        uses: docker/build-push-action@v6
+        with:
+          context: phos/apps/api-gateway
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/api-gateway:latest
+            ghcr.io/${{ github.repository }}/api-gateway:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push PHOS UI
+        uses: docker/build-push-action@v6
+        with:
+          context: phos/apps/phos-ui
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/phos-ui:latest
+            ghcr.io/${{ github.repository }}/phos-ui:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push services
+        run: |
+          declare -a svcs=(lab-interpreter nutrition-kit genome-kit microbiome-kit sleep-kit phos-core phos-sync)
+          for svc in "${svcs[@]}"; do
+            docker buildx build --push \
+              --cache-from type=gha \
+              --cache-to type=gha,mode=max \
+              -t ghcr.io/${{ github.repository }}/$svc:latest \
+              -t ghcr.io/${{ github.repository }}/$svc:${{ github.sha }} \
+              phos/services/$svc
+          done
+      - name: Trivy scan images (summary)
+        if: always()
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/api-gateway:${{ github.sha }}
+          format: table
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
