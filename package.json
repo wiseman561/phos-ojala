@@ -11,7 +11,7 @@
     "cleanup": "node scripts/dist/cleanup-empty.js",
 
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "cd ./archive/phos-web && npm install",
+    "postinstall": "cd ./archive/phos-web && npm install --no-scripts",
     "dev": "concurrently -n API,WEB -c auto \"cross-env ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:5100 dotnet run --no-launch-profile --project ./phos/apps/api-gateway/Phos.ApiGateway.csproj --urls http://localhost:5100\" \"cd ./archive/phos-web && npm install && npm start\""
   },
   "dependencies": {
